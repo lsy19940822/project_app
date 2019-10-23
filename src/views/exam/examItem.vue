@@ -2,22 +2,22 @@
 	<div class="container">
 		<vant-header :leftArrow="false" :titleType="1" :title="questionText+`测试`" :rightType="2">
 			<div slot='right_slot'>
-				<p>搜索</p>
+				<p>{{current}}/{{total}}</p>
 			</div>
 		</vant-header>
 		<div class="question-container" v-if="questionCurrent.TMLX  == '单选'">
-			<p>单选题</p>
+			<p class="van-hairline--bottom exam-title">单选题</p>
 			<div>
-				<p>{{questionCurrent.TIGAN }}</p>
+				<p>{{current}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
-					<li v-for="(item,index) in answerList" @click="choose()">
+					<li v-for="(item,index) in answerList" @click="choose(index)" :class="{active:isActive == index}">
 						<span>{{index+1 | chooseIndex}}</span>{{item}}
 					</li>
 				</ul>
 			</div>
 		</div>
 		<div class="question-container" v-if="questionCurrent.TMLX  == '多选'">
-			<p>单选题</p>
+			<p class="van-hairline--bottom exam-title">多选题</p>
 			<div>
 				<p>{{questionCurrent.TIGAN }}</p>
 				<ul>
@@ -27,6 +27,18 @@
 				</ul>
 			</div>
 		</div>
+		<div class="question-container" v-if="questionCurrent.TMLX  == '判断'">
+			<p class="van-hairline--bottom exam-title">判断题</p>
+			<div>
+				<p>{{questionCurrent.TIGAN }}</p>
+				<ul>
+					<li v-for="(item,index) in answerList" @click="choose()">
+						<span>{{index+1 | chooseIndex}}</span>{{item}}
+					</li>
+				</ul>
+			</div>
+		</div>
+
 		<div class="question-btn">
 			<van-button class="primary" :class="{none: preNone}" @click="pre()">上一题</van-button>
 			<van-button class="primary" :class="{none: nextNone}" @click="next()">下一题</van-button>
@@ -55,7 +67,10 @@
 				current: 1,
 				total: null,
 				nextNone: false,
-				preNone: true
+				preNone: true,
+				mistakesAnswers: [],
+				rightAnswers: [],
+				isActive: -1
 			}
 		},
 		mounted() {
@@ -90,10 +105,13 @@
 								}
 							}
 						}
+						//						console.log(this.answerList,":this.answerList");
 					}
+					//					console.log(this.questionList)
 				})
 			},
 			pre() {
+				this.isActive = -1;
 				if(this.current > 1) {
 					this.current--
 				} else {
@@ -101,14 +119,37 @@
 				}
 			},
 			next() {
+				this.isActive = -1;
 				if(this.current < this.total) {
 					this.current++
 				} else {
 					this.nextNone = true
 				}
 			},
-			choose(){
-				
+			choose(index) {
+				this.isActive = index;
+				for(var item in this.questionList) {
+					if(this.answerList[index]) {
+
+					}
+				}
+
+				console.log(this.isActive)
+			},
+			aswer(n) {
+//				questAnswer = ;
+				switch(n) {
+					case 'A':
+						break;
+					case 'B':
+						break;
+					case 'C':
+						break;
+					case 'D':
+						break;
+
+				}
+				return 
 			}
 		}
 	}
@@ -126,17 +167,17 @@
 	.question-container {
 		margin: 10px 0;
 		background: #fff;
-		padding:15px;
+		padding: 15px;
 		box-sizing: border-box;
 		box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.16);
 		li {
 			width: 335px;
-			height: 46px;
-			line-height: 46px;
-			padding-left: 10px;
-			color: #fff;
+			/*height: 46px;*/
+			line-height: 30px;
+			padding: 5px 10px;
+			color: #666666;
 			margin-bottom: 10px;
-			background: rgba(112, 153, 208, 1);
+			background: #F6F6F6;
 			border-radius: 2px;
 		}
 	}
@@ -147,5 +188,14 @@
 		button {
 			color: #fff;
 		}
+	}
+	
+	.exam-title {
+		padding-bottom: 6px;
+	}
+	
+	.question-container li.active {
+		background: #7099D0;
+		color: #fff;
 	}
 </style>
