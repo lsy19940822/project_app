@@ -38,7 +38,22 @@
 				</ul>
 			</div>
 		</div>
-
+        <!-- 答题卡遮罩 -->
+		<van-popup v-model="showTips" class="login-tips">
+			
+			<div class="answer-container">
+				 <h4>试卷答题卡</h4>
+			</div>
+			<ul class="answer-list">
+				<li v-for="(item,index) in questionList.length">
+					<div class="answer-button" @click="gotoQuestion(index)">{{index+1}}</div>
+				</li>
+				<div class="answer-buttons answer-error" @click="cancel()">取消</div>
+				<div class="answer-buttons answer-success" @click="submitExam()">交卷</div>
+			</ul>
+				
+		</van-popup>
+		<!-- 答题卡结束 -->
 		<div class="question-btn">
 			<van-button class="primary" :class="{none: preNone}" @click="pre()">上一题</van-button>
 			<van-button class="primary" :class="{none: nextNone}" @click="next()">下一题</van-button>
@@ -51,9 +66,10 @@
 
 	import vantHeader from '@/components/header.vue'
 	import examFooter from '@/components/onlineExamFooter.vue'
-	import { formatDate, formatTime } from '@/utils/common.js'
+	import { formatDate, formatTime, Popup} from '@/utils/common.js'
 	import * as ajax from '@/utils/api'
-	import { Toast, Button, Dialog } from 'vant';
+	import { Toast, Button, Dialog,Popup } from 'vant';
+	
 	export default {
 		components: {
 			[Button.name]: Button,
@@ -81,7 +97,8 @@
 				IDCard: this.$route.query.IDCard,
 				Score: 0,
 				ExamName: '',
-				Date: ''
+				Date: '',
+				showTips:true
 			}
 		},
 		mounted() {
@@ -101,6 +118,13 @@
 			}
 		},
 		methods: {
+			cancel(){
+				this.showTips=false;
+			},
+			gotoQuestion(index) {
+				this.showTips=false;				
+				this.current=Number(index);
+			},
 			getExamList() {
 				ajax.get('GetPaper?IDcard=' + this.$route.query.IDCard).then(res => {
 					console.log(res)
@@ -122,7 +146,7 @@
 			pre() {
 				this.isSingleActive = -1;
 				this.isMultipleActive = [false, false, false, false]
-				if(this.current > 1) {
+				if(this.current > 0) {
 					this.current--
 				} else {
 					this.preNone = true
@@ -136,7 +160,7 @@
 				if(this.current < this.total - 1) {
 					this.current++
 				} else {
-					this.nextNone = true
+					this.nextNone = false
 					Toast('已经是最后一题了！');
 					setTimeout(function() {
 						_this.submitExam();
@@ -229,17 +253,79 @@
 </script>
 
 <style lang="scss" scoped>
-
+/* 答题卡 */
+	.answer-buttons{
+		height:48px;
+		background:rgba(255,255,255,1);
+		width: 50%;
+		float: left;
+		text-align: center;
+		line-height: 48px;
+		position: fixed;
+		z-index: 9999;
+		bottom:0
+	}
+	.answer-error{
+		 color: #AAAAAA;
+		 left: 0;
+	}
+	.answer-success{
+		color: #fff;
+		right: 0;
+		 background:rgba(112,153,208,1);
+	}
+	.answer-list{
+		height: 320px;
+		overflow: auto;
+		margin-top: 16px;
+		border-bottom:1px solid #eee;
+		margin-bottom: 48px;
+	}
+	.answer-button{
+		width:38px;
+		height:38px;
+		background:rgba(204,204,204,1);
+		// background:rgba(138,171,215,1);
+		border-radius:4px;
+		line-height: 38px;
+		color: #fff;
+		margin: 0 auto;
+		
+	}
+	.answer-list li{
+		float: left;
+		width: 20%;
+		text-align: center;
+		margin: 0 auto 16px;
+	}
+	.login-tips {
+		width:94%;
+		/* height: 85%; */
+		margin-top: 15px;
+		font-size: 14px;
+		color: #999;
+		box-sizing: border-box;
+	}
+	.answer-container h4{
+		padding-left: 15px;
+		height:46px;
+		line-height: 46px;
+		color: #333333;
+		margin: 0 !important;
+		border-bottom:1px solid #eee;
+	}
+	/* 答题卡end */
 	.container{
 		padding-top:46px;
 	}
 	.primary {
-		width: 165px;
-		background: #7099D0;
+		background: #595F74;
+		float: right;
 	}
 	
 	.primary.none {
-		background: #595F74;
+		background: #7099D0;
+		float: left;
 	}
 	
 	.question-container {
@@ -250,25 +336,36 @@
 		box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.16);
 		li {
 			width: 100%;
-			/*height: 46px;*/
-			line-height: 30px;
+			height: auto;
+			overflow: hidden;
 			padding: 5px 10px;
 			color: #666666;
 			margin-bottom: 10px;
 			background: #F6F6F6;
 			border-radius: 2px;
+			span{
+				display: block;
+				float: left;
+			}
+			span:last-child{
+				width: 92%;
+				float: right;
+			}
 		}
 	}
-	
 	.question-btn {
 		display: flex;
 		justify-content: space-around;
+		margin-bottom: 60px;
 		button {
+			width: 48%;
 			color: #fff;
+			border-radius:2px;
 		}
 	}
 	
 	.exam-title {
+		margin: 0;
 		padding-bottom: 6px;
 	}
 	
@@ -278,6 +375,7 @@
 	}
 	
 	.header-right {
+		color:#fff;
 		line-height: 20px;
 	}
 	
@@ -295,7 +393,7 @@
 		line-height: 16px;
 		font-size: 12px;
 		float: left;
-		margin:5px 7px 0 0;
+		margin:4px 0 0 0;
 	}
 	.active .chooseIndex{
 		     /*border: 1px solid #fff;*/ 
