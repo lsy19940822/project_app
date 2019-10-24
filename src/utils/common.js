@@ -11,12 +11,12 @@ export function formatTime(da) {
   return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
-export function formatDate(da) {
+export function formatDate(da,separator) {
 	var date = new Date(da)
 	var year = date.getFullYear()
 	var month = date.getMonth() + 1
 	var day = date.getDate()
-	return [year, month, day].map(formatNumber).join('-')
+	return [year, month, day].map(formatNumber).join(separator)
 }
 
 

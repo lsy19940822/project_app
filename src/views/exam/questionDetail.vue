@@ -50,7 +50,6 @@
 <script>
 	import vantHeader from '@/components/layout/header.vue'
 	import examFooter from '@/components/layout/onlineExamFooter.vue'
-	import { formatDate, formatTime } from '@/utils/common.js'
 	import * as ajax from '@/utils/api'
 	import { Toast, Button, Dialog } from 'vant';
 	export default {
@@ -76,11 +75,7 @@
 				isMultipleActive: [false, false, false, false],
 				multipleChose: '',
 				show: true,
-				selectTotal: 0,
-				IDCard: this.$route.query.IDCard,
-				Score: 0,
-				ExamName: '',
-				Date: ''
+				selectTotal: 0
 			}
 		},
 		mounted() {
@@ -137,10 +132,10 @@
 				} else {
 					this.nextNone = true
 					Toast('已经是最后一题了！');
-					setTimeout(function() {
+					setTimeout(function(){
 						_this.submitExam();
-					}, 2000)
-
+					},2000)
+					
 				}
 			},
 			choose(index, flag) {
@@ -196,28 +191,7 @@
 					title: '交卷提醒',
 					message: '您的试卷还有' + (this.total - this.selectTotal) + '道题未做答，是否依然提交？'
 				}).then(() => {
-					if(this.questionList.length != 0) {
-						this.ExamName = this.questionList[0].BIDSECTION + this.questionList[0].GZ + formatDate(new Date(), '/');
-					} else {
-						return;
-					}
-					this.Date = formatTime(new Date()) 
-					
-					ajax.post('SubmitScore?IDCard='+this.IDCard+
-						'&Score='+ this.Score+
-						'&ExamName='+this.ExamName+
-						'&Date='+ this.Date
-					)
-					.then(function(response) {
-							console.log(response);
-						})
-						.catch(function(error) {
-							console.log(error);
-						});
-
-					this.$router.push({
-						path: '/gradeIssue'
-					})
+					this.$router.push({path:'/gradeIssue'})
 					// on confirm
 				}).catch(() => {
 					// on cancel
