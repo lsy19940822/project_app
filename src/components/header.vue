@@ -1,5 +1,6 @@
 <template>
 	<div id="header">
+		<!-- 头部 -->
 		<van-nav-bar class='header'
 		    :left-arrow="leftArrow"
 		    :left-text="leftText"
