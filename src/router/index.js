@@ -1,26 +1,32 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Login from '@/views/login'
-import ExamList from '@/views/exam/examList'
-import ExamItem from '@/views/exam/examItem'
+import Vue from 'vue';
+import Router from 'vue-router';
+
 
 Vue.use(Router)
-
-export default new Router({
-	routes: [{
-			path: '/',
-			name: 'login',
-			component: Login
-		},
-		{
-			path: '/examList',
-			name: 'examList',
-			component: ExamList
-		},
-		{
-			path: '/examItem',
-			name: 'examItem',
-			component: ExamItem
-		}
-	]
+//创建路有实例并配置路由映射
+const router = new Router({
+  routes:[
+	{
+	    path:"/",
+	    component:resolve => require(["../components/header.vue"], resolve),
+	    redirect: '/login',//默认选中
+	},
+	{
+	  	path: '/login',
+		name:'login',
+	  	component: resolve => require(['../components/login.vue'], resolve)
+	},
+	{
+	  path:"/examItem",
+	  name:'examItem',
+	  component:resolve => require(["../components/examItem.vue"], resolve),
+	},
+	{
+	  path:"/footer",
+	  name:'footer',
+	  component:resolve => require(["../components/footer.vue"], resolve),
+	}
+  ]
 })
+// 输出router
+export default router;
