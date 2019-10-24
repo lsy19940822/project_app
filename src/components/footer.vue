@@ -10,6 +10,8 @@
 				</div>
 			</van-col>
 			<van-col span="8">
+				
+				<!-- 想 -->
 				<div class="icon-box">
 					
 					<van-icon name="underway-o" style="font-size: 26px;margin-top: -5px;"/>
