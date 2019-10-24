@@ -3,7 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import '@/assets/css/base.css'
+import 'vant/lib/index.css';
+// import '@/assets/css/base.css'
 
 import * as filters from '@/utils/filters'
 

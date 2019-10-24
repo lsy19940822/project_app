@@ -1,6 +1,6 @@
-# project
+# exposition_m
 
-> vue2.0+vant
+> 会展移动项目
 
 ## Build Setup
 
@@ -19,5 +19,3 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-如果vue全局依赖版本过高，会发生一系列不可知错误
