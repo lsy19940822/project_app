@@ -5,7 +5,7 @@
 			<div class="grade-circle">
 				<van-circle v-model="currentRate" :rate="rate" :clockwise="false" color='#7AB182' size="120px" text="逆时针方向">
 					<div class="grade-text">
-						<h2 class="f42">98<span class="f12">分</span></h2>
+						<h2 class="f42">{{score}}<span class="f12">分</span></h2>
 						<p class="g-text f12">本次考试得分</p>
 					</div>
 				</van-circle>
@@ -21,7 +21,7 @@
 						<p class="b-text">答题时间</p>
 					</van-col>
 					<van-col span="8">
-						<div class="t-text c-CB5D5D">2%</div>
+						<div class="t-text c-CB5D5D">{{misitakeRate}}</div>
 						<p class="b-text">错误率</p>
 					</van-col>
 				</van-row>
@@ -32,7 +32,7 @@
 			<h4 class="grade-infor-title">考试详情</h4>
 			<van-row>
 				<van-col span="12">考试科目</van-col>
-				<van-col span="12">电工</van-col>
+				<van-col span="12">{{subject}}</van-col>
 			</van-row>
 			<van-row>
 				<van-col span="12">考试名称</van-col>
@@ -40,7 +40,7 @@
 			</van-row>
 			<van-row>
 				<van-col span="12">考试时间</van-col>
-				<van-col span="12">2019-09-27 20:22:32</van-col>
+				<van-col span="12">{{ExamTimeStart}}</van-col>
 			</van-row>
 
 		</div>
@@ -53,6 +53,7 @@
 <script>
 	import vantHeader from '@/components/header.vue'
 	import { Circle, Row, Col, Button } from 'vant';
+	import localStore from '@/utils/storage.js'
 	export default {
 		components: {
 			[Circle.name]: Circle,
@@ -64,7 +65,24 @@
 		data() {
 			return {
 				currentRate: 0,
-				rate: 80
+				rate: 80,
+				score:'',
+				misitakeRate:'',
+				subject:'',
+				ExamTimeStart:'',
+				ExamName:''
+			}
+		},
+		created(){
+			this.storeVal();
+		},
+		methods:{
+			storeVal(){
+				this.score = localStore.get('score');
+				this.misitakeRate = localStore.get('misitakeRate');
+				this.subject = localStore.get('subject');
+				this.ExamTimeStart = localStore.get('ExamTimeStart');
+				this.ExamName = localStore.get('ExamName');
 			}
 		}
 	}

@@ -22,7 +22,7 @@
 				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
 					<li v-for="(item,index) in answerList" @click="choose(index,2)" :class="{active:isMultipleActive[index] == true}">
-						<span  class="chooseIndex">{{index+1 | chooseIndex}}</span>{{item}}
+						<span class="chooseIndex">{{index+1 | chooseIndex}}</span>{{item}}
 					</li>
 				</ul>
 			</div>
@@ -33,7 +33,7 @@
 				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
 					<li v-for="(item,index) in answerList" @click="choose(3)">
-						<span  class="chooseIndex">{{index+1 | chooseIndex}}</span>{{item}}
+						<span class="chooseIndex">{{index+1 | chooseIndex}}</span>{{item}}
 					</li>
 				</ul>
 			</div>
@@ -63,13 +63,11 @@
 </template>
 
 <script>
-
 	import vantHeader from '@/components/header.vue'
 	import examFooter from '@/components/onlineExamFooter.vue'
 	import { formatDate, formatTime, Popup} from '@/utils/common.js'
 	import * as ajax from '@/utils/api'
 	import { Toast, Button, Dialog,Popup } from 'vant';
-	
 	export default {
 		components: {
 			[Button.name]: Button,
@@ -86,8 +84,8 @@
 				total: null,
 				nextNone: false,
 				preNone: true,
-				//				mistakesAnswers: [],
-				//				rightAnswers: [],
+				//mistakesAnswers: [],
+				rightAnswers: [],
 				allAnswers: [],
 				isSingleActive: -1,
 				isMultipleActive: [false, false, false, false],
@@ -99,7 +97,12 @@
 				ExamName: '',
 				Date: '',
 				showTips:true
+				ExamTimeStart: '',
+				rightTotal: 0
 			}
+		},
+		created() {
+			this.ExamTimeStart = formatTime(new Date)
 		},
 		mounted() {
 			this.getExamList()
@@ -140,8 +143,10 @@
 								}
 							}
 						}
+						this.rightAnswerHandle();
 					}
 				})
+
 			},
 			pre() {
 				this.isSingleActive = -1;
@@ -169,6 +174,7 @@
 				}
 			},
 			choose(index, flag) {
+
 				var _this = this;
 				if(flag === 1) { //flag 1:单选  2：多选 3：判断
 					this.isSingleActive = index;
@@ -217,23 +223,42 @@
 					}
 				})
 
+				for(var i = 0; i < this.rightAnswers.length; i++) {
+					if(this.rightAnswers[i] === this.allAnswers[i]) {
+						this.Score += 4;
+						this.rightTotal += 1;
+					}
+				}
+				if(this.questionList.length != 0) {
+						this.ExamName = this.questionList[0].BIDSECTION + this.questionList[0].GZ + formatDate(new Date(), '/');
+					} else {
+						return;
+				}
+				console.log(this.Score)
+				localStore.set('score', this.Score); //得分
+				localStore.set('examTime', this.time); //答题时间
+				localStore.set('misitakeRate',( (this.total - this.rightTotal) / this.total )*100 +'%' ); //错误率
+				localStore.set('subject', this.questionText); //考试科目
+				localStore.set('ExamName', this.ExamName); //考试名称
+				localStore.set('ExamTimeStart', this.ExamTimeStart); //考试时间(开始) 
+				localStore.set('mitakeQuesitionTotal', (this.total - this.rightTotal)); //错题数目
+				localStore.set('total', this.total); //总题
+				localStore.set('allAnswers', this.allAnswers); //作答的答案
+				localStore.set('questionList', this.questionList); //返回题信息
+				
 				Dialog.confirm({
 					title: '交卷提醒',
 					message: '您的试卷还有' + (this.total - this.selectTotal) + '道题未做答，是否依然提交？'
 				}).then(() => {
-					if(this.questionList.length != 0) {
-						this.ExamName = this.questionList[0].BIDSECTION + this.questionList[0].GZ + formatDate(new Date(), '/');
-					} else {
-						return;
-					}
-					this.Date = formatTime(new Date()) 
 					
-					ajax.post('SubmitScore?IDCard='+this.IDCard+
-						'&Score='+ this.Score+
-						'&ExamName='+this.ExamName+
-						'&Date='+ this.Date
-					)
-					.then(function(response) {
+
+					this.Date = formatTime(new Date())
+					ajax.post('SubmitScore?IDCard=' + this.IDCard +
+							'&Score=' + this.Score +
+							'&ExamName=' + this.ExamName +
+							'&Date=' + this.Date
+						)
+						.then(function(response) {
 							console.log(response);
 						})
 						.catch(function(error) {
@@ -247,6 +272,12 @@
 				}).catch(() => {
 					// on cancel
 				});
+			},
+			rightAnswerHandle() {
+				for(let item in this.questionList) { //存储正确答案
+					console.log("this.rightAnswers:", this.questionList[item].ZQDA)
+					this.rightAnswers.push(this.questionList[item].ZQDA)
+				}
 			}
 		}
 	}
@@ -318,6 +349,7 @@
 	.container{
 		padding-top:46px;
 	}
+	
 	.primary {
 		background: #595F74;
 		float: right;
@@ -377,17 +409,17 @@
 	.header-right {
 		color:#fff;
 		line-height: 20px;
+		color:#FFF;
 	}
-	
-	
 	/*1*/
-		.chooseIndex{
+	
+	.chooseIndex {
 		width: 10%;
 		display: block;
-		width:16px;
-		height:16px;
-		background:rgba(120,158,209,1);
-		color:#fff;
+		width: 16px;
+		height: 16px;
+		background: rgba(120, 158, 209, 1);
+		color: #fff;
 		border-radius: 50%;
 		text-align: center;
 		line-height: 16px;
@@ -395,9 +427,10 @@
 		float: left;
 		margin:4px 0 0 0;
 	}
-	.active .chooseIndex{
-		     /*border: 1px solid #fff;*/ 
-    background: #fff !important;
-    color: rgba(112,153,208,1)!important;
+	
+	.active .chooseIndex {
+		/*border: 1px solid #fff;*/
+		background: #fff !important;
+		color: rgba(112, 153, 208, 1)!important;
 	}
 </style>

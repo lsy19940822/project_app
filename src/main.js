@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import 'vant/lib/index.css';
 // import '@/assets/css/base.css'
-
+//import Store from './store'
 import * as filters from '@/utils/filters'
 
 import VueCookies from 'vue-cookies'

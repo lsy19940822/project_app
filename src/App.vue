@@ -11,6 +11,10 @@ export default {
 </script>
 
 <style>
+	/* 答题卡遮罩 */
+	.van-overlay {
+		top: 46px !important;
+	}
 	.header{
 	    background: #212841!important;	
 		height:46px !important;
