@@ -312,6 +312,7 @@
 	
 	.header-right {
 		line-height: 20px;
+		color:#FFF;
 	}
 	/*1*/
 	
