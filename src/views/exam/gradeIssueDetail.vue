@@ -52,7 +52,7 @@
 </template>
 
 <script>
-	import vantHeader from '@/components/layout/header.vue'
+	import vantHeader from '@/components/header.vue'
 	import { Circle, Row, Col, Button } from 'vant';
 	export default {
 		components: {
@@ -77,6 +77,9 @@
 </script>
 
 <style scoped>
+	.container{
+		padding-top:46px;
+	}
 	.question-list{
 		flex-wrap:wrap;
 	}

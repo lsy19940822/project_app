@@ -11,19 +11,13 @@ module.exports = {
 		assetsSubDirectory: 'static',
 		assetsPublicPath: '/',
 		proxyTable: {
-			'/apis': {
-				target: 'http://a.e-jijiu.com', // 后台访问地址
-				changeOrigin: true,
-				pathRewrite: {
-					'^/apis': ''
-				}
-			}
+
 		},
 		// host:'192.168.31.10', 
 		// host:'192.168.1.100',
 		 // host:'172.20.10.2',
 		 // host:'192.168.31.226',
-		host: "192.168.0.106",
+		host: "192.168.0.105",
 		// host: '192.168.31.10', // can be overwritten by process.env.HOST
 		port: 8282, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
 		autoOpenBrowser: false,
@@ -53,7 +47,7 @@ module.exports = {
 		// Paths
 		assetsRoot: path.resolve(__dirname, '../dist'),
 		assetsSubDirectory: 'static',
-		assetsPublicPath: '/jijiu/',
+		assetsPublicPath: '/',
 
 		/**
 		 * Source Maps

@@ -58,4 +58,11 @@ export default {
 		background:#fff   !important;
 		color:rgba(112,153,208,1)!important;
 	}
+		*{
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-o-box-sizing: border-box;
+		box-sizing: border-box
+	}
 </style>

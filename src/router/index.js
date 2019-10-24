@@ -25,20 +25,30 @@ const router = new Router({
 	  component:resolve => require(["../components/footer.vue"], resolve),
 	},
 	{
-			path:'/gradeIssue',
-			name:'gradeIssue',
-			component: resolve => require(['../views/exam/gradeIssue.vue'], resolve)
-		},
-		{
-			path:'/gradeIssueDetail',
-			name:'gradeIssueDetail',
-			component: resolve => require(['../views/exam/gradeIssueDetail.vue'], resolve)
-		},
-		{
-			path:'/questionDetail',
-			name:'questionDetail',
-			component: resolve => require(['../views/exam/questionDetail.vue'], resolve)
-		}
+	  path:"/onlineExamFooter",
+	  name:'onlineExamFooter',
+	  component:resolve => require(["../components/onlineExamFooter.vue"], resolve),
+	},
+	{
+	  path:"/examItem1",
+	  name:'examItem',
+	  component:resolve => require(["../views/exam/examItem.vue"], resolve),
+	},
+	{
+		path:'/gradeIssue',
+		name:'gradeIssue',
+		component: resolve => require(['../views/exam/gradeIssue.vue'], resolve)
+	},
+	{
+		path:'/gradeIssueDetail',
+		name:'gradeIssueDetail',
+		component: resolve => require(['../views/exam/gradeIssueDetail.vue'], resolve)
+	},
+	{
+		path:'/questionDetail',
+		name:'questionDetail',
+		component: resolve => require(['../views/exam/questionDetail.vue'], resolve)
+	}
   ]
 })
 // 输出router

@@ -42,17 +42,16 @@
 				<van-col span="12">考试时间</van-col>
 				<van-col span="12">2019-09-27 20:22:32</van-col>
 			</van-row>
-			
+
 		</div>
-		<van-button color="#595F74" class="larg-btn" url='/gradeIssueDetail'>
-			<router-link to="/gradeIssueDetail" style="color:#fff;">查看试卷</router-link>
-			
-		</van-button>
+		<router-link to="/gradeIssueDetail" style="color:#fff;">
+			<van-button color="#595F74" class="larg-btn">查看试卷</van-button>
+		</router-link>
 	</div>
 </template>
 
 <script>
-	import vantHeader from '@/components/layout/header.vue'
+	import vantHeader from '@/components/header.vue'
 	import { Circle, Row, Col, Button } from 'vant';
 	export default {
 		components: {
@@ -72,6 +71,10 @@
 </script>
 
 <style scoped>
+	.container {
+		padding-top: 46px;
+	}
+	
 	* {
 		margin: 0;
 	}
@@ -141,30 +144,37 @@
 	.grade-cont :last-child.van-col:after {
 		display: none;
 	}
-	.grade-infor{
+	
+	.grade-infor {
 		background: #fff;
 		padding: 10px;
 	}
-	.larg-btn{
-		width:90%;
-		margin:14px auto 0;
+	
+	.larg-btn {
+		width: 90%;
+		margin: 14px auto 0;
 		line-height: 46px;
 		display: block;
 	}
-	.grade-infor .van-row{
-		border-bottom:1px solid #D8D8D8;
+	
+	.grade-infor .van-row {
+		border-bottom: 1px solid #D8D8D8;
 	}
-	.grade-infor .van-row :first-child.van-col{
-		color:#AAAAAA;
+	
+	.grade-infor .van-row :first-child.van-col {
+		color: #AAAAAA;
 	}
-	.grade-infor .van-row :last-child.van-col{
+	
+	.grade-infor .van-row :last-child.van-col {
 		text-align: right;
 	}
-	.grade-infor .van-col{
+	
+	.grade-infor .van-col {
 		line-height: 60px;
 	}
-	.grade-infor-title{
+	
+	.grade-infor-title {
 		line-height: 60px;
-		border-bottom:1px solid #D8D8D8;
+		border-bottom: 1px solid #D8D8D8;
 	}
 </style>

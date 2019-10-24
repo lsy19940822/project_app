@@ -74,7 +74,7 @@
 			goNext() {
 				if(this.end) {
 					this.$router.push({
-						path: './examItem',
+						path: '/examItem1',
 						query: {
 							IDCard: this.IDCard
 						}
@@ -102,9 +102,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-	.container{
+	/*.container{
 		padding-top: 46px;
-	}
+	}*/
 	.container .login-bg{
 		height: 200px;
 	}

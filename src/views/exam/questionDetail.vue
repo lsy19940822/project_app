@@ -48,8 +48,8 @@
 </template>
 
 <script>
-	import vantHeader from '@/components/layout/header.vue'
-	import examFooter from '@/components/layout/onlineExamFooter.vue'
+	import vantHeader from '@/components/header.vue'
+	import examFooter from '@/components/onlineExamFooter.vue'
 	import * as ajax from '@/utils/api'
 	import { Toast, Button, Dialog } from 'vant';
 	export default {

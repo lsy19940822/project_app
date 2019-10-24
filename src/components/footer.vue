@@ -30,10 +30,7 @@
 </template>
 
 <script>
-//	import Vue from 'vue';
 	import { Row, Col, Icon } from 'vant';
-//
-//	Vue.use(Row).use(Col);
 	export default {
 		components: {
 			[Row.name]: Row,
@@ -75,4 +72,5 @@
 	.icon-box .van-icon{
 		font-size: 20px;
 	}
+	
 </style>
