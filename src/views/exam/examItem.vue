@@ -96,7 +96,7 @@
 				Score: 0,
 				ExamName: '',
 				Date: '',
-				showTips:true
+				showTips:true,
 				ExamTimeStart: '',
 				rightTotal: 0
 			}

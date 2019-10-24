@@ -74,7 +74,7 @@
 			goNext() {
 				if(this.end) {
 					this.$router.push({
-						path: '/examItem1',
+						path: '/examItem',
 						query: {
 							IDCard: this.IDCard
 						}

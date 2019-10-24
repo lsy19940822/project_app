@@ -15,7 +15,7 @@
 				<div class="icon-box">
 					
 					<van-icon name="underway-o" style="font-size: 26px;margin-top: -5px;"/>
-					<p  class="f-text">02:23</p>
+					<van-count-down millisecond :time="time" format="HH:mm:ss" />
 				</div>
 			</van-col>
 			<van-col span="8">
@@ -30,17 +30,17 @@
 </template>
 
 <script>
-	import { Row, Col, Icon } from 'vant';
+	import { Row, Col, Icon, CountDown } from 'vant';
 	export default {
 		components: {
 			[Row.name]: Row,
 			[Col.name]: Col,
-			[Icon.name]: Icon
-
+			[Icon.name]: Icon,
+			[CountDown.name]: CountDown
 		},
 		data() {
 			return {
-
+                time:60*60*60*12.5
 			}
 		}
 	}
