@@ -5,83 +5,66 @@
 				<p class="header-right">{{current+1}}/{{total}}</p>
 			</div>
 		</vant-header>
-		<div class="question-container" v-if="questionCurrent.TMLX  == '单选'">
-			<p class="van-hairline--bottom exam-title">单选题</p>
+		<div class="question-container">
+			<p class="van-hairline--bottom exam-title">{{questionType}}题</p>
 			<div>
-				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
+				<p>{{current+1}}.{{questionList[current].TIGAN }}</p>
 				<ul>
-					<li v-for="(item,index) in answerList" @click="choose(index,1)" :class="{active:isSingleActive == index}">
-						<span>{{index+1 | chooseIndex}}</span>{{item}}
+					<li v-for="(item,index) in answerList" :class="">
+						<span class="chooseIndex">{{index+1}}</span>{{item}}
 					</li>
 				</ul>
 			</div>
 		</div>
-		<div class="question-container" v-if="questionCurrent.TMLX  == '多选'">
-			<p class="van-hairline--bottom exam-title">多选题</p>
+		<div class="question-container">
+			<p class="van-hairline--bottom exam-title">问题解析</p>
 			<div>
-				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
-				<ul>
-					<li v-for="(item,index) in answerList" @click="choose(index,2)" :class="{active:isMultipleActive[index] == true}">
-						<span>{{index+1 | chooseIndex}}</span>{{item}}
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div class="question-container" v-if="questionCurrent.TMLX  == '判断'">
-			<p class="van-hairline--bottom exam-title">判断题</p>
-			<div>
-				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
-				<ul>
-					<li v-for="(item,index) in answerList" @click="choose(3)">
-						<span>{{index+1 | chooseIndex}}</span>{{item}}
-					</li>
-				</ul>
+				<div class="right-answer">正确答案： A</div>
+				<div class="question-text">建筑工程是社会发展的重要体现,所以必须加强对建筑工程中施工技术的重视程度.在实际施工的过程中认真分析每项施工技术,并针对该技术容易出现的问题进行分析,并根据具体的施工要求采取相应的解决措施.施工人员是施工技术的主要实施者,同时也是施工技术问题的解决者。</div>
 			</div>
 		</div>
 
 		<div class="question-btn">
-			<van-button class="primary" :class="{none: preNone}" @click="pre()">上一题</van-button>
-			<van-button class="primary" :class="{none: nextNone}" @click="next()">下一题</van-button>
+			<van-button class="primary" >上一题</van-button>
+			<van-button class="primary" >下一题</van-button>
 		</div>
-		<exam-footer></exam-footer>
 	</div>
 </template>
 
 <script>
 	import vantHeader from '@/components/header.vue'
-	import examFooter from '@/components/onlineExamFooter.vue'
 	import * as ajax from '@/utils/api'
+	import localStore from '@/utils/storage.js'
 	import { Toast, Button, Dialog } from 'vant';
 	export default {
 		components: {
 			[Button.name]: Button,
-			vantHeader,
-			examFooter
+			vantHeader
 		},
 		data() {
 			return {
-				questionText: '',
+				total: 0,
 				questionList: [],
+				allAnswers: [],
+				classArr: [],
+				current: 0,
+				questionText: '',
 				questionCurrent: {},
 				answerList: [],
-				current: 0,
-				total: null,
-				nextNone: false,
-				preNone: true,
-				//				mistakesAnswers: [],
-				//				rightAnswers: [],
-				allAnswers: [],
-				isSingleActive: -1,
-				isMultipleActive: [false, false, false, false],
-				multipleChose: '',
-				show: true,
-				selectTotal: 0
+				classArr: [],
+				questionType: ''
+
 			}
 		},
-		mounted() {
-			this.getExamList()
+		created() {
+			this.localStoreVal();
+			this.questionRender();
+			this.addClassHandle();
 		},
 		watch: {
+			'$route' (to, from) {
+				// data数据操作
+			},
 			'current': function(newValue, oldValue) {
 				this.questionCurrent = this.questionList[this.current]
 				this.answerList = []
@@ -95,113 +78,42 @@
 			}
 		},
 		methods: {
-			getExamList() {
-				ajax.get('GetPaper?IDcard=' + this.$route.query.IDCard).then(res => {
-					console.log(res)
-					if(res.data.result) {
-						this.questionList = res.data.data
-						this.total = res.data.data.length
-						this.questionCurrent = this.questionList[this.current]
-						this.questionText = this.questionCurrent.GZ
-						for(let k in this.questionCurrent) {
-							if(k == 'XA' || k == 'XB' || k == 'XC' || k == 'XD') {
-								if(this.questionCurrent[k]) {
-									this.answerList.push(this.questionCurrent[k])
-								}
-							}
-						}
-					}
-				})
+			localStoreVal() {
+				//				this.mitakeQuesitionTotal = localStore.get('mitakeQuesitionTotal');
+				this.total = localStore.get('total');
+				this.questionList = localStore.get('questionList');
+				this.allAnswers = localStore.get('allAnswers');
 			},
-			pre() {
-				this.isSingleActive = -1;
-				this.isMultipleActive = [false, false, false, false]
-				if(this.current > 1) {
-					this.current--
-				} else {
-					this.preNone = true
-					Toast('这是第一题！');
-				}
+			questionRender() {
+				this.current = this.$route.query.index;
+				this.questionText = this.questionList[0].GZ;
+				this.questionType = this.questionList[this.current].TMLX;
 			},
-			next() {
-				var _this = this;
-				this.isSingleActive = -1;
-				this.isMultipleActive = [false, false, false, false]
-				if(this.current < this.total - 1) {
-					this.current++
-				} else {
-					this.nextNone = true
-					Toast('已经是最后一题了！');
-					setTimeout(function(){
-						_this.submitExam();
-					},2000)
-					
-				}
-			},
-			choose(index, flag) {
-				var _this = this;
-				if(flag === 1) { //flag 1:单选  2：多选 3：判断
-					this.isSingleActive = index;
-					this.allAnswers[this.current] = this.answer(index);
+			addClassHandle() {
+				if(this.questionType === '单选') {
 
-				} else if(flag === 2) {
-					var multipleChoseData = [],
-						multipleChose = '';
-					this.$set(this.isMultipleActive, index, !this.isMultipleActive[index]);
-					this.isMultipleActive.filter(function(item, index, arr) {
-						if(item == true) {
-							multipleChose += _this.answer(index);
-						}
-						return multipleChose
-					})
+//					if(this.questionList[this.current].ZQDA === this.allAnswers[this.current]) {
+//						this.classArr[this.current] = 'bgRightS'
+//					} else if(this.allAnswers[this.current] == null || this.allAnswers[this.current] == undefined) {
+//						this.classArr[this.current] = 'bgMistakeS'
+//					} else {
+//						
+//					}
 
-					this.allAnswers[this.current] = multipleChose;
-				}
-			},
-			answer(n) {
-				var questAnswer;
-				switch(n) {
-					case 0:
-						questAnswer = 'A';
-						break;
-					case 1:
-						questAnswer = 'B';
-						break;
-					case 2:
-						questAnswer = 'C';
-						break;
-					case 3:
-						questAnswer = 'D';
-						break;
+				} else if(this.questionType === '多选') {
 
 				}
-				return questAnswer;
-			},
-			submitExam() {
-				var _this = this;
-				_this.selectTotal = 0;
-				this.allAnswers.filter(function(item, index, arr) {
 
-					if(item != undefined && item != '') {
-						_this.selectTotal += 1;
-					}
-				})
-
-				Dialog.confirm({
-					title: '交卷提醒',
-					message: '您的试卷还有' + (this.total - this.selectTotal) + '道题未做答，是否依然提交？'
-				}).then(() => {
-					this.$router.push({path:'/gradeIssue'})
-					// on confirm
-				}).catch(() => {
-					// on cancel
-				});
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.container {
+		padding-top: 46px;
+	}
+	
 	.primary {
 		width: 165px;
 	}
@@ -247,5 +159,57 @@
 	
 	.header-right {
 		line-height: 20px;
+		color: #fff;
+	}
+	
+	.chooseIndex {
+		width: 10%;
+		display: block;
+		width: 16px;
+		height: 16px;
+		background: rgba(120, 158, 209, 1);
+		color: #fff;
+		border-radius: 50%;
+		text-align: center;
+		line-height: 16px;
+		font-size: 12px;
+		float: left;
+		margin: 5px 7px 0 0;
+	}
+	/*.active .chooseIndex {
+		background: #fff !important;
+		color: rgba(112, 153, 208, 1)!important;
+	}*/
+	
+	.right-answer {
+		background: #7AB182;
+		line-height: 46px;
+		color: #fff;
+		padding: 0 10px;
+		margin-bottom: 7px;
+	}
+	
+	.question-text {
+		color: #666;
+		font-size: 16px;
+	}
+	
+	.primary {
+		width: 165px;
+		background: #7099D0;
+	}
+	
+	.primary.none {
+		background: #595F74;
+	}
+	
+	.bgRightS {
+		background: #7AB182;
+		color: #fff;
+	}
+	
+	.bgMistakeS {
+		background: #C36363;
+		color: #fff;
 	}
 </style>

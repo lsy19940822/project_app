@@ -14,37 +14,14 @@
 				</van-col>
 				<van-col span="8">
 					<p class="b-text">错题数</p>
-					<div class="t-text">34<span class="s-text">道</span></div>
+					<div class="t-text">{{mitakeQuesitionTotal}}<span class="s-text">道</span></div>
 				</van-col>
 			</van-row>
 		</div>
 		<div class="question-box">
 			<div class="van-hairline-bottom q-title">所有题目</div>
 			<ul class="question-list flex">
-				<li class="q-item" @click="everyQuesitionDetail">1</li>
-				<li class="q-item bgRight">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item bgMistake">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">12</li>
-				<li class="q-item">100</li>
-				<li class="q-item">1</li>
-				<li class="q-item bgRight">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item bgMistake">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">1</li>
-				<li class="q-item">12</li>
-				<li class="q-item">100</li>
+				<li v-for="(item,index) in questionList" class="q-item" :class="classArr[index]" @click="everyQuesitionDetail(index)">{{index+1}}</li>
 			</ul>
 		</div>
 
@@ -54,6 +31,7 @@
 <script>
 	import vantHeader from '@/components/header.vue'
 	import { Circle, Row, Col, Button } from 'vant';
+	import localStore from '@/utils/storage.js'
 	export default {
 		components: {
 			[Circle.name]: Circle,
@@ -65,12 +43,43 @@
 		data() {
 			return {
 				currentRate: 0,
-				rate: 80
+				rate: 80,
+				totalList:[],
+				mitakeQuesitionTotal:'',
+				total:0,
+				questionList:[],
+				allAnswers:[],
+				classArr:[]
 			}
 		},
+		created(){
+			this.localStoreVal();
+		},
 		methods:{
-			everyQuesitionDetail(){
-				this.$router.push({path:'/questionDetail'})
+			everyQuesitionDetail(index){
+				console.log(222)
+				this.$router.push({
+						path: '/questionDetail?index='+index
+					})
+			},
+			localStoreVal(){
+				this.mitakeQuesitionTotal = localStore.get('mitakeQuesitionTotal');
+				this.total = localStore.get('total');
+				this.questionList = localStore.get('questionList');
+				this.allAnswers = localStore.get('allAnswers');
+
+				
+				for(var item in this.questionList){//判断对题，错题，未作答题
+					console.log(this.questionList[item])
+					if(this.questionList[item].ZQDA === this.allAnswers[item] ){
+						this.classArr[item] = 'bgRight' 
+					}else if(this.allAnswers[item] != null && this.allAnswers[item] != undefined){
+						this.classArr[item] = 'bgMistake'
+					}else{
+						this.classArr[item] = 'bgNoMake'
+					}
+//					console.log('T:',this.classArr)
+				}
 			}
 		}
 	}

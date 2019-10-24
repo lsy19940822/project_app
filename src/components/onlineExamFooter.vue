@@ -13,7 +13,7 @@
 				<div class="icon-box">
 					<van-icon name="underway-o" style="font-size: 26px;margin-top: -5px;" />
 					<div class="f-text">
-						<van-count-down millisecond :time="time" format="HH:mm:ss" />
+						<van-count-down millisecond :time="time" format="HH:mm:ss" ref= 'timesVal' />
 					</div>
 				</div>
 			</van-col>
