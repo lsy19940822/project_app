@@ -15,11 +15,6 @@ const router = new Router({
 	  	component: resolve => require(['../components/login.vue'], resolve)
 	},
 	{
-	  path:"/examItem",
-	  name:'examItem',
-	  component:resolve => require(["../components/examItem.vue"], resolve),
-	},
-	{
 	  path:"/footer",
 	  name:'footer',
 	  component:resolve => require(["../components/footer.vue"], resolve),
@@ -29,11 +24,11 @@ const router = new Router({
 	  name:'onlineExamFooter',
 	  component:resolve => require(["../components/onlineExamFooter.vue"], resolve),
 	},
-	{
-	  path:"/examItem1",
-	  name:'examItem',
-	  component:resolve => require(["../views/exam/examItem.vue"], resolve),
-	},
+	// {
+	// 	path:'/examItem',
+	// 	name:'examItem',
+	// 	component: resolve => require(['../components/examItem.vue'], resolve)
+	// },
 	{
 		path:'/gradeIssue',
 		name:'gradeIssue',
@@ -43,6 +38,11 @@ const router = new Router({
 		path:'/gradeIssueDetail',
 		name:'gradeIssueDetail',
 		component: resolve => require(['../views/exam/gradeIssueDetail.vue'], resolve)
+	},
+	{
+		path:'/examItem',
+		name:'examItem',
+		component: resolve => require(['../views/exam/examItem.vue'], resolve)
 	},
 	{
 		path:'/questionDetail',

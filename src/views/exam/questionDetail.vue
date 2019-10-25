@@ -109,7 +109,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	.container {
 		padding-top: 46px;
 	}
@@ -128,26 +128,26 @@
 		padding: 15px;
 		box-sizing: border-box;
 		box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.16);
-		li {
-			width: 100%;
-			/*height: 46px;*/
-			line-height: 30px;
-			padding: 5px 10px;
-			color: #666666;
-			margin-bottom: 10px;
-			background: #F6F6F6;
-			border-radius: 2px;
-		}
+		
 	}
-	
+	.question-container li{
+		width: 100%;
+		/*height: 46px;*/
+		line-height: 30px;
+		padding: 5px 10px;
+		color: #666666;
+		margin-bottom: 10px;
+		background: #F6F6F6;
+		border-radius: 2px;
+	}
 	.question-btn {
 		display: flex;
 		justify-content: space-around;
-		button {
-			color: #fff;
-		}
+		
 	}
-	
+	.question-btn button {
+		color: #fff;
+	}
 	.exam-title {
 		padding-bottom: 6px;
 	}

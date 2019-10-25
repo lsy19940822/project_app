@@ -5,7 +5,7 @@
 			<div class="grade-circle">
 				<van-circle v-model="currentRate" :rate="rate" :clockwise="false" color='#7AB182' size="120px" text="逆时针方向">
 					<div class="grade-text">
-						<h2 class="f42">{{score}}<span class="f12">分</span></h2>
+						<h2 class="f42">{{$route.query.Score}}<span class="f12">分</span></h2>
 						<p class="g-text f12">本次考试得分</p>
 					</div>
 				</van-circle>
@@ -17,11 +17,12 @@
 						<p class="b-text">试卷总分</p>
 					</van-col>
 					<van-col span="8">
-						<div class="t-text">34<span class="s-text">分</span>20<span class="s-text">秒</span></div>
+						
+						<div class="t-text">{{$route.query.ExamTimeStart}}</div>
 						<p class="b-text">答题时间</p>
 					</van-col>
 					<van-col span="8">
-						<div class="t-text c-CB5D5D">{{misitakeRate}}</div>
+						<div class="t-text c-CB5D5D">{{$route.query.misitakeRate}}</div>
 						<p class="b-text">错误率</p>
 					</van-col>
 				</van-row>
@@ -31,20 +32,20 @@
 		<div class="grade-infor">
 			<h4 class="grade-infor-title">考试详情</h4>
 			<van-row>
-				<van-col span="12">考试科目</van-col>
-				<van-col span="12">{{subject}}</van-col>
+				<van-col span="6">考试科目</van-col>
+				<van-col span="18">{{$route.query.subject}}</van-col>
 			</van-row>
 			<van-row>
-				<van-col span="12">考试名称</van-col>
-				<van-col span="12">2019电工上岗测试</van-col>
+				<van-col span="6">考试名称</van-col>
+				<van-col span="18">2019电工上岗测试</van-col>
 			</van-row>
 			<van-row>
-				<van-col span="12">考试时间</van-col>
-				<van-col span="12">{{ExamTimeStart}}</van-col>
+				<van-col span="6">考试时间</van-col>
+				<van-col span="18">{{$route.query.Date}}</van-col>
 			</van-row>
 
 		</div>
-		<router-link to="/gradeIssueDetail" style="color:#fff;">
+		<router-link :to="{path:'/gradeIssueDetail',query:{'ExamTimeStart':$route.query.ExamTimeStart,'IDcard':$route.query.IDCard}}" style="color:#fff;">
 			<van-button color="#595F74" class="larg-btn">查看试卷</van-button>
 		</router-link>
 	</div>
@@ -78,11 +79,12 @@
 		},
 		methods:{
 			storeVal(){
-				this.score = localStore.get('score');
-				this.misitakeRate = localStore.get('misitakeRate');
-				this.subject = localStore.get('subject');
-				this.ExamTimeStart = localStore.get('ExamTimeStart');
-				this.ExamName = localStore.get('ExamName');
+				// console.log(this.)
+				// this.score =this.$route.query.score;
+				// this.misitakeRate = localStore.get('misitakeRate');
+				// this.subject = localStore.get('subject');
+				// this.ExamTimeStart = localStore.get('ExamTimeStart');
+				// this.ExamName = localStore.get('ExamName');
 			}
 		}
 	}
