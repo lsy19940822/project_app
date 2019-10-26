@@ -41,6 +41,7 @@
 
 <script>
 	import vantHeader from '@/components/header.vue'
+	
 	import {
 		Circle,
 		Row,
@@ -79,27 +80,43 @@
 				})
 			},
 			localStoreVal() {
-				this.mitakeQuesitionTotal = localStorage.getItem('mitakeQuesitionTotal');
-				this.allAnswers = localStorage.getItem('allAnswers');
-				ajax.get('GetPaper?IDCard=' + localStorage.getItem("IDCard")).then(res => {
-					console.log(res)
-					if (res.data.result) {
-						this.questionList = res.data.data
-						this.total = res.data.data.length;
-						console.log("--------", this.questionList)
-						for (var item in this.questionList) { //判断对题，错题，未作答题
-							console.log("aaaaaaaa", this.allAnswers[item])
-							if (this.questionList[item].ZQDA === this.allAnswers[item]) {
-								this.classArr[item] = 'bgRight'
-							} else if (this.allAnswers[item] != null && this.allAnswers[item] != undefined) {
-								this.classArr[item] = 'bgMistake'
-							} else {
-								this.classArr[item] = 'bgNoMake'
-							}
-							console.log('T:', this.classArr)
-						}
+				this.mitakeQuesitionTotal = localStore.get('mitakeQuesitionTotal');
+				this.total = localStore.get('total');
+				this.questionList = localStore.get('questionList');
+				this.allAnswers = localStore.get('allAnswers');
+
+				
+				for(var item in this.questionList){//判断对题，错题，未作答题
+					console.log(this.questionList[item])
+					if(this.questionList[item].ZQDA === this.allAnswers[item] ){
+						this.classArr[item] = 'bgRight' 
+					}else if(this.allAnswers[item] != null && this.allAnswers[item] != undefined){
+						this.classArr[item] = 'bgMistake'
+					}else{
+						this.classArr[item] = 'bgNoMake'
 					}
-				})
+				}
+//				this.mitakeQuesitionTotal = localStorage.getItem('mitakeQuesitionTotal');
+//				this.allAnswers = localStorage.getItem('allAnswers');
+//				ajax.get('GetPaper?IDCard=' + localStorage.getItem("IDCard")).then(res => {
+//					console.log(res)
+//					if (res.data.result) {
+//						this.questionList = res.data.data
+//						this.total = res.data.data.length;
+//						console.log("--------", this.questionList)
+//						for (var item in this.questionList) { //判断对题，错题，未作答题
+//							console.log("aaaaaaaa", this.allAnswers[item])
+//							if (this.questionList[item].ZQDA === this.allAnswers[item]) {
+//								this.classArr[item] = 'bgRight'
+//							} else if (this.allAnswers[item] != null && this.allAnswers[item] != undefined) {
+//								this.classArr[item] = 'bgMistake'
+//							} else {
+//								this.classArr[item] = 'bgNoMake'
+//							}
+//							console.log('T:', this.classArr)
+//						}
+//					}
+//				})
 			}
 		}
 	}

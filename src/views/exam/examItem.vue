@@ -48,14 +48,14 @@
 			</div>
 		</div>
         <!-- 答题卡遮罩 -->
-		<van-popup v-model="showTips" class="login-tips">
+		<van-popup v-model="showTips" class="login-tips" >
 			
 			<div class="answer-container">
 				 <h4>试卷答题卡</h4>
 			</div>
 			<ul class="answer-list">
-				<li v-for="(item,index) in questionList.length">
-					<div class="answer-button" @click="gotoQuestion(index)">{{index+1}}</div>
+				<li v-for="(item,index) in questionList.length" >
+					<div class="answer-button" :class="alreadyCheck[index]"   @click="gotoQuestion(index)">{{index+1}}</div>
 				</li>
 				<div class="answer-buttons answer-error" @click="cancel()">取消</div>
 				<div class="answer-buttons answer-success" @click="submitExam()">交卷</div>
@@ -67,7 +67,7 @@
 			<van-button class="primary" :class="{none: preNone}" @click="pre()">上一题</van-button>
 			<van-button class="primary" :class="{none: nextNone}" @click="next()">下一题</van-button>
 		</div>
-		<exam-footer @list="showButton" @examItem="submitExam()"></exam-footer>
+		<exam-footer @list="showButton" @examItem="submitExam()" @showtip="shwotipChange" :showtip = 'showTips' :allAnswers = "allAnswers" :alreadyCheck ="alreadyCheck"></exam-footer>
 	</div>
 </template>
 
@@ -75,6 +75,7 @@
 	import vantHeader from '@/components/header.vue'
 	import examFooter from '@/components/onlineExamFooter.vue'
 	import { formatDate, formatTime} from '@/utils/common.js'
+	import locstorage from '@/utils/storage.js'
 	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
 	import {Toast,Button,Checkbox, CheckboxGroup,RadioGroup, Radio,Dialog,Popup ,CountDown } from 'vant';
@@ -111,7 +112,9 @@
 				ExamTimeStart: '',
 				rightTotal: 0,
 				time:60*60*60*12.5,//考试倒计时
-				examTime:""//考试所用的时间
+				examTime:"",//考试所用的时间
+				answerAlrealTotal:0,// 作答题数
+				alreadyCheck:[]
 			}
 		},
 		created() {
@@ -136,6 +139,10 @@
 			}
 		},
 		methods: {
+			shwotipChange(val,val2){
+				console.log(this.showTips,"22",val2)
+				this.showTips = val;
+			},
 			showButton(data){
 				// 
 				console.log(data);
@@ -186,10 +193,8 @@
 					this.current++
 				} else {
 					this.nextNone = false
-					Toast('已经是最后一题了！');
-					setTimeout(function() {
+//					Toast('已经是最后一题了！');
 						_this.submitExam();
-					}, 2000)
 
 				}
 			},
@@ -213,6 +218,14 @@
 
 					this.allAnswers[this.current] = multipleChose;
 				}
+				
+				this.selectTotal = 0;
+				this.allAnswers.filter(function(item, index, arr) {
+
+					if(item != undefined && item != '') {
+						_this.selectTotal += 1;
+					}
+				})
 			},
 			answer(n) {
 				var questAnswer;
@@ -235,13 +248,13 @@
 			},
 			submitExam() {
 				var _this = this;
-				_this.selectTotal = 0;
-				this.allAnswers.filter(function(item, index, arr) {
-
-					if(item != undefined && item != '') {
-						_this.selectTotal += 1;
-					}
-				})
+//				_this.selectTotal = 0;
+//				this.allAnswers.filter(function(item, index, arr) {
+//
+//					if(item != undefined && item != '') {
+//						_this.selectTotal += 1;
+//					}
+//				})
 
 				for(var i = 0; i < this.rightAnswers.length; i++) {
 					if(this.rightAnswers[i] === this.allAnswers[i]) {
@@ -256,7 +269,7 @@
 						return;
 				}
 				var timestamp = this.$moment(new Date()).format("YYYY/MM/DD");
-				// console.log("timestamp",timestamp,"xffff",)
+//				 console.log("timestamp",timestamp,"xffff")
 				var date1 = new Date(timestamp + ' 00:45:00'); //开始时间
 				var date2 = new Date(timestamp + ' ' + this.$refs.countDown.$el.innerHTML);
 				var date3 = date1.getTime() - date2.getTime(); //时间差的毫秒数
@@ -278,9 +291,20 @@
 				seconds = seconds == 0 ? '00' : (seconds < 9 ? '0' + seconds : seconds)
 				this.examTime =hours + ':'+ minutes + ':' + seconds;
 				console.log(this.examTime)
-				
-				localStorage.setItem('mitakeQuesitionTotal', (this.total-(this.total - this.rightTotal)))//未答题数
+				this.allAnswers.filter(function(item,index,arr){
+					if(item){
+						_this.answerAlrealTotal +=1;
+					}
+					return _this.answerAlrealTotal
+				})
+				localStorage.setItem('mitakeQuesitionTotal', (this.answerAlrealTotal - this.rightTotal))//错题数（不包含未答题数）
+				localStorage.setItem('mitakeQuesitionTotal1', (this.total-this.answerAlrealTota))//未答题数
 				localStorage.setItem('allAnswers', this.allAnswers); //作答的答案
+				
+				locstorage.set('total', this.total); //总题
+				locstorage.set('allAnswers', this.allAnswers); //作答的答案
+				locstorage.set('questionList', this.questionList); //返回题信息
+
 				
 				Dialog.confirm({
 					title: '交卷提醒',
@@ -486,5 +510,12 @@
 		     /*border: 1px solid #fff;*/ 
 	background: #fff !important;
 	color: rgba(112,153,208,1)!important;
+	}
+	.yesChecked{
+		background: #8AABD7;
+		color:#fff;
+	}
+	.noChecked{
+		
 	}
 </style>

@@ -10,8 +10,8 @@
 			<div>
 				<p>{{current+1}}.{{questionList[current].TIGAN }}</p>
 				<ul>
-					<li v-for="(item,index) in answerList" :class="">
-						<span class="chooseIndex">{{index+1}}</span>{{item}}
+					<li v-for="(item,index) in answerList" :class="classArr[index]">
+						<span class="chooseIndex">{{index+1 |chooseIndex}}</span>{{item}}
 					</li>
 				</ul>
 			</div>
@@ -19,14 +19,14 @@
 		<div class="question-container">
 			<p class="van-hairline--bottom exam-title">问题解析</p>
 			<div>
-				<div class="right-answer">正确答案： A</div>
+				<div class="right-answer">正确答案： {{windsurf}}</div>
 				<div class="question-text">建筑工程是社会发展的重要体现,所以必须加强对建筑工程中施工技术的重视程度.在实际施工的过程中认真分析每项施工技术,并针对该技术容易出现的问题进行分析,并根据具体的施工要求采取相应的解决措施.施工人员是施工技术的主要实施者,同时也是施工技术问题的解决者。</div>
 			</div>
 		</div>
 
 		<div class="question-btn">
-			<van-button class="primary" >上一题</van-button>
-			<van-button class="primary" >下一题</van-button>
+			<van-button class="primary" @click="pre">上一题</van-button>
+			<van-button class="primary" @click="next">下一题</van-button>
 		</div>
 	</div>
 </template>
@@ -36,6 +36,7 @@
 	import * as ajax from '@/utils/api'
 	import localStore from '@/utils/storage.js'
 	import { Toast, Button, Dialog } from 'vant';
+	import chooseIndex from '@/utils/filters'
 	export default {
 		components: {
 			[Button.name]: Button,
@@ -47,12 +48,13 @@
 				questionList: [],
 				allAnswers: [],
 				classArr: [],
-				current: 0,
+				current: -1,
 				questionText: '',
 				questionCurrent: {},
 				answerList: [],
 				classArr: [],
-				questionType: ''
+				questionType: '',
+				windsurf: ''
 
 			}
 		},
@@ -63,7 +65,8 @@
 		},
 		watch: {
 			'$route' (to, from) {
-				// data数据操作
+				console.log(to, from, to.query.index)
+				this.current
 			},
 			'current': function(newValue, oldValue) {
 				this.questionCurrent = this.questionList[this.current]
@@ -85,23 +88,83 @@
 				this.allAnswers = localStore.get('allAnswers');
 			},
 			questionRender() {
-				this.current = this.$route.query.index;
+				this.current = parseInt(this.$route.query.index);
 				this.questionText = this.questionList[0].GZ;
 				this.questionType = this.questionList[this.current].TMLX;
 			},
 			addClassHandle() {
+				this.classArr = [];
 				if(this.questionType === '单选') {
-
-//					if(this.questionList[this.current].ZQDA === this.allAnswers[this.current]) {
-//						this.classArr[this.current] = 'bgRightS'
-//					} else if(this.allAnswers[this.current] == null || this.allAnswers[this.current] == undefined) {
-//						this.classArr[this.current] = 'bgMistakeS'
-//					} else {
-//						
-//					}
+					this.windsurf = this.questionList[this.current].ZQDA
+					let index = this.answer(this.questionList[this.current].ZQDA);
+					this.classArr[index] = 'bgRightS'
+					console.log(this.allAnswers)
+					if(this.questionList[this.current].ZQDA === this.allAnswers[this.current]) {
+						this.classArr[index] = 'bgRightS'
+					} else if(this.allAnswers[this.current] != null || this.allAnswers[this.current] != undefined || this.allAnswers[this.current] != '') {
+						this.classArr[this.answer(this.allAnswers[this.current])] = 'bgMistakeS'
+					} else {
+						this.classArr[this.answer(this.allAnswers[this.current])] = 'bgDefault'
+					}
 
 				} else if(this.questionType === '多选') {
+					console.log(this.questionList[this.current].ZQDA.split(''));
+					this.windsurf = this.questionList[this.current].ZQDA
+					var answerRightCrrent = this.questionList[this.current].ZQDA.split('');
+					answerRightCrrent.filter(function(item, index, arr) {
+						this.classArr[this.answer(item)] = 'bgRightS'
+					}, this)
+				}
 
+			},
+			answer(n) {
+				var questAnswer;
+				switch(n) {
+					case 'A':
+						questAnswer = 0;
+						break;
+					case 'B':
+						questAnswer = 1;
+						break;
+					case 'C':
+						questAnswer = 2;
+						break;
+					case 'D':
+						questAnswer = 3;
+						break;
+
+				}
+				return questAnswer;
+			},
+			pre() {
+				if(this.current > 0) {
+					this.current -= 1
+
+					this.$router.push({
+						path: '/questionDetail',
+						query: {
+							index: this.current
+						}
+					})
+					this.localStoreVal();
+					this.questionRender();
+					this.addClassHandle();
+					console.log(1000000)
+				}
+
+			},
+			next() {
+				if(this.current < this.total-1) {
+					this.current += 1
+					this.$router.push({
+						path: '/questionDetail',
+						query: {
+							index: this.current
+						}
+					})
+					this.localStoreVal();
+					this.questionRender();
+					this.addClassHandle();
 				}
 
 			}
@@ -128,9 +191,9 @@
 		padding: 15px;
 		box-sizing: border-box;
 		box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.16);
-		
 	}
-	.question-container li{
+	
+	.question-container li {
 		width: 100%;
 		/*height: 46px;*/
 		line-height: 30px;
@@ -140,14 +203,16 @@
 		background: #F6F6F6;
 		border-radius: 2px;
 	}
+	
 	.question-btn {
 		display: flex;
 		justify-content: space-around;
-		
 	}
+	
 	.question-btn button {
 		color: #fff;
 	}
+	
 	.exam-title {
 		padding-bottom: 6px;
 	}
@@ -203,13 +268,32 @@
 		background: #595F74;
 	}
 	
-	.bgRightS {
+	.question-container li.bgRightS {
 		background: #7AB182;
 		color: #fff;
 	}
 	
-	.bgMistakeS {
+	.question-container li.bgRightS .chooseIndex {
+		background: #fff;
+		color: #7AB182;
+	}
+	
+	.question-container li.bgMistakeS {
 		background: #C36363;
 		color: #fff;
+	}
+	
+	.question-container li.bgMistakeS .chooseIndex {
+		background: #fff;
+		color: #C36363;
+	}
+	
+	.question-container li.bgDefault {
+		background: #F6F6F6;
+	}
+	
+	.question-container li.bgDefault .chooseIndex {
+		background: #fff;
+		color: #F6F6F6;
 	}
 </style>

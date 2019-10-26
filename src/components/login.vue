@@ -54,6 +54,7 @@
 				ajax.get('Login?IDCard=' + this.IDCard).then(res => {
 					console.log(res.data)
 					if(res.data.result) {
+						localStorage.setItem('IDCard',this.IDCard)
 						this.showTips = true
 						let second = 6;
 						const timer = setInterval(() => {
