@@ -4,21 +4,21 @@
 	<div class="exam-footer">
 		<van-row>
 			<van-col span="8" >
-				<div class="icon-box" @click="send()">
+				<div class="icon-box" @click = "onchange1">
 					<van-icon name="newspaper-o" />
 					<p class="f-text">答题卡</p>
 				</div>
 			</van-col>
 			<van-col span="8">
 				<div class="icon-box">
-					<van-icon name="underway-o" style="font-size: 26px;margin-top: -5px;" />
+					<van-icon name="underway-o" style="font-size: 26px;margin-top: -9px;" />
 					<div class="f-text">
 						<van-count-down millisecond :time="time" format="mm:ss" />
 					</div>
 				</div>
 			</van-col>
-			<van-col span="8">
-				<div class="icon-box" @click="examItem()">
+			<van-col span="8" @click = "submitPaper">
+				<div class="icon-box">
 					<van-icon name="todo-list-o" />
 					<p  class="f-text">交卷</p>
 				</div>
@@ -34,8 +34,10 @@
 			[Row.name]: Row,
 			[Col.name]: Col,
 			[Icon.name]: Icon,
-			[CountDown.name]: CountDown
+			[CountDown.name]: CountDown,
+			
 		},
+		props:['showtip','allAnswers','alreadyCheck'],
 		data() {
 			return {
 				time:60*60*60*12.5,
@@ -43,16 +45,28 @@
 			}
 		},
 		methods:{
-			send(){
-				let showButton=this.show;
-				this.$emit("list",showButton);
+			onchange1(){
+				
+				var allAnswers=this.allAnswers;
+				var alreadyCheck = this.alreadyCheck;
+				console.log(allAnswers)
+				allAnswers.filter(function(item,index,arr){
+					if(allAnswers[index] != null && allAnswers[index] != undefined && allAnswers[index] != ''){
+						alreadyCheck[index] = 'yesChecked'
+					}else{
+						alreadyCheck[index] = 'answer-button'
+					}
+					
+					return alreadyCheck
+				})
+				
+				var showVar = !this.showtip;
+				this.$emit('showtip',showVar,alreadyCheck)
 			},
-			examItem(){
-				let showButton=this.show;
-				this.$emit("examItem",showButton);
+			submitPaper(){
+				this.$emit('examItem')
 			}
 		}
-		
 	}
 </script>
 

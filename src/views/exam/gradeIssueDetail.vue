@@ -41,12 +41,8 @@
 
 <script>
 	import vantHeader from '@/components/header.vue'
-	import {
-		Circle,
-		Row,
-		Col,
-		Button
-	} from 'vant';
+	
+	import {Circle,Row,Col,Button} from 'vant';
 	import localStore from '@/utils/storage.js'
 	import * as ajax from '@/utils/api'
 	export default {
@@ -79,43 +75,20 @@
 				})
 			},
 			localStoreVal() {
-				this.mitakeQuesitionTotal = localStorage.getItem('mitakeQuesitionTotal');
-				this.allAnswers = localStorage.getItem('allAnswers');
-				console.log("allAnswers",this.allAnswers)
-				ajax.get('GetPaper?IDCard=' + localStorage.getItem("IDCard")).then(res => {
-					console.log(res)
-					if (res.data.result) {
-						this.questionList = res.data.data
-						this.total = res.data.data.length;
-						console.log(this.total);
-						for(var item in this.allAnswers){
-							
-							console.log("allAnswers-item：",this.allAnswers[1])
-							
-						}
-						// console.log("questionList", this.questionList)
-						// for (var item in this.questionList) { //判断对题，错题，未作答题
-						// 	console.log("allAnswers-item", item,this.allAnswers[item])
-						// 	console.log("questionList-item", item,this.questionList[item].ZQDA )
-						// 	// if(this.allAnswers[item] !="" && this.allAnswers[item] != this.questionList[item].ZQDA){
-						// 	// 	this.classArr[item] = 'bgRight'
-								
-						// 	// }
-						// 	if(this.allAnswers[item]==""){
-						// 	   this.classArr[item] = 'bgNoMake'
-						// 	}
-						// 	// if (this.questionList[item].ZQDA === this.allAnswers[item]) {
-						// 	// 	this.classArr[item] = 'bgRight'
-						// 	// } else if (this.allAnswers[item] != null && this.allAnswers[item] != undefined) {
-						// 	// 	this.classArr[item] = 'bgMistake'
-						// 	// } else if (this.allAnswers[item]=="") {
-						// 	// 
-						// 	// 	console.log("没选择答案即使没做的",this.classArr[item])
-						// 	// }
-						// 	// console.log('T:', this.classArr)
-						// }
+				this.mitakeQuesitionTotal = localStore.get('mitakeQuesitionTotal');
+				this.total = localStore.get('total');
+				this.questionList = localStore.get('questionList');
+				this.allAnswers = localStore.get('allAnswers');
+				for(var item in this.questionList){//判断对题，错题，未作答题
+					console.log(this.questionList[item])
+					if(this.questionList[item].ZQDA === this.allAnswers[item] ){
+						this.classArr[item] = 'bgRight' 
+					}else if(this.allAnswers[item] != null && this.allAnswers[item] != undefined){
+						this.classArr[item] = 'bgMistake'
+					}else{
+						this.classArr[item] = 'bgNoMake'
 					}
-				})
+				}
 			}
 		}
 	}
