@@ -24,10 +24,10 @@
 			</div>
 
 			<ul class="answer-list">
-				<li v-for="(item,index) in questionList">
+				<li v-for="(item,index) in total">
 
 					<div :class="classArr[index]" class="answer-button">
-						<div @click="everyQuesitionDetail(index)">{{index+1}}</div>
+						<div @click="everyQuesitionDetail(index+1)" >{{index+1}}</div>
 					</div>
 
 
@@ -81,23 +81,39 @@
 			localStoreVal() {
 				this.mitakeQuesitionTotal = localStorage.getItem('mitakeQuesitionTotal');
 				this.allAnswers = localStorage.getItem('allAnswers');
+				console.log("allAnswers",this.allAnswers)
 				ajax.get('GetPaper?IDCard=' + localStorage.getItem("IDCard")).then(res => {
 					console.log(res)
 					if (res.data.result) {
 						this.questionList = res.data.data
 						this.total = res.data.data.length;
-						console.log("--------", this.questionList)
-						for (var item in this.questionList) { //判断对题，错题，未作答题
-							console.log("aaaaaaaa", this.allAnswers[item])
-							if (this.questionList[item].ZQDA === this.allAnswers[item]) {
-								this.classArr[item] = 'bgRight'
-							} else if (this.allAnswers[item] != null && this.allAnswers[item] != undefined) {
-								this.classArr[item] = 'bgMistake'
-							} else {
-								this.classArr[item] = 'bgNoMake'
-							}
-							console.log('T:', this.classArr)
+						console.log(this.total);
+						for(var item in this.allAnswers){
+							
+							console.log("allAnswers-item：",this.allAnswers[1])
+							
 						}
+						// console.log("questionList", this.questionList)
+						// for (var item in this.questionList) { //判断对题，错题，未作答题
+						// 	console.log("allAnswers-item", item,this.allAnswers[item])
+						// 	console.log("questionList-item", item,this.questionList[item].ZQDA )
+						// 	// if(this.allAnswers[item] !="" && this.allAnswers[item] != this.questionList[item].ZQDA){
+						// 	// 	this.classArr[item] = 'bgRight'
+								
+						// 	// }
+						// 	if(this.allAnswers[item]==""){
+						// 	   this.classArr[item] = 'bgNoMake'
+						// 	}
+						// 	// if (this.questionList[item].ZQDA === this.allAnswers[item]) {
+						// 	// 	this.classArr[item] = 'bgRight'
+						// 	// } else if (this.allAnswers[item] != null && this.allAnswers[item] != undefined) {
+						// 	// 	this.classArr[item] = 'bgMistake'
+						// 	// } else if (this.allAnswers[item]=="") {
+						// 	// 
+						// 	// 	console.log("没选择答案即使没做的",this.classArr[item])
+						// 	// }
+						// 	// console.log('T:', this.classArr)
+						// }
 					}
 				})
 			}
@@ -146,7 +162,16 @@
 		margin: 0 auto;
 
 	}
-
+	
+.answer-button div{
+	width: 38px;
+	height: 38px;
+	background: #ccc;
+	border-radius: 4px;
+	    line-height: 38px;
+	    color: #fff;
+	    margin: 0 auto;
+}
 	.answer-list li {
 		float: left;
 		width: 16.6%;

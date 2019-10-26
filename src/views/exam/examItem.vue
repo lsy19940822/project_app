@@ -6,7 +6,7 @@
 				<p class="header-right">{{current+1}}/{{total}}</p>
 			</div>
 		</vant-header>
-		<van-count-down
+		<van-count-down style="display: none;"
 		  ref="countDown"
 		  millisecond
 		  :time="time"
@@ -17,9 +17,9 @@
 		<div class="question-container" v-if="questionCurrent.TMLX  == '单选'">
 			<p class="van-hairline--bottom exam-title">单选题</p>
 			<div>
-				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
+				<p :id="questionCurrent.ID">{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
-					<li v-for="(item,index) in answerList" @click="choose(index,1)" :class="{active:isSingleActive == index}">
+					<li v-for="(item,index) in answerList"  @click="choose(index,1)" :class="{active:isSingleActive == index}">
 						<span class="chooseIndex">{{index+1 | chooseIndex}}</span><span>{{item}}</span>
 					</li>
 				</ul>
@@ -28,7 +28,7 @@
 		<div class="question-container" v-if="questionCurrent.TMLX  == '多选'">
 			<p class="van-hairline--bottom exam-title">多选题</p>
 			<div>
-				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
+				<p :id="questionCurrent.ID">{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
 					<li v-for="(item,index) in answerList" @click="choose(index,2)" :class="{active:isMultipleActive[index] == true}">
 						<span class="chooseIndex">{{index+1 | chooseIndex}}</span><span>{{item}}</span>
@@ -39,9 +39,9 @@
 		<div class="question-container" v-if="questionCurrent.TMLX  == '判断'">
 			<p class="van-hairline--bottom exam-title">判断题</p>
 			<div>
-				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
+				<p :id="questionCurrent.ID">{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
-					<li v-for="(item,index) in answerList" @click="choose(index,3)">
+					<li v-for="(item,index) in answerList" :id="item.ID" @click="choose(index,3)">
 						<span class="chooseIndex">{{index+1 | chooseIndex}}</span>{{item}}
 					</li>
 				</ul>
@@ -111,7 +111,8 @@
 				ExamTimeStart: '',
 				rightTotal: 0,
 				time:60*60*60*12.5,//考试倒计时
-				examTime:""//考试所用的时间
+				examTime:"",//考试所用的时间
+				// answerContainer:[]
 			}
 		},
 		created() {
@@ -129,6 +130,7 @@
 				for(let k in this.questionCurrent) {
 					if(k == 'XA' || k == 'XB' || k == 'XC' || k == 'XD') {
 						if(this.questionCurrent[k]) {
+							
 							this.answerList.push(this.questionCurrent[k])
 						}
 					}
@@ -150,16 +152,17 @@
 			},
 			getExamList() {
 				ajax.get('GetPaper?IDcard=' + this.$route.query.IDCard).then(res => {
-					console.log(res)
 					if(res.data.result) {
 						this.questionList = res.data.data
 						this.total = res.data.data.length
 						this.questionCurrent = this.questionList[this.current]
 						this.questionText = this.questionCurrent.GZ
 						for(let k in this.questionCurrent) {
+							
 							if(k == 'XA' || k == 'XB' || k == 'XC' || k == 'XD') {
 								if(this.questionCurrent[k]) {
 									this.answerList.push(this.questionCurrent[k])
+									console.log("questionCurrent",this.questionCurrent[k],"answerList",this.answerList)
 								}
 							}
 						}
@@ -184,6 +187,7 @@
 				this.isMultipleActive = [false, false, false, false]
 				if(this.current < this.total - 1) {
 					this.current++
+				
 				} else {
 					this.nextNone = false
 					Toast('已经是最后一题了！');
@@ -193,13 +197,22 @@
 
 				}
 			},
+			rightAnswerHandle() {
+				for(let item in this.questionList) { //存储正确答案
+					console.log("this.rightAnswers:", this.questionList[item].ZQDA)
+					this.rightAnswers.push(this.questionList[item].ZQDA)
+				}
+			},
 			choose(index, flag) {
 
 				var _this = this;
 				if(flag === 1) { //flag 1:单选  2：多选 3：判断
 					this.isSingleActive = index;
-					this.allAnswers[this.current] = this.answer(index);
-
+					
+					this.allAnswers[this.current]= _this.answer(index)
+					console.log("序号",this.current+1,"本题单选","我选择的答案是：",this.allAnswers[this.current],"本题的答案：",this.questionList[this.current].ZQDA)
+                    
+				
 				} else if(flag === 2) {
 					var multipleChoseData = [],
 						multipleChose = '';
@@ -210,8 +223,8 @@
 						}
 						return multipleChose
 					})
-
 					this.allAnswers[this.current] = multipleChose;
+					console.log("序号",this.current+1,"本题多选","我选择的答案是：",this.allAnswers[this.current],"本题的答案：",this.questionList[this.current].ZQDA)
 				}
 			},
 			answer(n) {
@@ -236,13 +249,26 @@
 			submitExam() {
 				var _this = this;
 				_this.selectTotal = 0;
+				
+				// if(this.allAnswers[this.current]!= this.questionList[this.current].ZQDA){
+					
+				//    this.answerContainer.push(this.questionCurrent.ID)
+				
+				//    console.log("answerContainer",this.answerContainer)
+				// }
+				
 				this.allAnswers.filter(function(item, index, arr) {
 
 					if(item != undefined && item != '') {
 						_this.selectTotal += 1;
 					}
 				})
-
+    //             for(var i = 0; i < this.allAnswers.length; i++) {
+				// 	if(this.rightAnswers[i] === this.allAnswers[i]) {
+				// 		this.Score += 4;
+				// 		this.rightTotal += 1;
+				// 	}
+				// }
 				for(var i = 0; i < this.rightAnswers.length; i++) {
 					if(this.rightAnswers[i] === this.allAnswers[i]) {
 						this.Score += 4;
@@ -255,6 +281,9 @@
 					} else {
 						return;
 				}
+				
+				
+				
 				var timestamp = this.$moment(new Date()).format("YYYY/MM/DD");
 				// console.log("timestamp",timestamp,"xffff",)
 				var date1 = new Date(timestamp + ' 00:45:00'); //开始时间
@@ -279,8 +308,21 @@
 				this.examTime =hours + ':'+ minutes + ':' + seconds;
 				console.log(this.examTime)
 				
-				localStorage.setItem('mitakeQuesitionTotal', (this.total-(this.total - this.rightTotal)))//未答题数
+				localStorage.setItem('mitakeQuesitionTotal', (this.total - ((this.total - this.selectTotal)+this.rightTotal)))//答错的题
+				
 				localStorage.setItem('allAnswers', this.allAnswers); //作答的答案
+				console.log(
+				"总题数：",this.total,
+				"答对的题数：",this.rightTotal,
+				"未答的题：",(this.total - this.selectTotal),
+				"答错的题：",(this.total - ((this.total - this.selectTotal)+this.rightTotal)),
+				"作答的答案",this.allAnswers
+				)
+				
+				
+				
+				
+				
 				
 				Dialog.confirm({
 					title: '交卷提醒',
@@ -322,13 +364,8 @@
 				}).catch(() => {
 					// on cancel
 				});
-			},
-			rightAnswerHandle() {
-				for(let item in this.questionList) { //存储正确答案
-					console.log("this.rightAnswers:", this.questionList[item].ZQDA)
-					this.rightAnswers.push(this.questionList[item].ZQDA)
-				}
 			}
+			
 		}
 	}
 </script>
@@ -468,7 +505,7 @@
 	
 	
 	/*1*/
-		.chooseIndex{
+	.chooseIndex{
 		width: 10%;
 		display: block;
 		width:16px;

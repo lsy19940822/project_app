@@ -5,14 +5,19 @@ Vue.use(Router)
 const router = new Router({
   routes:[
 	{
-	    path:"/",
-	    component:resolve => require(["../components/header.vue"], resolve),
-	    redirect: '/login',//默认选中
+		path:"/",
+		component:resolve => require(["../components/header.vue"], resolve),
+		redirect: '/index',//默认选中
+	},
+	{
+	    path:"/index",
+		name:'index',
+	    component:resolve => require(["../views/index.vue"], resolve),
 	},
 	{
 	  	path: '/login',
 		name:'login',
-	  	component: resolve => require(['../components/login.vue'], resolve)
+	  	component: resolve => require(['../components/login.vue'], resolve),
 	},
 	{
 	  path:"/footer",
@@ -24,11 +29,6 @@ const router = new Router({
 	  name:'onlineExamFooter',
 	  component:resolve => require(["../components/onlineExamFooter.vue"], resolve),
 	},
-	// {
-	// 	path:'/examItem',
-	// 	name:'examItem',
-	// 	component: resolve => require(['../components/examItem.vue'], resolve)
-	// },
 	{
 		path:'/gradeIssue',
 		name:'gradeIssue',

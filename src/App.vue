@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style>
+	.navLists .van-progress__pivot{
+		display: none;
+	}
 	/* 答题卡遮罩 */
 	.van-overlay {
 		top: 46px !important;
