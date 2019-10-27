@@ -7,7 +7,8 @@
 		</vant-header>
 		<div class="containerIndex">
 			<div class="login-bg">
-				<img src="../assets/login-bg.png">
+				<img src="../assets/images/index_icon/icon_img@2x(1).png" class="back_img">
+				<img src="../assets/images/index_icon/icon_img2@2x.png" class="icon_img">
 			</div>
 			<ul class="navList">
 				<li><img src="../assets/images/index_icon/icon_jd@2x.png" alt=""><p>智能进度</p></li>
@@ -400,7 +401,7 @@
 	}
 </script>
 
-<style>
+<style  scoped>
 	/* p{} */
 
 	.container_nav_aq{
@@ -474,9 +475,19 @@
 		overflow: hidden;
 		float: left;
 	}
-	.containerIndex .login-bg img {
+	.containerIndex .login-bg img.back_img {
 		width: 100%;
 		float: left;
+		position: relative;
+	}
+	.containerIndex .login-bg img.icon_img {
+		height: 60px;
+		/* width: 100%; */
+		float: left;
+		position: absolute;
+		top:14%;
+		left: 50%;
+		margin-left: -136px;
 	}
 	.navList {
 		padding: 17px 15px 0;
