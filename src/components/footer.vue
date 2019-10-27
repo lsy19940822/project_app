@@ -10,17 +10,13 @@
 				</div>
 			</van-col>
 			<van-col span="8">
-				
-				<!-- 想 -->
 				<div class="icon-box">
-					
 					<van-icon name="underway-o" style="font-size: 26px;margin-top: -5px;"/>
 					<van-count-down millisecond :time="time" format="HH:mm:ss" />
 				</div>
 			</van-col>
 			<van-col span="8">
 				<div class="icon-box">
-					
 					<van-icon name="todo-list-o" />
 					<p  class="f-text">交卷</p>
 				</div>
