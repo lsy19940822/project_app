@@ -5,19 +5,19 @@ Vue.use(Router)
 const router = new Router({
   routes:[
 	{
-	    path:"/",
-	    component:resolve => require(["../components/header.vue"], resolve),
-	    redirect: '/login',//默认选中
+		path:"/",
+		component:resolve => require(["../components/header.vue"], resolve),
+		redirect: '/index',//默认选中
+	},
+	{
+	    path:"/index",
+		name:'index',
+	    component:resolve => require(["../views/index.vue"], resolve),
 	},
 	{
 	  	path: '/login',
 		name:'login',
-	  	component: resolve => require(['../components/login.vue'], resolve)
-	},
-	{
-	  path:"/examItem",
-	  name:'examItem',
-	  component:resolve => require(["../components/examItem.vue"], resolve),
+	  	component: resolve => require(['../components/login.vue'], resolve),
 	},
 	{
 	  path:"/footer",
@@ -30,11 +30,6 @@ const router = new Router({
 	  component:resolve => require(["../components/onlineExamFooter.vue"], resolve),
 	},
 	{
-	  path:"/examItem1",
-	  name:'examItem',
-	  component:resolve => require(["../views/exam/examItem.vue"], resolve),
-	},
-	{
 		path:'/gradeIssue',
 		name:'gradeIssue',
 		component: resolve => require(['../views/exam/gradeIssue.vue'], resolve)
@@ -43,6 +38,11 @@ const router = new Router({
 		path:'/gradeIssueDetail',
 		name:'gradeIssueDetail',
 		component: resolve => require(['../views/exam/gradeIssueDetail.vue'], resolve)
+	},
+	{
+		path:'/examItem',
+		name:'examItem',
+		component: resolve => require(['../views/exam/examItem.vue'], resolve)
 	},
 	{
 		path:'/questionDetail',

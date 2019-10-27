@@ -54,6 +54,7 @@
 				ajax.get('Login?IDCard=' + this.IDCard).then(res => {
 					console.log(res.data)
 					if(res.data.result) {
+						localStorage.setItem('IDCard',this.IDCard)
 						this.showTips = true
 						let second = 6;
 						const timer = setInterval(() => {
@@ -83,21 +84,6 @@
 			}
 		}
 	}
-	// export default {
-	//   name: 'login',
-	//   data () {
-	// 	return {
-	// 	   isActive:false
-	// 	}
-	//   },
-	//  
-	//   methods:{
-	//    selected:function(){
-	// 	   this.isActive=true;
-	// 	   console.log("!");
-	// 	 }
-	//   }
-	// }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
