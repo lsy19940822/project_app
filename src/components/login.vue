@@ -92,16 +92,20 @@
 		padding-top: 46px;
 	}*/
 	.container .login-bg{
-		height: 200px;
+		float: left;
+		/* height: 200px; */
 	}
 	.container .login-bg img {
 		width: 100%;
 	}
 	.container .login-form{
 		width:90%;
-		margin: 0 auto;
-		position: relative;
-		top: -50px;
+		/* height: 200px; */
+		/* margin: 0 auto; */
+		position: fixed;
+		left: 50%;
+		margin-left: -45%;
+		top: 36%;
 		background: #fff;
 		padding: 15px;
 		box-sizing: border-box;

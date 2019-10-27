@@ -5,7 +5,7 @@
 				<p class="header-right"><img src="../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>
-		<div class="container">
+		<div class="containerIndex">
 			<div class="login-bg">
 				<img src="../assets/login-bg.png">
 			</div>
@@ -13,7 +13,7 @@
 				<li><img src="../assets/images/index_icon/icon_jd@2x.png" alt=""><p>智能进度</p></li>
 				<li><img src="../assets/images/index_icon/icon_lw@2x.png" alt=""><p>智能劳务</p></li>
 				<li><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li>
-				<li><img src="../assets/images/index_icon/icon_exam@2x.png" alt=""><p>考核测试</p></li>
+				<li @click="$router.push({path:'/login'})"><img src="../assets/images/index_icon/icon_exam@2x.png" alt=""><p>考核测试</p></li>
 				<li><img src="../assets/images/index_icon/icon_dw@2x.png" alt=""><p>人机定位</p></li>
 				<li><img src="../assets/images/index_icon/icon_jk@2x.png" alt=""><p>智能监控</p></li>
 				<li><img src="../assets/images/index_icon/icon_hj@2x.png" alt=""><p>环境监控</p></li>
@@ -92,7 +92,7 @@
 								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
 							</div>
 							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">32%</span style="color:#AAAAAA;font-size:18px;"><span>/36%</span>
+								<span style="color:#69966F;font-size: 26px;">32%</span><span style="color:#AAAAAA;font-size:18px;">/36%</span>
 							    <span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
@@ -108,7 +108,7 @@
 								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
 							</div>
 							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">32%</span style="color:#AAAAAA;font-size:18px;"><span>/36%</span>
+								<span style="color:#69966F;font-size: 26px;">32%</span><span  style="color:#AAAAAA;font-size:18px;">/36%</span>
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
@@ -127,7 +127,7 @@
 								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
 							</div>
 							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#E19B52;font-size: 26px;">32%</span style="color:#AAAAAA;font-size:18px;"><span>/36%</span>
+								<span style="color:#E19B52;font-size: 26px;">32%</span><span  style="color:#AAAAAA;font-size:18px;">/36%</span>
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
@@ -143,7 +143,7 @@
 								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
 							</div>
 							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#C86565;font-size: 26px;">32%</span style="color:#AAAAAA;font-size:18px;"><span>/36%</span>
+								<span style="color:#C86565;font-size: 26px;">32%</span><span  style="color:#AAAAAA;font-size:18px;">/36%</span>
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
@@ -162,7 +162,7 @@
 								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
 							</div>
 							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">32%</span style="color:#AAAAAA;font-size:18px;"><span>/36%</span>
+								<span style="color:#69966F;font-size: 26px;">32%</span><span style="color:#AAAAAA;font-size:18px;">/36%</span>
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
@@ -178,7 +178,7 @@
 								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
 							</div>
 							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">32%</span style="color:#AAAAAA;font-size:18px;"><span>/36%</span>
+								<span style="color:#69966F;font-size: 26px;">32%</span><span  style="color:#AAAAAA;font-size:18px;">/36%</span>
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
@@ -197,7 +197,7 @@
 								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
 							</div>
 							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">32%</span style="color:#AAAAAA;font-size:18px;"><span>/36%</span>
+								<span style="color:#69966F;font-size: 26px;">32%</span><span style="color:#AAAAAA;font-size:18px;">/36%</span>
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
@@ -211,8 +211,8 @@
 				<p class="van-hairline--bottom exam-title"><img src="../assets/images/index_icon/icon_aq@2x(1).png" alt="">安全质量</p>
 			    <ul class="container_nav" style="padding: 24px 0;">
 					 <li class="container_nav_aq">
-						   <p>待解决<img src="../assets/images/index_icon/icon_zy@2x.png" alt=""></p> 
-						   <p>32个</p>
+						   <p style="position: relative;">待解决<img src="../assets/images/index_icon/icon_zy@2x.png" alt="" width="16px" style="position: absolute;top:4px;right: 12px;"></p> 
+						   <p style="color: #C86565;">32个</p>
 					 </li>
 					 <li class="container_nav_shu"></li>
 					 <li class="container_nav_aq">
@@ -227,14 +227,147 @@
 				</ul>
 				
 			</div>
+			<!-- 智能劳务 -->
+			<div class="container_list">
+				<p class="van-hairline--bottom exam-title"><img src="../assets/images/index_icon/icon_lw@2x.png" alt="">智能劳务</p>
+			  
+				<div class="container_nav">
+					
+					 <div class="navLists">
+						<p style="font-size:13px;margin: 0;">
+							 <span><img src="../assets/images/index_icon/icon_zcq@2x.png" alt="" width="11px"></span>
+							 <span style="color:rgba(102,102,102,1);">总出勤职工</span>
+							 <span style="float: right;">
+								 <span>32,234人</span>
+								 <span style="color:rgba(64,69,94,1);">/38,762人</span>
+							 </span>
+						</p>
+						 <p  style="margin-bottom: 0;">
+							 <van-progress color="#6A94B9" :percentage="56" stroke-width="6" />
+						 </p>
+					 </div>
+				</div>
+				<div class="container_nav" style="padding: 16px 8px;">
+					<div class="nav_br">
+						<div class="nav_t">
+							<div class="tir_List">
+								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
+								<span>CYCZQ-1标</span>
+							</div>
+							<div class="tir_List tir_Lists">
+								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
+							</div>
+							
+							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
+								<span style="color:#69966F;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
+							    <span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
+							</div>
+						</div>
+						<div class="nav_t nav_r">
+							<div class="tir_List">
+								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
+								<span>CYCZQ-2标</span>
+							</div>
+							<div class="tir_List tir_Lists">
+								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
+							</div>
+							
+							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
+								<span style="color:#69966F;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
+								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
+							</div>
+						</div>
+						
+					</div>	
+					<div class="nav_br">
+						<div class="nav_t">
+							<div class="tir_List">
+								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
+								<span>CYCZQ-3标</span>
+							</div>
+							<div class="tir_List tir_Lists">
+								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
+							</div>
+							
+							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
+								<span style="color:#69966F;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
+								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
+							</div>
+						</div>
+						<div class="nav_t nav_r">
+							<div class="tir_List">
+								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
+								<span>CYCZQ-4标</span>
+							</div>
+							<div class="tir_List tir_Lists">
+								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
+							</div>
+							
+							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
+								<span style="color:#E19B52;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
+								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
+							</div>
+						</div>
+						
+					</div>
+					<div class="nav_br">
+						<div class="nav_t">
+							<div class="tir_List">
+								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
+								<span>CYCZQ-5标1</span>
+							</div>
+							<div class="tir_List tir_Lists">
+								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
+							</div>
+							
+							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
+								<span style="color:#69966F;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
+								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
+							</div>
+						</div>
+						<div class="nav_t nav_r">
+							<div class="tir_List">
+								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
+								<span>CYCZQ-5标2</span>
+							</div>
+							<div class="tir_List tir_Lists">
+								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
+							</div>
+							
+							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
+								<span style="color:#C86565;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
+								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
+							</div>
+						</div>
+						
+					</div>
+					<div class="nav_br">
+						<div class="nav_t">
+							<div class="tir_List">
+								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
+								<span>CYCZQ-6标</span>
+							</div>
+							<div class="tir_List tir_Lists">
+								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
+							</div>
+							
+							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
+								<span style="color:#69966F;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
+								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		
+		<index-footer></index-footer>
 		
 	</div>
 </template>
 
 <script>
 	import vantHeader from '@/components/header.vue'
+	import indexFooter from '@/components/indexFooter.vue'
 	import Vue from 'vue';
 	import { Grid, GridItem } from 'vant';
 	
@@ -245,6 +378,7 @@
 	export default {
 		components: {
 			vantHeader,
+			indexFooter
 			// examFooter
 		},
 		data() {
@@ -268,6 +402,7 @@
 
 <style>
 	/* p{} */
+
 	.container_nav_aq{
 		width: 33%;
 		height: auto;
@@ -320,8 +455,9 @@
 		line-height: 5px;
 		color:#fff;
 	}
-	.container {
+	.containerIndex {
 		padding-top: 46px;
+		    margin-bottom: 60px;
 	}
 	.nav_br{
 		height:auto;
@@ -338,7 +474,7 @@
 		overflow: hidden;
 		float: left;
 	}
-	.container .login-bg img {
+	.containerIndex .login-bg img {
 		width: 100%;
 		float: left;
 	}
