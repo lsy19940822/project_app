@@ -67,7 +67,7 @@
 	import examFooter from '@/components/onlineExamFooter.vue'
 	import { formatDate, formatTime, Popup} from '@/utils/common.js'
 	import * as ajax from '@/utils/api'
-	import { Toast, Button, Dialog,Popup } from 'vant';
+	import { Toast, Button, Dialog } from 'vant';
 	export default {
 		components: {
 			[Button.name]: Button,
