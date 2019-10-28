@@ -64,7 +64,7 @@
 					</div>
 				</li>
 			</ul>
-			<ul class="user_ul overflow">
+			<ul class="user_ul overflow" style="margin-bottom: 59px;">
 				<li class="overflow">
 					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (3).png" alt="" width="18px">
