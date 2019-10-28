@@ -15,6 +15,11 @@ const router = new Router({
 	    component:resolve => require(["../views/index.vue"], resolve),
 	},
 	{
+		path:'/study',
+		name:'study',
+		component: resolve => require(['../views/study.vue'], resolve)
+	},
+	{
 	  	path: '/login',
 		name:'login',
 	  	component: resolve => require(['../components/login.vue'], resolve),
@@ -28,6 +33,11 @@ const router = new Router({
 	  path:"/onlineExamFooter",
 	  name:'onlineExamFooter',
 	  component:resolve => require(["../components/onlineExamFooter.vue"], resolve),
+	},
+	{
+	  path:"/studyFooter",
+	  name:'studyFooter',
+	  component:resolve => require(["../components/studyFooter.vue"], resolve),
 	},
 	{
 		path:'/gradeIssue',
@@ -63,6 +73,22 @@ const router = new Router({
 		path:'/staff_safeQualityList',
 		name:'staff_safeQualityList',
 		component: resolve => require(['../views/staff/staff_safeQualityList.vue'], resolve)
+	},
+	{
+		path:'/staffUser',
+		name:'staffUser',
+		component: resolve => require(['../views/staff/staffUser.vue'], resolve)
+	},
+	{
+		path:'/leadershipUser',
+		name:'leadershipUser',
+		component: resolve => require(['../views/leader/leadershipUser.vue'], resolve)
+	},
+	{
+		path:'/studyrecord',
+		name:'studyrecord',
+		component: resolve => require(['../views/staff/studyrecord.vue'], resolve)
+		
 	}
   ]
 })

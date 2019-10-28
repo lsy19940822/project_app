@@ -11,6 +11,18 @@ export default {
 </script>
 
 <style>
+	.van-dropdown .van-dropdown-menu__item:first-child {
+	    border-right: 1px solid #ccc;
+	    margin-right: 10px;
+	}
+	.van-dropdown .van-ellipsis{
+		width: 80px;
+	}
+	.van-dropdown .van-dropdown-menu__item {
+	    border: 1px solid #CCC;
+	    border-radius: 2px;
+	    background: #F9F9F9;
+	}
 	#leadershipUser .header{
 		background:linear-gradient(121deg,rgba(33,40,65,1) 0%,rgba(29,43,95,1) 100%) !important;
 	}

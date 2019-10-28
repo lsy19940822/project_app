@@ -18,7 +18,7 @@
 				</van-cell>
 			</div>
 			<ul class="user_ul overflow">
-				<li class="overflow">
+				<li class="overflow" @click="$router.push({path:'/studyrecord'})">
 					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (5).png" alt="" width="18px">
 					</div>
@@ -29,7 +29,7 @@
 					</div>
 				</li>
 			</ul>
-			<ul class="user_ul overflow">
+			<ul class="user_ul overflow" @click="$router.push({path:'/examrecord'})">
 				<li class="overflow" >
 					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (9).png" alt="" width="18px">
@@ -42,7 +42,7 @@
 				</li>
 			</ul>
 			<ul class="user_ul overflow">
-				<li class="overflow">
+				<li class="overflow" @click="$router.push({path:'/staff_safeQualityList'})">
 					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (8).png" alt="" width="18px">
 						</div>
@@ -88,13 +88,13 @@
 			</ul>
 			
 		</div>
-		<index-footer></index-footer>
+		<study-footer></study-footer>
 	</div>
 </template>
 
 <script>
 	import vantHeader from '@/components/header.vue'
-	import indexFooter from '@/components/indexFooter.vue'
+	import studyFooter from '@/components/studyFooter.vue'
 	import Vue from 'vue';
 	import { Cell} from 'vant';
 	
@@ -102,7 +102,7 @@
 	export default {
 		components: {
 			vantHeader,
-			indexFooter
+			studyFooter
 		},
 		data() {
 			return {

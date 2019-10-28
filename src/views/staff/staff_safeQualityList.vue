@@ -2,8 +2,11 @@
 	<div class="container">
 		<!--header-->
 		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType='2' >
-			<div slot='right_slot' style="top: 10px;">
+			<!-- <div slot='right_slot' style="top: 10px;">
 				<p class="header-right notice-box"><img src="../../assets/images/safeQuality/icon_notice.png"></p>
+			</div> -->
+			<div slot='right_slot'>
+				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>
 
@@ -57,12 +60,13 @@
 			</van-tabs>
 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
 		</div>
-
+        <study-footer></study-footer>
 	</div>
 </template>
 
 <script>
 	import vantHeader from '@/components/header.vue'
+	import studyFooter from '@/components/studyFooter.vue'
 	import Vue from 'vue';
 	import { Row, Col, Loading, Tab, Tabs  } from 'vant';
 	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs);
@@ -75,13 +79,19 @@
 			}
 		},
 		components:{
-			vantHeader
+			vantHeader,
+			studyFooter
 		}
 	}
 </script>
 
 <style scoped>
 *{margin:0;}
+.header-right {
+		line-height: 5px;
+		color:#fff;
+		margin: 14px 0;
+	}
 img{display: block;width:100%;height:auto}
 /deep/ .van-tabs__line{background-color: #9499AA;width:50% !important;}
 .color666{color:#666;}
