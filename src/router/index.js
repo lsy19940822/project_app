@@ -55,14 +55,14 @@ const router = new Router({
 		component: resolve => require(['../views/exam/examrecord.vue'], resolve)
 	},
 	{
-		path:'/leadershipUser',
-		name:'leadershipUser',
-		component: resolve => require(['../views/leader/leadershipUser.vue'], resolve)
+		path:'/leader_safeQualityList',
+		name:'leader_safeQualityList',
+		component: resolve => require(['../views/leader/leader_safeQualityList.vue'], resolve)
 	},
 	{
-		path:'/staffUser',
-		name:'staffUser',
-		component: resolve => require(['../views/staff/staffUser.vue'], resolve)
+		path:'/staff_safeQualityList',
+		name:'staff_safeQualityList',
+		component: resolve => require(['../views/staff/staff_safeQualityList.vue'], resolve)
 	}
   ]
 })
