@@ -13,7 +13,7 @@
 				</van-dropdown-menu>
 			</div>
 			<ul class="container_list overflow">
-				<li>
+				<li @click="$router.push({path:'/studyCenter'})">
 					<div class="left_img"><img src="" alt=""></div>
 					<ul class="right_title overflow">
 						<li>火灾自动报警系统设计规范</li>
@@ -26,7 +26,7 @@
 						</li>
 					</ul>
 				</li>
-				<li>
+				<li  @click="$router.push({path:'/studyCenterS'})">
 					<div class="left_img"><img src="" alt=""></div>
 					<ul class="right_title overflow">
 						<li>给排水工程造价</li>
@@ -39,7 +39,7 @@
 						</li>
 					</ul>
 				</li>
-				<li>
+				<li @click="$router.push({path:'/studyCenter'})">
 					<div class="left_img"><img src="" alt=""></div>
 					<ul class="right_title overflow">
 						<li>火灾自动报警系统设计规范</li>
@@ -52,7 +52,7 @@
 						</li>
 					</ul>
 				</li>
-				<li>
+				<li  @click="$router.push({path:'/studyCenterS'})">
 					<div class="left_img"><img src="" alt=""></div>
 					<ul class="right_title overflow">
 						<li>给排水工程造价</li>

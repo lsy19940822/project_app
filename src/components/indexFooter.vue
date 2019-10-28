@@ -1,7 +1,7 @@
 <template>
 	<div class="exam-footer">
 		<van-tabbar v-model="active" route>
-		  <van-tabbar-item replace to="/index">
+		  <van-tabbar-item to="/index">
 		    <span>首页</span>
 		    <img
 		      slot="icon"
@@ -17,7 +17,7 @@
 			    :src="searchprops.active ? icon[1].active : icon[1].normal"
 			  >
 		  </van-tabbar-item>
-		  <van-tabbar-item>
+		  <van-tabbar-item to="/leaderNew"  info="1">
 			  <span>消息</span>
 			  <img
 			    slot="icon"
@@ -25,7 +25,7 @@
 			    :src="settingoprops.active ? icon[2].active : icon[2].normal"
 			  >
 		  </van-tabbar-item>
-		  <van-tabbar-item replace to="/leadershipUser">
+		  <van-tabbar-item to="/leadershipUser">
 			  <span>我的</span>
 			  <img
 			    slot="icon"

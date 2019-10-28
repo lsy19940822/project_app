@@ -48,7 +48,7 @@
 										<span class="colorAAA">2019-09-26</span>
 									</van-col>
 									<van-col span="8" align="right">
-										<span class="colorC86565">待解决</span>
+										<span class="colorC86565">已解决</span>
 									</van-col>
 								</van-row>
 							</div>

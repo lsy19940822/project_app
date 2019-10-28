@@ -2,8 +2,11 @@
 	<div class="container">
 		<!--header-->
 		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType='2' >
-			<div slot='right_slot' style="top: 10px;">
+			<!-- <div slot='right_slot' style="top: 10px;">
 				<p class="header-right notice-box"><img src="../../assets/images/safeQuality/icon_notice.png"></p>
+			</div> -->
+			<div slot='right_slot'>
+				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>
 
@@ -132,6 +135,11 @@
 
 <style scoped>
 *{margin:0;}
+.header-right {
+		line-height: 5px;
+		color:#fff;
+		margin: 14px 0;
+	}
 img{display: block;width:100%;height:auto}
 .color666{color:#666;}
 .omit {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}

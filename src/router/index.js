@@ -98,6 +98,26 @@ const router = new Router({
 		path:'/leader_resolved',
 		name:'leader_resolved',
 		component: resolve => require(['../views/leader/leader_resolved.vue'], resolve)
+	},
+	{
+		path:'/studyCenter',
+		name:'studyCenter',
+		component: resolve => require(['../views/staff/studyCenter.vue'], resolve)
+	},
+	{
+		path:'/studyCenterS',
+		name:'studyCenterS',
+		component: resolve => require(['../views/staff/studyCenterS.vue'], resolve)
+	},
+	{
+		path:'/leaderNew',
+		name:'leaderNew',
+		component: resolve => require(['../views/leader/leaderNew.vue'], resolve)
+	},
+	{
+		path:'/staffNew',
+		name:'staffNew',
+		component: resolve => require(['../views/staff/staffNew.vue'], resolve)
 	}
   ]
 })

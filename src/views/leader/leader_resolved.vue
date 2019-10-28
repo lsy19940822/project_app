@@ -218,6 +218,6 @@ img{display: block;width:100%;height:auto}
 .clear-btn .van-icon{top:2px;right:4px;}
 .s-history{padding:0 14px;}
 .s-historyList li{float:left;}
-.h-tag{color:#333;padding:8px 12px;background:#fff;border:1px solid #DDD;font-size:14px;margin-right:10px;}
+.h-tag{    margin-bottom: 10px;color:#333;padding:8px 12px;background:#fff;border:1px solid #DDD;font-size:14px;margin-right:10px;}
 .search-wrap{position: fixed;top: 0;right: 0;bottom: 0;left: 0;z-index: 111;background: #fff;}
 </style>

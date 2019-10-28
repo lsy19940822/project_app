@@ -17,7 +17,7 @@
 			    :src="searchprops.active ? icon[1].active : icon[1].normal"
 			  >
 		  </van-tabbar-item>
-		  <van-tabbar-item>
+		  <van-tabbar-item to="/staffNew" info="1">
 			  <span>消息</span>
 			  <img
 			    slot="icon"

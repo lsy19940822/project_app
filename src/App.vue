@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style>
+	.van-tabbar-item .van-info{
+		margin-top:8px !important;
+	}
 	.van-dropdown .van-dropdown-menu__item:first-child {
 	    border-right: 1px solid #ccc;
 	    margin-right: 10px;
