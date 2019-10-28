@@ -77,12 +77,16 @@
 		height: auto;
 		overflow: hidden;
 		background: #fff;
+		box-shadow:0px 1px 2px 0px rgba(0,0,0,0.16);
 	}
 	.container_list li{
 		/* padding: 10px 16px; */
 		height: auto;
 		overflow: hidden;
 		border-bottom: 1px solid #EEEEEE;
+	}
+	.container_list li:last-child{
+		border-bottom: none;
 	}
 	.container_list li .van-icon{
 		margin-top: 15px;
