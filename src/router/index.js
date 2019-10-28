@@ -48,6 +48,11 @@ const router = new Router({
 		path:'/questionDetail',
 		name:'questionDetail',
 		component: resolve => require(['../views/exam/questionDetail.vue'], resolve)
+	},
+	{
+		path:'/examrecord',
+		name:'examrecord',
+		component: resolve => require(['../views/exam/examrecord.vue'], resolve)
 	}
   ]
 })

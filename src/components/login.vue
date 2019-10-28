@@ -1,9 +1,13 @@
 <template>
   <div  id="login">
-	  <index-header :leftArrow="false" class="header" :titleType="1" title="中铁信息化平台"></index-header>
+	  <index-header :leftArrow="false" class="header" :titleType="1" title="常益长铁路工程管理平台"></index-header>
 	  <div class="container">
 	  		<div class="login-bg">
-	  			<img src="../assets/login-bg.png">
+	  			<van-swipe :autoplay="3000">
+	  			  <van-swipe-item v-for="(image, index) in images" :key="index">
+	  				  <img src="../assets/images/index_icon/icon_img@2x(1).png" class="back_img">
+	  			  </van-swipe-item>
+	  			</van-swipe>
 	  		</div>
 	  		<div class="login-form">
 	  			<p class="login-form-title">登录考试系统</p>
@@ -23,7 +27,7 @@
 	  					<p> 3.考试期间需放在指定区域的禁止携带物品：处于关闭状态下的手机、相机或任何其他电子产品、字典、笔记本、修正液/修正带等、纸张、书包、手提包、行李箱。</p>
 	  					<p> 4.考场内不得相互借用文具。严禁在考场内饮食。</p>
 	  			</div>
-	  			<van-button type="primary" :class="{on:end}" @click="goNext()"  style="width: 100%;">请仔细阅读（{{time}}s…）后继续</van-button>
+	  			<van-button :type="primary" :color="color" :disabled="disabled" :class="{on:end}" @click="goNext()"  style="width: 100%;">请仔细阅读（{{time}}s…）后继续</van-button>
 	  		</div>
 	  	</van-popup>
 	  </div>
@@ -34,7 +38,8 @@
 	import indexHeader from './header.vue'; //首页-左侧组件
 	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
-	
+	import { Swipe, SwipeItem } from 'vant';
+	Vue.use(Swipe).use(SwipeItem);
 	import { Toast, Button, Field, CellGroup, Popup } from 'vant';
 	Vue.use(Toast).use(Button).use(Field).use(Popup).use(CellGroup);
 	export default {
@@ -46,7 +51,15 @@
 				IDCard: '111111111111111111',
 				showTips: false,
 				time: 6,
-				end: false
+				end: false,
+				primary:"default",//primary
+				disabled:true,
+				color:"#ddd",
+				images: [
+					'https://img.yzcdn.cn/vant/apple-1.jpg',
+					'https://img.yzcdn.cn/vant/apple-2.jpg',
+					'https://img.yzcdn.cn/vant/apple-2.jpg'
+				  ]
 			}
 		},
 		methods: {
@@ -65,6 +78,9 @@
 								this.end = true
 								this.time = 0
 								clearInterval(timer);
+								this.primary="primary";
+								this.disabled=false;
+								this.color='#07c160'
 							}
 						}, 1000);
 					} else {
@@ -92,11 +108,15 @@
 		padding-top: 46px;
 	}*/
 	.container .login-bg{
-		float: left;
-		/* height: 200px; */
-	}
-	.container .login-bg img {
 		width: 100%;
+		height:auto;
+		overflow: hidden;
+		float: left;
+	}
+	.container .login-bg img.back_img {
+		width: 100%;
+		float: left;
+		/* position: relative; */
 	}
 	.container .login-form{
 		width:90%;

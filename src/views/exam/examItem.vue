@@ -521,7 +521,7 @@
 		line-height: 16px;
 		font-size: 12px;
 		float: left;
-		margin: 4px 0 0 0;
+		margin: 8px 0 0 0;
 	}
 	
 	.active .chooseIndex {

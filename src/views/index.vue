@@ -6,9 +6,13 @@
 			</div>
 		</vant-header>
 		<div class="containerIndex">
+			
 			<div class="login-bg">
-				<img src="../assets/images/index_icon/icon_img@2x(1).png" class="back_img">
-				<img src="../assets/images/index_icon/icon_img2@2x.png" class="icon_img">
+				<van-swipe :autoplay="3000">
+				  <van-swipe-item v-for="(image, index) in images" :key="index">
+					  <img src="../assets/images/index_icon/icon_img@2x(1).png" class="back_img">
+				  </van-swipe-item>
+				</van-swipe>
 			</div>
 			<ul class="navList">
 				<li><img src="../assets/images/index_icon/icon_jd@2x.png" alt=""><p>智能进度</p></li>
@@ -370,6 +374,8 @@
 	import vantHeader from '@/components/header.vue'
 	import indexFooter from '@/components/indexFooter.vue'
 	import Vue from 'vue';
+	import { Swipe, SwipeItem } from 'vant';
+	Vue.use(Swipe).use(SwipeItem);
 	import { Grid, GridItem } from 'vant';
 	
 	import { Progress } from 'vant';
@@ -384,7 +390,12 @@
 		},
 		data() {
 			return {
-				questionText:"中铁信息化平台"
+				questionText:"常益长铁路工程管理平台",
+				images: [
+					'https://img.yzcdn.cn/vant/apple-1.jpg',
+					'https://img.yzcdn.cn/vant/apple-2.jpg',
+					'https://img.yzcdn.cn/vant/apple-2.jpg'
+				  ]
 			}
 		},
 		created() {
@@ -401,7 +412,7 @@
 	}
 </script>
 
-<style  scoped>
+<style scoped>
 	/* p{} */
 
 	.container_nav_aq{
@@ -485,7 +496,7 @@
 		/* width: 100%; */
 		float: left;
 		position: absolute;
-		top:14%;
+		top:22%;
 		left: 50%;
 		margin-left: -136px;
 	}
