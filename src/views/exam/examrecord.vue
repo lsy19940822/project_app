@@ -64,7 +64,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.header-right {
 		line-height: 5px;
 		color:#fff;

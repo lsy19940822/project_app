@@ -11,6 +11,20 @@ export default {
 </script>
 
 <style>
+	#leadershipUser .header{
+		background:linear-gradient(121deg,rgba(33,40,65,1) 0%,rgba(29,43,95,1) 100%) !important;
+	}
+	
+	#staffUser .header{
+		background:linear-gradient(121deg,rgba(33,40,65,1) 0%,rgba(29,43,95,1) 100%) !important;
+	}
+	.exam-footer .van-tabbar-item__icon{
+		margin-bottom: 2px;
+	}
+	.overflow{
+		height: auto;
+		overflow: hidden;
+	}
 	.navLists .van-progress__pivot{
 		display: none;
 	}
