@@ -1,40 +1,47 @@
 <template>
-	<!--在线考试底部-->
 	<div class="exam-footer">
-		<van-row>
-			<van-col span="6">
-				<div class="icon-box">
-					<!-- <van-icon name="newspaper-o" /> -->
-					<img src="../assets/images/index_icon/home@2x.png" alt="">
-					<p class="f-text active">首页</p>
-				</div>
-			</van-col>
-			<van-col span="6">
-				<div class="icon-box">
-					<img src="../assets/images/index_icon/icon_gn@2x.png" alt="">
-					<p class="f-text">功能</p>
-					<!-- <van-icon name="underway-o"/> -->
-					<!-- <van-count-down millisecond :time="time" format="HH:mm:ss" /> -->
-				</div>
-			</van-col>
-			<van-col span="6">
-				<div class="icon-box">
-					<van-icon name="comment-o" color="#AAAAAA" style="padding:5px 0 2px;font-size: 26px;"/>
-					<p class="f-text" style="margin: -5px 0 0 0;">信息</p>
-				</div>
-			</van-col>
-			<van-col span="6">
-				<div class="icon-box">
-					<img src="../assets/images/index_icon/ueser@2x.png" alt="">
-					<p class="f-text">我的</p>
-				</div>
-			</van-col>
-		</van-row>
+		<van-tabbar v-model="active" route>
+		  <van-tabbar-item replace to="/index">
+		    <span>首页</span>
+		    <img
+		      slot="icon"
+		      slot-scope="iconprops"
+		      :src="iconprops.active ? icon[0].active : icon[0].normal"
+		    >
+		  </van-tabbar-item>
+		  <van-tabbar-item>
+			  <span>功能</span>
+			  <img
+			    slot="icon"
+			    slot-scope="searchprops"
+			    :src="searchprops.active ? icon[1].active : icon[1].normal"
+			  >
+		  </van-tabbar-item>
+		  <van-tabbar-item>
+			  <span>消息</span>
+			  <img
+			    slot="icon"
+			    slot-scope="settingoprops"
+			    :src="settingoprops.active ? icon[2].active : icon[2].normal"
+			  >
+		  </van-tabbar-item>
+		  <van-tabbar-item replace to="/leadershipUser">
+			  <span>我的</span>
+			  <img
+			    slot="icon"
+			    slot-scope="userprops"
+			    :src="userprops.active ? icon[3].active : icon[3].normal"
+			  >
+		  </van-tabbar-item>
+		</van-tabbar>
 	</div>
 </template>
 
 <script>
 	import { Row, Col, Icon, CountDown } from 'vant';
+	import Vue from 'vue';
+	import { Tabbar, TabbarItem } from 'vant';
+	Vue.use(Tabbar).use(TabbarItem);
 	export default {
 		components: {
 			[Row.name]: Row,
@@ -44,13 +51,30 @@
 		},
 		data() {
 			return {
-                time:60*60*60*12.5
+                active: 0,
+				icon: [{
+						normal: require('../assets/images/index_icon/home_y@2x.png'),
+						active: require('../assets/images/index_icon/home@2x.png')
+					},
+					{
+						normal: require('../assets/images/index_icon/icon_gn@2x.png'),
+						active: require('../assets/images/index_icon/icon_gn_y@2x.png')
+					},
+					{
+						normal: require('../assets/images/index_icon/icon_x-h@2x (2).png'),
+						active: require('../assets/images/index_icon/icon_x-h@2x (1).png')
+					},
+					{
+						normal: require('../assets/images/index_icon/ueser@2x.png'),
+						active: require('../assets/images/index_icon/user2@2x.png')
+					}]
 			}
 		}
 	}
 </script>
 
 <style scoped>
+	
 	.active{
 		color: #5A8CD4 !important;
 	}
