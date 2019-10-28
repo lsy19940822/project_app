@@ -53,6 +53,16 @@ const router = new Router({
 		path:'/examrecord',
 		name:'examrecord',
 		component: resolve => require(['../views/exam/examrecord.vue'], resolve)
+	},
+	{
+		path:'/leader_safeQualityList',
+		name:'leader_safeQualityList',
+		component: resolve => require(['../views/leader/leader_safeQualityList.vue'], resolve)
+	},
+	{
+		path:'/staff_safeQualityList',
+		name:'staff_safeQualityList',
+		component: resolve => require(['../views/staff/staff_safeQualityList.vue'], resolve)
 	}
   ]
 })
