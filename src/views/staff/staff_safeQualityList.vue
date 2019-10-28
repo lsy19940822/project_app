@@ -59,6 +59,7 @@
 			  </van-tab>
 			</van-tabs>
 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
+			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div>
 		</div>
         <study-footer></study-footer>
 	</div>
@@ -99,7 +100,7 @@ img{display: block;width:100%;height:auto}
 .omit2{display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;}
 .marginT12{margin-top:12px;}
 .container{padding-top:46px;}
-.notice-box{width:20px;height:20px;}
+/*.notice-box{width:20px;height:20px;}*/
 /*ontent list*/
 .list-content{background:#fff;}
 .list-content{margin-top:10px;}
@@ -119,7 +120,8 @@ img{display: block;width:100%;height:auto}
 .colorC86565{color:#C86565}/*退回问题*/
 .color5268E1{color:#5268E1;}/*待审核*/
 .color53904D{color:#53904D;}/*待复核*/
-.spinner{text-align:center;font-size:12px;padding:15px 0;}
+/*loading*/
+.spinner{text-align:center;font-size:14px;padding:15px 0;color:#969799;}
 /**/
 .small-headPhoto{width:20px;height:20px;float: left;margin-right:5px;}
 </style>

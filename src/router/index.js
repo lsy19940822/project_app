@@ -69,7 +69,7 @@ const router = new Router({
 		name:'leader_safeQualityList',
 		component: resolve => require(['../views/leader/leader_safeQualityList.vue'], resolve)
 	},
-	{
+	{//领导二级页面
 		path:'/staff_safeQualityList',
 		name:'staff_safeQualityList',
 		component: resolve => require(['../views/staff/staff_safeQualityList.vue'], resolve)
@@ -88,7 +88,16 @@ const router = new Router({
 		path:'/studyrecord',
 		name:'studyrecord',
 		component: resolve => require(['../views/staff/studyrecord.vue'], resolve)
-		
+	},
+	{//领导二级页面-安全问题
+		path:'/leader_safeIssue',
+		name:'leader_safeIssue',
+		component: resolve => require(['../views/leader/leader_safeIssue.vue'], resolve)
+	},
+	{
+		path:'/leader_resolved',
+		name:'leader_resolved',
+		component: resolve => require(['../views/leader/leader_resolved.vue'], resolve)
 	}
   ]
 })

@@ -2,50 +2,11 @@
 	<div class="container">
 		<!--header-->
 		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType='2' >
-			<!-- <div slot='right_slot' style="top: 10px;">
+			<div slot='right_slot' style="top: 10px;">
 				<p class="header-right notice-box"><img src="../../assets/images/safeQuality/icon_notice.png"></p>
-			</div> -->
-			<div slot='right_slot'>
-				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>
-		<!--安全质量nav-->
-		<div class="l-navBox">
-			<van-row>
-				<van-col span="6">
-					<div class="img-box">
-						<img src="../../assets/images/safeQuality/icon_issue.png" />
-					</div>
-					<div class="text">问题发起</div>
-				</van-col>
-				
-				<van-col span="6">
-					<router-link to='/leader_safeIssue'>
-						<div class="img-box">
-							<img src="../../assets/images/safeQuality/icon_safe.png" />
-						</div>
-						<div class="text">安全问题</div>
-					</router-link>
-					
-				</van-col>
-				
-				<van-col span="6">
-					<div class="img-box">
-						<img src="../../assets/images/safeQuality/icon_quality.png" />
-					</div>
-					<div class="text">质量问题</div>
-				</van-col>
-				
-				<van-col span="6">
-					<router-link to='/leader_resolved'>
-						<div class="img-box">
-							<img src="../../assets/images/safeQuality/icon_solve.png" />
-						</div>
-						<div class="text">已解决</div>
-					</router-link>
-				</van-col>
-			</van-row>
-		</div>
+
 		<!--content list-->
 		<div class="list-content">
 			<div class="l-dropdown">
@@ -142,7 +103,7 @@
 	export default {
 		data(){
 			return{
-				questionText:'安全质量',
+				questionText:'安全问题',
 				value1: 0,
 			     value2: 'a',
 			     option1: [
@@ -170,11 +131,6 @@
 </script>
 
 <style scoped>
-	.header-right {
-			line-height: 5px;
-			color:#fff;
-			margin: 14px 0;
-		}
 *{margin:0;}
 img{display: block;width:100%;height:auto}
 .color666{color:#666;}
@@ -190,12 +146,7 @@ overflow: hidden;
 .van-dropdown-menu{width:90%;margin:0 auto;}
 /deep/ .van-dropdown-menu .van-dropdown-menu__item:first-child {border-right:1px solid #ccc;margin-right:10px;}
 /deep/ .van-dropdown-menu .van-dropdown-menu__item{border:1px solid #CCC;border-radius: 2px;background:#F9F9F9;}
-/*安全质量nav*/
-.notice-box{width:20px;height:20px;}
-.l-navBox{padding:20px 0;background:#fff;}
-.img-box{width:26px;height:26px;margin:0 auto;}
-.img-box,.text{color:#333;text-align:center;}
-.text{margin-top:10px;}
+/*.notice-box{width:20px;height:20px;}*/
 /*ontent list*/
 .list-content{background:#fff;}
 .l-dropdown{padding:10px 0;background:#fff;border-bottom:1px solid #ECECEC;}
