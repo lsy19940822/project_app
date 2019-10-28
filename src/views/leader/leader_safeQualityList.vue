@@ -173,8 +173,9 @@ overflow: hidden;
 }
 .marginT12{margin-top:12px;}
 .container{padding-top:46px;}
-.van-dropdown-menu{width:90%;margin:0 auto;border:1px solid #CCC;background:#F9F9F9;border-radius: 2px;}
-/deep/ .van-dropdown-menu .van-dropdown-menu__item:first-child {border-right:1px solid #ccc;}
+.van-dropdown-menu{width:90%;margin:0 auto;}
+/deep/ .van-dropdown-menu .van-dropdown-menu__item:first-child {border-right:1px solid #ccc;margin-right:10px;}
+/deep/ .van-dropdown-menu .van-dropdown-menu__item{border:1px solid #CCC;border-radius: 2px;background:#F9F9F9;}
 /*安全质量nav*/
 .notice-box{width:20px;height:20px;}
 .l-navBox{padding:20px 0;background:#fff;}
@@ -183,8 +184,8 @@ overflow: hidden;
 .text{margin-top:10px;}
 /*ontent list*/
 .list-content{background:#fff;}
-.l-dropdown{padding:10px 0;background:#fff;}
-.l-dropdown{}
+.l-dropdown{padding:10px 0;background:#fff;border-bottom:1px solid #ECECEC;}
+
 .list-content{margin-top:10px;}
 .l-list{padding:0 14px;}
 .l-list li{border-bottom:1px solid #eee;}
