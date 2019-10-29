@@ -2,9 +2,6 @@
 	<div class="container">
 		<!--header-->
 		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType='2' >
-			<!-- <div slot='right_slot' style="top: 10px;">
-				<p class="header-right notice-box"><img src="../../assets/images/safeQuality/icon_notice.png"></p>
-			</div> -->
 			<div slot='right_slot'>
 				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
@@ -13,10 +10,12 @@
 		<div class="l-navBox">
 			<van-row>
 				<van-col span="6">
-					<div class="img-box">
-						<img src="../../assets/images/safeQuality/icon_issue.png" />
-					</div>
-					<div class="text">问题发起</div>
+					<router-link to='/leader_poseProblem'>
+						<div class="img-box">
+							<img src="../../assets/images/safeQuality/icon_issue.png" />
+						</div>
+						<div class="text">问题发起</div>
+					</router-link>
 				</van-col>
 				
 				<van-col span="6">
