@@ -18,6 +18,27 @@ export default {
 	    border-right: 1px solid #ccc;
 	    margin-right: 10px;
 	}
+	.Intelligence-dropdown .van-dropdown-menu__item:first-child {
+		margin-left: 0 !important;
+	}
+	.Intelligence-dropdown .van-dropdown-menu__item:first-child .van-ellipsis{
+			width:auto;
+	}
+	.Intelligence-dropdown .van-dropdown-menu__item{
+		/* width: 32%; */
+		float: left;
+		border: 1px solid #CCC;
+		border-radius: 2px;
+		background: #F9F9F9;
+		margin-left: 2%;
+	}
+	.Intelligence-dropdown .van-dropdown-menu__title{
+		padding: 0;
+		padding-right:12px;
+	}
+	.Intelligence-dropdown .van-ellipsis{
+		width: 60px;
+	}
 	.van-dropdown .van-ellipsis{
 		width: 80px;
 	}

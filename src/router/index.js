@@ -124,6 +124,12 @@ const router = new Router({
 		path:'/staffNew',
 		name:'staffNew',
 		component: resolve => require(['../views/staff/staffNew.vue'], resolve)
+	},
+	{
+		path:'/Intelligence',
+		name:'Intelligence',
+		component: resolve => require(['../views/leader/Intelligence.vue'], resolve)
+		
 	}
   ]
 })
