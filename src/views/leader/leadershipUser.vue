@@ -1,7 +1,7 @@
 <template>
 	<div id="leadershipUser">
 		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType="2" >
-			<div slot='right_slot'>
+			<div slot='right_slot' @click="$router.push({path:'/leaderNew'})">
 				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>
@@ -55,19 +55,9 @@
 					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (3).png" alt="" width="18px">
 					</div>
-					<div class="user_t">
-						<van-cell is-link>
-						    <span>修改资料</span>
-						</van-cell>
-					</div>
-				</li>
-				<li class="overflow">
-					<div class="icon_user">
-						<img src="../../assets/images/user_icon/icon_user@2x (7).png" alt="" width="18px">
-					</div>
 					<div class="user_t" style="border-bottom:none">
 						<van-cell is-link>
-						    <span>关于我们</span>
+						    <span>修改资料</span>
 						</van-cell>
 					</div>
 				</li>

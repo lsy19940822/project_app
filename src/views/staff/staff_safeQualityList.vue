@@ -5,7 +5,7 @@
 			<!-- <div slot='right_slot' style="top: 10px;">
 				<p class="header-right notice-box"><img src="../../assets/images/safeQuality/icon_notice.png"></p>
 			</div> -->
-			<div slot='right_slot'>
+			<div slot='right_slot' @click="$router.push({path:'/staffNew'})">
 				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>

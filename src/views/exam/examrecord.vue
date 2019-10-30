@@ -1,42 +1,26 @@
 <template>
 	<div id="examrecord">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			<div slot='right_slot'>
+			<div slot='right_slot'  @click="$router.push({path:'/staffNew'})">
 				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>
 		<div class="container">
 			<ul class="container_list">
-				<li>
+				<li v-for='(item,index) in examRecord' v-if="index<10">
 					<van-cell is-link >
 						<div class="container_l">
-							<span class='container_span_first'>98</span>
-							<span class='container_span_seound'>分</span>
-							<span class='container_span_three'>2019电工上岗测试</span>
+							<span class='container_span_first' v-if="item.ISQUALIFIED == 1?2:1" :style="{'color':(item.ISQUALIFIED == 1?'#69966F':'#C36363')}">{{item.EXAMINATIONSCORES}}</span>
+							<span class='container_span_seound' v-if="item.ISQUALIFIED == 1?2:1" :style="{'color':(item.ISQUALIFIED == 1?'#69966F':'#C36363')}">分</span>
+							<span class='container_span_firsts'  v-if="item.ISQUALIFIED == 1?2:1" :style="{'color':(item.ISQUALIFIED == 1?'#69966F':'#C36363'),'border':(item.ISQUALIFIED == 1?'1px solid #69966F':'1px solid #C36363')}">{{item.ISQUALIFIED == 1?'合格':'未合格'}}</span>
 						</div>
 						
-						<div class="container_l">
-							<span class='container_span_firsts' >合格</span>
-							<span class='container_span_seounds' style="">考试时间：2019-09-27 20:22:32</span>
+						<div class="container_r">
+							
+							<span class='container_span_three'>{{item.EXAMINATIONBATCH}}</span>
+							
+							<span class='container_span_seounds' style="">考试时间：{{item.EXAMINATIONDATE}}</span>
 						</div>
-						
-						
-					</van-cell>
-				</li>
-				<li>
-					<van-cell is-link >
-						<div class="container_l">
-							<span class='container_span_first' style="color: #C36363;">98</span>
-							<span class='container_span_seound' style="color: #C36363;">分</span>
-							<span class='container_span_three'>2019电工上岗测试</span>
-						</div>
-						
-						<div class="container_l">
-							<span class='container_span_firsts' style="color: #C36363;border: 1px solid #C36363;">未合格</span>
-							<span class='container_span_seounds' style="">考试时间：2019-09-27 20:22:32</span>
-						</div>
-						
-						
 					</van-cell>
 				</li>
 			</ul>
@@ -47,6 +31,7 @@
 
 <script>
 	import vantHeader from '@/components/header.vue'
+	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
 	import { Cell} from 'vant';
 	
@@ -58,8 +43,29 @@
 		},
 		data() {
 			return {
-				questionText:"考试记录"
+				questionText:"考试记录",
+				examRecord:[],
+				examRecordTime:[],
 			}
+		},
+		mounted() {
+			this.examrecord()
+		},
+		created() {
+			
+		},
+		methods: {
+			examrecord(){
+				ajax.get('TestRecords?IDCard='+localStorage.getItem('IDCard')).then(res => {
+					if(res.data.result) {
+						this.examRecord=res.data.data;
+						for(let k in this.examRecord) {
+						    this.examRecord[k].EXAMINATIONDATE=this.examRecord[k].EXAMINATIONDATE.replace("T", " ");
+						}		
+					}
+				})
+			},
+			
 		}
 	}
 </script>
@@ -68,6 +74,18 @@
 	.header-right {
 		line-height: 5px;
 		color:#fff;
+	}
+	.container_l{
+		width:20%;
+		float:left;
+	}
+	.container_r{
+		width:78%;
+		float:right;
+	}
+	.container_r span{
+		display: block;
+		width: 100%;
 	}
 	.container{
 		padding-top: 46px;
@@ -100,7 +118,7 @@
 		color:#69966F;font-size:12px;
 	}
 	.container_span_three{
-		color:#333;font-size:17px;margin-left: 20px;
+		color:#333;font-size:17px;
 	}
 	.container_span_firsts{
 		width: 42px;
@@ -109,6 +127,6 @@
 		 color:#69966F;
 	}
 	.container_span_seounds{
-		color:#aaa;font-size:12px;margin-left: 16px;
+		color:#aaa;font-size:12px;
 	}
 </style>

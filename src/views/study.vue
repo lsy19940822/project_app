@@ -14,7 +14,7 @@
 			</div>
 			<ul class="container_list overflow">
 				<li @click="$router.push({path:'/studyCenter'})">
-					<div class="left_img"><img src="" alt=""></div>
+					<div class="left_img"><img src="../assets/images/safeQuality/img_study@2x.png" alt="" width="100%"></div>
 					<ul class="right_title overflow">
 						<li>火灾自动报警系统设计规范</li>
 						<li>建筑规范</li>
@@ -27,59 +27,7 @@
 					</ul>
 				</li>
 				<li  @click="$router.push({path:'/studyCenterS'})">
-					<div class="left_img"><img src="" alt=""></div>
-					<ul class="right_title overflow">
-						<li>给排水工程造价</li>
-						<li style="border:1px solid rgba(112,153,208,1);color: #7099D0;">视频课程</li>
-						<li>
-							<van-cell is-link >
-								<span>2019-10-17 22:22:22</span>
-								<span>开始学习</span>
-							</van-cell>
-						</li>
-					</ul>
-				</li>
-				<li @click="$router.push({path:'/studyCenter'})">
-					<div class="left_img"><img src="" alt=""></div>
-					<ul class="right_title overflow">
-						<li>火灾自动报警系统设计规范</li>
-						<li>建筑规范</li>
-						<li>
-							<van-cell is-link >
-								<span>2019-10-17 22:22:22</span>
-								<span>开始学习</span>
-							</van-cell>
-						</li>
-					</ul>
-				</li>
-				<li  @click="$router.push({path:'/studyCenterS'})">
-					<div class="left_img"><img src="" alt=""></div>
-					<ul class="right_title overflow">
-						<li>给排水工程造价</li>
-						<li style="border:1px solid rgba(112,153,208,1);color: #7099D0;">视频课程</li>
-						<li>
-							<van-cell is-link >
-								<span>2019-10-17 22:22:22</span>
-								<span>开始学习</span>
-							</van-cell>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<div class="left_img"><img src="" alt=""></div>
-					<ul class="right_title overflow">
-						<li>火灾自动报警系统设计规范</li>
-						<li>建筑规范</li>
-						<li>
-							<van-cell is-link >
-								<span>2019-10-17 22:22:22</span>
-								<span>开始学习</span>
-							</van-cell>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<div class="left_img"><img src="" alt=""></div>
+					<div class="left_img"><img src="../assets/images/safeQuality/img_studys@2x.png" alt="" width="100%"></div>
 					<ul class="right_title overflow">
 						<li>给排水工程造价</li>
 						<li style="border:1px solid rgba(112,153,208,1);color: #7099D0;">视频课程</li>

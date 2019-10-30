@@ -17,7 +17,8 @@ const router = new Router({
 	{
 		path:'/study',
 		name:'study',
-		component: resolve => require(['../views/study.vue'], resolve)
+		component: resolve => require(['../views/study.vue'], resolve),
+		// redirect: '/study',//默认选中
 	},
 	{
 	  	path: '/login',
@@ -87,7 +88,7 @@ const router = new Router({
 	{
 		path:'/studyrecord',
 		name:'studyrecord',
-		component: resolve => require(['../views/staff/studyrecord.vue'], resolve)
+		component: resolve => require(['../views/staff/studyrecord.vue'], resolve),
 	},
 	{//领导二级页面-安全问题
 		path:'/leader_safeIssue',

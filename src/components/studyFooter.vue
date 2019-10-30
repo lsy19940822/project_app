@@ -1,5 +1,6 @@
 <template>
 	<div class="exam-footer">
+		<!-- <router-view class='content-box'></router-view> -->
 		<van-tabbar v-model="active" route>
 		  <van-tabbar-item replace to="/study">
 		    <span>学习</span>
@@ -53,12 +54,12 @@
 			return {
                 active: 0,
 				icon: [{
-						normal: require('../assets/images/index_icon/home_y@2x.png'),
-						active: require('../assets/images/index_icon/home@2x.png')
+						normal: require('../assets/images/safeQuality/icon_study@2x (3).png'),
+						active: require('../assets/images/safeQuality/icon_study@2x (4).png')
 					},
 					{
-						normal: require('../assets/images/index_icon/icon_gn@2x.png'),
-						active: require('../assets/images/index_icon/icon_gn_y@2x.png')
+						normal: require('../assets/images/safeQuality/icon_study@2x (1).png'),
+						active: require('../assets/images/safeQuality/icon_study@2x (2).png')
 					},
 					{
 						normal: require('../assets/images/index_icon/icon_x-h@2x (2).png'),

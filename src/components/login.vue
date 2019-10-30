@@ -5,7 +5,7 @@
 	  		<div class="login-bg">
 	  			<van-swipe :autoplay="3000">
 	  			  <van-swipe-item v-for="(image, index) in images" :key="index">
-	  				  <img src="../assets/images/index_icon/icon_img@2x(1).png" class="back_img">
+	  				  <img :src="image.PHOTOURL" class="back_img">
 	  			  </van-swipe-item>
 	  			</van-swipe>
 	  		</div>
@@ -55,14 +55,21 @@
 				primary:"default",//primary
 				disabled:true,
 				color:"#ddd",
-				images: [
-					'https://img.yzcdn.cn/vant/apple-1.jpg',
-					'https://img.yzcdn.cn/vant/apple-2.jpg',
-					'https://img.yzcdn.cn/vant/apple-2.jpg'
-				  ]
+				images: []
 			}
 		},
+		created() {
+			this.bannerImg()
+		},
 		methods: {
+			bannerImg(){
+				ajax.get('Banner').then(res => {
+					if(res.data.result) {
+						console.log(res)
+						this.images=res.data.data;
+					}
+				})
+			},
 			login() {
 				ajax.get('Login?IDCard=' + this.IDCard).then(res => {
 					console.log(res.data)

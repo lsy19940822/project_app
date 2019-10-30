@@ -1,7 +1,7 @@
 <template>
 	<div class="studyrecord">
 		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType="2">
-			<div slot='right_slot'>
+			<div slot='right_slot' @click="$router.push({path:'/staffNew'})">
 				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>
@@ -14,7 +14,7 @@
 			</div>
 			<ul class="container_list overflow">
 				<li>
-					<div class="left_img"><img src="" alt=""></div>
+					<div class="left_img"><img src="../../assets/images/safeQuality/img_study@2x.png" alt="" width="100%"></div>
 					<ul class="right_title overflow">
 						<li>火灾自动报警系统设计规范</li>
 						<li>建筑规范</li>
@@ -27,7 +27,7 @@
 					</ul>
 				</li>
 				<li>
-					<div class="left_img"><img src="" alt=""></div>
+					<div class="left_img"><img src="../../assets/images/safeQuality/img_studys@2x.png" alt="" width="100%"></div>
 					<ul class="right_title overflow">
 						<li>给排水工程造价</li>
 						<li style="border:1px solid rgba(112,153,208,1);color: #7099D0;">视频课程</li>
@@ -43,7 +43,7 @@
 			</ul>
 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
 		</div>
-		<study-footer></study-footer>
+		<study-footer class='studyrecordFooter' v-model="active"></study-footer>
 	</div>
 	
 </template>
@@ -77,6 +77,7 @@
 					{ text: '建筑规范2', value: 'c' },
 			    ],
 				isLoading:true,
+				active:3
 			}
 		},
 		created() {
