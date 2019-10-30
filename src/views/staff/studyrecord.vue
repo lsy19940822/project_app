@@ -1,4 +1,4 @@
-<template>
+ <template>
 	<div class="studyrecord">
 		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType="2">
 			<div slot='right_slot' @click="$router.push({path:'/staffNew'})">
@@ -23,7 +23,7 @@
 								<span>2019-10-17 22:22:22</span>
 								<span>已学习</span>
 							</van-cell>
-						</li>
+						</li>   
 					</ul>
 				</li>
 				<li>

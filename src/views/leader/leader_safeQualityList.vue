@@ -13,10 +13,12 @@
 		<div class="l-navBox">
 			<van-row>
 				<van-col span="6">
-					<div class="img-box">
-						<img src="../../assets/images/safeQuality/icon_issue.png" />
-					</div>
-					<div class="text">问题发起</div>
+					<router-link to='/leader_poseProblem'>
+						<div class="img-box">
+							<img src="../../assets/images/safeQuality/icon_issue.png" />
+						</div>
+						<div class="text">问题发起</div>
+					</router-link>
 				</van-col>
 				
 				<van-col span="6">

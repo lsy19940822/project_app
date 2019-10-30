@@ -17,7 +17,6 @@ module.exports = {
 		host:'192.168.0.111',
 		 // host:'172.20.10.2',
 		 // host:'192.168.0.110',
-		 // host:'192.168.1.213',
 		// host: "192.168.0.108",
 		// host: '192.168.31.10', // can be overwritten by process.env.HOST
 		port: 8282, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
