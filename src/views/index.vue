@@ -1,23 +1,28 @@
 <template>
 	<div id="index">
 		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType="2">
-			<div slot='right_slot'>
+			<div slot='right_slot' @click="$router.push({path:'/leaderNew'})">
 				<p class="header-right"><img src="../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>
 		<div class="containerIndex">
+			
 			<div class="login-bg">
-				<img src="../assets/login-bg.png">
+				<van-swipe :autoplay="3000">
+				  <van-swipe-item v-for="(image, index) in images" :key="index">
+					  <img :src="image.PHOTOURL" class="back_img">
+				  </van-swipe-item>
+				</van-swipe>
 			</div>
 			<ul class="navList">
 				<li><img src="../assets/images/index_icon/icon_jd@2x.png" alt=""><p>智能进度</p></li>
-				<li><img src="../assets/images/index_icon/icon_lw@2x.png" alt=""><p>智能劳务</p></li>
-				<li><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li>
+				<li @click="$router.push({path:'/Intelligence'})"><img src="../assets/images/index_icon/icon_lw@2x.png" alt=""><p>智能劳务</p></li>
+				<li @click="$router.push({path:'/leader_safeQualityList'})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li>
 				<li @click="$router.push({path:'/login'})"><img src="../assets/images/index_icon/icon_exam@2x.png" alt=""><p>考核测试</p></li>
 				<li><img src="../assets/images/index_icon/icon_dw@2x.png" alt=""><p>人机定位</p></li>
 				<li><img src="../assets/images/index_icon/icon_jk@2x.png" alt=""><p>智能监控</p></li>
-				<li><img src="../assets/images/index_icon/icon_hj@2x.png" alt=""><p>环境监控</p></li>
-				<li><img src="../assets/images/index_icon/icon_more@2x.png" alt=""><p>更多</p></li>
+				<li @click="tost()"><img src="../assets/images/index_icon/icon_hj@2x.png" alt=""><p>环境监控</p></li>
+				<li @click="tost()"><img src="../assets/images/index_icon/icon_more@2x.png" alt=""><p>更多</p></li>
 			</ul>
 			<div class="container_list">
 				<p class="van-hairline--bottom exam-title"><img src="../assets/images/index_icon/icon_jd@2x.png" alt="">智能进度</p>
@@ -60,7 +65,7 @@
 								
 							 </span>
 						</p>
-						 <p>
+						<p>
 							 <van-progress color="#DCAA4F" :percentage="63" stroke-width="6" />
 						 </p>
 					 </div>
@@ -368,13 +373,10 @@
 <script>
 	import vantHeader from '@/components/header.vue'
 	import indexFooter from '@/components/indexFooter.vue'
+	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
-	import { Grid, GridItem } from 'vant';
-	
-	import { Progress } from 'vant';
-	
-	Vue.use(Progress);
-	Vue.use(Grid).use(GridItem);
+	import { Swipe, SwipeItem,Toast,Grid, GridItem,Progress } from 'vant';
+	Vue.use(Grid).use(GridItem).use(Progress).use(Swipe).use(SwipeItem).use(Toast)
 	export default {
 		components: {
 			vantHeader,
@@ -383,24 +385,34 @@
 		},
 		data() {
 			return {
-				questionText:"中铁信息化平台"
+				questionText:"常益长铁路工程管理平台",
+				images: []
 			}
 		},
 		created() {
-			
+			this.bannerImg()
 		},
 		mounted() {
 			
 		},
 		
 		methods: {
-			
-			
+			bannerImg(){
+				ajax.get('Banner').then(res => {
+					if(res.data.result) {
+						console.log(res)
+						this.images=res.data.data;
+					}
+				})
+			},
+			tost(){
+				Toast('敬请期待！');
+			}
 		}
 	}
 </script>
 
-<style>
+<style scoped>
 	/* p{} */
 
 	.container_nav_aq{
@@ -474,9 +486,19 @@
 		overflow: hidden;
 		float: left;
 	}
-	.containerIndex .login-bg img {
+	.containerIndex .login-bg img.back_img {
 		width: 100%;
 		float: left;
+		position: relative;
+	}
+	.containerIndex .login-bg img.icon_img {
+		height: 60px;
+		/* width: 100%; */
+		float: left;
+		position: absolute;
+		top:22%;
+		left: 50%;
+		margin-left: -136px;
 	}
 	.navList {
 		padding: 17px 15px 0;

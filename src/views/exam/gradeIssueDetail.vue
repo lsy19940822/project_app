@@ -26,8 +26,8 @@
 			<ul class="answer-list">
 				<li v-for="(item,index) in total">
 
-					<div :class="classArr[index]" class="answer-button">
-						<div @click="everyQuesitionDetail(index+1)" >{{index+1}}</div>
+					<div :class="classArr[index]" class="answer-button" :index="index">
+						<div @click="everyQuesitionDetail(index)" :index="index">{{index+1}}</div>
 					</div>
 
 
@@ -139,7 +139,7 @@
 .answer-button div{
 	width: 38px;
 	height: 38px;
-	background: #ccc;
+	/* background: #ccc; */
 	border-radius: 4px;
 	    line-height: 38px;
 	    color: #fff;

@@ -461,9 +461,7 @@
 		width: 100%;
 		height: auto;
 		overflow: hidden;
-		/* height: 46px; */
-		/* line-height: 30px; */
-		padding: 5px 10px;
+		padding:10px;
 		color: #666666;
 		margin-bottom: 10px;
 		background: #F6F6F6;
@@ -521,7 +519,7 @@
 		line-height: 16px;
 		font-size: 12px;
 		float: left;
-		margin: 4px 0 0 0;
+		margin: 2px 0 0 0;
 	}
 	
 	.active .chooseIndex {

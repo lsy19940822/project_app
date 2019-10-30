@@ -6,9 +6,13 @@
 			</div>
 		</vant-header>
 		<div class="question-container" v-if="questionCurrent.TMLX  == '单选'">
-			<p class="van-hairline--bottom exam-title">单选题</p>
-			<div>
-				<p>{{current+1}}.{{questionList[current].TIGAN }}</p>
+			<p class="van-hairline--bottom exam-title">
+				<span style="float: left;">单选题</span>
+				
+				<span :style="{'color':(questionList[this.current].ZQDA == allAnswers[this.current]?'#7AB182':'#C36363')}" style="float: right;" v-if="questionList[this.current].ZQDA == allAnswers[this.current]?allAnswers[this.current]:questionList[this.current].ZQDA">{{questionList[this.current].ZQDA == allAnswers[this.current]?"回答正确":"回答错误"}}</span>
+			</p>
+			<div class="question-container-ul" >
+				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
 					<li v-for="(item,index) in answerList" :class="classArr[index]">
 						<span class="chooseIndex">{{index+1 |chooseIndex}}</span><span>{{item}}</span>
@@ -17,11 +21,15 @@
 			</div>
 		</div>
 		<div class="question-container" v-if="questionCurrent.TMLX  == '多选'">
-			<p class="van-hairline--bottom exam-title">多选题</p>
-			<div>
+			<p class="van-hairline--bottom exam-title">
+				<span style="float: left;">多选题</span>
+				
+				<span :style="{'color':(questionList[this.current].ZQDA == allAnswers[this.current]?'#7AB182':'#C36363')}" style="float: right;" v-if="questionList[this.current].ZQDA == allAnswers[this.current]?allAnswers[this.current]:questionList[this.current].ZQDA">{{questionList[this.current].ZQDA == allAnswers[this.current]?"回答正确":"回答错误"}}</span>
+			</p>
+			<div  class="question-container-ul" >
 				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
-					<li v-for="(item,index) in answerList" @click="choose(index,2)">
+					<li v-for="(item,index) in answerList" :class="classArr[index]" @click="choose(index,2)">
 						<span class="chooseIndex">{{index+1 | chooseIndex}}</span><span>{{item}}</span>
 					</li>
 				</ul>
@@ -32,7 +40,7 @@
 			<div>
 				<p>{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
-					<li v-for="(item,index) in answerList" @click="choose(index,3)">
+					<li v-for="(item,index) in answerList" :class="classArr[index]" @click="choose(index,3)">
 						<span class="chooseIndex">{{index+1 | chooseIndex}}</span>{{item}}
 					</li>
 				</ul>
@@ -40,9 +48,9 @@
 		</div>
 		<div class="question-container">
 			<p class="van-hairline--bottom exam-title">问题解析</p>
-			<div>
+			<div class="question-container-ul" >
 				<div class="right-answer">正确答案： {{windsurf}}</div>
-				<div class="question-text">建筑工程是社会发展的重要体现,所以必须加强对建筑工程中施工技术的重视程度.在实际施工的过程中认真分析每项施工技术,并针对该技术容易出现的问题进行分析,并根据具体的施工要求采取相应的解决措施.施工人员是施工技术的主要实施者,同时也是施工技术问题的解决者。</div>
+				<!-- <div class="question-text">建筑工程是社会发展的重要体现,所以必须加强对建筑工程中施工技术的重视程度.在实际施工的过程中认真分析每项施工技术,并针对该技术容易出现的问题进行分析,并根据具体的施工要求采取相应的解决措施.施工人员是施工技术的主要实施者,同时也是施工技术问题的解决者。</div> -->
 			</div>
 		</div>
 		<div class="question-btn">
@@ -71,7 +79,7 @@
 				nextNone: false,
 				preNone: true,
 				classArr: [],
-				current: -1,
+				current: 0,
 				questionText: '',
 				questionCurrent: {},
 				answerList: [],
@@ -84,7 +92,7 @@
 			this.localStoreVal();
 			this.questionRender();
 			this.addClassHandle();
-			this.current =this.$route.query.index-1;
+			this.current = parseInt(this.$route.query.index);
 		},
 		watch: {
 			'$route' (to, from) {
@@ -92,61 +100,31 @@
 				this.current
 			},
 			'current': function(newValue, oldValue) {
-				ajax.get('GetPaper?IDcard=' + localStorage.getItem("IDCard")).then(res => {
-					console.log(res)
-					if(res.data.result) {
-						this.questionList = res.data.data
-						this.total = res.data.data.length
-						this.questionCurrent = this.questionList[this.current]
-						this.answerList = []
-						for(let k in this.questionCurrent) {
-							if(k == 'XA' || k == 'XB' || k == 'XC' || k == 'XD') {
-								if(this.questionCurrent[k]) {
-									this.answerList.push(this.questionCurrent[k])
-								}
-							}
+				this.questionCurrent = this.questionList[this.current]
+				this.answerList = []
+				for(let k in this.questionCurrent) {
+					if(k == 'XA' || k == 'XB' || k == 'XC' || k == 'XD') {
+						if(this.questionCurrent[k]) {
+			
+							this.answerList.push(this.questionCurrent[k])
 						}
 					}
-				})
+				}
 			}
 		},
 		methods: {
 			localStoreVal() {
-				ajax.get('GetPaper?IDcard=' + localStorage.getItem("IDCard")).then(res => {
-					console.log(res)
-					if(res.data.result) {
-						this.questionList = res.data.data
-						this.total = res.data.data.length
-						this.questionCurrent = this.questionList[this.current]
-						this.questionText = this.questionCurrent.GZ
-						this.answerList = []
-						for(let k in this.questionCurrent) {
-							if(k == 'XA' || k == 'XB' || k == 'XC' || k == 'XD') {
-								if(this.questionCurrent[k]) {
-									this.answerList.push(this.questionCurrent[k])
-								}
-							}
+				this.total = localStore.get('total');
+				this.questionList = localStore.get('questionList');
+				this.allAnswers = localStore.get('allAnswers');
+				this.questionCurrent = this.questionList[this.current];
+				this.answerList = []
+				for(let k in this.questionCurrent) {
+					if(k == 'XA' || k == 'XB' || k == 'XC' || k == 'XD') {
+						if(this.questionCurrent[k]) {
+							this.answerList.push(this.questionCurrent[k])
 						}
 					}
-				})
-			},
-			pre() {
-				if(this.current > 0) {
-					this.current--
-				} else {
-					this.preNone = true
-					Toast('这是第一题！');
-				}
-			},
-			next() {
-				var _this = this;
-				
-				if(_this.current < _this.total - 1) {
-					_this.current++
-				} else {
-					_this.nextNone = false
-					Toast('已经是最后一题了！');
-			
 				}
 			},
 			questionRender() {
@@ -160,7 +138,6 @@
 					this.windsurf = this.questionList[this.current].ZQDA
 					let index = this.answer(this.questionList[this.current].ZQDA);
 					this.classArr[index] = 'bgRightS'
-					console.log(this.allAnswers)
 					if(this.questionList[this.current].ZQDA === this.allAnswers[this.current]) {
 						this.classArr[index] = 'bgRightS'
 					} else if(this.allAnswers[this.current] != null || this.allAnswers[this.current] != undefined || this.allAnswers[this.current] != '') {
@@ -170,12 +147,28 @@
 					}
 
 				} else if(this.questionType === '多选') {
-					console.log(this.questionList[this.current].ZQDA.split(''));
-					this.windsurf = this.questionList[this.current].ZQDA
-					var answerRightCrrent = this.questionList[this.current].ZQDA.split('');
+					this.windsurf = this.questionList[this.current].ZQDA;
+					
+					let answerRightCrrent = this.questionList[this.current].ZQDA.split('');
+				
 					answerRightCrrent.filter(function(item, index, arr) {
-						this.classArr[this.answer(item)] = 'bgRightS'
-					}, this)
+						console.log(item, index)
+						this.classArr[index] = 'bgRightS'
+					}, this);
+					
+					
+					if(this.questionList[this.current].ZQDA === this.allAnswers[this.current]) {
+						var answerRightCrrent = this.allAnswers[this.current].split('');
+						answerRightCrrent.filter(function(item, index, arr) {
+							this.classArr[this.answer(item)] = 'bgRightS'
+						}, this);
+					}  else if(this.allAnswers[this.current] != null || this.allAnswers[this.current] != undefined || this.allAnswers[this.current] != '') {
+						var answerRightCrrents = this.allAnswers[this.current].split('');
+						answerRightCrrents.filter(function(item, index, arr) {
+							this.classArr[this.answer(item)] = 'bgMistakeS'
+						}, this);
+					}
+					
 				}
 
 			},
@@ -200,8 +193,7 @@
 			},
 			pre() {
 				if(this.current > 0) {
-					this.current -= 1
-
+					this.current--
 					this.$router.push({
 						path: '/questionDetail',
 						query: {
@@ -212,12 +204,15 @@
 					this.questionRender();
 					this.addClassHandle();
 					console.log(1000000)
-				}
+				} else {
+						this.preNone = true
+						Toast('这是第一题！');
+					}
 
 			},
 			next() {
 				if(this.current < this.total-1) {
-					this.current += 1
+					this.current ++
 					this.$router.push({
 						path: '/questionDetail',
 						query: {
@@ -227,6 +222,9 @@
 					this.localStoreVal();
 					this.questionRender();
 					this.addClassHandle();
+				} else {
+					this.nextNone = false
+					Toast('已经是最后一题了！');
 				}
 
 			}
@@ -235,6 +233,18 @@
 </script>
 
 <style scoped>
+	.question-container-ul{
+		padding: 15px;
+	}
+	.question-container-ul p{
+		margin-top:0;
+	}
+	.question-container p.exam-title{
+		padding:10px 15px ;
+	}
+	.question-container p.exam-title span:last-child{
+		 font-size: 14px;
+	}
 	.container {
 		padding-top: 46px;
 	}
@@ -250,7 +260,7 @@
 	.question-container {
 		margin: 10px 0;
 		background: #fff;
-		padding: 15px;
+		/* padding: 15px; */
 		box-sizing: border-box;
 		box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.16);
 	}
@@ -284,6 +294,7 @@
 	}
 	
 	.question-btn {
+		padding: 0 15px 15px;
 		display: flex;
 		justify-content: space-around;
 	}
@@ -296,6 +307,9 @@
 	.exam-title {
 		padding-bottom: 6px;
 		margin: 0 ;
+		height: auto;
+		overflow: hidden;
+		border-bottom:1px solid rgba(238,238,238,1);
 	}
 	
 	.question-container li.active {
@@ -320,14 +334,15 @@
 		line-height: 16px;
 		font-size: 12px;
 		float: left;
-		margin:4px 0 0 0;
+		margin:8px 0 0 0;
 	}
 	.right-answer {
 		background: #7AB182;
-		line-height: 46px;
+		line-height: 37px;
 		color: #fff;
 		padding: 0 10px;
 		margin-bottom: 7px;
+		border-radius:2px;
 	}
 	
 	.question-text {
