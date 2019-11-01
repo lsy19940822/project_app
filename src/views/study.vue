@@ -1,6 +1,6 @@
 <template>
 	<div class="study">
-		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType="2">
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
 			<div slot='right_slot'  @click="$router.push({path:'/staffNew'})">
 				<p class="header-right"><img src="../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
@@ -40,7 +40,7 @@
 					</ul>
 				</li>
 			</ul>
-			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
+			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
 		<study-footer></study-footer>
 	</div>

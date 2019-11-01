@@ -4,9 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import 'vant/lib/index.css';
-import moment from 'moment'//导入文件 
 
+import moment from 'moment'//导入文件 
  Vue.prototype.$moment = moment;//赋值使用
+ 
+import Echarts from 'echarts'
+Vue.prototype.echarts = Echarts
+Vue.use(Echarts)
 //import Store from './store'
 import * as filters from '@/utils/filters'
 // import moment from '@/utils/moment'

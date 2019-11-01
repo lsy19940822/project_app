@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<!--header-->
-		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType='2' >
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2' >
 			<!-- <div slot='right_slot' style="top: 10px;">
 				<p class="header-right notice-box"><img src="../../assets/images/safeQuality/icon_notice.png"></p>
 			</div> -->
@@ -15,7 +15,7 @@
 			<van-tabs v-model="active">
 			  <van-tab title="待解决">
 				<ul class="l-list">
-					<li>
+					<li @click="$router.push({path:'/problemW'})">
 						<div class="item">
 							<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
 							<div class="explain marginT12">
@@ -58,8 +58,8 @@
 				</ul>
 			  </van-tab>
 			</van-tabs>
-			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div>
+<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
+			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 		</div>
         <study-footer></study-footer>
 	</div>

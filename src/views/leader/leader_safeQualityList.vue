@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<!--header-->
-		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType='2' >
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2' >
 			<!-- <div slot='right_slot' style="top: 10px;">
 				<p class="header-right notice-box"><img src="../../assets/images/safeQuality/icon_notice.png"></p>
 			</div> -->
@@ -129,8 +129,8 @@
 					</div>
 				</li>
 			</ul>
-			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div>
+<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
+			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 		</div>
 
 	</div>

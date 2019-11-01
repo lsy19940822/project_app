@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<vant-header :leftArrow="false" :titleType="1" :title="`成绩发布`" :rightType="2" />
+		<vant-header :leftArrow="true" :titleType="1" :title="`成绩发布`" :rightType="2" />
 		<div class="grade-box">
 			<div class="grade-circle">
 				<van-circle v-model="currentRate" :rate="rate" :clockwise="false" color='#7AB182' size="120px" text="逆时针方向">

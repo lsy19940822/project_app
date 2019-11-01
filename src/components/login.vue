@@ -1,6 +1,6 @@
 <template>
   <div  id="login">
-	  <index-header :leftArrow="false" class="header" :titleType="1" title="常益长铁路工程管理平台"></index-header>
+	  <index-header :leftArrow="true" class="header" :titleType="1" title="常益长铁路工程管理平台"></index-header>
 	  <div class="container">
 	  		<div class="login-bg">
 	  			<van-swipe :autoplay="3000">

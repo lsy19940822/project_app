@@ -1,19 +1,19 @@
 <template>
 	<div id="staffUser">
-		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType="2" >
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2" >
 			<div slot='right_slot' @click="$router.push({path:'/staffNew'})">
 				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>
 		<div class="container overflow">
-			<div class="userHeader overflow">
+			<div class="userHeader overflow" @click="$router.push({path:'/staff_information?IDCard='+IDCard})">
 				<van-cell is-link>
 				<div class="user_header">
 					<img :src="userHeader" alt="">
 				</div>
 				<div class="user_title overflow">
-					<p>孙悟空</p>
-					<p>CYCZQ-1标【电工】</p>
+					<p>{{StaffInfoData[0].EXAMNAME}}</p>
+					<p>{{StaffInfoData[0].BIDSECTION}}</p>
 				</div>
 				</van-cell>
 			</div>
@@ -29,8 +29,8 @@
 					</div>
 				</li>
 			</ul>
-			<ul class="user_ul overflow" @click="$router.push({path:'/examrecord'})">
-				<li class="overflow" >
+			<ul class="user_ul overflow" >
+				<li class="overflow" @click="$router.push({path:'/examrecord?IDCard='+IDCard})">
 					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (9).png" alt="" width="18px">
 					</div>
@@ -65,7 +65,7 @@
 				</li>
 			</ul>
 			<ul class="user_ul overflow" style="margin-bottom: 59px;">
-				<li class="overflow">
+				<li class="overflow" @click="$router.push({path:'/staff_information?IDCard='+IDCard})">
 					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (3).png" alt="" width="18px">
 					</div>
@@ -85,6 +85,7 @@
 <script>
 	import vantHeader from '@/components/header.vue'
 	import studyFooter from '@/components/studyFooter.vue'
+	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
 	import { Cell} from 'vant';
 	
@@ -97,7 +98,24 @@
 		data() {
 			return {
 				questionText:"我的",
-				userHeader:"http://b-ssl.duitang.com/uploads/item/201704/04/20170404153225_EiMHP.jpeg"
+				userHeader:"",
+				StaffInfoData:[]
+			}
+		},
+		created() {
+			this.StaffInfoF()
+		},
+		methods:{
+			StaffInfoF(){
+				let that=this;
+				that.IDCard=that.$route.query.IDCard;
+				ajax.get('StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
+					if(res.data.result) {
+						console.log(res.data)
+						that.StaffInfoData=res.data.data
+						that.userHeader=that.StaffInfoData[0].PHOTOURL=ajax.http+that.StaffInfoData[0].PHOTOURL.slice(2)
+					}
+				})
 			}
 		}
 	}
@@ -120,7 +138,7 @@
 		background: none !important;
 	}
 	.user_header,.user_header img{
-		width:58px;
+		/* width:58px; */
 		height:58px;
 		border-radius:4px;
 		display: block;

@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType='2' >
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2' >
 		</vant-header>
 	</div>
 </template>

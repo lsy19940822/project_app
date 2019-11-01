@@ -122,8 +122,8 @@
 				</ul>
 			  </van-tab>
 			</van-tabs>
-			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div>
+		<!-- 	<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
+			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 		</div>
 
 	</div>

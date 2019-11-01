@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<vant-header :leftArrow="false" :titleType="1" title="考核测试" :rightType="2">
+		<vant-header :leftArrow="true" :titleType="1" title="考核测试" :rightType="2">
       <div slot='right_slot'>
         <p>搜索</p>
       </div>

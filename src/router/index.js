@@ -130,6 +130,69 @@ const router = new Router({
 		name:'Intelligence',
 		component: resolve => require(['../views/leader/Intelligence.vue'], resolve)
 		
+	},
+	{
+		path:'/information',
+		name:'information',
+		component: resolve => require(['../views/leader/information.vue'], resolve)
+		
+	},
+	{//员工我的资料
+		path:'/staff_information',
+		name:'staff_information',
+		component: resolve => require(['../views/staff/staff_information.vue'], resolve)
+		
+	},
+	{//问题详情--未解决
+		path:'/problemW',
+		name:'problemW',
+		component: resolve => require(['../views/staff/problemW.vue'], resolve)
+		
+	},
+	{//超期工程
+		path:'/BeyondThe',
+		name:'BeyondThe',
+		component: resolve => require(['../views/leader/BeyondThe.vue'], resolve)
+	},
+	{//
+		path:'/fillA',
+		name:'fillA',
+		component: resolve => require(['../views/leader/fillA.vue'], resolve)
+	},
+	{//
+		path:'/fillB',
+		name:'fillB',
+		component: resolve => require(['../views/leader/fillB.vue'], resolve)
+	},
+	{//
+		path:'/fillC',
+		name:'fillC',
+		component: resolve => require(['../views/leader/fillC.vue'], resolve)
+	},
+	{//
+		path:'/fillD',
+		name:'fillD',
+		component: resolve => require(['../views/leader/fillD.vue'], resolve)
+	},
+	{//负责人填报
+		path:'/fill',
+		name:'fill',
+		component: resolve => require(['../views/leader/fill.vue'], resolve)
+	},
+	{//填报详情
+		path:'/fillX',
+		name:'fillX',
+		component: resolve => require(['../views/leader/fillX.vue'], resolve)
+	},
+	{//问题动态
+		path:'/dynamic',
+		name:'dynamic',
+		component: resolve => require(['../views/leader/dynamic.vue'], resolve)
+	},
+	{//智能进度
+		path:'/intelligent',
+		name:'intelligent',
+		component: resolve => require(['../views/leader/intelligent.vue'], resolve)
 	}
   ]
 })

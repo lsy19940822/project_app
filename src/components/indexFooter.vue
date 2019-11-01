@@ -81,7 +81,7 @@
 	img {
 		padding:5px 0 2px;
 		width: 22px;
-		height: auto;
+		height: 22px;
 		display: block;
 		margin: 0 auto;
 	}

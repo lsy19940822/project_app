@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<!--header-->
-		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType='2' >
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2' >
 			<div slot='right_slot' style="top: 10px;" @click="searchShowHide">
 				<p class="header-right notice-box"><van-icon name="search" /></p>
 			</div>
@@ -130,8 +130,8 @@
 				</ul>
 			  </van-tab>
 			</van-tabs>
-			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div>
+<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
+			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 		</div>
 
 	</div>
@@ -183,7 +183,7 @@ img{display: block;width:100%;height:auto}
 .omit2{display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;}
 .marginT12{margin-top:12px;}
 .container{padding-top:46px;}
-.van-nav-bar .van-icon {font-size: 24px;color: #fff;}
+.van-nav-bar .van-icon {font-size: 18px;color: #fff;}
 /*.notice-box{width:20px;height:20px;}*/
 /*ontent list*/
 .list-content{background:#fff;}

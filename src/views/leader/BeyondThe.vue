@@ -1,9 +1,9 @@
- <template>
-	<div class="studyrecord">
+<template>
+	<div class="study">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			<div slot='right_slot' @click="$router.push({path:'/staffNew'})">
+			<!-- <div slot='right_slot'  @click="$router.push({path:'/staffNew'})">
 				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div>
+			</div> -->
 		</vant-header>
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
@@ -12,38 +12,24 @@
 				  <van-dropdown-item v-model="value2" :options="option2" />
 				</van-dropdown-menu>
 			</div>
-			<ul class="container_list overflow">
+			<ul class="overflow">
 				<li>
-					<div class="left_img"><img src="../../assets/images/safeQuality/img_study@2x.png" alt="" width="100%"></div>
-					<ul class="right_title overflow">
-						<li>火灾自动报警系统设计规范</li>
-						<li>建筑规范</li>
-						<li>
-							<van-cell is-link >
-								<span>2019-10-17 22:22:22</span>
-								<span>已学习</span>
-							</van-cell>
-						</li>   
-					</ul>
+					<van-cell is-link>
+						<span>528# 梁 - 1号梁</span>
+						<span style="color:#E19B52">超期已完成</span>
+					</van-cell>
+					
 				</li>
 				<li>
-					<div class="left_img"><img src="../../assets/images/safeQuality/img_studys@2x.png" alt="" width="100%"></div>
-					<ul class="right_title overflow">
-						<li>给排水工程造价</li>
-						<li style="border:1px solid rgba(112,153,208,1);color: #7099D0;">视频课程</li>
-						<li>
-							<van-cell is-link >
-								<span>2019-10-17 22:22:22</span>
-								<span>已学习</span>
-							</van-cell>
-						</li>
-					</ul>
+					<van-cell is-link>
+						<span>528# 梁 - 2号梁</span>
+						<span style="color:#C86565">超期未完成</span>
+					</van-cell>
 				</li>
-				
 			</ul>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
-		<study-footer class='studyrecordFooter' v-model="active"></study-footer>
+		<!-- <study-footer></study-footer> -->
 	</div>
 	
 </template>
@@ -63,21 +49,24 @@
 		},
 		data() {
 			return {
-				questionText:"学习课程",
+				questionText:"超期工程",
 				value1: 0,
-			    value2: 'a',
+			    value2: 0,
 				option1: [
-					{ text: '全部课程', value: 0 },
-					{ text: '火灾自动报警系统设计规范', value: 1 },
-					{ text: '给排水工程造价', value: 2 }
+					{ text: 'CYCZQ-1标', value: 0 },
+					{ text: 'CYCZQ-2标', value: 1 },
+					{ text: 'CYCZQ-3标', value: 2 },
+					{ text: 'CYCZQ-4标', value: 3 },
+					{ text: 'CYCZQ-5标1', value: 4 },
+					{ text: 'CYCZQ-5标2', value: 5},
+					{ text: 'CYCZQ-6标', value: 6 }
 				],
 			    option2: [
-					{ text: '全部类型', value: 'a' },
-					{ text: '建筑规范', value: 'b' },
-					{ text: '建筑规范2', value: 'c' },
+					{ text: '全部超期工程', value: 0 },
+					{ text: '全部超期工程1', value: 1 },
+					{ text: '全部超期工程2', value: 2 },
 			    ],
 				isLoading:true,
-				active:3
 			}
 		},
 		created() {
@@ -123,6 +112,16 @@
 	.container_list li{
 		padding: 14px 16px;
 		border-bottom:1px solid #eee;
+	}
+	li{
+		border-bottom: 1px solid #EEEEEE;
+	}
+	li:last-child{
+		border-bottom:none;
+	}
+	li span:last-child{
+		float: right;
+		display: block;
 	}
 	.container_list li .left_img{
 		width:100px;

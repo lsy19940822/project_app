@@ -6,6 +6,7 @@
 			</div>
 		</vant-header>
 		<div class="container">
+			<div v-if='examRecord==""' style="padding: 10px 16px;color: #969799; font-size: 14px;line-height: 24px;text-align: center;background: none;">暂无考试记录</div>
 			<ul class="container_list">
 				<li v-for='(item,index) in examRecord' v-if="index<10">
 					<van-cell is-link >
@@ -46,6 +47,7 @@
 				questionText:"考试记录",
 				examRecord:[],
 				examRecordTime:[],
+				IDCard:""
 			}
 		},
 		mounted() {
@@ -56,12 +58,14 @@
 		},
 		methods: {
 			examrecord(){
-				ajax.get('TestRecords?IDCard='+localStorage.getItem('IDCard')).then(res => {
+				let that=this;
+				that.IDCard=that.$route.query.IDCard;
+				ajax.get('TestRecords?IDCard='+that.$route.query.IDCard).then(res => {
 					if(res.data.result) {
 						this.examRecord=res.data.data;
 						for(let k in this.examRecord) {
 						    this.examRecord[k].EXAMINATIONDATE=this.examRecord[k].EXAMINATIONDATE.replace("T", " ");
-						}		
+						}	
 					}
 				})
 			},

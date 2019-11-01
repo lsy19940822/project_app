@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<vant-header :leftArrow="false" :titleType="1" :title="`试卷详情`" :rightType="2" />
+		<vant-header :leftArrow="true" :titleType="1" :title="`试卷详情`" :rightType="2" />
 
 		<div class="grade-cont">
 			<van-row>

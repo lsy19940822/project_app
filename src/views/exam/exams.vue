@@ -1,6 +1,6 @@
 <template>
   <div id="exam">
-	  <index-header :leftArrow="false" :titleType="1" :title="questionText+`测试`" :rightType="2">
+	  <index-header :leftArrow="true" :titleType="1" :title="questionText+`测试`" :rightType="2">
 		  <div slot='right_slot'>
 		    <p>搜索</p>
 		  </div>
