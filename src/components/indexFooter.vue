@@ -9,7 +9,7 @@
 		      :src="iconprops.active ? icon[0].active : icon[0].normal"
 		    >
 		  </van-tabbar-item>
-		  <van-tabbar-item>
+		  <van-tabbar-item to="/function">
 			  <span>功能</span>
 			  <img
 			    slot="icon"
@@ -81,7 +81,7 @@
 	img {
 		padding:5px 0 2px;
 		width: 22px;
-		height: 22px;
+		height: auto !important;
 		display: block;
 		margin: 0 auto;
 	}

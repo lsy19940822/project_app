@@ -21,6 +21,12 @@ const router = new Router({
 		// redirect: '/study',//默认选中
 	},
 	{
+		path:'/function',
+		name:'function',
+		component: resolve => require(['../views/function.vue'], resolve),
+		// redirect: '/study',//默认选中
+	},
+	{
 	  	path: '/login',
 		name:'login',
 	  	component: resolve => require(['../components/login.vue'], resolve),

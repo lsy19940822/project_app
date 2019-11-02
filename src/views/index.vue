@@ -366,7 +366,6 @@
 			</div>
 		</div>
 		<index-footer></index-footer>
-		
 	</div>
 </template>
 

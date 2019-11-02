@@ -82,7 +82,7 @@
 	img {
 		padding:5px 0 2px;
 		width: 22px;
-		height: 22px;
+		height:auto !important;
 		display: block;
 		margin: 0 auto;
 	}

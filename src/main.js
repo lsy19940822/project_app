@@ -8,9 +8,6 @@ import 'vant/lib/index.css';
 import moment from 'moment'//导入文件 
  Vue.prototype.$moment = moment;//赋值使用
  
-import Echarts from 'echarts'
-Vue.prototype.echarts = Echarts
-Vue.use(Echarts)
 //import Store from './store'
 import * as filters from '@/utils/filters'
 // import moment from '@/utils/moment'
