@@ -29,24 +29,6 @@
 									<span class="colorAAA">2019-09-26  22:22:22</span>
 								</van-col>
 								<van-col span="8" align="right">
-									<span class="colorE19B52">待指派</span>
-								</van-col>
-							</van-row>
-						</div>
-						<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-					</div>
-				</li>
-				
-				<li>
-					<div class="item">
-						<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-						<div class="explain marginT12">
-							<van-row>
-								<van-col span="16">
-									<span class="color7099D0">安全问题</span>
-									<span class="colorAAA">2019-09-26  22:22:22</span>
-								</van-col>
-								<van-col span="8" align="right">
 									<span class="color5082C6">待解决</span>
 								</van-col>
 							</van-row>
