@@ -210,6 +210,11 @@ const router = new Router({
 		path:'/LeaderProblemW',
 		name:'LeaderProblemW',
 		component: resolve => require(['../views/leader/LeaderProblemW.vue'], resolve)
+	},
+	{//智能监控
+		path:'/monitoring',
+		name:'monitoring',
+		component: resolve => require(['../views/leader/monitoring.vue'], resolve)
 	}
   ]
 })
