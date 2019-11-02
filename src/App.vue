@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style>
+	.van-image-preview__index{
+		top: 56px !important;
+	}
 	.van-tabbar-item .van-info{
 		margin-top:8px !important;
 	}

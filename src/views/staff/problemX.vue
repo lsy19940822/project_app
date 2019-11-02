@@ -122,7 +122,7 @@
 			</ul>
 			<ul>
 				<li class='Buttond'  @click='sumtrienButton()'>
-					<van-button color="#7099D0" size="normal" style='width: 100%;'>提交</van-button>
+					<van-button color="#DA9F63" size="normal" style='width: 100%;'>修改</van-button>
 				</li>
 			</ul>
 		</div>
@@ -158,7 +158,13 @@
 				StaffInfoData:[],
 				 fileList: [],
 				IDCard:'',
-				message:''
+				message:`今年以来，根据各地上报数据，全市共,
+				有建设项目326个，其中：市级项目32个，今年以
+				来，根据各地上报数据，全市共有建设项目326个
+				，其中：市级项目32个，六枝特区32个盘今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区32个盘今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，
+				六枝特区32个盘今年以来，根据各地上报数据
+				，全市共有建设项目326个，其中：市级项目32
+				个，六枝特区32个盘。`
 			}
 		},
 		mounted() {

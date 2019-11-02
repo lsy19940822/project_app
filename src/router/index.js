@@ -149,6 +149,12 @@ const router = new Router({
 		component: resolve => require(['../views/staff/problemW.vue'], resolve)
 		
 	},
+	{//问题详情--未解决--修改
+		path:'/problemX',
+		name:'problemX',
+		component: resolve => require(['../views/staff/problemX.vue'], resolve)
+		
+	},
 	{//超期工程
 		path:'/BeyondThe',
 		name:'BeyondThe',
@@ -193,6 +199,11 @@ const router = new Router({
 		path:'/intelligent',
 		name:'intelligent',
 		component: resolve => require(['../views/leader/intelligent.vue'], resolve)
+	},
+	{//领导-安全质量-问题详情-复核
+		path:'/LeaderProblemW',
+		name:'LeaderProblemW',
+		component: resolve => require(['../views/leader/LeaderProblemW.vue'], resolve)
 	}
   ]
 })

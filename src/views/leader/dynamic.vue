@@ -11,7 +11,7 @@
 		</vant-header>
 
 		<!--content list-->
-		<div class="list-content">
+		<div class="list-content" >
 			<van-tabs v-model="active">
 			  <van-tab title="问题动态">
 				<ul class="l-list">
@@ -55,7 +55,31 @@
 			  </van-tab>
 			  <van-tab title="流程图">
 				    <ul class="flowChart overflow">
-						<li></li>
+						<div id='shu3-5'></div>
+						<div id='shu3-6'></div>
+						<div id='shu3-7'></div>
+						<div id='shu3-8'></div>
+						<li class='flowChart—li' style="background:rgba(241,247,242,1);border:1px solid rgba(122,177,130,1)">发起问题</li>
+						<li class='flowChart—s'><span></span></li>
+						<span class='shu3'></span>
+						<span class='shu4'></span>
+						<div class="overflow" style="margin-top: -5px;">
+							<li class='flowChart—li' style="position: relative;background:rgba(112,153,208,1);color: #fff;float: left;">现场负责人<span class='shu3' id='shu3-1'></span></li>
+							<li class='flowChart—li' style="position: relative;float: left;">发起人修改<span class='shu3' id='shu3-2'></span></li>
+						</div>
+						
+					
+						<li class='flowChart—s'><span class='shu2'></span></li>
+						<li class='flowChart—li' style="position: relative;">抄送相关人员<div id='shu3-3'></div></li>
+						<li class='flowChart—s'><span class='shu2'></span></li>
+						<li class='flowChart—li'style="position: relative;">相关人员整改<span class='shu3' id='shu3-4'></span></li>
+						<li class='flowChart—s'><span class='shu2'></span></li>
+						<li class='flowChart—li'style="position: relative;">负责人审批<div  id='shu3-3'></div></li>
+						<li class='flowChart—s'><span class='shu2'></span></li>
+						<li class='flowChart—li' style="position: relative;">发起人复核<div  id='shu3-3' style="width: 100px;top: 62px;left: -35px"></div><span class='shu4'style="top: 22px;right: -68px"></span></li>
+						<li class='flowChart—s'><span class='shu2' style="height: 51px;"></span></li>
+						<li class='flowChart—li'>问题归档</li>
+						
 					</ul>
 			  </van-tab>
 			</van-tabs>
@@ -89,6 +113,83 @@
 
 <style scoped>
 *{margin:0;}
+
+.flowChart span{
+		display: block;
+		position: relative;
+		background: #DDDDDD;
+}
+.flowChart span:after{  
+    content: '';  
+    display: block;  
+    border-top: 4px solid transparent;  
+    border-bottom: 4px solid transparent;   
+    border-left: 4px solid #7FA6DA;  
+    position: absolute;   
+    right: -1px;
+	bottom: -2px;
+	z-index: 10;
+	transform: rotate(90deg);
+}
+#shu3-4{width:18px;height:2px;top: 18px;left: -20px;position: absolute;}
+#shu3-1{width:18px;height:2px;top: 18px;left: -20px;position: absolute;}
+#shu3-3{width:18px;height:2px;top: 18px;left: -20px;background: #DDDDDD;position: absolute;}
+#shu3-5{width: 2px;height: 69px;top: 109px;left: 11px;background: #DDDDDD;position: absolute;}
+#shu3-6{width: 2px;height: 69px;top: 243px;left: 11px;background: #DDDDDD;position: absolute;}
+#shu3-7{width: 2px;height: 358px;top: 64px;left: 0px;background: #DDDDDD;position: absolute;}
+#shu3-8{width: 2px;height: 360px;top: 63px;right: 18%;background: #DDDDDD;position: absolute;}
+#shu3-2{width: 32px;height: 2px;top: 18px;left: -34px;position: absolute;}
+.flowChart span.shu3{width:102px;height:2px;top: -28px;left: -5px;}
+.flowChart span.shu3:after{right: -1px;bottom: -3px;z-index: 10;transform: rotate(0deg);  border-left: 4px solid #DDDDDD;}
+.flowChart span.shu4{width:173px;height:2px;top: -30px;
+   right: -101px;transform: rotate(180deg);}
+.flowChart span.shu4:after{right: -1px;bottom: -3px;z-index: 10;transform: rotate(0deg);  border-left: 4px solid #DDDDDD;}
+.flowChart{
+	margin: 20px;
+	padding-bottom: 20px;
+	position: relative;
+}
+.flowChart li{
+	margin-left: 32px;
+}
+.flowChart li.flowChart—li{
+	width:134px;
+	height:40px;
+	background:rgba(246,246,246,1);
+	border-radius:2px;
+	border:1px solid rgba(238,238,238,1);
+	text-align: center;
+	line-height: 40px;
+}
+.flowChart li.flowChart—s{
+	width:134px;
+	overflow: hidden;
+	height: auto;
+}
+.flowChart li.flowChart—s span.shu2{
+	height:27px;background: #DDDDDD;
+}
+.flowChart li.flowChart—s span.shu2:after{  border-left: 4px solid #DDDDDD;}
+.flowChart li.flowChart—s span{
+	display: block;
+	margin: 0 auto;
+	width:2px;
+	height:51px;
+	background: #7FA6DA;
+	position: relative;   
+}
+.flowChart li.flowChart—s span:after{  
+    content: '';  
+    display: block;  
+    border-top: 4px solid transparent;  
+    border-bottom: 4px solid transparent;   
+    border-left: 4px solid #7FA6DA;  
+    position: absolute;   
+    right: -1px;
+	bottom: -2px;
+	z-index: 10;
+	transform: rotate(90deg);
+}
 .headPhoto{
 	line-height: 20px;
 }
@@ -107,7 +208,7 @@ img{display: block;width:100%;height:auto}
 /*.notice-box{width:20px;height:20px;}*/
 /*ontent list*/
 .list-content{background:#fff;}
-.list-content{margin-top:10px;}
+/* .list-content{margin-top:10px;} */
 .l-list{padding:0 14px;}
 .l-list li{border-bottom:1px solid #eee;}
 .title{font-size:18px;color:#333;line-height:24px;}
