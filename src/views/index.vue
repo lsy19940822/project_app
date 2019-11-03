@@ -19,7 +19,7 @@
 				<li @click="$router.push({path:'/Intelligence'})"><img src="../assets/images/index_icon/icon_lw@2x.png" alt=""><p>智能劳务</p></li>
 				<li @click="$router.push({path:'/leader_safeQualityList'})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li>
 				<li @click="$router.push({path:'/login'})"><img src="../assets/images/index_icon/icon_exam@2x.png" alt=""><p>考核测试</p></li>
-				<li @click="tost()"><img src="../assets/images/index_icon/icon_dw@2x.png" alt=""><p>人机定位</p></li>
+				<li @click="$router.push({path:'/machinePositioning'})"><img src="../assets/images/index_icon/icon_dw@2x.png" alt=""><p>人机定位</p></li>
 				<li @click="$router.push({path:'/monitoring'})"><img src="../assets/images/index_icon/icon_jk@2x.png" alt=""><p>智能监控</p></li>
 				<li @click="tost()"><img src="../assets/images/index_icon/icon_hj@2x.png" alt=""><p>环境监控</p></li>
 				<li @click="tost()"><img src="../assets/images/index_icon/icon_more@2x.png" alt=""><p>更多</p></li>

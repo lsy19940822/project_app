@@ -18,7 +18,7 @@
 						</div>
 						<van-cell>
 						   <ul class="list_ul overflow">
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-1标</span></li>
+							   <li class="overflow" @click="$router.push({path:'/monitoring_list'})"><img src="" alt=""><span>CYCZQ-1标</span></li>
 							   <li class="overflow"><img src="" alt=""><span>CYCZQ-2标</span></li>
 							   <li class="overflow"><img src="" alt=""><span>CYCZQ-3标</span></li>
 							   <li class="overflow"><img src="" alt=""><span>CYCZQ-4标</span></li>
@@ -41,7 +41,7 @@
 						</div>
 						<van-cell>
 						   <ul class="list_ul overflow">
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-1标</span></li>
+							   <li class="overflow" @click="$router.push({path:'/monitoring_list_N'})"><img src="" alt=""><span>CYCZQ-1标</span></li>
 							   <li class="overflow"><img src="" alt=""><span>CYCZQ-2标</span></li>
 							   <li class="overflow"><img src="" alt=""><span>CYCZQ-3标</span></li>
 							   <li class="overflow"><img src="" alt=""><span>CYCZQ-4标</span></li>
@@ -63,7 +63,7 @@
 						</div>
 						<van-cell>
 						   <ul class="list_ul overflow">
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-1标</span></li>
+							   <li class="overflow" @click="$router.push({path:'/monitoring_list_W'})"><img src="" alt=""><span>CYCZQ-1标</span></li>
 							   <li class="overflow"><img src="" alt=""><span>CYCZQ-2标</span></li>
 							   <li class="overflow"><img src="" alt=""><span>CYCZQ-3标</span></li>
 							   <li class="overflow"><img src="" alt=""><span>CYCZQ-4标</span></li>

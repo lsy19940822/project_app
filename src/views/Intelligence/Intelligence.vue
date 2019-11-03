@@ -45,9 +45,9 @@
 			<div class="containers overflow">
 				<div class="container_header overflow">
 					<van-dropdown-menu class='Intelligence-dropdown'>
-					  <van-dropdown-item v-model="value1" :options="option1" class='' @change="change(value1)"/>
-					  <van-dropdown-item v-model="value2" :options="option2" class='' @change="change(value2)"/>
-					  <van-dropdown-item v-model="value3" :options="option3" class='' @change="change(value3)"/>
+					  <van-dropdown-item v-model="value1" :options="option1" class='' @change="change1(value1)"/>
+					  <van-dropdown-item v-model="value2" :options="option2" class='' @change="change2(value2)"/>
+					  <van-dropdown-item v-model="value3" :options="option3" class='' @change="change3(value3)"/>
 					</van-dropdown-menu>
 				</div>
 				<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
@@ -121,35 +121,35 @@
 			    ],
 				option3: [
 					{ text: '全部工种', value: 0},
-					{ text: '木工', value:2 },
-					{ text: '电工',value: 3},
-					{ text: '焊接工', value: 4},
-					{ text: '架子工', value: 5},
-					{ text: '管道工',value: 6},
-					{ text: '司机', value: 7},
-					{ text: '钳工', value: 8},
-					{ text: '项目经理',value: 9},
-					{ text: '常务副经理', value:10},
-					{ text: '党工委书计', value:11},
-					{ text: '总工程师',value: 12},
-					{ text: '安全总监', value: 13},
-					{ text: '工程部长', value: 14},
-					{ text: '中心实验室主任',value:15},
-					{ text: '财务部长',value:16},
-					{ text: '计划部长',value: 17},
-					{ text: '物资部长',value: 18},
-					{ text: '设备部长',value:19},
-					{ text: '安质部长',value: 20},
-					{ text: '测量队长',value: 21},
-					{ text: '综合办公室主任',value:22},
-					{ text: '办公室副主任',value: 23},
-					{ text: '资料员',value:24},
-					{ text: '出纳',value: 25},
-					{ text: '技术主管',value:26},
-					{ text: '会计',value: 27},
-					{ text: '预算员',value:28},
-					{ text: '资料员',value:29},
-					{ text: '技术员',value:30}
+					{ text: '木工', value:1 },
+					{ text: '电工',value: 2},
+					{ text: '焊接工', value: 3},
+					{ text: '架子工', value: 4},
+					{ text: '管道工',value: 5},
+					{ text: '司机', value: 6},
+					{ text: '钳工', value: 7},
+					{ text: '项目经理',value: 8},
+					{ text: '常务副经理', value:9},
+					{ text: '党工委书计', value:10},
+					{ text: '总工程师',value: 11},
+					{ text: '安全总监', value: 12},
+					{ text: '工程部长', value: 13},
+					{ text: '中心实验室主任',value:14},
+					{ text: '财务部长',value:15},
+					{ text: '计划部长',value: 16},
+					{ text: '物资部长',value: 17},
+					{ text: '设备部长',value:18},
+					{ text: '安质部长',value: 19},
+					{ text: '测量队长',value: 20},
+					{ text: '综合办公室主任',value:21},
+					{ text: '办公室副主任',value: 22},
+					{ text: '资料员',value:23},
+					{ text: '出纳',value: 24},
+					{ text: '技术主管',value:25},
+					{ text: '会计',value: 26},
+					{ text: '预算员',value:27},
+					{ text: '资料员',value:28},
+					{ text: '技术员',value:29}
 				],
 				option4: [
 					{ text: '全部工点',value:0}
@@ -170,7 +170,7 @@
 		},
 		mounted() {
 			this.StaffRetrieveList();
-			this.drawLineMothes();
+			// this.drawLineMothes();
 			
 		},
 		computed:{
@@ -181,26 +181,46 @@
 			}
 		},
 		methods: {
-			// chartY(){
-			drawLineMothes(){
-			},
-			// },
-			
-			change(val){
-				this.BD=this.option1[val].text
-				this.GD=this.option2[val].text
+			change1(val){
+				this.Section = this.option1[val].text
 				console.log("当前标段：",this.option1[val].text)
+			},
+			change2(val){
+				this.Unit = this.option2[val].text
 				console.log("当前单位：",this.option2[val].text)
+			},
+			change3(val){
+				this.TypeWork = this.option3[val].text
 				console.log("当前工种：",this.option3[val].text)
-				console.log("当前工点：",this.option4[val].text)
 			},
 			searchButton(){
-				ajax.get('getUserTypeNumber?BD='+this.BD +'&GD='+this.GD).then(res => {
+				console.log("当前标段：",this.Section,"当前单位：",this.Unit,"当前工种：",this.TypeWork)
+				// this.StaffRetrieveList();
+				ajax.get('StaffRetrieve?Section=' + this.Section+'&Unit='+ this.Unit +'&TypeWork='+ this.TypeWork ).then(res => {
+					
 					if(res.data.result) {
-						console.log("1.1.3.获取每个工种类别下的人员数量",res)
-						this.StaffRetrieveList();
+						
+						let NameArr=[]
+						
+						console.log('StaffRetrieve:',res.data.data)
+						for(let k in res.data.data) {
+							if(res.data.data[k].PHOTOURL!=null){
+								res.data.data[k].PHOTOURL=ajax.http+res.data.data[k].PHOTOURL.slice(2)
+							}
+						   NameArr.push(res.data.data[k])
+						}	
+						 this.pySegSort(NameArr)
 					}
 				})
+				
+				
+				
+				// ajax.get('getUserTypeNumber?BD='+this.BD +'&GD='+this.GD).then(res => {
+				// 	if(res.data.result) {
+				// 		console.log("1.1.3.获取每个工种类别下的人员数量",res)
+				// 		// this.StaffRetrieveList();
+				// 	}
+				// })
 			},
 			StaffRetrieveList() {
 				
@@ -210,17 +230,17 @@
 				// 		console.log("全部人员数量",res)
 				// 	}
 				// })
-                ajax.get('getUserWorkPoint').then(res => {
+    //             ajax.get('getUserWorkPoint').then(res => {
 					
-					if(res.data.result) {
-						console.log("1.1.2.获取全部工点名称",res)
-						for(let k in res.data.data) {
-						   this.option4.push({text:res.data.data[k].WORKPOINT,value:Number(k) + Number(1) })
-						   // NameArr.push(res.data.data[k])
-						}	
-						console.log("=======",this.option4)
-					}
-				})
+				// 	if(res.data.result) {
+				// 		console.log("1.1.2.获取全部工点名称",res)
+				// 		for(let k in res.data.data) {
+				// 		   this.option4.push({text:res.data.data[k].WORKPOINT,value:Number(k) + Number(1) })
+				// 		   // NameArr.push(res.data.data[k])
+				// 		}	
+				// 		console.log("=======",this.option4)
+				// 	}
+				// })
 				ajax.get('StaffRetrieve?Section=' + this.Section+'&Unit='+ this.Unit +'&TypeWork='+ this.TypeWork ).then(res => {
 					
 					if(res.data.result) {

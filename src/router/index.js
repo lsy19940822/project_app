@@ -7,46 +7,67 @@ const router = new Router({
 	{
 		path:"/",
 		component:resolve => require(["../components/header.vue"], resolve),
-		redirect: '/index',//默认选中
+		redirect: '/index',//默认选中--首页
 	},
 	{
-	    path:"/index",
-		name:'index',
-	    component:resolve => require(["../views/index.vue"], resolve),
-	},
-	{
-		path:'/study',
-		name:'study',
-		component: resolve => require(['../views/study.vue'], resolve),
-		// redirect: '/study',//默认选中
-	},
-	{
-		path:'/function',
-		name:'function',
-		component: resolve => require(['../views/function.vue'], resolve),
-		// redirect: '/study',//默认选中
-	},
-	{
-	  	path: '/login',
+	  	path: '/login',//登录
 		name:'login',
 	  	component: resolve => require(['../components/login.vue'], resolve),
 	},
 	{
-	  path:"/footer",
-	  name:'footer',
-	  component:resolve => require(["../components/footer.vue"], resolve),
+	    path:"/index",//首页
+		name:'index',
+	    component:resolve => require(["../views/index.vue"], resolve),
 	},
 	{
-	  path:"/onlineExamFooter",
-	  name:'onlineExamFooter',
-	  component:resolve => require(["../components/onlineExamFooter.vue"], resolve),
+		path:'/study',//学习
+		name:'study',
+		component: resolve => require(['../views/study.vue'], resolve),
+		// redirect: '/study',//默认选中
 	},
+	//智能进度模块
 	{
-	  path:"/studyFooter",
-	  name:'studyFooter',
-	  component:resolve => require(["../components/studyFooter.vue"], resolve),
+		path:'/intelligent',
+		name:'intelligent',
+		component: resolve => require(['../views/intelligent/intelligent.vue'], resolve)
 	},
-	{
+	{//一级列表
+		path:'/fillD',
+		name:'fillD',
+		component: resolve => require(['../views/intelligent/fillD.vue'], resolve)
+	},
+	{//超期工程
+		path:'/BeyondThe',
+		name:'BeyondThe',
+		component: resolve => require(['../views/intelligent/BeyondThe.vue'], resolve)
+	},
+	{//二级列表
+		path:'/fillB',
+		name:'fillB',
+		component: resolve => require(['../views/intelligent/fillB.vue'], resolve)
+	},
+	{//三级列表
+		path:'/fillC',
+		name:'fillC',
+		component: resolve => require(['../views/intelligent/fillC.vue'], resolve)
+	},
+	{//四级列表
+		path:'/fillA',
+		name:'fillA',
+		component: resolve => require(['../views/intelligent/fillA.vue'], resolve)
+	},
+	{//负责人填报
+		path:'/fill',
+		name:'fill',
+		component: resolve => require(['../views/intelligent/fill.vue'], resolve)
+	},
+	{//填报详情
+		path:'/fillX',
+		name:'fillX',
+		component: resolve => require(['../views/intelligent/fillX.vue'], resolve)
+	},
+	//考试模块
+	{ 
 		path:'/gradeIssue',
 		name:'gradeIssue',
 		component: resolve => require(['../views/exam/gradeIssue.vue'], resolve)
@@ -71,6 +92,70 @@ const router = new Router({
 		name:'examrecord',
 		component: resolve => require(['../views/exam/examrecord.vue'], resolve)
 	},
+	// 智能劳务
+	{
+		path:'/Intelligence',
+		name:'Intelligence',
+		component: resolve => require(['../views/Intelligence/Intelligence.vue'], resolve)
+	},
+	{
+		path:'/information',
+		name:'information',
+		component: resolve => require(['../views/Intelligence/information.vue'], resolve)
+	},
+	{//人机定位
+		path:'/machinePositioning',
+		name:'machinePositioning',
+		component: resolve => require(['../views/machinePositioning/machinePositioning.vue'], resolve)
+	},
+	{//智能监控
+		path:'/monitoring',
+		name:'monitoring',
+		component: resolve => require(['../views/monitoring/monitoring.vue'], resolve)
+	},
+	{//智能监控-视频监控
+		path:'/monitoring_list',
+		name:'monitoring_list',
+		component: resolve => require(['../views/monitoring/monitoring_list.vue'], resolve)
+	},
+	{//智能监控-能耗监控
+		path:'/monitoring_list_N',
+		name:'monitoring_list_N',
+		component: resolve => require(['../views/monitoring/monitoring_list_N.vue'], resolve)
+	},
+	{//智能监控-无人机
+		path:'/monitoring_list_W',
+		name:'monitoring_list_W',
+		component: resolve => require(['../views/monitoring/monitoring_list_W.vue'], resolve)
+	},
+	{//智能监控-能耗监控
+		path:'/monitoring_list_X',
+		name:'monitoring_list_X',
+		component: resolve => require(['../views/monitoring/monitoring_list_X.vue'], resolve)
+	},
+	{//功能
+		path:'/function',
+		name:'function',
+		component: resolve => require(['../views/function.vue'], resolve),
+		// redirect: '/study',//默认选中
+	},
+	
+	{
+	  path:"/footer",
+	  name:'footer',
+	  component:resolve => require(["../components/footer.vue"], resolve),
+	},
+	{
+	  path:"/onlineExamFooter",
+	  name:'onlineExamFooter',
+	  component:resolve => require(["../components/onlineExamFooter.vue"], resolve),
+	},
+	{
+	  path:"/studyFooter",
+	  name:'studyFooter',
+	  component:resolve => require(["../components/studyFooter.vue"], resolve),
+	},
+	
 	{
 		path:'/leader_safeQualityList',
 		name:'leader_safeQualityList',
@@ -107,11 +192,6 @@ const router = new Router({
 		component: resolve => require(['../views/leader/leader_resolved.vue'], resolve)
 	},
 	{
-		path:'/leader_poseProblem',
-		name:'leader_poseProblem',
-		component: resolve => require(['../views/leader/leader_poseProblem.vue'], resolve)
-	},
-	{
 		path:'/studyCenter',
 		name:'studyCenter',
 		component: resolve => require(['../views/staff/studyCenter.vue'], resolve)
@@ -131,18 +211,8 @@ const router = new Router({
 		name:'staffNew',
 		component: resolve => require(['../views/staff/staffNew.vue'], resolve)
 	},
-	{
-		path:'/Intelligence',
-		name:'Intelligence',
-		component: resolve => require(['../views/leader/Intelligence.vue'], resolve)
-		
-	},
-	{
-		path:'/information',
-		name:'information',
-		component: resolve => require(['../views/leader/information.vue'], resolve)
-		
-	},
+	
+	
 	{//员工我的资料
 		path:'/staff_information',
 		name:'staff_information',
@@ -161,61 +231,39 @@ const router = new Router({
 		component: resolve => require(['../views/staff/problemX.vue'], resolve)
 		
 	},
-	{//超期工程
-		path:'/BeyondThe',
-		name:'BeyondThe',
-		component: resolve => require(['../views/leader/BeyondThe.vue'], resolve)
-	},
-	{//
-		path:'/fillA',
-		name:'fillA',
-		component: resolve => require(['../views/leader/fillA.vue'], resolve)
-	},
-	{//
-		path:'/fillB',
-		name:'fillB',
-		component: resolve => require(['../views/leader/fillB.vue'], resolve)
-	},
-	{//
-		path:'/fillC',
-		name:'fillC',
-		component: resolve => require(['../views/leader/fillC.vue'], resolve)
-	},
-	{//
-		path:'/fillD',
-		name:'fillD',
-		component: resolve => require(['../views/leader/fillD.vue'], resolve)
-	},
-	{//负责人填报
-		path:'/fill',
-		name:'fill',
-		component: resolve => require(['../views/leader/fill.vue'], resolve)
-	},
-	{//填报详情
-		path:'/fillX',
-		name:'fillX',
-		component: resolve => require(['../views/leader/fillX.vue'], resolve)
-	},
+	
+	
+	
+
+	
+	
+	
 	{//问题动态
 		path:'/dynamic',
 		name:'dynamic',
 		component: resolve => require(['../views/leader/dynamic.vue'], resolve)
 	},
-	{//智能进度
-		path:'/intelligent',
-		name:'intelligent',
-		component: resolve => require(['../views/leader/intelligent.vue'], resolve)
-	},
+	
 	{//领导-安全质量-问题详情-复核
 		path:'/LeaderProblemW',
 		name:'LeaderProblemW',
 		component: resolve => require(['../views/leader/LeaderProblemW.vue'], resolve)
 	},
-	{//智能监控
-		path:'/monitoring',
-		name:'monitoring',
-		component: resolve => require(['../views/leader/monitoring.vue'], resolve)
+	
+	{//领导-安全质量-问题提交
+		path:'/SubmitQuestions',
+		name:'SubmitQuestions',
+		component: resolve => require(['../views/leader/SubmitQuestions.vue'], resolve)
+	},
+	{//指派负责人
+		path:'/IntelligenceHead',
+		name:'IntelligenceHead',
+		component: resolve => require(['../views/leader/IntelligenceHead.vue'], resolve)
 	}
+	
+	
+	
+	
   ]
 })
 // 输出router
