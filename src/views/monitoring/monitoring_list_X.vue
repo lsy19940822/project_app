@@ -1,37 +1,37 @@
 <template>
 	<div id="examrecord">
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
+		<vant-header :leftArrow="true" :titleType="1" :title="$route.query.type==1?'电表详情':'水表详情'" :rightType="2">
 			
 		</vant-header>
 		<div class="container">
 			<ul class="container_list container_lists">
-				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">电表详情</p>
+				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">{{$route.query.type==1?'电量':'水量'}}详情</p>
 				<li>
 					<span>所在标段</span>
-					<span>CYCZQ-5标-1</span>
+					<span>{{StaffInfoData[0].SECTION}}</span>
 				</li>
 				
 				<li>
 					<span>所在工点</span>
-					<span>1#钢铁加工场</span>
+					<span>{{StaffInfoData[0].WORKSITE}}</span>
 				</li>
 				<li>
-					<span>电表示数（度）</span>
-					<span>134,673.23</span>
+					<span>{{$route.query.type==1?'电量':'水量'}}示数（度）</span>
+					<span>{{$route.query.type==1?StaffInfoData[0].ELECTRO:StaffInfoData[0].WATERYIELD}}</span>
 				</li>
 				
 			</ul>
 			<ul class="container_list container_lists">
-				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">7天电量统计</p>
+				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">7天{{$route.query.type==1?'电量':'水量'}}统计</p>
 			
 				
 			</ul>
 			<ul class="container_list container_lists">
-				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">7周电量统计</p>
+				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">7周{{$route.query.type==1?'电量':'水量'}}统计</p>
 				
 			</ul>
 			<ul class="container_list container_lists">
-				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">7月电量统计</p>
+				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">7月{{$route.query.type==1?'电量':'水量'}}统计</p>
 				
 				
 			</ul>
@@ -62,7 +62,6 @@
 		},
 		data() {
 			return {
-				questionText:"电表详情",
 				examRecord:[],
 				examRecordTime:[],
 				StaffInfoData:[],
@@ -72,60 +71,28 @@
 			}
 		},
 		mounted() {
-			this.examrecord()
 		},
 		created() {
 			this.StaffInfoF()
 		},
 		methods: {
-			sumtrienButton() {
-				this.$router.push({path:'/problemX'})
-				// this.titShow = false;
-			},
-			// 返回布尔值
-			beforeRead(file) {
-			    if (file.type !== 'image/jpeg') {
-					Toast('请上传 jpg 格式图片');
-					return false;
-				}
-			    return true;
-			},
-			 // 返回 Promise
-			asyncBeforeRead(file) {
-			  return new Promise((resolve, reject) => {
-				if (file.type !== 'image/jpeg') {
-				  Toast('请上传 jpg 格式图片');
-				  reject();
-				} else {
-				  resolve();
-				}
-			  });
-			},
 			StaffInfoF(){
-				// let that=this;
-				// that.IDCard=that.$route.query.IDCard;
-				// ajax.get('StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
-				// 	if(res.data.result) {
-				// 		console.log(res.data)
-				// 		that.StaffInfoData=res.data.data
-				// 		that.StaffInfoData[0].PHOTOURL=ajax.http+that.StaffInfoData[0].PHOTOURL.slice(2)
-				// 	}
-				// })
+				if(this.$route.query.type ==1){
+					ajax.get('GetElectricQuantityParticulars?ID='+this.$route.query.id).then(res => {
+						if(res.data.result) {
+							this.StaffInfoData=res.data.data
+						}
+					})
+				}else if(this.$route.query.type ==2){
+					ajax.get('GetWaterMeterParticulars?ID='+this.$route.query.id).then(res => {
+						if(res.data.result) {
+							this.StaffInfoData=res.data.data
+						}
+					})
+				}
+				
 			},
-			examrecord(){
-				let that=this;
-				console.log(that.$route.query.IDCard)
-				// ajax.get('TestRecords?IDCard='+that.$route.query.IDCard).then(res => {
-				// 	console.log(res);
-				// 	if(res.data.result) {
-				// 		console.log("kaoshilihi",res.data.data)
-				// 		that.examRecord=res.data.data;
-				// 		for(let k in that.examRecord) {
-				// 		    that.examRecord[k].EXAMINATIONDATE=that.examRecord[k].EXAMINATIONDATE.replace("T", " ");
-				// 		}		
-				// 	}
-				// })
-			},
+			
 			
 		}
 	}

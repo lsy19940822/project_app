@@ -8,23 +8,15 @@
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
 				<van-dropdown-menu class='van-dropdown'>
-				  <van-dropdown-item v-model="value1" :options="option1" />
-				  <van-dropdown-item v-model="value2" :options="option2" />
+				  <van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)"/>
+				  <van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)"/>
 				</van-dropdown-menu>
 			</div>
 			<ul class="container_list overflow">
-				<li class="overflow">
-					<div class="list_l overflow"><img src="" alt="" @click="show = true"><p>【5标-1】 指挥部侧门</p></div>
-					<div class="list_r overflow"><img src="" alt="" @click="show = true"><p>【5标-1】 指挥部侧门</p></div>
+				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
+					<img :src="item.VIDEOURL" alt="" @click="show = true"><p>【{{item.SECTION}}】 {{item.VIDEONAME}}</p>
 				</li>
-				<li class="overflow">
-					<div class="list_l overflow"><img src="" alt=""><p>【5标-1】 指挥部侧门</p></div>
-					<div class="list_r overflow"><img src="" alt=""><p>【5标-1】 指挥部侧门</p></div>
-				</li>
-				<li class="overflow">
-					<div class="list_l overflow"><img src="" alt=""><p>【5标-1】 指挥部侧门</p></div>
-					<div class="list_r overflow"><img src="" alt=""><p>【5标-1】 指挥部侧门</p></div>
-				</li>
+				
 			</ul>
 			<van-dialog
 			  v-model="show"
@@ -45,14 +37,14 @@
 <script>
 	import vantHeader from '@/components/header.vue'
 	import studyFooter from '@/components/studyFooter.vue'
-	import * as ajax from '@/utils/api'
+	
 	import Vue from 'vue';
 	import { DropdownMenu, DropdownItem, Cell,Loading } from 'vant';
 	
 	import { Dialog } from 'vant';
 	Vue.use(Dialog);
 	Vue.use(DropdownMenu).use(DropdownItem).use(Cell).use(Loading);
-	
+	import * as ajax from '@/utils/api'
 	export default {
 		components: {
 			vantHeader,
@@ -61,9 +53,10 @@
 		data() {
 			return {
 				questionText:"视频监控",
-				value1: 0,
+				value1:0,
 			    value2: 0,
 				show:false,
+				GetVideoData:[],
 				option1: [
 					{ text: '1标', value: 0 },
 					{ text: '2标', value: 1 },
@@ -78,52 +71,50 @@
 					
 			    ],
 				isLoading:true,
-				SectionS:null,
-				WorksiteS:null
+				SectionS:'',
+				WorksiteS:''
 				
 			}
 		},
 		created() {
+			// 
 			
 		},
 		mounted() {
 			this.getUserWorkPointList()
+			
 		},
 		methods: {
+			change1(val){
+				this.Section = this.option1[val].text
+				console.log("当前标段：",this.option1[val].text)
+			},
+			change2(val){
+				this.Worksite = this.option2[val].text
+				console.log("当前工点：",this.option2[val].text)
+			},
 			getUserWorkPointList(){
-				
+				let that = this;
+				// this.$route.query.id=this.value1;
+				// console.log(this.value1,this.$route.query.value);
 				//视频
-				ajax.get('GetElectricQuantityParticulars?Section=' +''+'&Worksite='+ '').then(res => {
-					
+				ajax.get('GetVideo?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
 					if(res.data.result) {
-						
-						console.log('视频GetElectricQuantity:',res.data.data)
+						console.log('视频GetVideo:',res.data.data)
+					    that.GetVideoData=res.data.data;
 					}
 				})
-				// ajax.get('StaffRetrieve?Section=' +''+'&Unit='+'' +'&TypeWork='+'' ).then(res => {
-					
-				// 	if(res.data.result) {
-				// 		console.log('全部员工StaffRetrieve:',res.data.data)
-				// 	}
-				// })
-				
-				// let that=this;
-				// ajax.get('GetElectricQuantity?Section='+this.SectionS+'&Worksite='+this.WorksiteS).then(res => {
-				// 	if(res.data.result) {
-				// 		console.log("GetElectricQuantity：",res.data.data)
-				// 	}
-				// })
 				// 工点
-				// ajax.get('getUserWorkPoint').then(res => {
-				// 	if(res.data.result) {
-				// 		console.log("1.1.2.获取全部工点名称",res)
-				// 		for(let k in res.data.data) {
-				// 		   this.option2.push({text:res.data.data[k].WORKPOINT,value:Number(k) + Number(1) })
-				// 		   // NameArr.push(res.data.data[k])
-				// 		}	
-				// 		console.log("=======",this.option2)
-				// 	}
-				// })
+				ajax.get('getUserWorkPoint').then(res => {
+					if(res.data.result) {
+						console.log("1.1.2.获取全部工点名称",res)
+						for(let k in res.data.data) {
+						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
+						   // NameArr.push(res.data.data[k])
+						}	
+						console.log("工点：",this.option2)
+					}
+				})
 			}
 		}
 	}
@@ -146,6 +137,9 @@
 	/deep/
 	.van-dialog__confirm, .van-dialog__confirm:active {
 		color: #333;
+	}
+	.container_list{
+		padding: 14px 16px 0;
 	}
 	.van-dropdown-menu{
 	    width: 90%;
@@ -174,22 +168,19 @@
 		border-bottom:1px solid #eee;
 	}
 	.container_list li{
-		padding: 14px 16px;
+		width: 48%;
+		float: left;
+		padding-bottom: 16px;
 		border-bottom:1px solid #eee;
+	}
+	.container_list li:nth-of-type(2n){
+		float:right;
 	}
 	.container_list li img{
 		display: block;
 		width: 100%;
 		height: 104px;
 		background: #333;
-	}
-	.list_l,.list_r{
-		width: 48%;
-		float: left;
-		
-	}
-	.list_r{
-		float:right;
 	}
 	p{
 		margin-bottom: 0;

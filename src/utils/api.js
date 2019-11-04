@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export const path = 'http://47.95.118.243/API/WebAPIDataAudit/'
 export const http = 'http://47.95.118.243'
-// export const pathW = 'http://47.95.118.243/api/'
+export const pathW = 'http://47.95.118.243/api/'//问题模块接口
 export function post(url, data) {
   return request({
     url: path + url,
@@ -18,13 +18,13 @@ export function get(url, data) {
     data
   })
 }
-// export function getW(url, data) {
-//   return request({
-//     url: pathW + url,
-//     method: 'GET',
-//     data
-//   })
-// }
+export function getW(url, data) {
+  return request({
+    url: pathW + url,
+    method: 'GET',
+    data
+  })
+}
 
 export function del(url, data) {
   return request({

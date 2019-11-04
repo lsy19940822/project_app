@@ -133,7 +133,7 @@
 
 		methods: {
              GetMenuTreeList(){
-				// console.log("-----",ajax.getW+'safety/selectSafetyList?userId='+'111111111111111111'+'&quesType=1&succ=1&page=1&size=10')
+				console.log("-----",ajax.pathW+'safety/selectSafetyList?userId='+'111111111111111111'+'&quesType=1&succ=1&page=1&size=10')
 				//智能进度
 				ajax.get('getAllGPS').then(res => {
 					if(res.data.result) {
@@ -141,13 +141,13 @@
 						// this.images=res.data.data;
 					}
 				})
-				// ajax.getW('safety/selectSafetyList?userId='+'111111111111111111'+'&quesType=1&succ=1&page=1&size=10' ).then(res => {
+				ajax.getW('safety/selectSafetyList?userId='+'111111111111111111'+'&quesType=1&succ=1&page=1&size=10' ).then(res => {
 					
-				// 	if(res.data.result) {
+					if(res.data.result) {
 						
-				// 		console.log('智能进度GetMenuTree:',res.data.data)
-				// 	}
-				// })
+						console.log('wenti :',res.data.data)
+					}
+				})
 			}
 		}
 	}

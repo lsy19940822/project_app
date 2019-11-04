@@ -11,21 +11,16 @@
 				<van-tab title="电表">
 					<div class="l-dropdown">
 						<van-dropdown-menu>
-							  <van-dropdown-item v-model="value1" :options="option1" />
-							  <van-dropdown-item v-model="value2" :options="option2" />
+							<van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)"/>
+							<van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)"/>
 						</van-dropdown-menu>
 					</div>
-					<ul class="l-list">
+					<van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()'/>
+					<ul class="l-list" v-for="(item,index) in QuantityData" :key='index'>
 						<li>
-							<van-cell is-link @click="$router.push({path:'/monitoring_list_X'})">
-								<span>1#钢铁加工场</span>
-								<span>134,673.23度</span>
-							</van-cell>
-						</li>
-						<li>
-							<van-cell is-link>
-								<span>1#钢铁加工场</span>
-								<span>134,673.23度</span>
+							<van-cell is-link @click="$router.push('/monitoring_list_X?id=' + item.ID +'&type=1')">
+								<span>{{item.WORKSITE}}</span>
+								<span>{{item.ELECTRO}}</span>
 							</van-cell>
 						</li>
 					</ul>
@@ -33,30 +28,18 @@
 				<van-tab title="水表">
 					<div class="l-dropdown">
 						<van-dropdown-menu>
-							  <van-dropdown-item v-model="value1" :options="option1" />
-							  <van-dropdown-item v-model="value2" :options="option2" />
+							<van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)"/>
+							<van-dropdown-item v-model="value2" :options="option2" @change="change4(value2)"/>
 						</van-dropdown-menu>
 					</div>
+					<van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()'/>
 					<ul class="l-list">
-						<li>
+						<li v-for="(item,index) in cularsData" :key='index' @click="$router.push('/monitoring_list_X?id=' + item.ID +'&type=2')">
 							<van-cell is-link>
-								<span>1#钢铁加工场</span>
-								<span>134,673.23度</span>
+								<span>{{item.WORKSITE}}</span>
+								<span>{{item.WATERYIELD}}</span>
 							</van-cell>
 						</li>
-						<li>
-							<van-cell is-link>
-								<span>1#钢铁加工场</span>
-								<span>134,673.23度</span>
-							</van-cell>
-						</li>
-						<li>
-							<van-cell is-link>
-								<span>1#钢铁加工场</span>
-								<span>134,673.23度</span>
-							</van-cell>
-						</li>
-						
 					</ul>
 				</van-tab>
 				
@@ -83,6 +66,7 @@
 		DropdownMenu, DropdownItem,
 	} from 'vant';
 	Vue.use(Row).use(Cell).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem);
+	import * as ajax from '@/utils/api'
 	export default {
 		data() {
 			return {
@@ -94,33 +78,91 @@
 				value1: 0,
 				value2: 0,
 				option1: [
-					{ text: 'CYCZQ-1标', value: 0 },
-					{ text: 'CYCZQ-2标', value: 1 },
-					{ text: 'CYCZQ-3标', value:2 },
-					{ text: 'CYCZQ-4标', value:3 },
-					{ text: 'CYCZQ-5标-1', value:4},
-					{ text: 'CYCZQ-5标-2', value:5},
-					{ text: 'CYCZQ-6标', value:6},
+					{ text: '1标', value: 0 },
+					{ text: '2标', value: 1 },
+					{ text: '3标', value:2 },
+					{ text: '4标', value:3 },
+					{ text: '5标-1', value:4},
+					{ text: '5标-2', value:5},
+					{ text: '6标', value:6},
 				],
 				option2: [
 					{ text: '全部工点', value: 0 },
-					{ text: '全部工点1', value: 1 },
-					{ text: '全部工点2', value: 2 },
 				],
+				Section:'',
+				Worksite:'',
+				QuantityData:[],
+				cularsData:[]
 			}
 		},
 		components: {
 			vantHeader
 		},
+		created() {
+			// 
+			
+		},
+		mounted() {
+			this.GetElectricQuantityList()
+		},
 		methods: {
-			searchShowHide() {
-				this.isSearchShow = !this.isSearchShow
+			change1(val){
+				this.Section = this.option1[val].text
+		      	console.log("this.Section：",this.Section,"this.Worksite：",this.Worksite)
 			},
-			searchCancel() {
-				this.searchShowHide();
+			change2(val){
+				if(this.option2[val].text == '全部工点'){
+					this.Worksite = ''
+				}else{
+					this.Worksite = this.option2[val].text.replace("#", "%23")
+				}
+				
+				console.log("this.Section：",this.Section,"this.Worksite：",this.Worksite)
+				ajax.get('GetElectricQuantity?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
+					
+					if(res.data.result) {
+						console.log('电表list:',res.data.data)
+					    this.QuantityData=res.data.data;
+					}
+				})
+				
+				ajax.get('GetWaterMeter?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
+					
+					if(res.data.result) {
+						console.log('水表list:',res.data.data)
+					    this.cularsData=res.data.data;
+					}
+				})
 			},
-			onSearch() {
-
+			GetElectricQuantityList(){
+				let that = this;
+				// this.$route.query.id=this.value1;
+				// console.log(this.value1,this.$route.query.value);
+				ajax.get('GetElectricQuantity?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
+					
+					if(res.data.result) {
+						console.log('电表list:',res.data.data)
+					    that.QuantityData=res.data.data;
+					}
+				})
+				ajax.get('GetWaterMeter?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
+					
+					if(res.data.result) {
+						console.log('水表list:',res.data.data)
+					    that.cularsData=res.data.data;
+					}
+				})
+				
+				ajax.get('getUserWorkPoint').then(res => {
+					if(res.data.result) {
+						console.log("1.1.2.获取全部工点名称",res)
+						for(let k in res.data.data) {
+						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
+						   // NameArr.push(res.data.data[k])
+						}	
+						console.log("工点：",this.option2)
+					}
+				})
 			}
 		}
 	}
