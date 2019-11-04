@@ -108,7 +108,8 @@
 				time: 60 * 60 * 60 * 12.5, //考试倒计时
 				examTime: "", //考试所用的时间
 				answerAlrealTotal: 0, // 作答题数
-				alreadyCheck: []
+				alreadyCheck: [],
+				classArr: [],
 			}
 		},
 		created() {
@@ -176,9 +177,11 @@
 				this.isMultipleActive = [false, false, false, false]
 				if(this.current > 0) {
 					this.current--
+					this.addClassHandle();
 				} else {
 					this.preNone = true
 					Toast('这是第一题！');
+					
 				}
 			},
 			next() {
@@ -187,11 +190,12 @@
 				this.isMultipleActive = [false, false, false, false]
 				if(this.current < this.total - 1) {
 					this.current++
-
+                    this.addClassHandle();
 				} else {
 					this.nextNone = false
 					//					Toast('已经是最后一题了！');
 					_this.submitExam();
+					
 
 				}
 			},
@@ -232,6 +236,38 @@
 					}
 				})
 			},
+			// addClassHandle() {
+			// 	this.classArr = [];
+			// 	this.questionType = this.questionList[this.current].TMLX;
+			// 	if(this.questionType === '单选') {
+			// 		console.log("addClassHandle",this.questionList[this.current].ZQDA ,this.allAnswers[this.current])
+			// 		let index = this.answer(this.questionList[this.current].ZQDA);
+			// 		this.classArr[index] = 'bgRightS'
+			// 		if(this.questionList[this.current].ZQDA === this.allAnswers[this.current]) {
+			// 			this.classArr[index] = 'bgRightS'
+			// 		}
+			
+			// 	} else if(this.questionType === '多选') {
+					
+					
+			// 		let answerRightCrrent = this.questionList[this.current].ZQDA.split('');
+				
+			// 		answerRightCrrent.filter(function(item, index, arr) {
+			// 			console.log(item, index)
+			// 			this.classArr[index] = 'bgRightS'
+			// 		}, this);
+					
+					
+			// 		if(this.questionList[this.current].ZQDA === this.allAnswers[this.current]) {
+			// 			var answerRightCrrent = this.allAnswers[this.current].split('');
+			// 			answerRightCrrent.filter(function(item, index, arr) {
+			// 				this.classArr[this.answer(item)] = 'bgRightS'
+			// 			}, this);
+			// 		}
+					
+			// 	}
+			
+			// },
 			answer(n) {
 				var questAnswer;
 				switch(n) {

@@ -77,7 +77,7 @@
 				</li>
 				<li>
 					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="3">
+					  <van-collapse-item name="4">
 						<div slot="title">
 							<p class="van-hairline--bottom exam-title">
 								<img src="../../assets/images/index_icon/icon_aq@2x.png" alt="">VR全景展示
@@ -99,7 +99,7 @@
 				</li>
 				<li>
 					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="3">
+					  <van-collapse-item name="5">
 						<div slot="title">
 							<p class="van-hairline--bottom exam-title">
 								<img src="../../assets/images/index_icon/icon_aq@2x.png" alt="">基坑监测

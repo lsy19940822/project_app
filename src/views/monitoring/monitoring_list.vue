@@ -71,8 +71,8 @@
 					
 			    ],
 				isLoading:true,
-				SectionS:'',
-				WorksiteS:''
+				Section:'',
+				Worksite:''
 				
 			}
 		},

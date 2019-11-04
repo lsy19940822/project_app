@@ -36,70 +36,23 @@
 		<!--content list-->
 		<div class="list-content">
 			<van-tabs v-model="active">
-				<van-tab title="全部问题">
+				<van-tab title="人员定位">
 					<div class="l-dropdown">
 						<van-dropdown-menu>
 							  <van-dropdown-item v-model="value1" :options="option1" />
 							  <van-dropdown-item v-model="value2" :options="option2" />
 						</van-dropdown-menu>
 					</div>
-					<ul class="l-list">
-						<li>
-							<div class="item">
-								<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-								<div class="explain marginT12">
-									<van-row>
-										<van-col span="16">
-											<span class="color7099D0">质量问题</span>
-											<span class="colorAAA">2019-09-26 22:22:22</span>
-										</van-col>
-										<van-col span="8" align="right">
-											<span class="color53904D">已解决</span>
-										</van-col>
-									</van-row>
-								</div>
-								<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-							</div>
-						</li>
-						<li>
-							<div class="item">
-								<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-								<div class="explain marginT12">
-									<van-row>
-										<van-col span="16">
-											<span class="color7099D0">安全问题</span>
-											<span class="colorAAA">2019-09-26 22:22:22</span>
-										</van-col>
-										<van-col span="8" align="right">
-											<span class="color53904D">已解决</span>
-										</van-col>
-									</van-row>
-								</div>
-								<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-							</div>
-						</li>
-					</ul>
+					
 				</van-tab>
-				<van-tab title="安全问题">
-					<ul class="l-list">
-						<li>
-							<div class="item">
-								<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-								<div class="explain marginT12">
-									<van-row>
-										<van-col span="16">
-											<span class="color7099D0">安全问题</span>
-											<span class="colorAAA">2019-09-26 22:22:22</span>
-										</van-col>
-										<van-col span="8" align="right">
-											<span class="color53904D">已解决</span>
-										</van-col>
-									</van-row>
-								</div>
-								<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-							</div>
-						</li>
-					</ul>
+				<van-tab title="车辆定位">
+					<div class="l-dropdown">
+						<van-dropdown-menu>
+							  <van-dropdown-item v-model="value1" :options="option1" />
+							  <van-dropdown-item v-model="value2" :options="option2" />
+						</van-dropdown-menu>
+					</div>
+					
 				</van-tab>
 			</van-tabs>
 			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
@@ -112,6 +65,7 @@
 <script>
 	import vantHeader from '@/components/header.vue'
 	import Vue from 'vue';
+	import * as ajax from '@/utils/api'
 	import {
 		Row,
 		Col,
@@ -135,23 +89,25 @@
 				value2: 0,
 				option1: [
 					{ text: '全部标段', value: 0 },
-					{ text: 'CYCZQ-1标', value: 1 },
-					{ text: 'CYCZQ-2标', value: 2 },
-					{ text: 'CYCZQ-3标', value: 3 },
-					{ text: 'CYCZQ-4标', value: 4 },
-					{ text: 'CYCZQ-5标-1', value: 5},
-					{ text: 'CYCZQ-5标-2', value: 6 },
-					{ text: 'CYCZQ-6标', value: 7},
+					{ text: '1标', value: 1 },
+					{ text: '2标', value: 2 },
+					{ text: '3标', value: 3 },
+					{ text: '4标', value: 4 },
+					{ text: '5标-1', value: 5},
+					{ text: '5标-2', value: 6 },
+					{ text: '6标', value: 7},
 				],
 				option2: [
 					{ text: '全部工点', value: 0 },
-					{ text: '全部工点1', value: 1 },
-					{ text: '全部工点2', value: 2 },
 				],
 			}
 		},
 		components: {
 			vantHeader
+		},
+		mounted() {
+			this.getUserWorkPointList()
+			
 		},
 		methods: {
 			searchShowHide() {
@@ -161,7 +117,63 @@
 				this.searchShowHide();
 			},
 			onSearch() {
-
+			
+			},
+			change1(val){
+				this.Section = this.option1[val].text
+				console.log("当前标段：",this.option1[val].text)
+			},
+			change2(val){
+				this.Worksite = this.option2[val].text
+				console.log("当前工点：",this.option2[val].text)
+			},
+			getUserWorkPointList(){
+				let that = this;
+				// this.$route.query.id=this.value1;
+				// console.log(this.value1,this.$route.query.value);
+				//视频
+				wx.config({
+					debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
+					jsApiList: ['openLocation'] // 必填，需要使用的JS接口列表
+				});
+				wx.ready(() => {
+					wx.openLocation({
+						latitude: 90, // 纬度，浮点数，范围为90 ~ -90
+						longitude: 100, // 经度，浮点数，范围为180 ~ -180。
+						name: '', // 位置名
+						address: '', // 地址详情说明
+						scale: 14, // 地图缩放级别,整形值,范围从1~28。默认为最大
+						infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+						//										infoUrl: 'http://weixin.qq.com'
+					});
+					wx.getLocation({
+					    type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+					
+					    success: function (res) {
+					        console.log(res)
+					        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+					
+					        var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+					
+					        var speed = res.speed; // 速度，以米/每秒计
+					
+					        var accuracy = res.accuracy; // 位置精度
+					
+					    }
+					
+					});
+				})
+				// 工点
+				ajax.get('getUserWorkPoint').then(res => {
+					if(res.data.result) {
+						console.log("1.1.2.获取全部工点名称",res)
+						for(let k in res.data.data) {
+						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
+						   // NameArr.push(res.data.data[k])
+						}	
+						console.log("工点：",this.option2)
+					}
+				})
 			}
 		}
 	}
@@ -254,7 +266,7 @@
 
 	/deep/ .van-tabs__line {
 		background-color: #9499AA;
-		width: 33.3% !important;
+		width: 50% !important;
 	}
 
 	.color666 {
@@ -294,7 +306,7 @@
 	}
 
 	.list-content {
-		margin-top: 10px;
+		/* margin-top: 10px; */
 	}
 
 	.l-list {
@@ -324,53 +336,7 @@
 		padding: 14px 0;
 	}
 
-	.color7099D0 {
-		color: #7099D0;
-	}
-
-	/*安全问题-蓝色*/
-	.color7099D0 {
-		color: #7099D0;
-	}
-
-	.colorAAA {
-		color: #aaa;
-	}
-
-	.colorE19B52 {
-		color: #E19B52;
-	}
-
-	/*待指派*/
-	.color5082C6 {
-		color: #5082C6
-	}
-
-	/*待解决*/
-	.color7081B9 {
-		color: #7081B9
-	}
-
-	/*带抄送*/
-	.colorE6B36F {
-		color: #E6B36F
-	}
-
-	/*质量问题*/
-	.colorC86565 {
-		color: #C86565
-	}
-
-	/*退回问题*/
-	.color5268E1 {
-		color: #5268E1;
-	}
-
-	/*待审核*/
-	.color53904D {
-		color: #53904D;
-	}
-
+	
 	/*待复核*/
 	/*loading*/
 	.spinner {

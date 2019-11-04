@@ -140,8 +140,8 @@
 	Vue.use(Uploader);
 	Vue.use(Field);
 	Vue.use(Button);
-	import {Icon,CellGroup, Popup,IndexBar, IndexAnchor,Toast } from 'vant';
-	Vue.use(IndexBar).use(IndexAnchor).use(Icon).use(CellGroup).use(Toast).use(Popup);
+	import {Icon,CellGroup, Popup,IndexBar, IndexAnchor,Toast,DatetimePicker  } from 'vant';
+	Vue.use(IndexBar).use(IndexAnchor).use(Icon).use(CellGroup).use(Toast).use(Popup).use(DatetimePicker );
 	Vue.use(Cell)
 	export default {
 		components: {
@@ -158,7 +158,7 @@
 				IDCard:'',
 				message:'',
 				// 问题类型
-			    columns: ['安全问题', '质量问题'],
+			    columns: ['安全问题', '质量问题','进度问题'],
 				value: '',
 				showPicker: false,
 				// 紧急类型
