@@ -35,7 +35,7 @@
 					Toast('请输入用户名/手机号！');
 				}else if(this.passWord==''){
 					Toast('请输入密码！');
-				}else{
+				}else if(this.userN!='' && this.passWord!=''){
 					ajax.post('UserLanding?USERCODE=' + this.userN+'&CELLPHONE='+this.userN+'&PASSWORD='+this.passWord).then(res => {
 						if(res.data.result) {
 							console.log(res.data)
