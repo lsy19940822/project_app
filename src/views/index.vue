@@ -24,7 +24,8 @@
 				<li @click="$router.push({path:'/machinePositioning'})"><img src="../assets/images/index_icon/icon_dw@2x.png" alt=""><p>人机定位</p></li>
 				<li @click="$router.push({path:'/monitoring'})"><img src="../assets/images/index_icon/icon_jk@2x.png" alt=""><p>智能监控</p></li>
 				<li @click="tost()"><img src="../assets/images/index_icon/icon_hj@2x.png" alt=""><p>环境监控</p></li>
-				<li @click="tost()"><img src="../assets/images/index_icon/icon_more@2x.png" alt=""><p>更多</p></li>
+				<li @click="$router.push({path:'/faceId'})"><img src="../assets/images/index_icon/icon_lw@2x.png" alt=""><p>人脸识别</p></li>
+				<!--<li @click="tost()"><img src="../assets/images/index_icon/icon_more@2x.png" alt=""><p>更多</p></li>-->
 			</ul>
 			<div class="container_list">
 				<p class="van-hairline--bottom exam-title"><img src="../assets/images/index_icon/icon_jd@2x.png" alt="">智能进度</p>

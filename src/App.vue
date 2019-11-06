@@ -146,4 +146,10 @@ export default {
 		-o-box-sizing: border-box;
 		box-sizing: border-box
 	}
+	.upload-btn, .upload-btn .van-uploader__wrapper, .upload-btn .van-uploader__input-wrapper {
+		display: inline-block;
+		width: 100%!important;
+		padding: 0 2%;
+		text-align: center;
+	}
 </style>

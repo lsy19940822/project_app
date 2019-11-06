@@ -15,7 +15,7 @@
 	  				<i class="login-form-icon"><img src="../assets/code-icon.png"></i>
 	  				<van-field v-model="IDCard" placeholder="请输入您的身份证号码" />
 	  			</van-cell-group>
-				<van-button type="primary" @click="login()" style="width: 100%;margin-bottom: 25px;">人脸认证</van-button>
+				<!--<van-button type="primary" @click="$router.push('/faceId')" style="width: 100%;margin-bottom: 25px;">人脸认证</van-button>-->
 	  			<van-button color="#7232dd" @click="login()" style="width: 100%;"><span style="color:#fff">登录系统</span></van-button>
 	  		</div>
 	  	</div>
