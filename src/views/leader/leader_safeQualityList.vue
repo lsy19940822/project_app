@@ -85,7 +85,7 @@
 									<span class="colorAAA">2019-09-26  22:22:22</span>
 								</van-col>
 								<van-col span="8" align="right">
-									<span class="color7081B9">带抄送</span>
+									<span class="color7081B9">待抄送</span>
 								</van-col>
 							</van-row>
 						</div>
@@ -168,9 +168,8 @@
 		},
 		methods: {
 			selectSafetyListS() {
-				console.log(this.userId)
-				console.log(ajax.pathW+'safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size)
-				ajax.getW('/api/safety/safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
+				
+				ajax.getW('/api/safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
 					if(res.data.result) {
 						console.log(res)
 						// this.images=res.data.data;

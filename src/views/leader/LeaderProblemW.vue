@@ -60,7 +60,7 @@
 					</van-cell>
 				</li>
 				<li class='Buttond'>
-					<van-button color="rgba(89,95,115,1) " size="normal" style='width: 100%;'>查看位置信息</van-button>
+					<van-button color="rgba(89,95,115,1) " size="normal" style='width: 100%;'@click="$router.push({path:'/ProblemWhere'})">查看位置信息</van-button>
 				</li>
 			</ul>
 			<ul class="container_list container_lists">

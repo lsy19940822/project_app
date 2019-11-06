@@ -336,7 +336,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
 	const isLogin = sessionStorage.getItem("chang_yi_User_token");
 	if((isLogin == null || isLogin == '') && to.path != '/login') {
-		Toast.fail("请您先登录");
+		// Toast.fail("请您先登录");
 		next("/login");
 		return;
 	}

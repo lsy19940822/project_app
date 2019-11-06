@@ -55,12 +55,12 @@
 						</van-cell>
 					</div>
 				</li>
-				<li class='Buttond'>
-					<van-button color="rgba(89,95,115,1) " icon="location-o" size="normal" style='width: 100%;'>获取当前位置</van-button>
+				<li class='Buttond' @click="$router.push({path:'/ProblemWhere'})">
+					<van-button color="rgba(89,95,115,1) " icon="location-o" size="normal" style='width: 100%;' >获取当前位置</van-button>
 				</li>
 				<li class='Buttond'>
 					<van-button color="#DDDDDD " size="normal" style='float: left;width:48%'><span style="color: #666;">清空地址</span></van-button>
-					<van-button color="rgba(89,95,115,1) " size="normal"style='float: right;width:48%'>重新定位</van-button>
+					<van-button color="rgba(89,95,115,1) " size="normal"style='float: right;width:48%' @click="$router.push({path:'/ProblemWhere'})">重新定位</van-button>
 				</li>
 			</ul>
 			
@@ -108,11 +108,11 @@
 						</van-cell>
 					</div>
 				</li>
-				<li class='Buttond'>
-					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'>点击选择人员</van-button>
+				<li class='Buttond'> 
+					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead'})">点击选择人员</van-button>
 				</li>
 				<li class='Buttond'>
-					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'>重新选择人员</van-button>
+					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead'})">重新选择人员</van-button>
 				</li>
 			</ul>
 			<ul>

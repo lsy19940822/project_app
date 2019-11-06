@@ -2,10 +2,8 @@
 	<div class="login">
 		<h3>登录系统</h3>
 		<img src="../assets/login-bg.png" alt="">
-		<!-- <h4>常益长铁路信息化管理平台</h4>
-		<p>Changyi-Changsha Railway Informatization Management Platform</p> -->
 		<div class="form overflow">
-			<div class="formInput"><img src="../assets/icon_user@2x.png" alt=""><input type="text" placeholder="请输入手机号/用户名" v-model="userN"></div>
+			<div class="formInput"><img src="../assets/icon_user@2x.png" alt=""><input type="text" placeholder="请输入手机号/用户名" v-model="user"></div>
 			<div class="formInput"><img src="../assets/icon_password@2x.png" alt=""><input type="passWord" placeholder="请输入密码" v-model="passWord"></div>
 			<div class="loginButton" @click="login()">登录</div>
 			<p>忘记密码？</p>
@@ -14,6 +12,7 @@
 </template>
 <script>
 	import * as ajax from '@/utils/api'
+	import RegExp from '../utils/regExp'
 	import Vue from 'vue';
 	import { Toast } from 'vant';
 	Vue.use(Toast)
@@ -24,40 +23,64 @@
 		},
 		data() {
 			return {
-				userN: '',
+				user: '',
 				passWord: ''
 			}
 		},
 		created() {},
 		methods: {
 			login() {
-				if(this.userN == '') {
+				if(this.user.trim() === '' ){
 					Toast('请输入用户名/手机号！');
-				} else if(this.passWord == '') {
-					Toast('请输入密码！');
-				} else if(this.userN != '' && this.passWord != '') {
-					ajax.postParams('/API/WebAPIDataAudit/UserLanding', {
-						'USERCODE': null,
-						'CELLPHONE': '13272812666',
-						'PASSWORD': '1'
-					}).then(res => {
-						if(res.data.result) {
-							console.log(res.data)
-							this.$router.push({
-								path: '/index',
-								query: {
-									userId: res.data.data[0].USERID
-								}
-							})
-
-							// 手机号13272812666密码1
-							console.log("用户名/手机号：", this.userN, "密码：", this.passWord);
-
-						} else {
-							Toast(res.data.resultMsg);
-						}
-					})
+					return;
 				}
+				if(/^\d+$/.test(this.user) && RegExp.phoneIn(this.user)){
+					Toast('请输入正确格式手机号');
+					return;
+				}
+				if(/^[a-zA-Z]+$/.test(this.user) && RegExp.user(this.user)){
+					Toast('请输入正确格式用户名');
+					return;
+				}
+				if(RegExp.phoneIn(this.user) && RegExp.user(this.user)) {
+					Toast('请输入正确格式用户名或手机号');
+					return;
+				}
+				if(this.passWord == ''){
+					Toast('请输入密码！');
+				    return;		
+				}
+				if(this.user.trim() != '' && this.passWord != ''){
+						const toast = Toast.loading({
+							duration: 0, // 持续展示 toast
+							forbidClick: true, // 禁用背景点击
+							loadingType: 'spinner',
+							message: '登录中...'
+						});
+						ajax.postParams('/API/WebAPIDataAudit/UserLanding', {
+							'USERCODE': /^\w+$/.test(this.user) ? this.user : null,
+							'CELLPHONE': /^\d+$/.test(this.user) ? this.user : null,
+							'PASSWORD': this.passWord
+						}).then(res => {
+							if(res.data.result) {
+								sessionStorage.setItem("chang_yi_User_token",true)
+								toast.clear(); 
+								this.$router.push({
+									path: '/index',
+									query: {
+										userId: res.data.data[0].USERID
+									}
+								})
+								
+								// 手机号13272812666密码1
+								console.log("用户名/手机号：", this.user, "密码：", this.passWord);
+						
+							} else {
+								Toast.fail(res.data.resultMsg);
+							}
+						})
+				}
+				
 
 			},
 		}
@@ -125,7 +148,11 @@
 		display: block;
 		float: left;
 	}
-	
+	.formInput input{
+		width: 80%;
+		/* background: #fff; */
+		margin-top: -2px;
+	}
 	.form {
 		padding: 15px;
 		margin-top: 20px;
@@ -159,11 +186,11 @@
 	
 	p {
 		/* height:14px; */
-		font-size: 12px;
+		font-size:18px;
 		font-family: PingFangSC-Regular, PingFang SC;
-		font-weight: 400;
+		/* font-weight: 400; */
 		color: rgba(255, 255, 255, 1);
-		line-height: 14px;
+		/* line-height: 14px; */
 		text-align: center;
 		overflow: hidden;
 		margin: 0 !important;

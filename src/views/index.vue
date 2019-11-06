@@ -407,7 +407,7 @@
 					}
 				})
 			},
-			tost(){
+			tost(){Toast
 				Toast('敬请期待！');
 			}
 		}
@@ -538,6 +538,7 @@
 	}
 	.navList img{
 		width: 20px;
+		height:22px;
 		display: block;
 		margin: 0 auto;
 	}
