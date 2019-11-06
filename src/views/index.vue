@@ -1,10 +1,12 @@
 <template>
+	
 	<div id="index">
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
+		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType="2">
 			<div slot='right_slot' @click="$router.push({path:'/leaderNew'})">
 				<p class="header-right"><img src="../assets/images/index_icon/icon_l.png" alt=""></p>
 			</div>
 		</vant-header>
+		
 		<div class="containerIndex">
 			
 			<div class="login-bg">
@@ -535,7 +537,6 @@
 	}
 	.navList img{
 		width: 20px;
-		height:20px;
 		display: block;
 		margin: 0 auto;
 	}
