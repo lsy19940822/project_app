@@ -107,7 +107,7 @@
 		},
 		data() {
 			return {
-				questionText:"员工信息",
+				questionText:"人员信息",
 				examRecord:[],
 				examRecordTime:[],
 				StaffInfoData:[],

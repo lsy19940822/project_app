@@ -75,6 +75,7 @@
 			return {
 				questionText: "指派负责人",
 				radio: '',
+				value:'',
 				isLoading: true,
 				TypeWork: '', //工种
 				Unit: '', //单位
@@ -102,46 +103,21 @@
 			}
 		},
 		methods: {
-			// chartY(){
 			drawLineMothes() {},
-			// },
-
-			change(val) {
-				this.BD = this.option1[val].text
-				this.GD = this.option2[val].text
-				console.log("当前标段：", this.option1[val].text)
-				console.log("当前单位：", this.option2[val].text)
-				console.log("当前工种：", this.option3[val].text)
-				console.log("当前工点：", this.option4[val].text)
-			},
 			searchButton() {
-				ajax.get('getUserTypeNumber?BD=' + this.BD + '&GD=' + this.GD).then(res => {
-					if (res.data.result) {
-						console.log("1.1.3.获取每个工种类别下的人员数量", res)
-						this.StaffRetrieveList();
-					}
-				})
+				// ajax.get('getUserTypeNumber?BD=' + this.BD + '&GD=' + this.GD).then(res => {
+				// 	if (res.data.result) {
+				// 		console.log("1.1.3.获取每个工种类别下的人员数量", res)
+				// 		this.StaffRetrieveList();
+				// 	}
+				// })
 			},
 			StaffRetrieveList() {
 
-				// ajax.get('getUserNumber?BD='+this.BD +'&GD='+this.GD).then(res => {
+				ajax.getW('selectUserList').then(res => {
 
-				// 	if(res.data.result) {
-				// 		console.log("全部人员数量",res)
-				// 	}
-				// })
-				ajax.get('getUserWorkPoint').then(res => {
-
-					if (res.data.result) {
-						console.log("1.1.2.获取全部工点名称", res)
-						for (let k in res.data.data) {
-							this.option4.push({
-								text: res.data.data[k].WORKPOINT,
-								value: Number(k) + Number(1)
-							})
-							// NameArr.push(res.data.data[k])
-						}
-						console.log("=======", this.option4)
+					if(res.data.result) {
+						console.log("3.查询系统用户列表 用于指定负责人及工人",res)
 					}
 				})
 				ajax.get('StaffRetrieve?Section=' + this.Section + '&Unit=' + this.Unit + '&TypeWork=' + this.TypeWork).then(res => {

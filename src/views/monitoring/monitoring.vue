@@ -30,14 +30,40 @@
 					  </van-collapse-item>
 					</van-collapse>
 				</li>
-				<li>
-					<van-collapse v-model="activeNames">
+				
+				<li class="IS_link" @click="tost()">
+					<van-cell is-link>
+						<p class="van-hairline--bottom exam-title" style="padding-left: 0;line-height: 40px;">
+							<img src="../../assets/images/index_icon/icon_lw@2x.png" alt="">能耗监控
+						</p>		
+					</van-cell>
+				</li>
+				<li class="IS_link" @click="tost()">
+					<van-cell is-link>
+						<p class="van-hairline--bottom exam-title" style="padding-left: 0;line-height: 40px;">
+							<img src="../../assets/images/index_icon/icon_lw@2x.png" alt="">无人机巡查
+						</p>		
+					</van-cell>
+				</li>
+				<li class="IS_link" @click="tost()">
+					<van-cell is-link>
+						<p class="van-hairline--bottom exam-title" style="padding-left: 0;line-height: 40px;">
+							<img src="../../assets/images/index_icon/icon_lw@2x.png" alt="">VR全景展示
+						</p>		
+					</van-cell>
+				</li>
+				<li class="IS_link" @click="tost()">
+					<van-cell is-link>
+						<p class="van-hairline--bottom exam-title" style="padding-left: 0;line-height: 40px;">
+							<img src="../../assets/images/index_icon/icon_lw@2x.png" alt="">基坑监测
+						</p>		
+					</van-cell>
+				</li>
+			    <!-- <li>
+					  <van-collapse v-model="activeNames">
 					  <van-collapse-item name="2">
 						<div slot="title">
-							<p class="van-hairline--bottom exam-title">
-								<img src="../../assets/images/index_icon/icon_lw@2x.png" alt="">能耗监控
-							</p>
-						
+							
 						</div>
 						<van-cell>
 						   <ul class="list_ul overflow">
@@ -51,9 +77,10 @@
 						   </ul>
 						</van-cell>
 					  </van-collapse-item>
-					</van-collapse>
-				</li>
-				<li>
+					</van-collapse> 
+				</li>-->
+				
+				<!-- <li>
 					<van-collapse v-model="activeNames">
 					  <van-collapse-item name="3">
 						<div slot="title">
@@ -74,8 +101,9 @@
 						</van-cell>
 					  </van-collapse-item>
 					</van-collapse>
-				</li>
-				<li>
+				</li> -->
+				
+				<!-- <li>
 					<van-collapse v-model="activeNames">
 					  <van-collapse-item name="4">
 						<div slot="title">
@@ -96,8 +124,9 @@
 						</van-cell>
 					  </van-collapse-item>
 					</van-collapse>
-				</li>
-				<li>
+				</li> -->
+				
+				<!-- <li>
 					<van-collapse v-model="activeNames">
 					  <van-collapse-item name="5">
 						<div slot="title">
@@ -118,7 +147,7 @@
 						</van-cell>
 					  </van-collapse-item>
 					</van-collapse>
-				</li>
+				</li> -->
 			</ul>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
@@ -132,9 +161,9 @@
 	import vantHeader from '@/components/header.vue'
     import indexFooter from '@/components/indexFooter.vue'
 	import Vue from 'vue';
-	import { Collapse, CollapseItem } from 'vant';
+	import { Collapse,Toast, CollapseItem } from 'vant';
 	
-	Vue.use(Collapse).use(CollapseItem);
+	Vue.use(Collapse).use(CollapseItem).use(Toast);
 	import { DropdownMenu, DropdownItem, Cell,Loading ,Icon} from 'vant';
 	
 	Vue.use(DropdownMenu).use(DropdownItem).use(Cell).use(Loading).use(Icon);
@@ -148,7 +177,7 @@
 			return {
 				questionText:"智能监控",
 				isLoading:true,
-				activeNames: ['1']
+				activeNames: ['0']
 			}
 		},
 		created() {
@@ -159,11 +188,16 @@
 		},
 		
 		methods: {
+			tost(){
+				Toast('开发中 ！');
+			}
 		}
 	}
 </script>
 
 <style scoped>
+	/deep/
+	.IS_link .van-cell{padding: 0 16px;}
 	.list_ul li{
 		width: 25%;
 		float: left;
@@ -208,7 +242,6 @@
 	}
 	.van-hairline--bottom img{
 	    width: 12px;
-	    height: 12px;
 	    float: left;
 	    margin-right: 5px;
 	    margin-top: 14px;
