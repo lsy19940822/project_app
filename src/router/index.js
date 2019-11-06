@@ -71,8 +71,8 @@ const router = new Router({
 		},
 		//考试模块
 		{
-			path: '/faceId',
-			name: 'faceId',
+			path: '/manbT',
+			name: 'manbT',
 			component: resolve => require(['../views/exam/manbT.vue'], resolve),
 		},
 		{
@@ -307,7 +307,11 @@ const router = new Router({
 			name: 'LeaderProblemW',
 			component: resolve => require(['../views/leader/LeaderProblemW.vue'], resolve)
 		},
-
+		{ //負責人-安全质量-问题详情-复核
+			path: '/LeaderProblemG',
+			name: 'LeaderProblemG',
+			component: resolve => require(['../views/leader/LeaderProblemG.vue'], resolve)
+		},
 		{ //领导-安全质量-问题提交
 			path: '/SubmitQuestions',
 			name: 'SubmitQuestions',
@@ -317,6 +321,11 @@ const router = new Router({
 			path: '/IntelligenceHead',
 			name: 'IntelligenceHead',
 			component: resolve => require(['../views/leader/IntelligenceHead.vue'], resolve)
+		},
+		{ //问题地点 -领导/负责人-员工
+			path: '/ProblemWhere',
+			name: 'ProblemWhere',
+			component: resolve => require(['../views/ProblemWhere.vue'], resolve)
 		}
 
 	]

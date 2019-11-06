@@ -6,12 +6,16 @@
 		<div class="container">
 			<div class="infor_header overflow">
 				<img :src="StaffInfoData[0].PHOTOURL" alt="">
-				<h3>{{StaffInfoData[0].EXAMNAME}}<van-icon name="manager" /></h3>
-				<p>{{StaffInfoData[0].WORKTYPE}}</p>
+				<div class="user overflow">
+					<h3>{{StaffInfoData[0].EXAMNAME}}</h3>
+					<p>{{StaffInfoData[0].WORKTYPE}}</p>
+					<p>{{StaffInfoData[0].BIDSECTION}}</p>
+				</div>
+			
 				
 			</div>
 			<ul class="container_list container_lists">
-				<!-- <p class="van-hairline--bottom exam-title"><img src="../../assets/images/user_icon/userH@2x.png" alt="">员工详情</p> -->
+				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/user_icon/userH@2x.png" alt="">个人信息</p>
 				<li>
 					<span>所在标段</span>
 					<span>{{StaffInfoData[0].BIDSECTION}}</span>
@@ -43,11 +47,11 @@
 				</li>
 				<li>
 					<span>入职时间</span>
-					<span>{{StaffInfoData[0].ENTRYDATE=null?StaffInfoData[0].ENTRYDATE:'--'}}</span>
+					<span>{{StaffInfoData[0].ENTRYDATE}}</span>
 				</li>
 				<li>
 					<span>离职时间</span>
-					<span>{{StaffInfoData[0].QUITDATE=null?StaffInfoData[0].QUITDATE:'--'}}</span>
+					<span>{{StaffInfoData[0].QUITDATE}}</span>
 				</li>
 				
 			</ul>
@@ -154,8 +158,12 @@
 	.infor_header p{
 		color:#999999;
 	}
+	.user{
+		float: right;
+	}
 	.infor_header h3,.infor_header p{
-		text-align: center;
+		
+		text-align: right;
 		margin: 10px 0 !important;
 	}
 	.infor_header h3 .van-icon{
@@ -173,12 +181,14 @@
 		float: right;
 	}
 	.infor_header img{
-		/* width:85px; */
+		width:64px;
 		height:85px;
 		border-radius:1px;
 		border:1px solid rgba(238,238,238,1);
 		display: block;
-		margin: 0 auto;
+		float: left;
+		margin-top: 10px;
+		background: #F2F2F2;
 	}
 	.infor_header{
 		background:#fff;

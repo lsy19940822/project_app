@@ -6,12 +6,10 @@ const path = require('path')
 
 module.exports = {
 	dev: {
-
 		// Paths
 		assetsSubDirectory: 'static',
 		assetsPublicPath: '/',
 		proxyTable: {
-			
 		},
 		 host:'192.168.0.123',
 		// host: '192.168.31.10', // can be overwritten by process.env.HOST

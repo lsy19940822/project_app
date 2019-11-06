@@ -30,22 +30,22 @@
 					<span>提问时间</span>
 					<span>2019-10-07 20:30</span>
 				</li>
-				<li>
+<!-- 				<li>
 					<span>问题负责人</span>
 					<span>孙悟空(1标-工点1项目负责人)</span>
-				</li>
+				</li> -->
 				<li>
 					<span>限定时间</span>
 					<span>2019-10-07 20:30</span>
 				</li>
-				<li>
+			<!-- 	<li>
 					<span>分配意见</span>
 					<span style="color: #7AA0D3;">同意</span>
 				</li>
 				<li>
 					<span>分配意见</span>
 					<span style="color: #C86565;">问题描述不明确、请修改</span>
-				</li>
+				</li> -->
 			</ul>
 			<ul class="container_list">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (1).png" alt="">问题地点</p>
@@ -88,14 +88,14 @@
 			</ul>
 			<!-- 驳回修改按钮显示 -->
 			<div>
-				<h5>处理情况</h5>
+				<h5>分配意见</h5>
 				<ul class="container_list">
-					<li class='Buttond Buttond' style='color:#666666;display: none;'>
+					<li class='Buttond' style='color:#666666;display: none;'>
 						<van-button color="#EEEEEE" size="normal" style='width: 100%;border-radius:2px;
-				           border:1px solid rgba(238,238,238,1);'>确认问题已解决</van-button>
+				           border:1px solid rgba(238,238,238,1);'>同意，请相关人员及时整改</van-button>
 					</li>
 					<li class='Buttond'>
-						<van-button color="#7099D0" size="normal" style='width: 100%;'>问题依然存在，修改后继续整改</van-button>
+						<van-button color="#7099D0" size="normal" style='width: 100%;'>问题描述不明确、改修改</van-button>
 					</li>
 				</ul>
 			</div>
@@ -103,12 +103,26 @@
 			<ul class="container_list container_lists">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">抄送给解决人</p>
 				<li class="overflow">
-					<div style="margin: 0;width: 25%;"><img src="" alt="" style="width: 45px;height: 45px;display: block;margin: 0 auto;"><p style="text-align: center;">孙悟空</p></div>
+					<div style="margin: 0;width: 25%;"><img src="../../assets/images/safeQuality/icon_t@2x.png" alt="" style="width: 45px;height: 45px;display: block;margin: 0 auto;"><p style="text-align: center;">增加抄送</p></div>
 					<div style="margin: 0;width: 25%;"><img src="" alt="" style="width: 45px;height: 45px;display: block;margin: 0 auto;"><p style="text-align: center;">孙悟空</p></div>
 					<div style="margin: 0;width: 25%;"><img src="" alt="" style="width: 45px;height: 45px;display: block;margin: 0 auto;"><p style="text-align: center;">孙悟空</p></div>
 					<div style="margin: 0;width: 25%;"><img src="" alt="" style="width: 45px;height: 45px;display: block;margin: 0 auto;"><p style="text-align: center;">孙悟空</p></div>
 				</li>
 			</ul>
+			<h5>处理意见</h5>
+			<div class="container_list">
+				<van-cell-group>
+				  <van-field
+					v-model="message"
+					rows="2"
+					autosize
+					type="textarea"
+					maxlength="300"
+					placeholder="请填写您的处理意见。"
+					show-word-limit
+				  />
+				</van-cell-group>
+			</div>
 			<!-- 驳回提交按钮 -->
 			<ul>
 				<li class='Buttond'  @click='sumtrienButton()'>
@@ -125,7 +139,7 @@
 	import vantHeader from '@/components/header.vue'
 	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
-	
+	import { Cell} from 'vant';
 	import { Button } from 'vant';
 	import { Field } from 'vant';
 	
@@ -133,7 +147,6 @@
 	Vue.use(Button);
 	import {Icon,CellGroup, IndexBar, IndexAnchor } from 'vant';
 	Vue.use(IndexBar).use(IndexAnchor).use(Icon).use(CellGroup);
-	import { Cell} from 'vant';
 	Vue.use(Cell)
 	export default {
 		components: {
@@ -192,7 +205,6 @@
 </script>
 
 <style scoped>
-	
 	.Buttond{
 		    margin: 10px 16px;
 		height:44px;
