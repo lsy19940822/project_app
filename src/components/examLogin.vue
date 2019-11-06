@@ -64,7 +64,7 @@
 		},
 		methods: {
 			bannerImg(){
-				ajax.get('Banner').then(res => {
+				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {
 					if(res.data.result) {
 						console.log(res)
 						this.images=res.data.data;
@@ -72,7 +72,7 @@
 				})
 			},
 			login() {
-				ajax.get('Login?IDCard=' + this.IDCard).then(res => {
+				ajax.get('/API/WebAPIDataAudit/Login?IDCard=' + this.IDCard).then(res => {
 					console.log(res.data)
 					if(res.data.result) {
 						localStorage.setItem('IDCard',this.IDCard)

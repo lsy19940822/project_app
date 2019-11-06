@@ -96,7 +96,7 @@
 			StaffInfoF(){
 				let that=this;
 				that.IDCard=that.$route.query.IDCard;
-				ajax.get('StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
+				ajax.get('/API/WebAPIDataAudit/StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
 					if(res.data.result) {
 						console.log(res.data)
 						that.StaffInfoData=res.data.data
@@ -107,7 +107,7 @@
 			examrecord(){
 				let that=this;
 				console.log(that.$route.query.IDCard)
-				ajax.get('TestRecords?IDCard='+that.$route.query.IDCard).then(res => {
+				ajax.get('/API/WebAPIDataAudit/TestRecords?IDCard='+that.$route.query.IDCard).then(res => {
 					console.log(res);
 					if(res.data.result) {
 						console.log("kaoshilihi",res.data.data)

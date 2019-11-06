@@ -109,7 +109,7 @@
 			StaffInfoF(){
 				let that=this;
 				that.IDCard=that.$route.query.IDCard;
-				ajax.get('StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
+				ajax.get('/API/WebAPIDataAudit/StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
 					if(res.data.result) {
 						console.log(res.data)
 						that.StaffInfoData=res.data.data

@@ -71,8 +71,8 @@ const router = new Router({
 		},
 		//考试模块
 		{
-			path: '/manbT',
-			name: 'manbT',
+			path: '/faceId',
+			name: 'faceId',
 			component: resolve => require(['../views/exam/manbT.vue'], resolve),
 		},
 		{

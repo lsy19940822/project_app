@@ -98,14 +98,14 @@
 				// this.$route.query.id=this.value1;
 				// console.log(this.value1,this.$route.query.value);
 				//视频
-				ajax.get('GetVideo?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
+				ajax.get('/API/WebAPIDataAudit/GetVideo?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
 					if(res.data.result) {
 						console.log('视频GetVideo:',res.data.data)
 					    that.GetVideoData=res.data.data;
 					}
 				})
 				// 工点
-				ajax.get('getUserWorkPoint').then(res => {
+				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
 					if(res.data.result) {
 						console.log("1.1.2.获取全部工点名称",res)
 						for(let k in res.data.data) {

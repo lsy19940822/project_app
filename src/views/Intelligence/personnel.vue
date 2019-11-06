@@ -138,7 +138,7 @@
 			searchButton(){
 				console.log("当前标段：",this.Section,"当前单位：",this.Unit,"当前工种：",this.TypeWork)
 				
-				ajax.get('StaffRetrieve?Section=' + this.Section+'&Unit='+ this.Unit +'&TypeWork='+ this.TypeWork ).then(res => {
+				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section+'&Unit='+ this.Unit +'&TypeWork='+ this.TypeWork ).then(res => {
 					
 					if(res.data.result) {
 						
@@ -157,7 +157,7 @@
 			},
 			StaffRetrieveList() {
 				
-				ajax.get('StaffRetrieve?Section=' + this.Section+'&Unit='+ this.Unit +'&TypeWork='+ this.TypeWork ).then(res => {
+				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section+'&Unit='+ this.Unit +'&TypeWork='+ this.TypeWork ).then(res => {
 					
 					if(res.data.result) {
 						

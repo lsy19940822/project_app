@@ -66,20 +66,22 @@
 				this.scanImg = true;
 				console.log(file)
 				this.uploaderImg = file.content;
+				console.log(file.file)
+				var formData = new FormData();
+				formData.append("imageFile",file.file);
+				formData.append("groupName", '2标');
+				
 				setTimeout(function() {
-					ajax.postW('faceRecognition/recognizeFace', {
-						recognizeFaceImageUrl: _this.uploaderImg,
-						groupName: '2标'
-					}).then(res => {
+					ajax.postW('/api/faceRecognition/recognizeFace', formData).then(res => {
 						console.log(res)
 						_this.scanImg = false;
-						if(res.status == 200 && res.data.success) {
+						if(res.status == 200 && res.data.code == 200) {
 							Toast('身份信息展示开发中...');
 						} else {
 							Toast(res.data.msg);
 						}
 					});
-				}, 1500)
+				}, 1000)
 			}
 		}
 	}
