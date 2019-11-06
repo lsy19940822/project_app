@@ -76,7 +76,7 @@
 						console.log(res)
 						_this.scanImg = false;
 						if(res.status == 200 && res.data.code == 200) {
-							Toast('身份信息展示开发中...');
+							_this.$router.push("/information?IDCard="+res.data.data.CERTNUMBR);
 						} else {
 							Toast(res.data.msg);
 						}

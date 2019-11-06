@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import { Toast } from 'vant';
+Vue.use(Toast);
 Vue.use(Router)
 //创建路有实例并配置路由映射
 const router = new Router({
@@ -329,6 +331,20 @@ const router = new Router({
 		}
 
 	]
+})
+/*此方法是给全局中的每个路由页面都加判断*/
+router.beforeEach((to, from, next) => {
+	const isLogin = sessionStorage.getItem("chang_yi_User_token");
+	if((isLogin == null || isLogin == '') && to.path != '/login') {
+		Toast.fail("请您先登录");
+		next("/login");
+		return;
+	}
+	next();
+})
+/*after 钩子没有next 方法，不能改变导航*/
+router.afterEach((to, from) => {
+
 })
 // 输出router
 export default router;
