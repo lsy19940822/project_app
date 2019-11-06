@@ -60,7 +60,7 @@
 			examrecord(){
 				let that=this;
 				that.IDCard=that.$route.query.IDCard;
-				ajax.get('TestRecords?IDCard='+that.$route.query.IDCard).then(res => {
+				ajax.get('/API/WebAPIDataAudit/TestRecords?IDCard='+that.$route.query.IDCard).then(res => {
 					if(res.data.result) {
 						this.examRecord=res.data.data;
 						for(let k in this.examRecord) {

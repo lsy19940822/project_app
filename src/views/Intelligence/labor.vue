@@ -143,14 +143,14 @@
 				
 			},
 			capacityEachartS(){
-				ajax.get('getUserTypeNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
+				ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
 					
 					if(res.data.result) {
 						console.log("getUserTypeNumber",res)
 					
 					}
 				})
-				ajax.get('getUserNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
+				ajax.get('/API/WebAPIDataAudit/getUserNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
 					
 					if(res.data.result) {
 						console.log("getUserNumber",res)
@@ -196,7 +196,7 @@
 			
 			StaffRetrieveList() {
 			
-                ajax.get('getUserWorkPoint').then(res => {
+                ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
 					
 					if(res.data.result) {
 						console.log("全部工点名称",res)

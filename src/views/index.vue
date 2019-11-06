@@ -400,7 +400,7 @@
 		
 		methods: {
 			bannerImg(){
-				ajax.get('Banner').then(res => {
+				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {
 					if(res.data.result) {
 						console.log(res)
 						this.images=res.data.data;

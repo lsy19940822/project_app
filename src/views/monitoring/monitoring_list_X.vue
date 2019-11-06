@@ -78,13 +78,13 @@
 		methods: {
 			StaffInfoF(){
 				if(this.$route.query.type ==1){
-					ajax.get('GetElectricQuantityParticulars?ID='+this.$route.query.id).then(res => {
+					ajax.get('/API/WebAPIDataAudit/GetElectricQuantityParticulars?ID='+this.$route.query.id).then(res => {
 						if(res.data.result) {
 							this.StaffInfoData=res.data.data
 						}
 					})
 				}else if(this.$route.query.type ==2){
-					ajax.get('GetWaterMeterParticulars?ID='+this.$route.query.id).then(res => {
+					ajax.get('/API/WebAPIDataAudit/GetWaterMeterParticulars?ID='+this.$route.query.id).then(res => {
 						if(res.data.result) {
 							this.StaffInfoData=res.data.data
 						}

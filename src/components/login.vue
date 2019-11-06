@@ -36,7 +36,7 @@
 				} else if(this.passWord == '') {
 					Toast('请输入密码！');
 				} else if(this.userN != '' && this.passWord != '') {
-					ajax.postParams('UserLanding', {
+					ajax.postParams('/API/WebAPIDataAudit/UserLanding', {
 						'USERCODE': null,
 						'CELLPHONE': '13272812666',
 						'PASSWORD': '1'

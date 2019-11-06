@@ -154,7 +154,7 @@
 				this.current = Number(index);
 			},
 			getExamList() {
-				ajax.get('GetPaper?IDcard=' + this.$route.query.IDCard).then(res => {
+				ajax.get('/API/WebAPIDataAudit/GetPaper?IDcard=' + this.$route.query.IDCard).then(res => {
 					if(res.data.result) {
 						this.questionList = res.data.data
 						this.total = res.data.data.length
@@ -350,7 +350,7 @@
 					let getSeconds = new Date().getSeconds();
 					this.Date = year + "/" + month + "/" + day + " " + getHour + ":" + getmin + ":" + getSeconds
 
-					ajax.post('SubmitScore?IDCard=' + this.IDCard +
+					ajax.post('/API/WebAPIDataAudit/SubmitScore?IDCard=' + this.IDCard +
 							'&Score=' + this.Score +
 							'&ExamName=' + this.ExamName
 						)

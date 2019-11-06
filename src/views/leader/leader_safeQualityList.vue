@@ -170,7 +170,7 @@
 			selectSafetyListS() {
 				console.log(this.userId)
 				console.log(ajax.pathW+'safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size)
-				ajax.getW('safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
+				ajax.getW('/api/safety/safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
 					if(res.data.result) {
 						console.log(res)
 						// this.images=res.data.data;

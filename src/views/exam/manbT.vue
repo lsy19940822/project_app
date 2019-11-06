@@ -20,7 +20,6 @@
 		<van-uploader :after-read="afterRead" class="upload-btn" ref="uploadBtn">
 			<van-button type="primary" :square="true" size="large" style="font-size: 16px;">开始验证</van-button>
 		</van-uploader>
-		<input type="file" accept="image/*" class="van-uploader__input" capture="camera" id="awdawd" style="position: static; width: 100px;height: 20px;background: red;">
 	</div>
 </template>
 
@@ -73,10 +72,10 @@
 				formData.append("groupName", '2标');
 				
 				setTimeout(function() {
-					ajax.postW('faceRecognition/recognizeFace', formData).then(res => {
+					ajax.postW('/api/faceRecognition/recognizeFace', formData).then(res => {
 						console.log(res)
 						_this.scanImg = false;
-						if(res.status == 200 && res.data.success) {
+						if(res.status == 200 && res.data.code == 200) {
 							Toast('身份信息展示开发中...');
 						} else {
 							Toast(res.data.msg);
