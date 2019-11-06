@@ -8,7 +8,7 @@ const router = new Router({
 	routes: [{
 			path: "/",
 			component: resolve => require(["../components/header.vue"], resolve),
-			redirect: '/index', //默认选中--首页
+			redirect: '/login', //默认选中--首页
 		},
 		{
 			path: '/login', //登录
