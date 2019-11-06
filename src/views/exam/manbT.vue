@@ -20,6 +20,7 @@
 		<van-uploader :after-read="afterRead" class="upload-btn" ref="uploadBtn">
 			<van-button type="primary" :square="true" size="large" style="font-size: 16px;">开始验证</van-button>
 		</van-uploader>
+		<input type="file" accept="image/*" class="van-uploader__input" capture="camera" id="awdawd" style="position: static; width: 100px;height: 20px;background: red;">
 	</div>
 </template>
 
@@ -66,11 +67,13 @@
 				this.scanImg = true;
 				console.log(file)
 				this.uploaderImg = file.content;
+				console.log(file.file)
+				var formData = new FormData();
+				formData.append("imageFile",file.file);
+				formData.append("groupName", '2标');
+				
 				setTimeout(function() {
-					ajax.postW('faceRecognition/recognizeFace', {
-						recognizeFaceImageUrl: _this.uploaderImg,
-						groupName: '2标'
-					}).then(res => {
+					ajax.postW('faceRecognition/recognizeFace', formData).then(res => {
 						console.log(res)
 						_this.scanImg = false;
 						if(res.status == 200 && res.data.success) {
@@ -79,7 +82,7 @@
 							Toast(res.data.msg);
 						}
 					});
-				}, 1500)
+				}, 1000)
 			}
 		}
 	}
