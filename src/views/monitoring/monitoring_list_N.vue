@@ -15,7 +15,7 @@
 							<van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)"/>
 						</van-dropdown-menu>
 					</div>
-					<van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()'/>
+					<!-- <van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()'/> -->
 					<ul class="l-list" v-for="(item,index) in QuantityData" :key='index'>
 						<li>
 							<van-cell is-link @click="$router.push('/monitoring_list_X?id=' + item.ID +'&type=1')">
@@ -32,7 +32,7 @@
 							<van-dropdown-item v-model="value2" :options="option2" @change="change4(value2)"/>
 						</van-dropdown-menu>
 					</div>
-					<van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()'/>
+					<!-- <van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()'/> -->
 					<ul class="l-list">
 						<li v-for="(item,index) in cularsData" :key='index' @click="$router.push('/monitoring_list_X?id=' + item.ID +'&type=2')">
 							<van-cell is-link>

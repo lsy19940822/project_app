@@ -203,7 +203,7 @@
 					this.localStoreVal();
 					this.questionRender();
 					this.addClassHandle();
-					console.log(1000000)
+					// console.log(1000000)
 				} else {
 						this.preNone = true
 						Toast('这是第一题！');

@@ -11,6 +11,27 @@ export default {
 </script>
 
 <style>
+	
+	/*  */
+	.routerlink{
+		width:50%;
+		height: 44px;
+		line-height: 44px;
+		float: left;
+		text-align: center;
+		color: #7d7e80;
+		font-size: 14px;
+		border-bottom: 1px solid #eee;
+		background: #fff;
+	}
+	.router-link-active{
+		border-bottom:3px solid #9499AA;
+		width: 50% !important;
+		color: #333;
+	}
+	/*  */
+	
+	
 	.van-image-preview__index{
 		top: 56px !important;
 	}

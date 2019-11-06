@@ -205,7 +205,7 @@
 		float: right;
 	}
 	.infor_header img{
-		/* width:85px; */
+		width:65;
 		height:85px;
 		border-radius:1px;
 		border:1px solid rgba(238,238,238,1);

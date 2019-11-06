@@ -15,6 +15,11 @@ const router = new Router({
 	  	component: resolve => require(['../components/login.vue'], resolve),
 	},
 	{
+	  	path: '/examLogin',//考試登录
+		name:'examLogin',
+	  	component: resolve => require(['../components/examLogin.vue'], resolve),
+	},
+	{
 	    path:"/index",//首页
 		name:'index',
 	    component:resolve => require(["../views/index.vue"], resolve),
@@ -23,7 +28,6 @@ const router = new Router({
 		path:'/study',//学习
 		name:'study',
 		component: resolve => require(['../views/study.vue'], resolve),
-		// redirect: '/study',//默认选中
 	},
 	//智能进度模块
 	{
@@ -67,6 +71,11 @@ const router = new Router({
 		component: resolve => require(['../views/intelligent/fillX.vue'], resolve)
 	},
 	//考试模块
+	{
+		path:'/manbT',
+		name:'manbT',
+		component: resolve => require(['../views/exam/manbT.vue'], resolve),
+	},
 	{ 
 		path:'/gradeIssue',
 		name:'gradeIssue',
@@ -96,7 +105,18 @@ const router = new Router({
 	{
 		path:'/Intelligence',
 		name:'Intelligence',
-		component: resolve => require(['../views/Intelligence/Intelligence.vue'], resolve)
+		component: resolve => require(['../views/Intelligence/Intelligence.vue'], resolve),
+	    redirect: '/Intelligence/labor',//默认选中
+	    children: [
+	      {
+	        path:"labor",
+	        component:resolve => require(["../views/Intelligence/labor.vue"], resolve),
+	    
+	      },
+	      {
+	        path:"personnel",
+	        component:resolve => require(["../views/Intelligence/personnel.vue"], resolve)
+	      }] 
 	},
 	{
 		path:'/information',
@@ -106,7 +126,53 @@ const router = new Router({
 	{//人机定位
 		path:'/machinePositioning',
 		name:'machinePositioning',
-		component: resolve => require(['../views/machinePositioning/machinePositioning.vue'], resolve)
+		component: resolve => require(['../views/machinePositioning/machinePositioning.vue'], resolve),
+        redirect: '/machinePositioning/manchine',//默认选中
+		children: [
+          {
+            path:"manchine",
+            component:resolve => require(["../views/machinePositioning/manchine.vue"], resolve),
+        
+          },
+          {
+            path:"car",
+            component:resolve => require(["../views/machinePositioning/car.vue"], resolve)
+          }] 	
+	},
+	{//人机定位-员工性情
+		path:'/machinePositioning_X',
+		name:'machinePositioning_X',
+		component: resolve => require(['../views/machinePositioning/man/machinePositioning_X.vue'], resolve)
+	},
+	{//人机定位-安全范围
+		path:'/machinePositioning_AQ',
+		name:'machinePositioning_AQ',
+		component: resolve => require(['../views/machinePositioning/man/machinePositioning_AQ.vue'], resolve)
+	},
+	{//人机定位-活动轨迹
+		path:'/machinePositioning_GJ',
+		name:'machinePositioning_GJ',
+		component: resolve => require(['../views/machinePositioning/man/machinePositioning_GJ.vue'], resolve)
+	},
+	{//人机定位-员工性情
+		path:'/machinePositioning_carX',
+		name:'machinePositioning_carX',
+		component: resolve => require(['../views/machinePositioning/car/machinePositioning_carX.vue'], resolve)
+	},
+	{//人机定位-员工性情
+		path:'/car/informationCar',
+		name:'informationCar',
+		component: resolve => require(['../views/machinePositioning/car/informationCar.vue'], resolve)
+	},
+	{//人机定位-安全范围
+		path:'/car/machinePositioning_AQ',
+		name:'machinePositioning_AQ',
+		component: resolve => require(['../views/machinePositioning/car/machinePositioning_AQ.vue'], resolve)
+	},
+	{//人机定位-活动轨迹
+		path:'/car/machinePositioning_GJ',
+		name:'machinePositioning_GJ',
+		component: resolve => require(['../views/machinePositioning/car/machinePositioning_GJ.vue'], resolve)
 	},
 	{//智能监控
 		path:'/monitoring',
