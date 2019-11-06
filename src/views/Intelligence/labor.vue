@@ -24,13 +24,17 @@
 			 </div>
 		</div>
 		<div class="container_list container_lists">
-			<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">7天{{$route.query.type==1?'电量':'水量'}}统计</p>
+			<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_pro@2x.png" alt="">工种统计</p>
 			<div id="chart_example">
 				 
 			</div>
-			
 		</div>
-		
+		<div class="container_list container_lists">
+			<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_bor@2x.png" alt="">人员变化</p>
+			<div id="chart_examples">
+				 
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -80,6 +84,7 @@
 			
 			this.StaffRetrieveList();
 			this.capacityEachart();
+			this.capacityEachartS();
 			// this.drawLineMothes();
 			
 		},
@@ -87,6 +92,7 @@
 			
 		},
 		methods: {
+			// 人员变化
 			capacityEachart(){
 			  let this_ = this;
 			  let myChart = this.$echarts.init(document.getElementById('chart_example'));
@@ -122,7 +128,28 @@
 				]
 			  };
 			  myChart.setOption(option);
-		 
+			  //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
+			  window.addEventListener('resize',function() {myChart.resize()});
+				
+			},
+			capacityEachartS(){
+			  let this_ = this;
+			  let myChart = this.$echarts.init(document.getElementById('chart_examples'));
+			  let option = {
+			      xAxis: {
+			          type: 'category',
+			          data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月',]
+			      },
+			      yAxis: {
+			          type: ''
+			      },
+			      series: [{
+			          data: [820, 932, 901, 934, 1290, 1330, 1320],
+			          type: 'line'
+			      }]
+			  };
+
+			  myChart.setOption(option);
 			  //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
 			  window.addEventListener('resize',function() {myChart.resize()});
 				
@@ -154,9 +181,22 @@
 </script>
 
 <style scoped>
+	.container_list{
+	    height: auto;
+	    overflow: hidden;
+	    background: #fff;
+	    -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+	    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+	    margin-top: 10px;
+	}
 	#chart_example{
 	    width: 90%;
-	    height: 500px;
+	    height: 320px;
+	    margin: 0 auto;
+	}
+	#chart_examples{
+	    width: 90%;
+	    height: 320px;
 	    margin: 0 auto;
 	}
 	.container_nav{
@@ -165,6 +205,25 @@
 	    border-bottom: 1px solid rgba(238,238,238,1);
 	    padding: 16px;
 		background: #fff;
+	}
+	.van-hairline--bottom{
+	    height: 40px;
+	    line-height: 40px;
+	    font-size: 14px;
+	    padding-left: 14px;
+	    font-family: PingFangSC-Regular,PingFang SC;
+	    font-weight: 400;
+	    color: rgba(51,51,51,1);
+	    line-height: 40px;
+	    margin: 0;
+	    border-bottom: 1px solid rgba(238,238,238,1);
+	}
+	.van-hairline--bottom img{
+	    width: 12px;
+	    height: 12px;
+	    float: left;
+	    margin-right: 5px;
+	    margin-top: 14px;
 	}
 	.l-dropdown{
 	    padding: 10px 0;

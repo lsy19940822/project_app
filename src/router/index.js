@@ -15,6 +15,11 @@ const router = new Router({
 	  	component: resolve => require(['../components/login.vue'], resolve),
 	},
 	{
+	  	path: '/examLogin',//考試登录
+		name:'examLogin',
+	  	component: resolve => require(['../components/examLogin.vue'], resolve),
+	},
+	{
 	    path:"/index",//首页
 		name:'index',
 	    component:resolve => require(["../views/index.vue"], resolve),
@@ -23,7 +28,6 @@ const router = new Router({
 		path:'/study',//学习
 		name:'study',
 		component: resolve => require(['../views/study.vue'], resolve),
-		// redirect: '/study',//默认选中
 	},
 	//智能进度模块
 	{
