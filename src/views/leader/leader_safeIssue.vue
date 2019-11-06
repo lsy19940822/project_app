@@ -47,7 +47,7 @@
 									<span class="colorAAA">2019-09-26  22:22:22</span>
 								</van-col>
 								<van-col span="8" align="right">
-									<span class="color7081B9">带抄送</span>
+									<span class="color7081B9">待抄送</span>
 								</van-col>
 							</van-row>
 						</div>
@@ -93,13 +93,12 @@
 			     value2: 'a',
 			     option1: [
 			        { text: '全部状态', value: 0 },
-			        { text: '待指派', value: 1 },
-			        { text: '待解决', value: 2 },
-			        { text: '待抄送', value: 3 },
-			        { text: '待审核', value: 4 },
-			        { text: '退回问题', value: 5 },
-			        { text: '待复核', value: 6 },
-			        { text: '待指派', value: 7 }
+			        { text: '待解决', value: 1 },
+			        { text: '待抄送', value: 2 },
+			        { text: '待审核', value: 3 },
+			        { text: '退回问题', value: 4 },
+			        { text: '待复核', value: 5 },
+			        { text: '待指派', value: 6 }
 			     ],
 			     option2: [
 			        { text: '全部标段', value: 'a' },

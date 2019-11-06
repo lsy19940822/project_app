@@ -1,9 +1,9 @@
 <template>
 	<div class="container">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			<<!-- div slot='right_slot'>
-				<p class="header-right"><van-icon name="search" /></p>
-			</div> -->
+			<div slot='right_slot'>
+				<p class="header-right"style="line-height: 20px;"><van-icon name="search" color="#fff" /></p>
+			</div>
 		</vant-header>
 		<div class="view">
 			<router-link to="/Intelligence/labor" tag="div" class="routerlink">劳务统计</router-link>

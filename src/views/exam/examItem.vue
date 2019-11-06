@@ -14,6 +14,7 @@
 				<p :id="questionCurrent.ID">{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
 					<li v-for="(item,index) in answerList" @click="choose(index,1)" :class="{active:isSingleActive == index}">
+						<div class="back" :class="alreadyCheck[index]"></div>
 						<span class="chooseIndex">{{index+1 | chooseIndex}}</span><span>{{item}}</span>
 					</li>
 				</ul>
@@ -105,6 +106,7 @@
 				showTips: false,
 				ExamTimeStart: '',
 				rightTotal: 0,
+				optionStyle:false,
 				time: 60 * 60 * 60 * 12.5, //考试倒计时
 				examTime: "", //考试所用的时间
 				answerAlrealTotal: 0, // 作答题数
@@ -163,7 +165,7 @@
 							if(k == 'XA' || k == 'XB' || k == 'XC' || k == 'XD') {
 								if(this.questionCurrent[k]) {
 									this.answerList.push(this.questionCurrent[k])
-									console.log("questionCurrent", this.questionCurrent[k], "answerList", this.answerList)
+									// console.log("questionCurrent", this.questionCurrent[k], "answerList", this.answerList)
 								}
 							}
 						}
@@ -177,7 +179,7 @@
 				this.isMultipleActive = [false, false, false, false]
 				if(this.current > 0) {
 					this.current--
-					this.addClassHandle();
+					// this.addClassHandle();
 				} else {
 					this.preNone = true
 					Toast('这是第一题！');
@@ -190,7 +192,7 @@
 				this.isMultipleActive = [false, false, false, false]
 				if(this.current < this.total - 1) {
 					this.current++
-                    this.addClassHandle();
+                    // this.addClassHandle();
 				} else {
 					this.nextNone = false
 					//					Toast('已经是最后一题了！');
@@ -206,14 +208,27 @@
 				}
 			},
 			choose(index, flag) {
-
+				// for(let item of this.answerList) {
+				// 	console.log("this.answerList[item]:",this.answerList[item])
+				// 	item.optionStyle = false;
+					
+				// }
 				var _this = this;
 				if(flag === 1) { //flag 1:单选  2：多选 3：判断
 					this.isSingleActive = index;
 
 					this.allAnswers[this.current] = _this.answer(index)
-					console.log("序号", this.current + 1, "本题单选", "我选择的答案是：", this.allAnswers[this.current], "本题的答案：", this.questionList[this.current].ZQDA)
-
+					console.log("序号", this.current + 1, "本题单选", "我选择的答案是：", this.allAnswers[this.current] , "本题的答案：", this.questionList[this.current].ZQDA)
+                    if(this.allAnswers[this.current] == this.questionList[this.current].ZQDA){
+						this.classArr = [];
+					    console.log("选择正确")
+						this.allAnswers[this.current]=this.classArr[index] = 'bgRightS'
+						// this.optionStyle=true;
+					}else{
+						 console.log("选择error")
+						this.allAnswers[this.current]=this.classArr[index] = 'bgRightS'
+						 // this.optionStyle=false;
+					}
 				} else if(flag === 2) {
 					var multipleChoseData = [],
 						multipleChose = '';
@@ -227,7 +242,6 @@
 					this.allAnswers[this.current] = multipleChose;
 					console.log("序号", this.current + 1, "本题多选", "我选择的答案是：", this.allAnswers[this.current], "本题的答案：", this.questionList[this.current].ZQDA)
 				}
-
 				this.selectTotal = 0;
 				this.allAnswers.filter(function(item, index, arr) {
 
@@ -236,38 +250,7 @@
 					}
 				})
 			},
-			// addClassHandle() {
-			// 	this.classArr = [];
-			// 	this.questionType = this.questionList[this.current].TMLX;
-			// 	if(this.questionType === '单选') {
-			// 		console.log("addClassHandle",this.questionList[this.current].ZQDA ,this.allAnswers[this.current])
-			// 		let index = this.answer(this.questionList[this.current].ZQDA);
-			// 		this.classArr[index] = 'bgRightS'
-			// 		if(this.questionList[this.current].ZQDA === this.allAnswers[this.current]) {
-			// 			this.classArr[index] = 'bgRightS'
-			// 		}
 			
-			// 	} else if(this.questionType === '多选') {
-					
-					
-			// 		let answerRightCrrent = this.questionList[this.current].ZQDA.split('');
-				
-			// 		answerRightCrrent.filter(function(item, index, arr) {
-			// 			console.log(item, index)
-			// 			this.classArr[index] = 'bgRightS'
-			// 		}, this);
-					
-					
-			// 		if(this.questionList[this.current].ZQDA === this.allAnswers[this.current]) {
-			// 			var answerRightCrrent = this.allAnswers[this.current].split('');
-			// 			answerRightCrrent.filter(function(item, index, arr) {
-			// 				this.classArr[this.answer(item)] = 'bgRightS'
-			// 			}, this);
-			// 		}
-					
-			// 	}
-			
-			// },
 			answer(n) {
 				var questAnswer;
 				switch(n) {
@@ -451,7 +434,12 @@
 		text-align: center;
 		margin: 0 auto 16px;
 	}
-	
+	.question-container li div.bgRightS {
+		width: 100px;
+		height: 100px;
+		background: red;
+		color: #fff;
+	}
 	.login-tips {
 		width: 94%;
 		/* height: 85%; */

@@ -119,6 +119,7 @@
 </template>
 
 <script>
+	import * as ajax from '@/utils/api'
 	import vantHeader from '@/components/header.vue'
 	import Vue from 'vue';
 	import { Row, Col, DropdownMenu, DropdownItem, Loading } from 'vant';
@@ -128,7 +129,7 @@
 			return{
 				questionText:'安全质量',
 				value1: 0,
-			    value2: 'a',
+			    value2: 0,
 			     option1: [
 			        { text: '全部状态', value: 0 },
 			        // { text: '待指派', value: 1 },//取消待指派状态
@@ -140,15 +141,44 @@
 			        // { text: '待指派', value: 7 }
 			     ],
 			     option2: [
-			        { text: '全部标段', value: 'a' },
-			        { text: '1标', value: 'b' },
-			        { text: '2标', value: 'c' },
+			        { text: '全部标段', value: 0 },
+			        { text: '1标', value: 1 },
+			        { text: '2标', value: 2 },
+					{ text: '3标', value: 3 },
+					{ text: '4标', value: 4 },
+					{ text: '5标-1', value: 5 },
+					{ text: '5标-2', value: 6 },
+					{ text: '6标', value: 7 },
 			    ],
-			    isLoading:true
+			    isLoading:true,
+				userId:this.$route.query.userId,
+				quesType:1,//1.安全 2 质量 3 进度
+				succ:2,
+				page:1,
+				size:10
 			}
 		},
 		components:{
 			vantHeader
+		},
+		created() {
+		},
+		mounted(){
+			this.selectSafetyListS()
+		},
+		methods: {
+			selectSafetyListS() {
+				console.log(this.userId)
+				console.log(ajax.pathW+'safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size)
+				ajax.getW('safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
+					if(res.data.result) {
+						console.log(res)
+						// this.images=res.data.data;
+					}
+				})
+				console.log("asa")
+				
+			},
 		}
 	}
 </script>
