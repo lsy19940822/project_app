@@ -31,33 +31,34 @@
 		created() {},
 		methods: {
 			login() {
-
-				ajax.postParams('UserLanding', {
-					'USERCODE': null,
-					'CELLPHONE': '13272812666',
-					'PASSWORD': '1'
-				}).then(res => {
-					if(res.data.result) {
-						console.log(res.data)
-						if(this.userN == '') {
-							Toast('请输入用户名/手机号！');
-						} else if(this.passWord == '') {
-							Toast('请输入密码！');
-						} else {
+				if(this.userN == '') {
+					Toast('请输入用户名/手机号！');
+				} else if(this.passWord == '') {
+					Toast('请输入密码！');
+				} else if(this.userN != '' && this.passWord != '') {
+					ajax.postParams('UserLanding', {
+						'USERCODE': null,
+						'CELLPHONE': '13272812666',
+						'PASSWORD': '1'
+					}).then(res => {
+						if(res.data.result) {
+							console.log(res.data)
 							this.$router.push({
 								path: '/index',
 								query: {
 									userId: res.data.data[0].USERID
 								}
 							})
-						}
-						// 手机号13272812666密码1
-						console.log("用户名/手机号：", this.userN, "密码：", this.passWord);
 
-					} else {
-						Toast(res.data.resultMsg);
-					}
-				})
+							// 手机号13272812666密码1
+							console.log("用户名/手机号：", this.userN, "密码：", this.passWord);
+
+						} else {
+							Toast(res.data.resultMsg);
+						}
+					})
+				}
+
 			},
 		}
 	}

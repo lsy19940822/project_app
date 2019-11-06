@@ -114,7 +114,7 @@
 				</van-cell-group>
 			</div>
 			<ul class="container_list container_listp">
-				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">上传解决后的现场照片(最多4张)</p>
+				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">上传照片 (最多4张)</p>
 				<li class="overflow">
 					<van-uploader :before-read="beforeRead"  v-model="fileList"multiple :max-count="4" />
 				

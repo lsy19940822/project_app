@@ -94,6 +94,9 @@
 		methods: {
 			// 人员变化
 			capacityEachart(){
+				
+				
+				
 			  let this_ = this;
 			  let myChart = this.$echarts.init(document.getElementById('chart_example'));
 			  let option = {
@@ -140,6 +143,21 @@
 				
 			},
 			capacityEachartS(){
+				ajax.get('getUserTypeNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
+					
+					if(res.data.result) {
+						console.log("getUserTypeNumber",res)
+					
+					}
+				})
+				ajax.get('getUserNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
+					
+					if(res.data.result) {
+						console.log("getUserNumber",res)
+					
+					}
+				})
+				
 			  let this_ = this;
 			  let myChart = this.$echarts.init(document.getElementById('chart_examples'));
 			  let option = {
