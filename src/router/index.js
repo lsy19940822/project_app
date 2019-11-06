@@ -71,6 +71,11 @@ const router = new Router({
 		component: resolve => require(['../views/intelligent/fillX.vue'], resolve)
 	},
 	//考试模块
+	{
+		path:'/manbT',
+		name:'manbT',
+		component: resolve => require(['../views/exam/manbT.vue'], resolve),
+	},
 	{ 
 		path:'/gradeIssue',
 		name:'gradeIssue',

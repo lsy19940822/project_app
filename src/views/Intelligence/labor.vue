@@ -104,10 +104,16 @@
 					type : 'shadow'
 				  }
 				},
+				grid: {
+				    left: '0%',
+				    right: '0%',
+				    bottom: '10%',
+				    containLabel: true
+				},
 				xAxis : [
 				  {
 					type : 'category',
-					data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月',],
+					data : ['木工','木工','木工','木工','木工','木工','木工','木工','木工','木工','木工','木工'],
 					axisTick: {
 					  alignWithLabel: true
 					}
@@ -115,6 +121,7 @@
 				],
 				yAxis : [
 				  {
+				   
 					type : 'value'
 				  }
 				],
@@ -136,12 +143,18 @@
 			  let this_ = this;
 			  let myChart = this.$echarts.init(document.getElementById('chart_examples'));
 			  let option = {
+				  grid: {
+				      left: '0%',
+				      right: '0%',
+				      bottom: '10%',
+				      containLabel: true
+				  },
 			      xAxis: {
 			          type: 'category',
-			          data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月',]
+			          data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
 			      },
 			      yAxis: {
-			          type: ''
+			          type: 'value'
 			      },
 			      series: [{
 			          data: [820, 932, 901, 934, 1290, 1330, 1320],
