@@ -8,71 +8,74 @@
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">问题详情</p>
 				<li>
 					<span>问题提出人</span>
-					<span>孙悟空(中铁总经理)</span>
+					<span :id="StaffInfoData.putNameId">{{StaffInfoData.putName}}</span>
 				</li>
 				
 				<li>
 					<span>所属部门</span>
-					<span>中铁集团</span>
+					<span>{{StaffInfoData.department}}</span>
 				</li>
 				<li>
+					<!-- //1.安全 2 质量 3 进度 -->
 					<span>问题类型</span>
-					<span>安全问题</span>
+					<span v-if="StaffInfoData.quesType==1">安全问题</span>
+					<span v-if="StaffInfoData.quesType==2">质量问题</span>
+					<span v-if="StaffInfoData.quesType==3">进度问题</span>
 				</li>
 				<li>
 					<span>紧急类型</span>
-					<span>一般紧急</span>
+					<span v-if="StaffInfoData.degreeid==1">特别紧急</span>
+					<span v-if="StaffInfoData.degreeid==2">紧急</span>
+					<span v-if="StaffInfoData.degreeid==3">一般</span>
 				</li>
 				<li>
 					<span>提问时间</span>
-					<span>2019-10-07 20:30</span>
+					<span>{{StaffInfoData.dates}}</span>
 				</li>
 				<li>
 					<span>问题负责人</span>
-					<span>孙悟空(1标-工点1项目负责人)</span>
+					<span>{{StaffInfoData.principleName}}</span>
 				</li>
 				<li>
 					<span>限定时间</span>
-					<span>2019-10-07 20:30</span>
+					<span>{{StaffInfoData.endDate}}</span>
 				</li>
 			</ul>
 			<ul class="container_list">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (1).png" alt="">问题地点</p>
 				<li class='more'>
 					<van-cell style='color: #304F83;'>
-						北京市昌平区霍营乡回龙观东大街龙腾苑东1区
+						{{StaffInfoData.location?StaffInfoData.location:'暂无地址信息'}}
 					</van-cell>
 				</li>
 				<li class='more'>
 					<van-cell style='font-size: 12px;color:rgba(152,160,174,1);border-bottom:none;'>
-						经度：40.14567 纬度：116.24567
+						经度：{{StaffInfoData.longitude?StaffInfoData.longitude:'暂无'}} 纬度：{{StaffInfoData.latitude?StaffInfoData.latitude:'暂无'}}
 					</van-cell>
 				</li>
 				<li class='Buttond'>
-					<van-button color="rgba(89,95,115,1) " size="normal" style='width: 100%;'>查看位置信息</van-button>
+					<van-button color="rgba(89,95,115,1) " size="normal" style='width: 100%;'@click="$router.push({path:'/ProblemWhere'})">查看位置信息</van-button>
 				</li>
 			</ul>
 			<ul class="container_list container_lists">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (2).png" alt="">问题简述</p>
 				<!-- v-if='examRecord!=""' -->
 				<li>
-					1标主站桥梁存在严重的质量问题，电线直接放在地上1标主站桥梁存在严重的质量问题，电线直接放在地上
+					{{StaffInfoData.quesDesc}}
 				</li>
 			</ul>
 			<ul class="container_list container_lists">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">问题描述</p>
 				<li>
-					问题描述中的供电系统之前由于调试中所以出现不稳定状态，目前正常使用中没有问题，问题已核实。
+					{{StaffInfoData.quesDetail}}
 				</li>
 			</ul>
 			
 			<ul class="container_list container_lists">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">现场照片</p>
 				<li class="overflow">
-					<div><img src="" alt=""></div>
-					<div><img src="" alt=""></div>
-					<div><img src="" alt=""></div>
-					<div><img src="" alt=""></div>
+					<div><img :src="StaffInfoData.quesPic" alt=""></div>
+					<!-- <div v-for='(item,index) in StaffInfoData.quesPic'><img :src="item" alt=""></div> -->
 				</li>
 			</ul>
 			<h5>处理情况</h5>
@@ -116,7 +119,7 @@
 			<ul class="container_list container_listp">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">上传照片 (最多4张)</p>
 				<li class="overflow">
-					<van-uploader :before-read="beforeRead"  v-model="fileList"multiple :max-count="4" />
+					<van-uploader  :after-read="afterRead"  v-model="fileList"multiple :max-count="4" />
 				
 				</li>
 			</ul>
@@ -162,7 +165,6 @@
 			}
 		},
 		mounted() {
-			this.examrecord()
 		},
 		created() {
 			this.StaffInfoF()
@@ -172,51 +174,22 @@
 				this.$router.push({path:'/problemX'})
 				// this.titShow = false;
 			},
-			// 返回布尔值
-			beforeRead(file) {
-			    if (file.type !== 'image/jpeg') {
-					Toast('请上传 jpg 格式图片');
-					return false;
-				}
-			    return true;
+			afterRead(file) {
+				// 此时可以自行将文件上传至服务器
+				console.log(file);
 			},
-			 // 返回 Promise
-			asyncBeforeRead(file) {
-			  return new Promise((resolve, reject) => {
-				if (file.type !== 'image/jpeg') {
-				  Toast('请上传 jpg 格式图片');
-				  reject();
-				} else {
-				  resolve();
-				}
-			  });
-			},
-			StaffInfoF(){
-				// let that=this;
-				// that.IDCard=that.$route.query.IDCard;
-				// ajax.get('StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
-				// 	if(res.data.result) {
-				// 		console.log(res.data)
-				// 		that.StaffInfoData=res.data.data
-				// 		that.StaffInfoData[0].PHOTOURL=ajax.http+that.StaffInfoData[0].PHOTOURL.slice(2)
-				// 	}
-				// })
-			},
-			examrecord(){
+			StaffInfoF(){//'b4194213-fa6f-48c7-a9bc-0115be23df1b
 				let that=this;
-				console.log(that.$route.query.IDCard)
-				// ajax.get('TestRecords?IDCard='+that.$route.query.IDCard).then(res => {
-				// 	console.log(res);
-				// 	if(res.data.result) {
-				// 		console.log("kaoshilihi",res.data.data)
-				// 		that.examRecord=res.data.data;
-				// 		for(let k in that.examRecord) {
-				// 		    that.examRecord[k].EXAMINATIONDATE=that.examRecord[k].EXAMINATIONDATE.replace("T", " ");
-				// 		}		
-				// 	}
-				// })
-			},
-			
+				ajax.getW('/api/safety/selectSafetyInfoById?id='+that.$route.query.id).then(res => {
+					if(res.status == 200) {
+						if(res.data.code == 200) {
+							console.log("selectSafetyInfoById",res.data);
+							res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
+							this.StaffInfoData=res.data.data;
+						}
+					}
+				})
+			}
 		}
 	}
 </script>

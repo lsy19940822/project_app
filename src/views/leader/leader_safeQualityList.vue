@@ -1,121 +1,86 @@
 <template>
 	<div class="container">
-		<!--header-->
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2' >
-			<!-- <div slot='right_slot' style="top: 10px;">
-				<p class="header-right notice-box"><img src="../../assets/images/safeQuality/icon_notice.png"></p>
-			</div> -->
-			<div slot='right_slot' @click="$router.push({path:'/leaderNew'})">
-				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div>
-		</vant-header>
-		<!--安全质量nav-->
-		<div class="l-navBox">
-			<van-row>
-				<van-col span="6">
-					<router-link to='/SubmitQuestions'>
-						<div class="img-box">
-							<img src="../../assets/images/safeQuality/icon_issue.png" />
+			<!--header-->
+			<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2' >
+				<!-- <div slot='right_slot' style="top: 10px;">
+					<p class="header-right notice-box"><img src="../../assets/images/safeQuality/icon_notice.png"></p>
+				</div> -->
+				<div slot='right_slot' @click="$router.push({path:'/leaderNew'})">
+					<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
+				</div>
+			</vant-header>
+			<!--安全质量nav-->
+			<div class="l-navBox">
+				<van-row>
+					<van-col span="6" @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})">
+						<div @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})">
+							<div class="img-box" @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})">
+								<img src="../../assets/images/safeQuality/icon_issue.png" @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})"/>
+							</div>
+							<div class="text" @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})">问题发起</div>
 						</div>
-						<div class="text">问题发起</div>
-					</router-link>
-				</van-col>
-				
-				<van-col span="6">
-					<router-link to='/leader_safeIssue'>
-						<div class="img-box">
-							<img src="../../assets/images/safeQuality/icon_safe.png" />
-						</div>
-						<div class="text">安全问题</div>
-					</router-link>
+					</van-col>
 					
-				</van-col>
-				
-				<van-col span="6">
-					<div class="img-box">
-						<img src="../../assets/images/safeQuality/icon_quality.png" />
-					</div>
-					<div class="text">质量问题</div>
-				</van-col>
-				
-				<van-col span="6">
-					<router-link to='/leader_resolved'>
-						<div class="img-box">
-							<img src="../../assets/images/safeQuality/icon_solve.png" />
+					<van-col span="6" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">
+						<div @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">
+							<div class="img-box" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">
+								<img src="../../assets/images/safeQuality/icon_safe.png" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})"/>
+							</div>
+							<div class="text" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">安全问题</div>
 						</div>
-						<div class="text">已解决</div>
-					</router-link>
-				</van-col>
-			</van-row>
-		</div>
-		<!--content list-->
-		<div class="list-content">
-			<div class="l-dropdown">
-				<van-dropdown-menu>
-					  <van-dropdown-item v-model="value1" :options="option1" />
-					  <van-dropdown-item v-model="value2" :options="option2" />
-				</van-dropdown-menu>
+					</van-col>
+					
+					<van-col span="6">
+						<div @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})">
+							<div class="img-box" @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})">
+								<img src="../../assets/images/safeQuality/icon_quality.png" @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})"/>
+							</div>
+							<div class="text" @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})">质量问题</div>
+						</div>
+					</van-col>
+					
+					<van-col span="6" @click="$router.push({path:'/leader_resolved?userId='+$route.query.userId})">
+						<div @click="$router.push({path:'/leader_resolved?userId='+$route.query.userId})">
+							<div class="img-box" @click="$router.push({path:'/leader_resolved?userId='+$route.query.userId})">
+								<img src="../../assets/images/safeQuality/icon_solve.png" @click="$router.push({path:'/leader_resolved?userId='+$route.query.userId})"/>
+							</div>
+							<div class="text" @click="$router.push({path:'/leader_resolved?userId='+$route.query.userId})">已解决</div>
+						</div>
+					</van-col>
+				</van-row>
 			</div>
-			<ul class="l-list">
-				<li>
-					<div class="item">
-						<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-						<div class="explain marginT12">
-							<van-row>
-								<van-col span="16">
-									<span class="color7099D0">安全问题</span>
-									<span class="colorAAA">2019-09-26  22:22:22</span>
-								</van-col>
-								<van-col span="8" align="right">
-									<span class="color5082C6">待解决</span>
-								</van-col>
-							</van-row>
+			<!--content list-->
+			<div class="list-content">
+				<div class="l-dropdown">
+					<van-dropdown-menu>
+						<van-dropdown-item v-model="value1" :options="option1" />
+						<van-dropdown-item v-model="value2" :options="option2" />
+					</van-dropdown-menu>
+				</div>
+				<ul class="l-list">
+					<li v-for="(item,index) in safeData" :key="index" :id="item.id">
+						<div class="item" :id="item.id">
+							<h6 class="title":id="item.id">{{item.quesDesc}}</h6>
+							<div class="explain marginT12":id="item.id">
+								<van-row :id="item.id">
+									<van-col span="16" :id="item.id">
+										<span class="color7099D0":id="item.id">安全问题</span>
+										<span class="colorAAA" :id="item.id">{{item.createTime}}</span>
+									</van-col :id="item.id">
+									<van-col span="8" align="right" :id="item.id">
+										<span class="color5082C6" :id="item.id">{{item.state | getStatusTxt}}</span>
+									</van-col>
+								</van-row>
+							</div>
+							<div class="intro marginT12 omit2" :id="item.id">{{item.quesDetail}}</div>
 						</div>
-						<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-					</div>
-				</li>
-				
-				<li>
-					<div class="item">
-						<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-						<div class="explain marginT12">
-							<van-row>
-								<van-col span="16">
-									<span class="colorE6B36F">质量问题</span>
-									<span class="colorAAA">2019-09-26  22:22:22</span>
-								</van-col>
-								<van-col span="8" align="right">
-									<span class="color7081B9">待抄送</span>
-								</van-col>
-							</van-row>
-						</div>
-						<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-					</div>
-				</li>
-				
-				<li>
-					<div class="item">
-						<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-						<div class="explain marginT12">
-							<van-row>
-								<van-col span="16">
-									<span class="color7099D0">安全问题</span>
-									<span class="colorAAA">2019-09-26  22:22:22</span>
-								</van-col>
-								<van-col span="8" align="right">
-									<span class="colorC86565">退回问题</span>
-								</van-col>
-							</van-row>
-						</div>
-						<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-					</div>
-				</li>
-			</ul>
-<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
+					</li>
+				</ul>
+	<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
+				<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
+			</div>
+	
 		</div>
-
-	</div>
 </template>
 
 <script>
@@ -127,18 +92,16 @@
 	export default {
 		data(){
 			return{
-				questionText:'安全质量',
+				questionText:"安全质量",
 				value1: 0,
 			    value2: 0,
 			     option1: [
 			        { text: '全部状态', value: 0 },
-			        // { text: '待指派', value: 1 },//取消待指派状态
 			        { text: '待解决', value: 1 },
 			        { text: '待抄送', value: 2 },
 			        { text: '待审核', value:3 },
 			        { text: '退回问题', value: 4 },
 			        { text: '待复核', value: 5 },
-			        // { text: '待指派', value: 7 }
 			     ],
 			     option2: [
 			        { text: '全部标段', value: 0 },
@@ -150,12 +113,15 @@
 					{ text: '5标-2', value: 6 },
 					{ text: '6标', value: 7 },
 			    ],
+				
 			    isLoading:true,
 				userId:this.$route.query.userId,
 				quesType:1,//1.安全 2 质量 3 进度
 				succ:2,
 				page:1,
-				size:10
+				state:'',
+				size:10,
+				safeData:[]
 			}
 		},
 		components:{
@@ -167,17 +133,50 @@
 			this.selectSafetyListS()
 		},
 		methods: {
+			
 			selectSafetyListS() {
-				
 				ajax.getW('/api/safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
-					if(res.data.result) {
-						console.log(res)
-						// this.images=res.data.data;
+					if(res.status == 200) {
+						if(res.data.code == 200) {
+							this.safeData=res.data.data.list;
+						}
 					}
+					
 				})
-				console.log("asa")
 				
 			},
+		},
+		filters: {
+			getStatusTxt(id) {
+				var str = "";
+				switch(id) {
+					case 1:
+						str = "待抄送";//现场负责人
+						break;
+					case 2:
+						str = "待解决";//相关人整改
+						break;
+					case 3:
+						str = "待审核";//发起负责人审核
+						break;
+					case 4:
+						str = "";//流程结束
+						break;
+					case 5:
+						str = "退回问题";//发起人修改
+						break;
+					case 6:
+						str = "待复核";//负责人复核
+						break;	
+					case 7:
+						str = "退回问题";//整改人驳回
+						break;
+					default:
+						str = "无状态";
+						break;
+				}
+				return str;
+		    }
 		}
 	}
 </script>

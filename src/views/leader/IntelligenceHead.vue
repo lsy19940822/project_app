@@ -113,11 +113,11 @@
 				// })
 			},
 			StaffRetrieveList() {
-
 				ajax.getW('/api/safety/selectUserList').then(res => {
-
-					if(res.data.result) {
-						console.log("3.查询系统用户列表 用于指定负责人及工人",res)
+                    if(res.status == 200) {
+						if(res.data.code == 200) {
+							console.log("3.查询系统用户列表 用于指定负责人及工人",res)
+						}
 					}
 				})
 				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section + '&Unit=' + this.Unit + '&TypeWork=' + this.TypeWork).then(res => {

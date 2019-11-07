@@ -253,6 +253,11 @@ const router = new Router({
 			name: 'leader_safeIssue',
 			component: resolve => require(['../views/leader/leader_safeIssue.vue'], resolve)
 		},
+		{ //领导二级页面-质量问题
+			path: '/leader_safeIssueZ',
+			name: 'leader_safeIssueZ',
+			component: resolve => require(['../views/leader/leader_safeIssueZ.vue'], resolve)
+		},
 		{
 			path: '/leader_resolved',
 			name: 'leader_resolved',

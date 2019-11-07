@@ -45,22 +45,22 @@
 			</ul>
 			<h5>问题地点</h5>
 			<ul class="container_list">
-				<li class='more' style="padding: 10px 16px;">
+				<li class='more' style="padding: 10px 16px;" v-show="longlat">
 					<div style="border:1px dashed #E6EDF7;">
 						<van-cell style='color: #304F83;background:#F7FAFF;'>
-							<span style="margin-top: 2px; display: block;float: left;"><van-icon name="location-o" color='#304F83'/></span>北京市昌平区霍营乡回龙观东大街龙腾苑东1区
+							<span style="margin-top: 2px; display: block;float: left;"><van-icon name="location-o" color='#304F83'/></span>{{city}}{{addr}}
 						</van-cell>
 						<van-cell style='font-size: 12px;background:#F7FAFF;color:rgba(152,160,174,1);border-bottom:none;'>
-							经度：40.14567 纬度：116.24567
+							经度：{{latitude}} 纬度：{{longitude}}
 						</van-cell>
 					</div>
 				</li>
-				<li class='Buttond' @click="$router.push({path:'/ProblemWhere'})">
-					<van-button color="rgba(89,95,115,1) " icon="location-o" size="normal" style='width: 100%;' >获取当前位置</van-button>
-				</li>
 				<li class='Buttond'>
-					<van-button color="#DDDDDD " size="normal" style='float: left;width:48%'><span style="color: #666;">清空地址</span></van-button>
-					<van-button color="rgba(89,95,115,1) " size="normal"style='float: right;width:48%' @click="$router.push({path:'/ProblemWhere'})">重新定位</van-button>
+					<van-button color="rgba(89,95,115,1) " icon="location-o" size="normal" style='width: 100%;' v-show="!longlat" @click="longlatButton()">获取当前位置</van-button>
+				</li>
+				<li class='Buttond' v-show="longlat">
+					<van-button color="#DDDDDD " size="normal" style='float: left;width:48%' @click="clearButton()"><span style="color: #666;">清空地址</span></van-button>
+					<van-button color="rgba(89,95,115,1) " size="normal"style='float: right;width:48%'  @click="longlatButtonD()">重新定位</van-button>
 				</li>
 			</ul>
 			
@@ -68,7 +68,7 @@
 			<div class="container_list">
 				<van-cell-group>
 				  <van-field
-					v-model="message"
+					v-model="messageQuesc"
 					rows="2"
 					autosize
 					type="textarea"
@@ -95,8 +95,7 @@
 			<ul class="container_list container_listp">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">上传照片 (最多4张)</p>
 				<li class="overflow">
-					<van-uploader :before-read="beforeRead"  v-model="fileList"multiple :max-count="4" />
-				
+					<van-uploader :after-read="afterRead"  v-model="fileList" multiple :max-count="4" />
 				</li>
 			</ul>
 			<h5>现成负责人</h5>
@@ -135,13 +134,14 @@
 	import { Field } from 'vant';
 	import { Uploader } from 'vant';
 	import { Picker } from 'vant';
-	
+	import { Dialog } from 'vant';
 	Vue.use(Picker);
 	Vue.use(Uploader);
 	Vue.use(Field);
 	Vue.use(Button);
+	Vue.use(Dialog);
 	import {Icon,CellGroup, Popup,IndexBar, IndexAnchor,Toast,DatetimePicker  } from 'vant';
-	Vue.use(IndexBar).use(IndexAnchor).use(Icon).use(CellGroup).use(Toast).use(Popup).use(DatetimePicker );
+	Vue.use(IndexBar).use(IndexAnchor).use(Icon).use(CellGroup).use(Toast).use(Popup).use(DatetimePicker);
 	Vue.use(Cell)
 	export default {
 		components: {
@@ -161,8 +161,8 @@
 			    columns: ['安全问题', '质量问题','进度问题'],
 				value: '',
 				showPicker: false,
-				// 紧急类型
-				columnsS: ['特别紧急', '紧急',"一般紧急","不紧急"],
+				// 紧急类型特别紧急紧急一般
+				columnsS: ['特别紧急', '紧急',"一般"],
 				valueS: '',
 				showPickerS: false,
 				// 限定时间
@@ -179,15 +179,134 @@
 				getMinutes_s: "",
 				day_s: "",
 				month_s: "",
+				location:'',
+				messageQuesc:'',
+				longitude: 0, //经度
+				latitude: 0, //纬度
+				curPositionStatus: false, // 记录当前自动定位的环境，地图里面定位还是初始化页面的定位
+				// 点击起止点弹出地图时记录点击的是起止点标示 start/end
+				isFirstPosition: false,
+				geolocation: "",
+				options: { //精确定位信息
+					timeout: 8000,
+					failTipFlag: true
+				},
+				addr:'',
+				city:'',
+				longlat:false,
+				peleList:''
 			}
 		},
 		mounted() {
-			this.examrecord()
+			
 		},
 		created() {
-			this.StaffInfoF()
+			
 		},
 		methods: {
+			afterRead(file) {
+			  // 此时可以自行将文件上传至服务器
+			  console.log(file);
+			},
+			longlatButton(){
+				Dialog.confirm({
+					title: '标题',
+					message: '应用将获取您的位置信息？',
+					'show-confirm-button': true
+				}).then(() => {
+					this.longlat=true;
+					this.getMyLocation(false);
+				}).catch(() => {
+					this.longlat=false;
+				});
+			},
+			longlatButtonD(){
+				Dialog.confirm({
+					title: '标题',
+					message: '应用将获取您的位置信息？',
+					'show-confirm-button': true
+				}).then(() => {
+					this.longlat=true;
+					this.getMyLocation(false);
+				}).catch(() => {
+					this.longlat=true;
+				});
+			},
+			clearButton(){
+				console.log(this.longlat)
+				this.longlat=false;
+				this.latitude = '';
+				this.longitude ='';
+				this.city='';
+				this.addr='';
+				
+			},
+			
+			sumtrienButton() {
+				if(this.value == ''){
+					Toast('请选择问题类型');
+					return;
+				}
+				if(this.valueS == ''){
+					Toast('请选择紧急类型');
+					return;
+				}
+				if(this.timeValue == ''){
+					Toast('请选择限定时间');
+					return;
+				}if(this.addr == ''){
+					Toast('请获取您当前位置');
+					return;
+				}if(this.messageQuesc == ''){
+					Toast('请简述您的问题');
+					return;
+				}
+				if(this.message == ''){
+					Toast('请简述您的问题详情');
+					return;
+				}
+				if(this.fileList == ''){
+					Toast('请上传照片');
+					return;
+				}
+				if(this.peleList == ''){
+					Toast('请选择负责人');
+					return;
+				}
+				if(this.value!='' && this.timeValue!='' && this.peleList!=''  && this.valueS!=''  && this.fileList!=''  && this.message!=''  && this.messageQuesc!=''  && this.addr!='' ){
+				
+					// ajax.getW('/api/safety/saveSafety?id='+that.$route.query.id).then(res => {
+					// 	if(res.status == 200) {
+					// 		if(res.data.code == 200) {
+					// 			console.log("selectSafetyInfoById",res.data);
+					// 			res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
+					// 			this.StaffInfoData=res.data.data;
+					// 		}
+					// 	}
+					// })
+				}
+			},
+			//定位获得当前位置信息精准
+			getMyLocation(type) {
+				this.curPositionStatus = type;
+				this.geolocation = new qq.maps.Geolocation("5TZBZ-MEZCW-KKJR3-RPIHK-AGSAK-HHFSH", "myapp");
+				this.geolocation.getLocation(this.showPosition, this.showErr, this.options);
+			},
+			showPosition(position) {
+				this.latitude = position.lat;
+				this.longitude = position.lng;
+				this.city=position.city
+				this.addr=position.addr
+			},
+			showErr() {
+				if(!this.isFirstPosition) {
+					this.geolocation.getIpLocation(this.showPosition, this.showErr);
+					this.isFirstPosition = true;
+					return;
+				}
+				Toast("定位失败");
+				//				this.getMyLocation(this.curPositionStatus); //定位失败再请求定位，测试使用
+			},
 			confirmFn() { // 确定按钮
 				this.timeValue = this.timeFormat(this.currentDate);
 				this.show = false;
@@ -256,54 +375,12 @@
 			    this.valueS = value;
 			    this.showPickerS = false;
 			},
-			sumtrienButton() {
-				this.$router.push({path:'/problemX'})
-				// this.titShow = false;
-			},
-			// 返回布尔值
-			beforeRead(file) {
-			    if (file.type !== 'image/jpeg') {
-					Toast('请上传 jpg 格式图片');
-					return false;
-				}
-			    return true;
-			},
-			 // 返回 Promise
-			asyncBeforeRead(file) {
-			  return new Promise((resolve, reject) => {
-				if (file.type !== 'image/jpeg') {
-				  Toast('请上传 jpg 格式图片');
-				  reject();
-				} else {
-				  resolve();
-				}
-			  });
-			},
+			
+			
 			StaffInfoF(){
-				// let that=this;
-				// that.IDCard=that.$route.query.IDCard;
-				// ajax.get('StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
-				// 	if(res.data.result) {
-				// 		console.log(res.data)
-				// 		that.StaffInfoData=res.data.data
-				// 		that.StaffInfoData[0].PHOTOURL=ajax.http+that.StaffInfoData[0].PHOTOURL.slice(2)
-				// 	}
-				// })
+				
 			},
-			examrecord(){
-				let that=this;
-				console.log(that.$route.query.IDCard)
-				// ajax.get('TestRecords?IDCard='+that.$route.query.IDCard).then(res => {
-				// 	console.log(res);
-				// 	if(res.data.result) {
-				// 		console.log("kaoshilihi",res.data.data)
-				// 		that.examRecord=res.data.data;
-				// 		for(let k in that.examRecord) {
-				// 		    that.examRecord[k].EXAMINATIONDATE=that.examRecord[k].EXAMINATIONDATE.replace("T", " ");
-				// 		}		
-				// 	}
-				// })
-			},
+			
 			
 		}
 	}

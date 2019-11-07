@@ -105,7 +105,7 @@
 				questionText:"常益长铁路工程管理平台",
 				
 				isLoading:true,
-				activeNames: ['1']
+				activeNames: ['0']
 			}
 		},
 		created() {
@@ -128,7 +128,6 @@
 	}
 	.list_ul li img{
 		width:24px;
-		height:24px;
 		display: block;
 		margin: 0 auto;
 		background: black;
@@ -165,7 +164,6 @@
 	}
 	.van-hairline--bottom img{
 	    width: 12px;
-	    height: 12px;
 	    float: left;
 	    margin-right: 5px;
 	    margin-top: 14px;

@@ -71,12 +71,11 @@
 										userId: res.data.data[0].USERID
 									}
 								})
-								
 								// 手机号13272812666密码1
 								console.log("用户名/手机号：", this.user, "密码：", this.passWord);
 						
 							} else {
-								Toast.fail(res.data.resultMsg);
+								Toast(res.data.resultMsg);
 							}
 						})
 				}

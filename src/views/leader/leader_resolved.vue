@@ -173,6 +173,7 @@
 
 <script>
 	import vantHeader from '@/components/header.vue'
+	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
 	import {
 		Row,
@@ -191,11 +192,21 @@
 				isLoading: true,
 				active: 0,
 				searchVal: '',
-				isSearchShow: false
+				isSearchShow: false,
+				quesType:1,//1.安全 2 质量 3 进度
+				userId:this.$route.query.userId,
+				succ:1,//1已解决 2待解决
+				page:1,
+				size:10,
+				safeData:[]
 			}
 		},
 		components: {
 			vantHeader
+		},
+		mounted(){
+			this.selectSafetyListS()
+			
 		},
 		methods: {
 			searchShowHide() {
@@ -205,8 +216,51 @@
 				this.searchShowHide();
 			},
 			onSearch() {
-
-			}
+			
+			},
+			selectSafetyListS() {
+				ajax.getW('/api/safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
+					if(res.status == 200) {
+						if(res.data.code == 200) {
+							console.log('安全质量',res.data)
+							this.safeData=res.data.data.list;
+						}
+					}
+					
+				})
+			},
+		},
+		filters: {
+			getStatusTxt(id) {
+				var str = "";
+				switch(id) {
+					case 1:
+						str = "待抄送";//现场负责人
+						break;
+					case 2:
+						str = "待解决";//相关人整改
+						break;
+					case 3:
+						str = "待审核";//发起负责人审核
+						break;
+					case 4:
+						str = "";//流程结束
+						break;
+					case 5:
+						str = "退回问题";//发起人修改
+						break;
+					case 6:
+						str = "待复核";//负责人复核
+						break;	
+					case 7:
+						str = "退回问题";//整改人驳回
+						break;
+					default:
+						str = "无状态";
+						break;
+				}
+				return str;
+		    }
 		}
 	}
 </script>
