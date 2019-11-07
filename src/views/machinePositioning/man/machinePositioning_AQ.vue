@@ -5,11 +5,10 @@
 			
 		</vant-header>
 		
-		<div class="list-content">
+		<div id="containerS"></div>
+		<!--<div class="list-content">
 			<div id="containerS"></div>
-			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
-		</div>
+		</div>-->
 
 	</div>
 </template>
@@ -146,8 +145,7 @@
 <style scoped>
 	#containerS{
 	    min-width:100%;
-	    min-height:753px;
-		margin-top: -46px;
+	    min-height:100%;
 	}
 	.position{
 		border-top: 1px solid #eee;
@@ -331,6 +329,8 @@
 	}
 
 	.container {
+		width: 100%;
+		height: 100%;
 		padding-top: 46px;
 	}
 
