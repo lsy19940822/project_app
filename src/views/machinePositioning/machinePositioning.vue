@@ -8,6 +8,8 @@
 				</p>
 			</div>
 		</vant-header>
+		<router-link to="/machinePositioning/manchine" tag="div" class="routerlink">人员定位</router-link>
+		<router-link to="/machinePositioning/car" tag="div" class="routerlink">车辆定位</router-link>
 
 		<!--search-->
 		<div class="search-wrap" v-show="isSearchShow">
@@ -23,8 +25,6 @@
 		</div>
 		<!--content list-->
 		<div class="list-content">
-			<router-link to="/machinePositioning/manchine" tag="div" class="routerlink">人员定位</router-link>
-			<router-link to="/machinePositioning/car"  tag="div" class="routerlink">车辆定位</router-link>
 			<router-view></router-view>
 			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
 			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
@@ -110,7 +110,7 @@
 			this.getUserWorkPointList()
 		},
 		methods: {
-		
+
 			activeClassButton() {
 				this.activeClassType = !this.activeClassType
 			},
@@ -135,9 +135,9 @@
 				let that = this;
 				// 工点
 				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
-					if (res.data.result) {
+					if(res.data.result) {
 						console.log("1.1.2.获取全部工点名称", res)
-						for (let k in res.data.data) {
+						for(let k in res.data.data) {
 							this.option2.push({
 								text: res.data.data[k].WORKAREA,
 								value: Number(k) + Number(1)
@@ -152,25 +152,19 @@
 </script>
 
 <style scoped>
-	
-	#container {
-		min-width: 600px;
-		min-height: 400px;
-	}
-
 	.position {
 		border-top: 1px solid #eee;
 		padding: 16px;
 		line-height: 32px;
 		font-size: 17px;
 	}
-
+	
 	.position span:last-child {
 		float: right;
 		color: #ddd;
 		font-size: 14px;
 	}
-
+	
 	.position img {
 		width: 32px;
 		height: 32px;
@@ -179,7 +173,7 @@
 		margin-right: 10px;
 		background: #9499AA;
 	}
-
+	
 	.footer_k {
 		width: 100%;
 		height: auto;
@@ -196,11 +190,11 @@
 		-webkit-overflow-scrolling: touch;
 		z-index: 999;
 	}
-
+	
 	.activeClass {
 		height: 90% !important;
 	}
-
+	
 	.footer_k div {
 		width: 19px;
 		height: 2px;
@@ -208,12 +202,12 @@
 		border-radius: 1px;
 		margin: 0 auto 10px;
 	}
-
+	
 	.footer_car li,
 	.footer_carS li {
 		width: 25% !important;
 	}
-
+	
 	.footer_car li img,
 	.footer_carS li img {
 		width: 90% !important;
@@ -221,63 +215,62 @@
 		border-radius: 2px;
 		border: 1px solid rgba(238, 238, 238, 1);
 	}
-
+	
 	.footer_k li {
 		width: 20%;
 		height: auto;
 		overflow: hidden;
 		float: left;
 	}
-
+	
 	.footer_k li img {
 		width: 45px;
 		height: 45px;
-
 		background: #DDDDDD;
 		display: block;
 		margin: 0 auto;
 	}
-
+	
 	.footer_kS li span,
 	.footer_carS li span {
 		margin: 10px 0;
 	}
-
+	
 	.footer_k li span {
 		margin-top: 10px;
 		display: block;
 		text-align: center;
 	}
-
 	/*  */
+	
 	/deep/ .van-dropdown-menu .van-dropdown-menu__item:first-child {
 		border-right: 1px solid #ccc;
 		margin-right: 10px;
 	}
-
+	
 	/deep/.van-dropdown-menu .van-dropdown-menu__item {
 		border: 1px solid #CCC;
 		border-radius: 2px;
 		background: #F9F9F9;
 	}
-
+	
 	.l-dropdown {
 		padding: 10px 0;
 		background: #fff;
 		border-bottom: 1px solid #ECECEC;
 	}
-
+	
 	.van-dropdown-menu {
 		width: 90%;
 		margin: 15px auto;
 	}
-
+	
 	.innerLabel li.activeLabel {
 		background: #595F73;
 		border: 1px solid #595F73;
 		color: #fff;
 	}
-
+	
 	.innerLabel li {
 		padding: 0 12px;
 		width: auto;
@@ -293,10 +286,8 @@
 		transform: all .5s ease;
 		border-radius: 2px;
 		line-height: 24px;
-
-
 	}
-
+	
 	.inte_gent,
 	.innerLabel {
 		width: 100%;
@@ -310,7 +301,7 @@
 		align-items: middle;
 		overflow: auto;
 	}
-
+	
 	.header_inte {
 		width: auto;
 		height: auto;
@@ -319,117 +310,116 @@
 		background: #fff;
 		border-bottom: 1px solid rgba(238, 238, 238, 1);
 	}
-
 	/*  */
+	
 	.clearfix::after {
 		content: '';
 		display: block;
 		clear: both;
 	}
-
+	
 	* {
 		margin: 0;
 	}
-
+	
 	img {
 		display: block;
 		width: 100%;
 		height: auto
 	}
-
-
-
+	
 	.color666 {
 		color: #666;
 	}
-
+	
 	.omit {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-
+	
 	.omit2 {
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 		overflow: hidden;
 	}
-
+	
 	.marginT12 {
 		margin-top: 12px;
 	}
-
+	
 	.container {
+		width: 100%;
+		height: 100%;
 		padding-top: 46px;
 	}
-
+	
 	.van-nav-bar .van-icon {
 		font-size: 18px;
 		color: #fff;
 	}
-
 	/*.notice-box{width:20px;height:20px;}*/
 	/*ontent list*/
+	
 	.list-content {
+		position: absolute;
+		top: 90px;
+		width: 100%;
+		bottom: 0;
 		background: #fff;
 	}
-
-	.list-content {
-		/* margin-top: 10px; */
-	}
-
+	
 	.l-list {
 		padding: 0 14px;
 	}
-
+	
 	.l-list li {
 		border-bottom: 1px solid #eee;
 	}
-
+	
 	.title {
 		font-size: 18px;
 		color: #333;
 		line-height: 24px;
 	}
-
+	
 	.explain {
 		font-size: 12px;
 	}
-
+	
 	.intro {
 		font-size: 16px;
 		color: #666;
 	}
-
+	
 	.item {
 		padding: 14px 0;
 	}
-
-
 	/*待复核*/
 	/*loading*/
+	
 	.spinner {
 		text-align: center;
 		font-size: 14px;
 		padding: 15px 0;
 		color: #969799;
 	}
-
 	/**/
+	
 	.small-headPhoto {
 		width: 20px;
 		height: 20px;
 		float: left;
 		margin-right: 5px;
 	}
-
 	/*检索关键字*/
+	
 	.retrieval-box {
 		border-bottom: 1px solid #DDD;
 		padding: 14px;
 	}
-
+	
 	.retrieval-list li {
 		padding: 6px 15px;
 		border: 1px solid #ccc;
@@ -438,37 +428,37 @@
 		float: left;
 		margin-right: 5px;
 	}
-
+	
 	.retrieval-list li.current {
 		color: #fff;
 		background: #595F73;
 	}
-
 	/*search*/
+	
 	.searh-clear {
 		padding: 14px;
 		color: #666;
 		font-size: 16px;
 	}
-
+	
 	.clear-btn {
 		text-align: right;
 	}
-
+	
 	.clear-btn .van-icon {
 		top: 2px;
 		right: 4px;
 	}
-
+	
 	.s-history {
 		padding: 0 14px;
 		background: #fff;
 	}
-
+	
 	.s-historyList li {
 		float: left;
 	}
-
+	
 	.h-tag {
 		margin-bottom: 10px;
 		color: #333;
@@ -478,7 +468,7 @@
 		font-size: 14px;
 		margin-right: 10px;
 	}
-
+	
 	.search-wrap {
 		position: fixed;
 		top: 0;

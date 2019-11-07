@@ -14,8 +14,8 @@
 						<a class="overflow" href="tel:" style="width: 48%;float:right;display: block;color: #666666;"></a>
 						<img src="" alt=""><span>联系司机</span>
 					</li>
-					<li @click="$router.push({path:'/car/machinePositioning_AQ'})"><img src="" alt=""><span>安全范围</span></li>
-					<li @click="$router.push({path:'/car/machinePositioning_GJ'})"><img src="" alt=""><span>活动轨迹</span></li>
+					<!--<li @click="$router.push({path:'/car/machinePositioning_AQ'})"><img src="" alt=""><span>安全范围</span></li>-->
+					<!--<li @click="$router.push({path:'/car/machinePositioning_GJ'})"><img src="" alt=""><span>活动轨迹</span></li>-->
 				</div>
 				
 				<div class="position">
@@ -132,8 +132,7 @@
 <style scoped>
 	#containerS{
 	    min-width:100%;
-	  	min-height:753px;
-		margin-top: -46px;
+	  	min-height:100%;
 	}
 	.position{
 		border-top: 1px solid #eee;
@@ -317,6 +316,8 @@
 	}
 
 	.container {
+		width: 100%;
+		height: 100%;
 		padding-top: 46px;
 	}
 

@@ -1,10 +1,10 @@
 <template>
-	<div class="list-content">
-		
+	<div class="list-container">
+
 		<div class="l-dropdown">
 			<van-dropdown-menu>
-				  <van-dropdown-item v-model="value1" :options="option1" />
-				  <van-dropdown-item v-model="value2" :options="option2" />
+				<van-dropdown-item v-model="value1" :options="option1" />
+				<van-dropdown-item v-model="value2" :options="option2" />
 			</van-dropdown-menu>
 		</div>
 		<div id="containerS"></div>
@@ -17,7 +17,7 @@
 		</ul>
 		<ul class="footer_k footer_carS" :class="{'activeClass': activeClassType}" v-show='activeClassType'>
 			<div @click="activeClassButton()"></div>
-			<li><img src="" alt=""><span>湘A02806</span></li>
+			<li><img src="../../assets/images/exam/car.jpg" alt=""><span>湘A02806</span></li>
 			<li><img src="" alt=""><span>湘A02806</span></li>
 			<li><img src="" alt=""><span>湘A02806</span></li>
 			<li><img src="" alt=""><span>湘A02806</span></li>
@@ -30,7 +30,7 @@
 			<li><img src="" alt=""><span>湘A02806</span></li>
 			<li><img src="" alt=""><span>湘A02806</span></li>
 		</ul>
-		
+
 		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
 		<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 	</div>
@@ -48,7 +48,8 @@
 		Tabs,
 		Icon,
 		Search,
-		DropdownMenu, DropdownItem,
+		DropdownMenu,
+		DropdownItem,
 	} from 'vant';
 	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem);
 	export default {
@@ -59,46 +60,69 @@
 				active: 0,
 				searchVal: '',
 				isSearchShow: false,
-				activeClassType:false,
+				activeClassType: false,
 				value1: 0,
 				value2: 0,
-				option1: [
-					{ text: '全部标段', value: 0 },
-					{ text: '1标', value: 1 },
-					{ text: '2标', value: 2 },
-					{ text: '3标', value: 3 },
-					{ text: '4标', value: 4 },
-					{ text: '5标-1', value: 5},
-					{ text: '5标-2', value: 6 },
-					{ text: '6标', value: 7},
+				map: null,
+				option1: [{
+						text: '全部标段',
+						value: 0
+					},
+					{
+						text: '1标',
+						value: 1
+					},
+					{
+						text: '2标',
+						value: 2
+					},
+					{
+						text: '3标',
+						value: 3
+					},
+					{
+						text: '4标',
+						value: 4
+					},
+					{
+						text: '5标-1',
+						value: 5
+					},
+					{
+						text: '5标-2',
+						value: 6
+					},
+					{
+						text: '6标',
+						value: 7
+					},
 				],
-				option2: [
-					{ text: '全部工点', value: 0 },
-				],
+				option2: [{
+					text: '全部工点',
+					value: 0
+				}, ],
 			}
 		},
 		components: {
 			vantHeader
 		},
 		created() {
-			
 		},
 		mounted() {
-			this.init()
-			this.getUserWorkPointList()
+			this.init();
+			this.getAllGPS();
 		},
 		methods: {
 			init() {
 				console.log('11')
 				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
-				 var map = new qq.maps.Map(document.getElementById("containerS"), {
-					center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
-					zoom:8,
-					
+				this.map = new qq.maps.Map(document.getElementById("containerS"), {
+					center: new qq.maps.LatLng(39.916527, 116.397128), // 地图的中心地理坐标。
+					zoom: 8
 				});
 			},
-			activeClassButton(){
-				this.activeClassType=!this.activeClassType
+			activeClassButton() {
+				this.activeClassType = !this.activeClassType
 			},
 			searchShowHide() {
 				this.isSearchShow = !this.isSearchShow
@@ -107,30 +131,37 @@
 				this.searchShowHide();
 			},
 			onSearch() {
-			
+
 			},
-			change1(val){
+			change1(val) {
 				this.Section = this.option1[val].text
-				console.log("当前标段：",this.option1[val].text)
+				console.log("当前标段：", this.option1[val].text)
 			},
-			change2(val){
+			change2(val) {
 				this.Worksite = this.option2[val].text
-				console.log("当前工点：",this.option2[val].text)
+				console.log("当前工点：", this.option2[val].text)
 			},
-			getUserWorkPointList(){
+			getAllGPS() {
 				let that = this;
 				// this.$route.query.id=this.value1;
 				// console.log(this.value1,this.$route.query.value);
-				
+
 				// 工点
-				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
-					if(res.data.result) {
-						console.log("1.1.2.获取全部工点名称",res)
-						for(let k in res.data.data) {
-						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
-						   // NameArr.push(res.data.data[k])
-						}	
-						console.log("工点：",this.option2)
+				ajax.get('/API/WebAPIDataAudit/getAllGPS').then(res => {
+					if(res.status == 200 && res.data.data && res.data.data.result.length > 0) {
+						var data = res.data.data.result;
+						for(var i = 0;i < data.length;i++) {
+							var anchor = new qq.maps.Point(6, 6),
+								size = new qq.maps.Size(40, 19),
+								origin = new qq.maps.Point(0, 0),
+								icon = new qq.maps.MarkerImage(require('../../assets/images/exam/car.jpg'), size, origin, anchor, size);
+							var marker = new qq.maps.Marker({
+								icon: icon,
+								map: that.map,
+								rotation: Math.random() * 360,
+								position: new qq.maps.LatLng(data[i].lat, data[i].lng)
+							});
+						}
 					}
 				})
 			}
@@ -139,45 +170,50 @@
 </script>
 
 <style scoped>
-	#containerS{
-	    min-width:100%;
-	    min-height:753px;
-		margin-top: -120px;
+	#containerS {
+		min-width: 100%;
+		min-height: 100%;
+		top: 70px;
 	}
-	.l-dropdown{
-	    padding: 10px 0;
-	    background: #fff;
-	    border-bottom: 1px solid #ECECEC;
+	
+	.l-dropdown {
+		padding: 10px 0;
+		background: #fff;
+		border-bottom: 1px solid #ECECEC;
 		position: fixed;
 		width: 100%;
 		top: 90px;
 		z-index: 999;
 	}
-	.position{
+	
+	.position {
 		border-top: 1px solid #eee;
 		padding: 16px;
 		line-height: 32px;
-		font-size:17px;
+		font-size: 17px;
 	}
-	.position span:last-child{
+	
+	.position span:last-child {
 		float: right;
 		color: #ddd;
 		font-size: 14px;
 	}
-	.position img{
-	    width:32px;
-		height:32px;
+	
+	.position img {
+		width: 32px;
+		height: 32px;
 		display: block;
 		float: left;
 		margin-right: 10px;
 		background: #9499AA;
 	}
-	.footer_k{
-		width:100%;
-		height:auto;
+	
+	.footer_k {
+		width: 100%;
+		height: auto;
 		overflow: hidden;
-		background:rgba(255,255,255,1);
-		box-shadow:0px -1px 2px 0px rgba(0,0,0,0.06);
+		background: rgba(255, 255, 255, 1);
+		box-shadow: 0px -1px 2px 0px rgba(0, 0, 0, 0.06);
 		position: fixed;
 		bottom: 0;
 		padding: 15px 10px;
@@ -188,68 +224,81 @@
 		-webkit-overflow-scrolling: touch;
 		z-index: 999;
 	}
+	
 	.activeClass {
-	    height: 90% !important;
+		height: 90% !important;
 	}
-	.footer_k div{
-		width:19px;
-		height:2px;
-		background:rgba(112,153,208,1);
-		border-radius:1px;
+	
+	.footer_k div {
+		width: 19px;
+		height: 2px;
+		background: rgba(112, 153, 208, 1);
+		border-radius: 1px;
 		margin: 0 auto 10px;
 	}
-	.footer_car li,.footer_carS li{
+	
+	.footer_car li,
+	.footer_carS li {
 		width: 25% !important;
 	}
-	.footer_car li img,.footer_carS li img{
+	
+	.footer_car li img,
+	.footer_carS li img {
 		width: 90% !important;
-		height:46px;
-		border-radius:2px;
-		border:1px solid rgba(238,238,238,1);
+		height: 46px;
+		border-radius: 2px;
+		border: 1px solid rgba(238, 238, 238, 1);
 	}
-	.footer_k li{
+	
+	.footer_k li {
 		width: 20%;
 		height: auto;
 		overflow: hidden;
 		float: left;
 	}
-	.footer_k li img{
-		width:45px;
-		height:45px;
-		
+	
+	.footer_k li img {
+		width: 45px;
+		height: 45px;
 		background: #DDDDDD;
 		display: block;
 		margin: 0 auto;
 	}
-	.footer_kS li span,.footer_carS li span{
+	
+	.footer_kS li span,
+	.footer_carS li span {
 		margin: 10px 0;
 	}
-	.footer_k li span{
+	
+	.footer_k li span {
 		margin-top: 10px;
-	    display: block;
+		display: block;
 		text-align: center;
 	}
 	/*  */
+	
 	/deep/ .van-dropdown-menu .van-dropdown-menu__item:first-child {
-	    border-right: 1px solid #ccc;
-	    margin-right: 10px;
-	}
-	/deep/.van-dropdown-menu .van-dropdown-menu__item {
-	    border: 1px solid #CCC;
-	    border-radius: 2px;
-	    background: #F9F9F9;
+		border-right: 1px solid #ccc;
+		margin-right: 10px;
 	}
 	
-	.van-dropdown-menu{
-	    width: 90%;
-	    margin: 0 auto;
+	/deep/.van-dropdown-menu .van-dropdown-menu__item {
+		border: 1px solid #CCC;
+		border-radius: 2px;
+		background: #F9F9F9;
 	}
+	
+	.van-dropdown-menu {
+		width: 90%;
+		margin: 0 auto;
+	}
+	
 	.innerLabel li.activeLabel {
 		background: #595F73;
 		border: 1px solid #595F73;
 		color: #fff;
 	}
-
+	
 	.innerLabel li {
 		padding: 0 12px;
 		width: auto;
@@ -265,10 +314,8 @@
 		transform: all .5s ease;
 		border-radius: 2px;
 		line-height: 24px;
-
-
 	}
-
+	
 	.inte_gent,
 	.innerLabel {
 		width: 100%;
@@ -282,7 +329,7 @@
 		align-items: middle;
 		overflow: auto;
 	}
-
+	
 	.header_inte {
 		width: auto;
 		height: auto;
@@ -291,120 +338,117 @@
 		background: #fff;
 		border-bottom: 1px solid rgba(238, 238, 238, 1);
 	}
-
 	/*  */
+	
 	.clearfix::after {
 		content: '';
 		display: block;
 		clear: both;
 	}
-
+	
 	* {
 		margin: 0;
 	}
-
+	
 	img {
 		display: block;
 		width: 100%;
 		height: auto
 	}
-
+	
 	/deep/ .van-tabs__line {
 		background-color: #9499AA;
 		width: 50% !important;
 	}
-
+	
 	.color666 {
 		color: #666;
 	}
-
+	
 	.omit {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-
+	
 	.omit2 {
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 		overflow: hidden;
 	}
-
+	
 	.marginT12 {
 		margin-top: 12px;
 	}
-
+	
 	.container {
 		padding-top: 46px;
 	}
-
+	
 	.van-nav-bar .van-icon {
 		font-size: 18px;
 		color: #fff;
 	}
-
 	/*.notice-box{width:20px;height:20px;}*/
 	/*ontent list*/
-	.list-content {
+	
+	.list-container {
+		width: 100%;
+		height: 100%;
 		background: #fff;
 	}
-
-	.list-content {
-		/* margin-top: 10px; */
-	}
-
+	
 	.l-list {
 		padding: 0 14px;
 	}
-
+	
 	.l-list li {
 		border-bottom: 1px solid #eee;
 	}
-
+	
 	.title {
 		font-size: 18px;
 		color: #333;
 		line-height: 24px;
 	}
-
+	
 	.explain {
 		font-size: 12px;
 	}
-
+	
 	.intro {
 		font-size: 16px;
 		color: #666;
 	}
-
+	
 	.item {
 		padding: 14px 0;
 	}
-
-	
 	/*待复核*/
 	/*loading*/
+	
 	.spinner {
 		text-align: center;
 		font-size: 14px;
 		padding: 15px 0;
 		color: #969799;
 	}
-
 	/**/
+	
 	.small-headPhoto {
 		width: 20px;
 		height: 20px;
 		float: left;
 		margin-right: 5px;
 	}
-
 	/*检索关键字*/
+	
 	.retrieval-box {
 		border-bottom: 1px solid #DDD;
 		padding: 14px;
 	}
-
+	
 	.retrieval-list li {
 		padding: 6px 15px;
 		border: 1px solid #ccc;
@@ -413,37 +457,37 @@
 		float: left;
 		margin-right: 5px;
 	}
-
+	
 	.retrieval-list li.current {
 		color: #fff;
 		background: #595F73;
 	}
-
 	/*search*/
+	
 	.searh-clear {
 		padding: 14px;
 		color: #666;
 		font-size: 16px;
 	}
-
+	
 	.clear-btn {
 		text-align: right;
 	}
-
+	
 	.clear-btn .van-icon {
 		top: 2px;
 		right: 4px;
 	}
-
+	
 	.s-history {
 		padding: 0 14px;
 		background: #fff;
 	}
-
+	
 	.s-historyList li {
 		float: left;
 	}
-
+	
 	.h-tag {
 		margin-bottom: 10px;
 		color: #333;
@@ -453,7 +497,7 @@
 		font-size: 14px;
 		margin-right: 10px;
 	}
-
+	
 	.search-wrap {
 		position: fixed;
 		top: 0;

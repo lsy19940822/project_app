@@ -135,8 +135,7 @@
 <style scoped>
 	#containerS{
 	    min-width:100%;
-	  	    min-height:753px;
-			margin-top: -46px;
+	  	    min-height:100%;
 	}
 	.position{
 		border-top: 1px solid #eee;
@@ -320,6 +319,8 @@
 	}
 
 	.container {
+		width: 100%;
+		height: 100%;
 		padding-top: 46px;
 	}
 

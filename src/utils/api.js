@@ -28,6 +28,7 @@ export function postW(url, data) {
 export function get(url, data) {
 	return request({
 		url: http + url,
+//		responseType: 'text',//请求页面返回的数据类型 
 		method: 'GET',
 		data
 	})

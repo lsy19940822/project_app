@@ -1,5 +1,5 @@
 <template>
-	<div class="list-content">
+	<div class="list-container">
 		
 		<div class="l-dropdown">
 			<van-dropdown-menu>
@@ -181,8 +181,8 @@
 <style scoped>
 	#container{
 	    min-width:100%;
-	    min-height:753px;
-		margin-top: -120px;
+	    min-height:100%;
+		top: 70px;
 	}
 	.l-dropdown{
 	    padding: 10px 0;
@@ -190,7 +190,7 @@
 	    border-bottom: 1px solid #ECECEC;
 		position: absolute;
 		width: 100%;
-		top: 90px;
+		top: 0;
 		z-index: 1;
 	}
 	.position{
@@ -385,11 +385,13 @@
 
 	/*.notice-box{width:20px;height:20px;}*/
 	/*ontent list*/
-	.list-content {
+	.list-container {
+		width: 100%;
+		height: 100%;
 		background: #fff;
 	}
 
-	.list-content {
+	.list-container {
 		/* margin-top: 10px; */
 	}
 

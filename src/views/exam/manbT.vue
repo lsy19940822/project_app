@@ -76,7 +76,9 @@
 						console.log(res)
 						_this.scanImg = false;
 						if(res.status == 200 && res.data.code == 200) {
-							_this.$router.push("/information?IDCard="+res.data.data.CERTNUMBR);
+							if(res.data.data.Data.length > 0)
+								_this.$router.push("/information?IDCard="+res.data.data.Data[0].image);
+							else Toast('未匹配到相关人员');
 						} else {
 							Toast(res.data.msg);
 						}
