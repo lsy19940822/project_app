@@ -40,38 +40,15 @@
 				value1: 0,
 				value2: 0,
 				value3: 0,
-				option1: [{
-						text: '全部标段',
-						value: 0
-					},
-					{
-						text: '1标',
-						value: 1
-					},
-					{
-						text: '2标',
-						value: 2
-					},
-					{
-						text: '3标',
-						value: 3
-					},
-					{
-						text: '4标',
-						value: 4
-					},
-					{
-						text: '5-1标',
-						value: 5
-					},
-					{
-						text: '5-2标',
-						value: 6
-					},
-					{
-						text: '6标',
-						value: 7
-					},
+				option1: [
+					{ text: '全部标段', value: 0, name:'全部标段'},
+					{ text: 'CYCZQ-1标', value: 1, name:'1标'},
+					{ text: 'CYCZQ-2标', value: 2, name:'2标'},
+					{ text: 'CYCZQ-3标', value: 3, name:'3标'},
+					{ text: 'CYCZQ-4标', value: 4, name:'4标'},
+					{ text: 'CYCZQ-5标1', value: 5, name:'5-1标'},
+					{ text: 'CYCZQ-5标2', value: 6, name:'5-2标'},
+					{ text: 'CYCZQ-6标', value: 7, name:'6标'},
 				],
 				option2: [{
 						text: '全部单位',
@@ -239,7 +216,7 @@
 			}
 		},
 		created() {
-
+this.getCompanyList()
 		},
 		mounted() {
 			this.StaffRetrieveList();
@@ -268,6 +245,26 @@
 				this.TypeWork = this.option3[val].text
 				console.log("当前工种：", this.option3[val].text)
 				this.searchButton()
+			},
+			getCompanyList(){
+				// 1.1.1.根据标段查单位
+				ajax.get('/API/WebAPIDataAudit/getCompany?Compan=null').then(res => {
+				
+					if(res.data.result) {
+				
+						console.log("getCompany:",res.data)
+					}
+					// Toast.fail(res.data.resultMsg || '查询失败，请重试！');
+				})
+				// 1.1.2.根据单位查工种
+				ajax.get('/API/WebAPIDataAudit/GetWorkType?worktype=null').then(res => {
+				
+					if(res.data.result) {
+				
+						console.log("worktype:",res.data)
+					}
+					// Toast.fail(res.data.resultMsg || '查询失败，请重试！');
+				})
 			},
 			searchButton() {
 				console.log("当前标段：", this.Section, "当前单位：", this.Unit, "当前工种：", this.TypeWork)
