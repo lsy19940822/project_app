@@ -8,16 +8,17 @@
 	  				  <img :src="image.PHOTOURL" class="back_img">
 	  			  </van-swipe-item>
 	  			</van-swipe>
+				<div class="login-form">
+					<p class="login-form-title">登录考试系统</p>
+					<van-cell-group>
+						<i class="login-form-icon"><img src="../assets/code-icon.png"></i>
+						<van-field v-model="IDCard" placeholder="请输入您的身份证号码" />
+					</van-cell-group>
+					<!--<van-button type="primary" @click="$router.push('/faceId')" style="width: 100%;margin-bottom: 25px;">人脸认证</van-button>-->
+					<van-button color="#7232dd" @click="login()" style="width: 100%;"><span style="color:#fff">登录系统</span></van-button>
+				</div>
 	  		</div>
-	  		<div class="login-form">
-	  			<p class="login-form-title">登录考试系统</p>
-	  			<van-cell-group>
-	  				<i class="login-form-icon"><img src="../assets/code-icon.png"></i>
-	  				<van-field v-model="IDCard" placeholder="请输入您的身份证号码" />
-	  			</van-cell-group>
-				<!--<van-button type="primary" @click="$router.push('/faceId')" style="width: 100%;margin-bottom: 25px;">人脸认证</van-button>-->
-	  			<van-button color="#7232dd" @click="login()" style="width: 100%;"><span style="color:#fff">登录系统</span></van-button>
-	  		</div>
+	  		
 	  	</div>
 	  	<van-popup v-model="showTips" class="login-tips">
 	  		<div>
@@ -136,20 +137,16 @@
 	.container .login-bg img.back_img {
 		width: 100%;
 		float: left;
-		/* position: relative; */
 	}
 	.container .login-form{
-		width:90%;
-		/* height: 200px; */
-		/* margin: 0 auto; */
-		position: fixed;
-		left: 50%;
-		margin-left: -45%;
-		top: 36%;
+		width: 94%;
 		background: #fff;
 		padding: 15px;
 		box-sizing: border-box;
 		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+		margin: 0 auto;
+		border-radius: 7px;
+		transform: translateY(-40px);
 	}
 	.container .login-form .login-form-title{
 		font-size: 14px;
