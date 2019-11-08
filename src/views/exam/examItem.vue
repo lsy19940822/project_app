@@ -12,7 +12,7 @@
 			<div>
 				<p :id="questionCurrent.ID">{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
-					<li v-for="(item,index) in answerList" @click="choose(index,1)" :class="{active:isSingleActive == index}">
+					<li v-for="(item,index) in answerList" @click="choose(index,1)" :class="{active:isSingleActive == index || answer(index) == allAnswers[current]}">
 						<div class="back" :class="alreadyCheck[index]"></div>
 						<span class="chooseIndex">{{index+1 | chooseIndex}}</span><span>{{item}}</span>
 					</li>
@@ -24,7 +24,7 @@
 			<div>
 				<p :id="questionCurrent.ID">{{current+1}}.{{questionCurrent.TIGAN }}</p>
 				<ul>
-					<li v-for="(item,index) in answerList" @click="choose(index,2)" :class="{active:isMultipleActive[index] == true}">
+					<li v-for="(item,index) in answerList" @click="choose(index,2)" :class="{active:isMultipleActive[index] == true || (allAnswers[current] && allAnswers[current].indexOf(answer(index))) > -1 }">
 						<span class="chooseIndex">{{index+1 | chooseIndex}}</span><span>{{item}}</span>
 					</li>
 				</ul>
@@ -105,12 +105,12 @@
 				showTips: false,
 				ExamTimeStart: '',
 				rightTotal: 0,
-				optionStyle:false,
+				optionStyle: false,
 				time: 60 * 60 * 60 * 12.5, //考试倒计时
 				examTime: "", //考试所用的时间
 				answerAlrealTotal: 0, // 作答题数
 				alreadyCheck: [],
-				classArr: [],
+//				classArr: [],
 			}
 		},
 		created() {
@@ -155,8 +155,10 @@
 				ajax.get('/API/WebAPIDataAudit/GetPaper?IDcard=' + this.$route.query.IDCard).then(res => {
 					if(res.data.result) {
 						this.questionList = res.data.data
+						console.log("全部问题", this.questionList)
 						this.total = res.data.data.length
 						this.questionCurrent = this.questionList[this.current]
+						console.log("当前问题", this.questionCurrent)
 						this.questionText = this.questionCurrent.GZ
 						for(let k in this.questionCurrent) {
 
@@ -167,21 +169,21 @@
 								}
 							}
 						}
+						console.log("可选答案列表", this.answerList)
 						this.rightAnswerHandle();
 					}
 				})
-
 			},
 			pre() {
 				this.isSingleActive = -1;
 				this.isMultipleActive = [false, false, false, false]
 				if(this.current > 0) {
 					this.current--
-					// this.addClassHandle();
+						// this.addClassHandle();
 				} else {
 					this.preNone = true
 					Toast('这是第一题！');
-					
+
 				}
 			},
 			next() {
@@ -190,43 +192,43 @@
 				this.isMultipleActive = [false, false, false, false]
 				if(this.current < this.total - 1) {
 					this.current++
-                    // this.addClassHandle();
+						// this.addClassHandle();
 				} else {
 					this.nextNone = false
 					//					Toast('已经是最后一题了！');
 					_this.submitExam();
-					
 
 				}
 			},
 			rightAnswerHandle() {
 				for(let item in this.questionList) { //存储正确答案
-					console.log("this.rightAnswers:", this.questionList[item].ZQDA)
 					this.rightAnswers.push(this.questionList[item].ZQDA)
 				}
+				console.log("正确答案：", this.rightAnswers)
 			},
 			choose(index, flag) {
 				// for(let item of this.answerList) {
 				// 	console.log("this.answerList[item]:",this.answerList[item])
 				// 	item.optionStyle = false;
-					
+
 				// }
 				var _this = this;
 				if(flag === 1) { //flag 1:单选  2：多选 3：判断
 					this.isSingleActive = index;
 
 					this.allAnswers[this.current] = _this.answer(index)
-					console.log("序号", this.current + 1, "本题单选", "我选择的答案是：", this.allAnswers[this.current] , "本题的答案：", this.questionList[this.current].ZQDA)
-                    if(this.allAnswers[this.current] == this.questionList[this.current].ZQDA){
-						this.classArr = [];
-					    console.log("选择正确")
-						this.allAnswers[this.current]=this.classArr[index] = 'bgRightS'
-						// this.optionStyle=true;
-					}else{
-						 console.log("选择error")
-						this.allAnswers[this.current]=this.classArr[index] = 'bgRightS'
-						 // this.optionStyle=false;
-					}
+					console.log("序号", this.current + 1, "本题单选", "我选择的答案是：", this.allAnswers[this.current], "本题的答案：", this.questionList[this.current].ZQDA)
+//					if(this.allAnswers[this.current] == this.questionList[this.current].ZQDA) {
+//						this.classArr = [];
+//						console.log("选择正确")
+//						this.allAnswers[this.current] = this.classArr[index] = 'bgRightS'
+//						// this.optionStyle=true;
+//					} else {
+//						console.log("选择error")
+//						this.allAnswers[this.current] = this.classArr[index] = 'bgRightS'
+//						// this.optionStyle=false;
+//					}
+					console.log("当前答案", this.allAnswers)
 				} else if(flag === 2) {
 					var multipleChoseData = [],
 						multipleChose = '';
@@ -239,6 +241,7 @@
 					})
 					this.allAnswers[this.current] = multipleChose;
 					console.log("序号", this.current + 1, "本题多选", "我选择的答案是：", this.allAnswers[this.current], "本题的答案：", this.questionList[this.current].ZQDA)
+					console.log("当前答案", this.allAnswers)
 				}
 				this.selectTotal = 0;
 				this.allAnswers.filter(function(item, index, arr) {
@@ -248,7 +251,7 @@
 					}
 				})
 			},
-			
+
 			answer(n) {
 				var questAnswer;
 				switch(n) {
@@ -269,23 +272,26 @@
 				return questAnswer;
 			},
 			submitExam() {
+				console.log(this.allAnswers)
 				var _this = this;
 				_this.selectTotal = 0;
+				// 记录做了多少题
 				this.allAnswers.filter(function(item, index, arr) {
 
 					if(item != undefined && item != '') {
 						_this.selectTotal += 1;
 					}
 				})
+				// 记录做对多少题
 				for(var i = 0; i < this.rightAnswers.length; i++) {
 					if(this.rightAnswers[i] === this.allAnswers[i]) {
-						this.Score += 4;
+						this.Score += Math.floor(100 / this.questionList.length);
 						this.rightTotal += 1;
 					}
 				}
+				// 记录考试名称
 				if(this.questionList.length != 0) {
 					this.ExamName = this.questionList[0].BIDSECTION + this.questionList[0].GZ + formatDate(new Date(), '');
-
 				} else {
 					return;
 				}
@@ -432,12 +438,14 @@
 		text-align: center;
 		margin: 0 auto 16px;
 	}
+	
 	.question-container li div.bgRightS {
 		width: 100px;
 		height: 100px;
 		background: red;
 		color: #fff;
 	}
+	
 	.login-tips {
 		width: 94%;
 		/* height: 85%; */
@@ -483,7 +491,7 @@
 		width: 100%;
 		height: auto;
 		overflow: hidden;
-		padding:10px;
+		padding: 10px;
 		color: #666666;
 		margin-bottom: 10px;
 		background: #F6F6F6;
