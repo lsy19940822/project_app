@@ -34,6 +34,15 @@
 					</van-popup>
 				</li>
 				<li class="list_li">
+					<van-cell is-link @click="showTimePopStart">
+					   	<span>提问时间</span>
+					   	<span>{{timeValueStart?timeValueStart:"请选择"}}</span>
+					</van-cell>
+					<van-popup v-model="showStart" position="bottom">
+						<van-datetime-picker class="order-time-pop" v-model="currentDateStart" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="confirmFnStart()" @cancel="cancelFnStart()" />
+					</van-popup>
+				</li>
+				<li class="list_li">
 					<van-cell is-link @click="showTimePop">
 					   	<span>限定时间</span>
 					   	<span>{{timeValue?timeValue:"请选择"}}</span>
@@ -165,13 +174,17 @@
 				columnsS: ['特别紧急', '紧急',"一般"],
 				valueS: '',
 				showPickerS: false,
-				// 限定时间
+				// 时间
 				minHour: 10,
 				maxHour: 20,
 				minDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes()),
 				maxDate: new Date(new Date().getFullYear()+5, new Date().getMonth(), new Date().getDate(),new Date().getHours(), new Date().getMinutes()),
+				// 开始时间
+				currentDateStart: new Date(),
+				showStart: false, // 用来显示弹出层
+				timeValueStart: '',
+				// 限定时间
 				currentDate: new Date(),
-				// currentDateX:"",
 				show: false, // 用来显示弹出层
 				timeValue: '',
 				// 小于10 大于10 时间
@@ -194,7 +207,10 @@
 				addr:'',
 				city:'',
 				longlat:false,
-				peleList:''
+				peleList:'',
+				user:{
+					
+				}
 			}
 		},
 		mounted() {
@@ -204,6 +220,15 @@
 			
 		},
 		methods: {
+			// 用户信息
+			// ajax.getW('/api/safety/selectUserById?id='+this.$route.query.userId).then(res => {
+			// 	if(res.status == 200) {
+			// 		if(res.data.code == 200) {
+			// 			this.type=res.data.data.info.TYPES
+			// 			console.log("selectUserById：",res.data);
+			// 		}
+			// 	}
+			// }),
 			afterRead(file) {
 			  // 此时可以自行将文件上传至服务器
 			  console.log(file);
@@ -251,10 +276,15 @@
 					Toast('请选择紧急类型');
 					return;
 				}
+				if(this.timeValueStart == ''){
+					Toast('请选择限定时间');
+					return;
+				}
 				if(this.timeValue == ''){
 					Toast('请选择限定时间');
 					return;
-				}if(this.addr == ''){
+				}
+				if(this.addr == ''){
 					Toast('请获取您当前位置');
 					return;
 				}if(this.messageQuesc == ''){
@@ -273,7 +303,7 @@
 					Toast('请选择负责人');
 					return;
 				}
-				if(this.value!='' && this.timeValue!='' && this.peleList!=''  && this.valueS!=''  && this.fileList!=''  && this.message!=''  && this.messageQuesc!=''  && this.addr!='' ){
+				if(this.timeValueStart && this.value!='' && this.timeValue!='' && this.peleList!=''  && this.valueS!=''  && this.fileList!=''  && this.message!=''  && this.messageQuesc!=''  && this.addr!='' ){
 				
 					// ajax.getW('/api/safety/saveSafety?id='+that.$route.query.id).then(res => {
 					// 	if(res.status == 200) {
@@ -307,6 +337,70 @@
 				Toast("定位失败");
 				//				this.getMyLocation(this.curPositionStatus); //定位失败再请求定位，测试使用
 			},
+			// 开始时间
+			confirmFnStart() { // 确定按钮
+				this.timeValueStart = this.timeFormatStart(this.currentDateStart);
+				this.showStart = false;
+			},
+			cancelFnStart() {
+				this.showStart = false;
+			},
+			showTimePopStart() {
+				this.showStart = true;
+				this.currentDateStart = new Date(this.timeValueStart.replace(/-/g, "/"));
+			},
+			timeFormatStart(time) { // 时间格式化 2019-09-08
+				let year = time.getFullYear();
+				let month = time.getMonth() + 1;
+				let day = time.getDate();
+				let getHour = time.getHours();
+			
+				let getMinutes = time.getMinutes();
+			
+				let Nowdate = new Date().getHours();
+			
+				// 时
+				if(getHour < 10) {
+					this.getHour_s = "0" + getHour
+				}
+				if(getHour > 10 || getHour === 10) {
+					this.getHour_s = getHour
+				}
+				// 分
+				if(getMinutes < 10) {
+					this.getMinutes_s = "0" + getMinutes
+				}
+				if(getMinutes > 10 || getMinutes === 10) {
+					this.getMinutes_s = getMinutes
+				}
+				// 月
+				if(month < 10) {
+					this.month_s = "0" + month
+				}
+				if(month > 10) {
+					this.month_s = month
+				}
+				if(month === 10) {
+					this.month_s = month
+				}
+				// 日
+				if(day < 10) {
+					this.day_s = "0" + day
+				}
+				if(day > 10) {
+					this.day_s = day
+				}
+				if(day === 10) {
+					this.day_s = day
+				}
+			
+				return year + '-' + this.month_s + '-' + this.day_s + " " + this.getHour_s + ":" + this.getMinutes_s;
+				// this.currentDateX=year + '-' + this.month_s + '-' + this.day_s + " " + this.getHour_s + ":" + this.getMinutes_s
+			
+			},
+			
+			
+			// 结束时间
 			confirmFn() { // 确定按钮
 				this.timeValue = this.timeFormat(this.currentDate);
 				this.show = false;

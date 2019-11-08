@@ -8,7 +8,6 @@
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
 				<van-dropdown-menu class='van-dropdown'>
-				  <van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)"/>
 				  <van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)"/>
 				</van-dropdown-menu>
 			</div>

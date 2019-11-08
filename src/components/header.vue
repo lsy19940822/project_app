@@ -44,6 +44,7 @@
 			onClickLeft() {
 				if(this.preventGoBack){
 					this.$emit('on-click-left');
+					this.router.push({path:'/examLogin'})
 				}else{
 					this.$router.go(-1);
 				}

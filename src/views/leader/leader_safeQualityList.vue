@@ -12,12 +12,12 @@
 			<!--安全质量nav-->
 			<div class="l-navBox">
 				<van-row>
-					<van-col span="6" @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})">
-						<div @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})">
-							<div class="img-box" @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})">
-								<img src="../../assets/images/safeQuality/icon_issue.png" @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})"/>
+					<van-col span="6" @click="sumbit()">
+						<div @click="sumbit()">
+							<div class="img-box" @click="sumbit()">
+								<img src="../../assets/images/safeQuality/icon_issue.png" @click="sumbit()"/>
 							</div>
-							<div class="text" @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})">问题发起</div>
+							<div class="text" @click="">问题发起</div>
 						</div>
 					</van-col>
 					
@@ -87,8 +87,8 @@
 	import * as ajax from '@/utils/api'
 	import vantHeader from '@/components/header.vue'
 	import Vue from 'vue';
-	import { Row, Col, DropdownMenu, DropdownItem, Loading } from 'vant';
-	Vue.use(Row).use(Col).use(DropdownMenu).use(DropdownItem).use(Loading);
+	import { Row, Col, DropdownMenu, DropdownItem, Loading,Toast } from 'vant';
+	Vue.use(Row).use(Col).use(DropdownMenu).use(DropdownItem).use(Loading).use(Toast);
 	export default {
 		data(){
 			return{
@@ -133,7 +133,14 @@
 			this.selectSafetyListS()
 		},
 		methods: {
-			
+			sumbit(){
+				let that=this;
+			    if(that.$route.query.type == 1){
+					that.$router.push({path:'/SubmitQuestions?userId='+that.$route.query.userId})
+				}else{
+					Toast("你暂无发起权限")
+				}
+			},
 			selectSafetyListS() {
 				ajax.getW('/api/safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
 					if(res.status == 200) {

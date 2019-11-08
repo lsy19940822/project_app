@@ -103,9 +103,8 @@
 		data() {
 			return {
 				questionText:"常益长铁路工程管理平台",
-				
 				isLoading:true,
-				activeNames: ['0']
+				activeNames: ['1']
 			}
 		},
 		created() {

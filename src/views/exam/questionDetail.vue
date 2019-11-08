@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText+`测试`" :rightType="2">
+		<vant-header :leftArrow="true" :preventGoBack='false' :titleType="1" :title="questionText+`测试`" :rightType="2">
 			<div slot='right_slot'>
 				<p class="header-right">{{current+1}}/{{total}}</p>
 			</div>

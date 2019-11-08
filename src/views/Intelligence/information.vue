@@ -11,7 +11,7 @@
 				<div class="overflow">
 					<!-- 18501343420 -->
 					<van-button icon="location" type="info">查看定位</van-button>
-					<a class="overflow" href="tel:" style="width: 48%;float:right;display: block;color: #fff;"><van-button icon="phone" type="primary" style='width:100%'>拨打电话</van-button></a>
+					<a class="overflow" :href="'tel:'+StaffInfoData[0].TELEPHONE" style="width: 48%;float:right;display: block;color: #fff;"><van-button icon="phone" type="primary" style='width:100%'>拨打电话</van-button></a>
 				</div>
 				
 			</div>

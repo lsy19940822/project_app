@@ -17,9 +17,9 @@
 				</van-swipe>
 			</div>
 			<ul class="navList">
-				<li @click="$router.push({path:'/intelligent'})"><img src="../assets/images/index_icon/icon_jd@2x.png" alt=""><p>智能进度</p></li>
-				<li @click="$router.push({path:'/Intelligence'})"><img src="../assets/images/index_icon/icon_lw@2x.png" alt=""><p>智能劳务</p></li>
-				<li @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li>
+				<li @click="$router.push({path:'/intelligent?ValueId=0'})"><img src="../assets/images/index_icon/icon_jd@2x.png" alt=""><p>智能进度</p></li>
+				<li @click="$router.push({path:'/Intelligence/labor?ValueId=0'})"><img src="../assets/images/index_icon/icon_lw@2x.png" alt=""><p>智能劳务</p></li>
+				<li @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+type})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li>
 				<li @click="$router.push({path:'/examLogin'})"><img src="../assets/images/index_icon/icon_exam@2x.png" alt=""><p>考核测试</p></li>
 				<li @click="$router.push({path:'/machinePositioning'})"><img src="../assets/images/index_icon/icon_dw@2x.png" alt=""><p>人机定位</p></li>
 				<li @click="$router.push({path:'/monitoring'})"><img src="../assets/images/index_icon/icon_jk@2x.png" alt=""><p>智能监控</p></li>
@@ -88,7 +88,7 @@
 				</div>
 				<div class="container_nav" style="padding: 16px 8px;">
 					<div class="nav_br">
-						<div class="nav_t">
+						<div class="nav_t" @click="$router.push({path:'/intelligent?ValueId=0'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-1标</span>
@@ -104,7 +104,7 @@
 							    <span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
-						<div class="nav_t nav_r">
+						<div class="nav_t nav_r" @click="$router.push({path:'/intelligent?ValueId=1'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-2标</span>
@@ -123,7 +123,7 @@
 						
 					</div>	
 					<div class="nav_br">
-						<div class="nav_t">
+						<div class="nav_t" @click="$router.push({path:'/intelligent?ValueId=2'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-3标</span>
@@ -139,7 +139,7 @@
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
-						<div class="nav_t nav_r">
+						<div class="nav_t nav_r" @click="$router.push({path:'/intelligent?ValueId=3'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-4标</span>
@@ -157,7 +157,7 @@
 						</div>
 						
 					</div>
-					<div class="nav_br">
+					<div class="nav_br" @click="$router.push({path:'/intelligent?ValueId=4'})">
 						<div class="nav_t">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
@@ -174,7 +174,7 @@
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
-						<div class="nav_t nav_r">
+						<div class="nav_t nav_r" @click="$router.push({path:'/intelligent?ValueId=5'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-5标2</span>
@@ -192,8 +192,8 @@
 						</div>
 						
 					</div>
-					<div class="nav_br">
-						<div class="nav_t">
+					<div class="nav_br" >
+						<div class="nav_t"@click="$router.push({path:'/intelligent?ValueId=6'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-6标</span>
@@ -218,17 +218,17 @@
 			<div class="container_list">
 				<p class="van-hairline--bottom exam-title"><img src="../assets/images/index_icon/icon_aq@2x(1).png" alt="">安全质量</p>
 			    <ul class="container_nav" style="padding: 24px 0;">
-					 <li class="container_nav_aq">
+					 <li class="container_nav_aq"  @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+type})">
 						   <p style="position: relative;">待解决<img src="../assets/images/index_icon/icon_zy@2x.png" alt="" width="16px" style="position: absolute;top:4px;right: 12px;"></p> 
 						   <p style="color: #C86565;">32个</p>
 					 </li>
 					 <li class="container_nav_shu"></li>
-					 <li class="container_nav_aq">
+					 <li class="container_nav_aq" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">
 						 <p>安全问题</p> 
 						 <p>32个</p>
 					 </li>
 					 <li class="container_nav_shu"></li>
-					 <li class="container_nav_aq">
+					 <li class="container_nav_aq" @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})">
 						 <p>质量问题</p> 
 						 <p>32个</p>
 					 </li>
@@ -257,7 +257,7 @@
 				</div>
 				<div class="container_nav" style="padding: 16px 8px;">
 					<div class="nav_br">
-						<div class="nav_t">
+						<div class="nav_t" @click="$router.push({path:'/Intelligence/labor?ValueId=0'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-1标</span>
@@ -271,7 +271,7 @@
 							    <span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
-						<div class="nav_t nav_r">
+						<div class="nav_t nav_r" @click="$router.push({path:'/Intelligence/labor?ValueId=1'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-2标</span>
@@ -285,10 +285,9 @@
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
-						
 					</div>	
 					<div class="nav_br">
-						<div class="nav_t">
+						<div class="nav_t" @click="$router.push({path:'/Intelligence/labor?ValueId=2'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-3标</span>
@@ -302,7 +301,7 @@
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
-						<div class="nav_t nav_r">
+						<div class="nav_t nav_r" @click="$router.push({path:'/Intelligence/labor?ValueId=3'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-4标</span>
@@ -316,10 +315,9 @@
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
-						
 					</div>
 					<div class="nav_br">
-						<div class="nav_t">
+						<div class="nav_t" @click="$router.push({path:'/Intelligence/labor?ValueId=4'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-5标1</span>
@@ -333,7 +331,7 @@
 								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 							</div>
 						</div>
-						<div class="nav_t nav_r">
+						<div class="nav_t nav_r" @click="$router.push({path:'/Intelligence/labor?ValueId=5'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-5标2</span>
@@ -350,7 +348,7 @@
 						
 					</div>
 					<div class="nav_br">
-						<div class="nav_t">
+						<div class="nav_t"@click="$router.push({path:'/Intelligence/labor?ValueId=6'})">
 							<div class="tir_List">
 								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
 								<span>CYCZQ-6标</span>
@@ -387,8 +385,9 @@
 		},
 		data() {
 			return {
-				questionText:"常益长铁路工程管理平台",
-				images: []
+				questionText:"常益长铁路工程信息化管理平台",
+				images: [],
+				type:'',
 			}
 		},
 		created() {
@@ -406,8 +405,17 @@
 						this.images=res.data.data;
 					}
 				})
+				ajax.getW('/api/safety/selectUserById?id='+this.$route.query.userId).then(res => {
+					if(res.status == 200) {
+						if(res.data.code == 200) {
+							this.type=res.data.data.info.TYPES
+							console.log("selectUserById：",res.data);
+						}
+					}
+				})
+				
 			},
-			tost(){Toast
+			tost(){
 				Toast('敬请期待！');
 			}
 		}
