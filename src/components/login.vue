@@ -16,7 +16,7 @@
 			<div class="formInput"><img src="../assets/icon_password@2x.png" alt=""><input type="passWord" placeholder="请输入密码" v-model="passWord"></div>
 			<div class="loginButton" @click="phoneLogin()">登录系统</div>
 			<div class="overflow">
-				<div class="overflow" style="margin: 0 auto;">
+				<div class="overflow">
 					<van-checkbox v-model="checked" shape="square" @click="toggle(checked)">记住密码</van-checkbox>
 				</div>
 			</div>

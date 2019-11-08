@@ -42,6 +42,7 @@
 		},
 		methods:{
 			onClickLeft() {
+				
 				if(this.preventGoBack){
 					this.$emit('on-click-left');
 					this.router.push({path:'/examLogin'})
