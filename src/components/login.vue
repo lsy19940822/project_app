@@ -9,33 +9,18 @@
 			</van-swipe>
 		</div>
 		<div class="login-form">
-			<van-tabs v-model="active">
-			  <van-tab title="手机号登录">
-				  <div class="form overflow">
-				  	<div class="formInput"><img src="../assets/icon_user@2x.png" alt=""><input type="text" placeholder="请输入手机号/用户名" v-model="user"></div>
-				  	<div class="formInput"><img src="../assets/icon_password@2x.png" alt=""><input type="passWord" placeholder="请输入密码" v-model="passWord"></div>
-				  	<div class="loginButton" @click="phoneLogin()">登录系统</div>
-					<div class="overflow">
-						<div class="overflow" style="float: left;">
-							<van-checkbox v-model="checked" shape="square" @click="toggle(checked)">记住密码</van-checkbox>
-						 
-						</div>
-						<div style="float: right;"><p>忘记密码？</p></div>
-					</div>
-					
-					
-				  
-				  </div>
-			  </van-tab>
-			  <van-tab title="身份证登录">
-				  <van-cell-group>
-				  	<i class="login-form-icon"><img src="../assets/code-icon.png"></i>
-				  	<van-field v-model="IDCard" placeholder="请输入您的身份证号码" />
-				  </van-cell-group>
-				  <!-- @click="Filelogin()" -->
-				  <van-button color="rgba(104, 153, 230, 1)" disabled="disabled" style="width: 100%;"><span style="color:#fff">登录系统</span></van-button>
-			  </van-tab>
-			</van-tabs>
+			
+		  <div class="form overflow">
+			  <h3>登录系统</h3>  
+			<div class="formInput"><img src="../assets/icon_user@2x.png" alt=""><input type="text" placeholder="请输入手机号/用户名" v-model="user"></div>
+			<div class="formInput"><img src="../assets/icon_password@2x.png" alt=""><input type="passWord" placeholder="请输入密码" v-model="passWord"></div>
+			<div class="loginButton" @click="phoneLogin()">登录系统</div>
+			<div class="overflow">
+				<div class="overflow" style="margin: 0 auto;">
+					<van-checkbox v-model="checked" shape="square" @click="toggle(checked)">记住密码</van-checkbox>
+				</div>
+			</div>
+		  </div>
 			<!--<van-button type="primary" @click="$router.push('/faceId')" style="width: 100%;margin-bottom: 25px;">人脸认证</van-button>-->
 			
 		</div>
@@ -111,17 +96,7 @@
 					}
 				})
 			},
-			Filelogin() {
-				ajax.get('/API/WebAPIDataAudit/Login?IDCard=' + this.IDCard).then(res => {
-					console.log(res.data)
-					if(res.data.result) {
-						localStorage.setItem('IDCard',this.IDCard)
-						
-					} else {
-						Toast(res.data.resultMsg);
-					}
-				})
-			},
+		
 			phoneLogin() {
 				if(this.user.trim() === '' ){
 					Toast('请输入用户名/手机号！');
@@ -331,9 +306,9 @@
 		/* background: #fff; */
 		margin-top: -2px;
 	}
-	.form {
+/* 	.form {
 		padding-top: 15px;
-	}
+	} */
 	/deep/
 	.van-tabs__line{
 		border-bottom:3px solid #9499AA;
@@ -346,6 +321,7 @@
 		font-family: PingFangSC-Medium, PingFang SC;
 		text-align: center;
 		color: rgba(51, 51, 51, 1);
+		margin: 0 0 10px;
 		line-height: 24px;
 	}
 	
