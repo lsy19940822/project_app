@@ -125,27 +125,20 @@
 			}
 		},
 		created() {
-			this.GetMenuTreeList();
+			
 		},
 		mounted() {
-
+            this.GetMenuTreeList();
 		},
 
 		methods: {
              GetMenuTreeList(){
-				console.log("-----",ajax.pathW+'safety/selectSafetyList?userId='+'111111111111111111'+'&quesType=1&succ=1&page=1&size=10')
+				// console.log("-----",ajax.pathW+'safety/selectSafetyList?userId='+'111111111111111111'+'&quesType=1&succ=1&page=1&size=10')
 				//智能进度
 				ajax.get('/API/WebAPIDataAudit/getAllGPS').then(res => {
 					if(res.data.result) {
 						console.log('智能进度getAllGPS:',res)
 						// this.images=res.data.data;
-					}
-				})
-				ajax.getW('/api/safety/safety/selectSafetyList?userId='+'111111111111111111'+'&quesType=1&succ=1&page=1&size=10' ).then(res => {
-					
-					if(res.data.result) {
-						
-						console.log('wenti :',res.data.data)
 					}
 				})
 			}

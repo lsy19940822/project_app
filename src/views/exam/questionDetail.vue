@@ -8,7 +8,6 @@
 		<div class="question-container" v-if="questionCurrent.TMLX  == '单选'">
 			<p class="van-hairline--bottom exam-title">
 				<span style="float: left;">单选题</span>
-				
 				<span :style="{'color':(questionList[this.current].ZQDA == allAnswers[this.current]?'#7AB182':'#C36363')}" style="float: right;" v-if="questionList[this.current].ZQDA == allAnswers[this.current]?allAnswers[this.current]:questionList[this.current].ZQDA">{{questionList[this.current].ZQDA == allAnswers[this.current]?"回答正确":"回答错误"}}</span>
 			</p>
 			<div class="question-container-ul" >

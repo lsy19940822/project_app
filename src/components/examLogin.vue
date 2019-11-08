@@ -24,9 +24,9 @@
 	  			<div>
 	  				<h3>《常益长铁路考试须知》</h3>
 	  				<p>1.考前三十分钟，考生需持带有照片的有效证件(身份证、临时身份证、护照和港澳台通行证)和自行打印的准考证进入规定的考场。
-	  					<p>2.考试期间考生可以在考桌上方的可携带物品：签字笔、铅笔、橡皮、二十四色彩笔(包含黑色、蓝色、棕色、绿色、灰色、橙色、粉色、紫色、红色、黄色)铅笔盒、塑料瓶装水、药品、纸巾和准考证。</p>
-	  					<p> 3.考试期间需放在指定区域的禁止携带物品：处于关闭状态下的手机、相机或任何其他电子产品、字典、笔记本、修正液/修正带等、纸张、书包、手提包、行李箱。</p>
-	  					<p> 4.考场内不得相互借用文具。严禁在考场内饮食。</p>
+					<p>2.考试期间考生可以在考桌上方的可携带物品：签字笔、铅笔、橡皮、二十四色彩笔(包含黑色、蓝色、棕色、绿色、灰色、橙色、粉色、紫色、红色、黄色)铅笔盒、塑料瓶装水、药品、纸巾和准考证。</p>
+					<p> 3.考试期间需放在指定区域的禁止携带物品：处于关闭状态下的手机、相机或任何其他电子产品、字典、笔记本、修正液/修正带等、纸张、书包、手提包、行李箱。</p>
+					<p> 4.考场内不得相互借用文具。严禁在考场内饮食。</p>
 	  			</div>
 	  			<van-button :type="primary" :color="color" :disabled="disabled" :class="{on:end}" @click="goNext()"  style="width: 100%;">请仔细阅读（{{time}}s…）后继续</van-button>
 	  		</div>
@@ -49,9 +49,9 @@
 		},
 		data() {
 			return {
-				IDCard: '111111111111111111',
+				IDCard: '',
 				showTips: false,
-				time: 6,
+				time: 3,
 				end: false,
 				primary:"default",//primary
 				disabled:true,
@@ -77,7 +77,7 @@
 					if(res.data.result) {
 						localStorage.setItem('IDCard',this.IDCard)
 						this.showTips = true
-						let second = 6;
+						let second = 3;
 						const timer = setInterval(() => {
 							second--;
 							if(second) {

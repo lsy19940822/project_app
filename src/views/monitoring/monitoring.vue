@@ -177,7 +177,7 @@
 			return {
 				questionText:"智能监控",
 				isLoading:true,
-				activeNames: ['0']
+				activeNames: ['1']
 			}
 		},
 		created() {

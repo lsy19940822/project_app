@@ -1,35 +1,128 @@
 <template>
-	<div class="login">
-		<h3>登录系统</h3>
-		<img src="../assets/login-bg.png" alt="">
-		<div class="form overflow">
+	<div class="container overflow">
+		<index-header :leftArrow="false" class="header" :titleType="1" title="精品常益长"></index-header>
+		<div class="login-bg">
+			<van-swipe :autoplay="3000">
+			  <van-swipe-item v-for="(image, index) in images" :key="index">
+				  <img :src="image.PHOTOURL" class="back_img">
+			  </van-swipe-item>
+			</van-swipe>
+		</div>
+		<div class="login-form">
+			<van-tabs v-model="active">
+			  <van-tab title="手机号登录">
+				  <div class="form overflow">
+				  	<div class="formInput"><img src="../assets/icon_user@2x.png" alt=""><input type="text" placeholder="请输入手机号/用户名" v-model="user"></div>
+				  	<div class="formInput"><img src="../assets/icon_password@2x.png" alt=""><input type="passWord" placeholder="请输入密码" v-model="passWord"></div>
+				  	<div class="loginButton" @click="phoneLogin()">登录系统</div>
+					<div class="overflow">
+						<div class="overflow" style="float: left;">
+							<van-checkbox v-model="checked" shape="square" @click="toggle(checked)">记住密码</van-checkbox>
+						 
+						</div>
+						<div style="float: right;"><p>忘记密码？</p></div>
+					</div>
+					
+					
+				  
+				  </div>
+			  </van-tab>
+			  <van-tab title="身份证登录">
+				  <van-cell-group>
+				  	<i class="login-form-icon"><img src="../assets/code-icon.png"></i>
+				  	<van-field v-model="IDCard" placeholder="请输入您的身份证号码" />
+				  </van-cell-group>
+				  <!-- @click="Filelogin()" -->
+				  <van-button color="rgba(104, 153, 230, 1)" disabled="disabled" style="width: 100%;"><span style="color:#fff">登录系统</span></van-button>
+			  </van-tab>
+			</van-tabs>
+			<!--<van-button type="primary" @click="$router.push('/faceId')" style="width: 100%;margin-bottom: 25px;">人脸认证</van-button>-->
+			
+		</div>
+	
+		
+		<!-- <h3>登录系统</h3/> -->
+		<!-- <img src="../assets/login-bg.png" alt=""> -->
+		<!-- <div class="form overflow">
 			<div class="formInput"><img src="../assets/icon_user@2x.png" alt=""><input type="text" placeholder="请输入手机号/用户名" v-model="user"></div>
 			<div class="formInput"><img src="../assets/icon_password@2x.png" alt=""><input type="passWord" placeholder="请输入密码" v-model="passWord"></div>
-			<div class="loginButton" @click="login()">登录</div>
-			<p>忘记密码？</p>
-		</div>
+			
+			
+		</div> -->
 	</div>
 </template>
 <script>
+	import indexHeader from './header.vue'; //首页-左侧组件
 	import * as ajax from '@/utils/api'
 	import RegExp from '../utils/regExp'
 	import Vue from 'vue';
-	import { Toast } from 'vant';
-	Vue.use(Toast)
+	import { Tab, Tabs } from 'vant';
+	Vue.use(Tab).use(Tabs);
+
+	import { Checkbox, CheckboxGroup } from 'vant';
+	Vue.use(Checkbox).use(CheckboxGroup);
+	import { Swipe, SwipeItem } from 'vant';
+	Vue.use(Swipe).use(SwipeItem);
+	import { Toast, Button, Field, CellGroup, Popup } from 'vant';
+	Vue.use(Toast).use(Button).use(Field).use(Popup).use(CellGroup);
+	
 	import qs from 'qs'
 	export default {
 		components: {
-
+            indexHeader
 		},
 		data() {
 			return {
 				user: '',
-				passWord: ''
+				passWord: '',
+				IDCard:'',
+				images:[],
+				active:0,
+				checked:false
 			}
 		},
-		created() {},
+		created() {
+			// localStorage.setItem("checked",null)
+			this.user=localStorage.getItem("user")
+			this.passWord=localStorage.getItem("passWord")
+			this.checked=localStorage.getItem("checked")
+		},
+		mounted() {
+			this.bannerImg()
+		},
 		methods: {
-			login() {
+			toggle(val) {
+				console.log(val)
+				if(val == false || val == null){
+					localStorage.setItem("user",this.user)
+					localStorage.setItem("passWord",this.passWord)
+					localStorage.setItem("checked",true)
+				}else{
+					localStorage.removeItem("user")
+					localStorage.removeItem("passWord")
+					localStorage.removeItem("checked")
+				}
+			},
+			bannerImg(){
+				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {
+					if(res.data.result) {
+						console.log(res)
+						this.images=res.data.data;
+					}
+				})
+			},
+			Filelogin() {
+				ajax.get('/API/WebAPIDataAudit/Login?IDCard=' + this.IDCard).then(res => {
+					console.log(res.data)
+					if(res.data.result) {
+						localStorage.setItem('IDCard',this.IDCard)
+						
+					} else {
+						Toast(res.data.resultMsg);
+					}
+				})
+			},
+			phoneLogin() {
 				if(this.user.trim() === '' ){
 					Toast('请输入用户名/手机号！');
 					return;
@@ -71,12 +164,11 @@
 										userId: res.data.data[0].USERID
 									}
 								})
-								
 								// 手机号13272812666密码1
 								console.log("用户名/手机号：", this.user, "密码：", this.passWord);
 						
 							} else {
-								Toast.fail(res.data.resultMsg);
+								Toast(res.data.resultMsg);
 							}
 						})
 				}
@@ -87,16 +179,102 @@
 	}
 </script>
 <style scoped>
-	.login {
-		position: fixed;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		left: 0;
-		background: url(../assets/bj@2x.png) no-repeat;
-		background-size: 100% 100%;
+	.container .login-bg{
+		width: 100%;
+		height:auto;
+		overflow: hidden;
+		float: left;
 	}
-	
+	.container .login-bg img.back_img {
+		width: 100%;
+		float: left;
+		/* position: relative; */
+	}
+	.container .login-form{
+		width:90%;
+		/* height: 200px; */
+		/* margin: 0 auto; */
+		position: fixed;
+		left: 50%;
+		margin-left: -45%;
+		top: 36%;
+		background: #fff;
+		padding: 15px;
+		box-sizing: border-box;
+		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+	}
+	.container .login-form .login-form-title{
+		font-size: 14px;
+		color: #999;
+		text-align: center;
+		margin: 0;
+		position: relative;
+	}
+	.container .login-form .login-form-title:before,
+	.container .login-form .login-form-title:after {
+		display: block;
+		content: "";
+		position: absolute;
+		width: 30%;
+		height: 1px;
+		background: #EEEEEE;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.container .login-form .login-form-title:before{
+		left: 10px;
+	}
+	.container .login-form .login-form-title:after{
+		right: 10px;
+	}
+	.container .login-form .van-cell-group{
+		margin: 30px 0;
+		border: 1px solid rgba(221, 221, 221, 1);
+		padding-left: 30px;
+	}
+	.van-cell-group .login-form-icon {
+		position: absolute;
+		left: 12px;
+		width: 16px;
+		height: 16px;
+		display: inline-block;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.login-form-icon img {
+		width: 100%;
+	}
+	.van-cell-group .van-cell {
+		padding-left: 10px;
+	}
+	.container .login-form .primary {
+		color: #fff;
+		width: 100%;
+		cursor: pointer;
+	}
+	.login-tips {
+		width:94%;
+		/* width: 340px; */
+		padding: 20px;
+		font-size: 14px;
+		color: #999;
+		box-sizing: border-box;
+	}
+	.login-tips h3 {
+		margin: 0;
+		color: #333;
+		font-size: 20px;
+	}
+	.login-tips .primary {
+		width: 100%;
+		border-radius: 6px;
+		background: #AAAAAA;
+		color: #fff;
+	}
+	.login-tips .primary.on {
+		background: #7099D0;
+		cursor: pointer;
+	}
 	.loginButton {
 		color: #fff;
 		text-align: center;
@@ -104,18 +282,18 @@
 		font-size: 14px;
 		height: 50px;
 		background: rgba(104, 153, 230, 1);
-		border-radius: 6px;
-		margin-bottom: 25px;
+		border-radius: 2px;
+		margin-bottom: 20px;
 	}
 	
 	.formInput {
 		width: 100%;
 		height: 48px;
 		background: rgba(255, 255, 255, 0.15);
-		border-radius: 6px;
+		border-radius: 2px;
 		padding: 10px 15px;
-		border: 1px solid #98B1D2;
-		margin-bottom: 30px;
+		border: 1px solid  #7d7e80;
+		margin-bottom: 25px;
 	}
 	
 	.formInput img {
@@ -125,15 +303,15 @@
 	}
 	
 	input::-webkit-input-placeholder {
-		color: rgba(82, 103, 141, 1);
+		color: #7d7e80;
 	}
 	
 	input::-moz-input-placeholder {
-		color: rgba(82, 103, 141, 1);
+		color: #7d7e80;
 	}
 	
 	input::-ms-input-placeholder {
-		color: rgba(82, 103, 141, 1);
+		color:  #7d7e80;
 	}
 	
 	.formInput input {
@@ -154,10 +332,14 @@
 		margin-top: -2px;
 	}
 	.form {
-		padding: 15px;
-		margin-top: 20px;
+		padding-top: 15px;
 	}
-	
+	/deep/
+	.van-tabs__line{
+		border-bottom:3px solid #9499AA;
+		width: 50% !important;
+		color: #333;
+	}
 	h3 {
 		height: 24px;
 		font-size: 17px;
@@ -167,11 +349,6 @@
 		line-height: 24px;
 	}
 	
-	img {
-		width: 85%;
-		display: block;
-		margin: 25px auto 24px;
-	}
 	
 	h4 {
 		height: 33px;
@@ -185,14 +362,12 @@
 	}
 	
 	p {
-		/* height:14px; */
-		font-size:18px;
+		font-size:14px;
 		font-family: PingFangSC-Regular, PingFang SC;
-		/* font-weight: 400; */
 		color: rgba(255, 255, 255, 1);
-		/* line-height: 14px; */
 		text-align: center;
-		overflow: hidden;
 		margin: 0 !important;
+		color: #333;
+		float: right;
 	}
 </style>

@@ -11,6 +11,7 @@
 		</vant-header>
 
 		<!--content list-->
+		<!-- <div v-if='safeData.length==0' style="text-align: center;background: #ececec;line-height: 36px;">暂无数据</div> -->
 		<div class="list-content">
 			<div class="l-dropdown">
 				<van-dropdown-menu>
@@ -18,58 +19,24 @@
 					  <van-dropdown-item v-model="value2" :options="option2" />
 				</van-dropdown-menu>
 			</div>
+			
 			<ul class="l-list">
-				<li>
-					<div class="item">
-						<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-						<div class="explain marginT12">
-							<van-row>
-								<van-col span="16">
-									<span class="color7099D0">安全问题</span>
-									<span class="colorAAA">2019-09-26  22:22:22</span>
-								</van-col>
-								<van-col span="8" align="right">
-									<span class="color5082C6">待解决</span>
-								</van-col>
-							</van-row>
-						</div>
-						<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-					</div>
-				</li>
 				
-				<li>
-					<div class="item">
-						<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-						<div class="explain marginT12">
-							<van-row>
-								<van-col span="16">
-									<span class="colorE6B36F">质量问题</span>
-									<span class="colorAAA">2019-09-26  22:22:22</span>
-								</van-col>
-								<van-col span="8" align="right">
-									<span class="color7081B9">待抄送</span>
-								</van-col>
-							</van-row>
-						</div>
-						<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-					</div>
-				</li>
-				
-				<li>
-					<div class="item">
-						<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-						<div class="explain marginT12">
-							<van-row>
-								<van-col span="16">
-									<span class="color7099D0">安全问题</span>
-									<span class="colorAAA">2019-09-26  22:22:22</span>
-								</van-col>
-								<van-col span="8" align="right">
-									<span class="colorC86565">退回问题</span>
+				<li v-for="(item,index) in safeData" :key="index" :id="item.id">
+					<div class="item" :id="item.id">
+						<h6 class="title":id="item.id">{{item.quesDesc}}</h6>
+						<div class="explain marginT12":id="item.id">
+							<van-row :id="item.id">
+								<van-col span="16" :id="item.id">
+									<span class="color7099D0":id="item.id">安全问题</span>
+									<span class="colorAAA" :id="item.id">{{item.createTime}}</span>
+								</van-col :id="item.id">
+								<van-col span="8" align="right" :id="item.id">
+									<span class="color5082C6" :id="item.id">{{item.state | getStatusTxt}}</span>
 								</van-col>
 							</van-row>
 						</div>
-						<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
+						<div class="intro marginT12 omit2" :id="item.id">{{item.quesDetail}}</div>
 					</div>
 				</li>
 			</ul>
@@ -83,6 +50,7 @@
 <script>
 	import vantHeader from '@/components/header.vue'
 	import Vue from 'vue';
+	import * as ajax from '@/utils/api'
 	import { Row, Col, DropdownMenu, DropdownItem, Loading } from 'vant';
 	Vue.use(Row).use(Col).use(DropdownMenu).use(DropdownItem).use(Loading);
 	export default {
@@ -90,7 +58,7 @@
 			return{
 				questionText:'安全问题',
 				value1: 0,
-			     value2: 'a',
+			    value2: 0,
 			     option1: [
 			        { text: '全部状态', value: 0 },
 			        { text: '待解决', value: 1 },
@@ -98,18 +66,77 @@
 			        { text: '待审核', value: 3 },
 			        { text: '退回问题', value: 4 },
 			        { text: '待复核', value: 5 },
-			        { text: '待指派', value: 6 }
 			     ],
 			     option2: [
-			        { text: '全部标段', value: 'a' },
-			        { text: '1标', value: 'b' },
-			        { text: '2标', value: 'c' },
+			        { text: '全部标段', value: 0 },
+			        { text: '1标', value: 1 },
+			        { text: '2标', value: 2 },
+					{ text: '3标', value: 3 },
+					{ text: '4标', value: 4 },
+					{ text: '5标-1', value: 5 },
+					{ text: '5标-2', value: 6 },
+					{ text: '6标', value: 7 },
 			    ],
-			    isLoading:true
+			    isLoading:true,
+				quesType:1,//1.安全 2 质量 3 进度
+				userId:this.$route.query.userId,
+				succ:2,//1已解决 2待解决
+				page:1,
+				size:10,
+				safeData:[]
 			}
 		},
 		components:{
 			vantHeader
+		},
+		mounted(){
+			this.selectSafetyListS()
+			
+		},
+		methods: {
+			selectSafetyListS() {
+				ajax.getW('/api/safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
+					if(res.status == 200) {
+						if(res.data.code == 200) {
+							console.log('安全质量',res.data)
+							this.safeData=res.data.data.list;
+						}
+					}
+					
+				})
+			},
+		},
+		filters: {
+			getStatusTxt(id) {
+				var str = "";
+				switch(id) {
+					case 1:
+						str = "待抄送";//现场负责人
+						break;
+					case 2:
+						str = "待解决";//相关人整改
+						break;
+					case 3:
+						str = "待审核";//发起负责人审核
+						break;
+					case 4:
+						str = "";//流程结束
+						break;
+					case 5:
+						str = "退回问题";//发起人修改
+						break;
+					case 6:
+						str = "待复核";//负责人复核
+						break;	
+					case 7:
+						str = "退回问题";//整改人驳回
+						break;
+					default:
+						str = "无状态";
+						break;
+				}
+				return str;
+		    }
 		}
 	}
 </script>
