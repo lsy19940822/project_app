@@ -133,7 +133,6 @@
 
 		methods: {
              GetMenuTreeList(){
-				// console.log("-----",ajax.pathW+'safety/selectSafetyList?userId='+'111111111111111111'+'&quesType=1&succ=1&page=1&size=10')
 				//智能进度
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree').then(res => {
 					if(res.data.result) {
