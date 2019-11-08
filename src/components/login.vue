@@ -15,11 +15,11 @@
 			<div class="formInput"><img src="../assets/icon_user@2x.png" alt=""><input type="text" placeholder="请输入手机号/用户名" v-model="user"></div>
 			<div class="formInput"><img src="../assets/icon_password@2x.png" alt=""><input type="passWord" placeholder="请输入密码" v-model="passWord"></div>
 			<div class="loginButton" @click="phoneLogin()">登录系统</div>
+		
 			<div class="overflow">
-				<div class="overflow">
-					<van-checkbox v-model="checked" shape="square" @click="toggle(checked)">记住密码</van-checkbox>
-				</div>
+				<van-checkbox v-model="checked" shape="square" @click="toggle(checked)">记住密码</van-checkbox>
 			</div>
+
 		  </div>
 			<!--<van-button type="primary" @click="$router.push('/faceId')" style="width: 100%;margin-bottom: 25px;">人脸认证</van-button>-->
 			
@@ -68,9 +68,7 @@
 		},
 		created() {
 			// localStorage.setItem("checked",null)
-			this.user=localStorage.getItem("user")
-			this.passWord=localStorage.getItem("passWord")
-			this.checked=localStorage.getItem("checked")
+			this.localStorageUser();
 		},
 		mounted() {
 			this.bannerImg()
@@ -87,6 +85,11 @@
 					localStorage.removeItem("passWord")
 					localStorage.removeItem("checked")
 				}
+			},
+			localStorageUser(){
+				this.user=localStorage.getItem("user")
+				this.passWord=localStorage.getItem("passWord")
+				this.checked=localStorage.getItem("checked")	
 			},
 			bannerImg(){
 				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {

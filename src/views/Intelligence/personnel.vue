@@ -268,7 +268,9 @@ this.getCompanyList()
 			},
 			searchButton() {
 				console.log("当前标段：", this.Section, "当前单位：", this.Unit, "当前工种：", this.TypeWork)
-
+				if(this.TypeWork == "全部工种"){
+					this.TypeWork = null
+				}
 				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section + '&Unit=' + this.Unit + '&TypeWork=' + this.TypeWork).then(res => {
 
 					if(res.data.result) {

@@ -41,6 +41,7 @@
 	import Vue from 'vue';
 	import { Swipe, SwipeItem } from 'vant';
 	Vue.use(Swipe).use(SwipeItem);
+	import RegExp from '../utils/regExp';
 	import { Toast, Button, Field, CellGroup, Popup } from 'vant';
 	Vue.use(Toast).use(Button).use(Field).use(Popup).use(CellGroup);
 	export default {
@@ -72,29 +73,40 @@
 				})
 			},
 			login() {
-				ajax.get('/API/WebAPIDataAudit/Login?IDCard=' + this.IDCard).then(res => {
-					console.log(res.data)
-					if(res.data.result) {
-						localStorage.setItem('IDCard',this.IDCard)
-						this.showTips = true
-						let second = 3;
-						const timer = setInterval(() => {
-							second--;
-							if(second) {
-								this.time = second
+				if(this.IDCard == ''){
+					Toast("请输入身份证号码");
+				}else if(this.IDCard.length!=18){
+					Toast("请输入有效身份证号码");
+				}else{
+					ajax.get('/API/WebAPIDataAudit/Login?IDCard=' + this.IDCard).then(res => {
+							console.log(res.data)
+							if(res.data.result) {
+								localStorage.setItem('IDCard',this.IDCard)
+								this.showTips = true
+								let second = 3;
+								const timer = setInterval(() => {
+									second--;
+									if(second) {
+										this.time = second
+									} else {
+										this.end = true
+										this.time = 0
+										clearInterval(timer);
+										this.primary="primary";
+										this.disabled=false;
+										this.color='#07c160'
+									}
+								}, 1000);
 							} else {
-								this.end = true
-								this.time = 0
-								clearInterval(timer);
-								this.primary="primary";
-								this.disabled=false;
-								this.color='#07c160'
+								Toast(res.data.resultMsg);
 							}
-						}, 1000);
-					} else {
-						Toast(res.data.resultMsg);
-					}
-				})
+						})
+				}
+					
+				// let code=/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
+				
+				
+				
 			},
 			goNext() {
 				if(this.end) {
