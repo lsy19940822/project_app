@@ -187,11 +187,11 @@
 		z-index: 50;
 		width: 60%;
 		height: auto;
-		transform: translateY(-50%);
-		-webkit-transform: translateY(-50%);
-		-moz-transform: translateY(-50%);
-		-ms-transform: translateY(-50%);
-		-o-transform: translateY(-50%);
+		transform: translateY(-70%);
+		-webkit-transform: translateY(-70%);
+		-moz-transform: translateY(-70%);
+		-ms-transform: translateY(-70%);
+		-o-transform: translateY(-70%);
 	}
 	
 	.uploader-img-box:before,
