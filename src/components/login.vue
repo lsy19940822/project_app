@@ -3,29 +3,28 @@
 		<index-header :leftArrow="false" class="header" :titleType="1" title="精品常益长"></index-header>
 		<div class="login-bg">
 			<van-swipe :autoplay="3000">
-			  <van-swipe-item v-for="(image, index) in images" :key="index">
-				  <img :src="image.PHOTOURL" class="back_img">
-			  </van-swipe-item>
+				<van-swipe-item v-for="(image, index) in images" :key="index">
+					<img :src="image.PHOTOURL" class="back_img">
+				</van-swipe-item>
 			</van-swipe>
-		</div>
-		<div class="login-form">
-			
-		  <div class="form overflow">
-			  <h3>登录系统</h3>  
-			<div class="formInput"><img src="../assets/icon_user@2x.png" alt=""><input type="text" placeholder="请输入手机号/用户名" v-model="user"></div>
-			<div class="formInput"><img src="../assets/icon_password@2x.png" alt=""><input type="passWord" placeholder="请输入密码" v-model="passWord"></div>
-			<div class="loginButton" @click="phoneLogin()">登录系统</div>
-		
-			<div class="overflow">
-				<van-checkbox v-model="checked" shape="square" @click="toggle(checked)">记住密码</van-checkbox>
-			</div>
+			<div class="login-form">
 
-		  </div>
-			<!--<van-button type="primary" @click="$router.push('/faceId')" style="width: 100%;margin-bottom: 25px;">人脸认证</van-button>-->
-			
+				<div class="form overflow">
+					<h3>登录系统</h3>
+					<div class="formInput"><img src="../assets/icon_user@2x.png" alt=""><input type="text" placeholder="请输入手机号/用户名" v-model="user"></div>
+					<div class="formInput"><img src="../assets/icon_password@2x.png" alt=""><input type="passWord" placeholder="请输入密码" v-model="passWord"></div>
+					<div class="loginButton" @click="phoneLogin()">登录系统</div>
+
+					<div class="overflow">
+						<van-checkbox v-model="checked" shape="square" @click="toggle(checked)">记住密码</van-checkbox>
+					</div>
+
+				</div>
+				<!--<van-button type="primary" @click="$router.push('/faceId')" style="width: 100%;margin-bottom: 25px;">人脸认证</van-button>-->
+
+			</div>
 		</div>
-	
-		
+
 		<!-- <h3>登录系统</h3/> -->
 		<!-- <img src="../assets/login-bg.png" alt=""> -->
 		<!-- <div class="form overflow">
@@ -50,20 +49,20 @@
 	Vue.use(Swipe).use(SwipeItem);
 	import { Toast, Button, Field, CellGroup, Popup } from 'vant';
 	Vue.use(Toast).use(Button).use(Field).use(Popup).use(CellGroup);
-	
+
 	import qs from 'qs'
 	export default {
 		components: {
-            indexHeader
+			indexHeader
 		},
 		data() {
 			return {
 				user: '',
 				passWord: '',
-				IDCard:'',
-				images:[],
-				active:0,
-				checked:false
+				IDCard: '',
+				images: [],
+				active: 0,
+				checked: false
 			}
 		},
 		created() {
@@ -76,40 +75,40 @@
 		methods: {
 			toggle(val) {
 				console.log(val)
-				if(val == false || val == null){
-					localStorage.setItem("user",this.user)
-					localStorage.setItem("passWord",this.passWord)
-					localStorage.setItem("checked",true)
-				}else{
+				if(val == false || val == null) {
+					localStorage.setItem("user", this.user)
+					localStorage.setItem("passWord", this.passWord)
+					localStorage.setItem("checked", true)
+				} else {
 					localStorage.removeItem("user")
 					localStorage.removeItem("passWord")
 					localStorage.removeItem("checked")
 				}
 			},
-			localStorageUser(){
-				this.user=localStorage.getItem("user")
-				this.passWord=localStorage.getItem("passWord")
-				this.checked=localStorage.getItem("checked")	
+			localStorageUser() {
+				this.user = localStorage.getItem("user")
+				this.passWord = localStorage.getItem("passWord")
+				this.checked = localStorage.getItem("checked")
 			},
-			bannerImg(){
+			bannerImg() {
 				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {
 					if(res.data.result) {
 						console.log(res)
-						this.images=res.data.data;
+						this.images = res.data.data;
 					}
 				})
 			},
-		
+
 			phoneLogin() {
-				if(this.user.trim() === '' ){
+				if(this.user.trim() === '') {
 					Toast('请输入用户名/手机号！');
 					return;
 				}
-				if(/^\d+$/.test(this.user) && RegExp.phoneIn(this.user)){
+				if(/^\d+$/.test(this.user) && RegExp.phoneIn(this.user)) {
 					Toast('请输入正确格式手机号');
 					return;
 				}
-				if(/^[a-zA-Z]+$/.test(this.user) && RegExp.user(this.user)){
+				if(/^[a-zA-Z]+$/.test(this.user) && RegExp.user(this.user)) {
 					Toast('请输入正确格式用户名');
 					return;
 				}
@@ -117,77 +116,83 @@
 					Toast('请输入正确格式用户名或手机号');
 					return;
 				}
-				if(this.passWord == ''){
+				if(this.passWord == '') {
 					Toast('请输入密码！');
-				    return;		
+					return;
 				}
-				if(this.user.trim() != '' && this.passWord != ''){
-						const toast = Toast.loading({
-							duration: 0, // 持续展示 toast
-							forbidClick: true, // 禁用背景点击
-							loadingType: 'spinner',
-							message: '登录中...'
-						});
-						ajax.postParams('/API/WebAPIDataAudit/UserLanding', {
-							'USERCODE': /^\w+$/.test(this.user) ? this.user : null,
-							'CELLPHONE': /^\d+$/.test(this.user) ? this.user : null,
-							'PASSWORD': this.passWord
-						}).then(res => {
-							if(res.data.result) {
-								sessionStorage.setItem("chang_yi_User_token",true)
-								toast.clear(); 
-								this.$router.push({
-									path: '/index',
-									query: {
-										userId: res.data.data[0].USERID
-									}
-								})
-								// 手机号13272812666密码1
-								console.log("用户名/手机号：", this.user, "密码：", this.passWord);
-						
-							} else {
-								Toast(res.data.resultMsg);
-							}
-						})
+				if(this.user.trim() != '' && this.passWord != '') {
+					const toast = Toast.loading({
+						duration: 0, // 持续展示 toast
+						forbidClick: true, // 禁用背景点击
+						loadingType: 'spinner',
+						message: '登录中...'
+					});
+					ajax.postParams('/API/WebAPIDataAudit/UserLanding', {
+						'USERCODE': /^\w+$/.test(this.user) ? this.user : null,
+						'CELLPHONE': /^\d+$/.test(this.user) ? this.user : null,
+						'PASSWORD': this.passWord
+					}).then(res => {
+						if(res.data.result) {
+							sessionStorage.setItem("chang_yi_User_token", true)
+							toast.clear();
+							this.$router.push({
+								path: '/index',
+								query: {
+									userId: res.data.data[0].USERID
+								}
+							})
+							// 手机号13272812666密码1
+							console.log("用户名/手机号：", this.user, "密码：", this.passWord);
+
+						} else {
+							Toast(res.data.resultMsg);
+						}
+					})
 				}
-				
 
 			},
 		}
 	}
 </script>
 <style scoped>
-	.container .login-bg{
+	.container .login-bg {
 		width: 100%;
-		height:auto;
+		height: auto;
 		overflow: hidden;
 		float: left;
 	}
+	
 	.container .login-bg img.back_img {
 		width: 100%;
 		float: left;
 		/* position: relative; */
 	}
-	.container .login-form{
-		width:90%;
+	
+	.container .login-form {
+		width: 94%;
 		/* height: 200px; */
 		/* margin: 0 auto; */
-		position: fixed;
+		/*position: fixed;
 		left: 50%;
 		margin-left: -45%;
-		top: 36%;
+		top: 36%;*/
 		background: #fff;
 		padding: 15px;
 		box-sizing: border-box;
 		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+		margin: 0 auto;
+		border-radius: 7px;
+		transform: translateY(-40px);
 	}
-	.container .login-form .login-form-title{
+	
+	.container .login-form .login-form-title {
 		font-size: 14px;
 		color: #999;
 		text-align: center;
 		margin: 0;
 		position: relative;
 	}
+	
 	.container .login-form .login-form-title:before,
 	.container .login-form .login-form-title:after {
 		display: block;
@@ -199,17 +204,21 @@
 		top: 50%;
 		transform: translateY(-50%);
 	}
-	.container .login-form .login-form-title:before{
+	
+	.container .login-form .login-form-title:before {
 		left: 10px;
 	}
-	.container .login-form .login-form-title:after{
+	
+	.container .login-form .login-form-title:after {
 		right: 10px;
 	}
-	.container .login-form .van-cell-group{
+	
+	.container .login-form .van-cell-group {
 		margin: 30px 0;
 		border: 1px solid rgba(221, 221, 221, 1);
 		padding-left: 30px;
 	}
+	
 	.van-cell-group .login-form-icon {
 		position: absolute;
 		left: 12px;
@@ -219,40 +228,48 @@
 		top: 50%;
 		transform: translateY(-50%);
 	}
+	
 	.login-form-icon img {
 		width: 100%;
 	}
+	
 	.van-cell-group .van-cell {
 		padding-left: 10px;
 	}
+	
 	.container .login-form .primary {
 		color: #fff;
 		width: 100%;
 		cursor: pointer;
 	}
+	
 	.login-tips {
-		width:94%;
+		width: 94%;
 		/* width: 340px; */
 		padding: 20px;
 		font-size: 14px;
 		color: #999;
 		box-sizing: border-box;
 	}
+	
 	.login-tips h3 {
 		margin: 0;
 		color: #333;
 		font-size: 20px;
 	}
+	
 	.login-tips .primary {
 		width: 100%;
 		border-radius: 6px;
 		background: #AAAAAA;
 		color: #fff;
 	}
+	
 	.login-tips .primary.on {
 		background: #7099D0;
 		cursor: pointer;
 	}
+	
 	.loginButton {
 		color: #fff;
 		text-align: center;
@@ -270,7 +287,7 @@
 		background: rgba(255, 255, 255, 0.15);
 		border-radius: 2px;
 		padding: 10px 15px;
-		border: 1px solid  #7d7e80;
+		border: 1px solid #7d7e80;
 		margin-bottom: 25px;
 	}
 	
@@ -289,7 +306,7 @@
 	}
 	
 	input::-ms-input-placeholder {
-		color:  #7d7e80;
+		color: #7d7e80;
 	}
 	
 	.formInput input {
@@ -304,20 +321,22 @@
 		display: block;
 		float: left;
 	}
-	.formInput input{
+	
+	.formInput input {
 		width: 80%;
 		/* background: #fff; */
 		margin-top: -2px;
 	}
-/* 	.form {
+	/* 	.form {
 		padding-top: 15px;
 	} */
-	/deep/
-	.van-tabs__line{
-		border-bottom:3px solid #9499AA;
+	
+	/deep/ .van-tabs__line {
+		border-bottom: 3px solid #9499AA;
 		width: 50% !important;
 		color: #333;
 	}
+	
 	h3 {
 		height: 24px;
 		font-size: 17px;
@@ -327,7 +346,6 @@
 		margin: 0 0 10px;
 		line-height: 24px;
 	}
-	
 	
 	h4 {
 		height: 33px;
@@ -341,7 +359,7 @@
 	}
 	
 	p {
-		font-size:14px;
+		font-size: 14px;
 		font-family: PingFangSC-Regular, PingFang SC;
 		color: rgba(255, 255, 255, 1);
 		text-align: center;

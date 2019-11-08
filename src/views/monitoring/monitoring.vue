@@ -18,13 +18,13 @@
 						</div>
 						<van-cell>
 						   <ul class="list_ul overflow">
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=0'})"><img src="" alt=""><span>CYCZQ-1标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=1'})"><img src="" alt=""><span>CYCZQ-2标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=2'})"><img src="" alt=""><span>CYCZQ-3标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=3'})"><img src="" alt=""><span>CYCZQ-4标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=4'})"><img src="" alt=""><span>CYCZQ-5标1</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=5'})"><img src="" alt=""><span>CYCZQ-5标2</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=6'})"><img src="" alt=""><span>CYCZQ-6标</span></li>
+							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=0'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-1标</span></li>
+							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=1'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-2标</span></li>
+							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=2'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-3标</span></li>
+							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=3'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-4标</span></li>
+							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=4'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-5标1</span></li>
+							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=5'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-5标2</span></li>
+							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=6'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-6标</span></li>
 						   </ul>
 						</van-cell>
 					  </van-collapse-item>
@@ -208,7 +208,6 @@
 		height:24px;
 		display: block;
 		margin: 0 auto;
-		background: black;
 	}
 	.list_ul li span{
 		display: block;

@@ -79,18 +79,12 @@
 			}
 		},
 		created() {
-			this.value1=Number(this.$route.query.ValueId);
-			// this.change1(this.value1)
+			
 		},
 		mounted() {
-			
-			// this.value1=this.$route.query.ValueId
-			// console.log(this.value1)
 			this.StaffRetrieveList();
 			this.capacityEachart();
 			this.capacityEachartS();
-			// this.drawLineMothes();
-			
 		},
 		computed:{
 			
