@@ -68,7 +68,7 @@
 		},
 		created() {
 			// localStorage.setItem("checked",null)
-			this.localStorageUser();
+			// this.localStorageUser();
 		},
 		mounted() {
 			this.bannerImg()
@@ -86,11 +86,11 @@
 					localStorage.removeItem("checked")
 				}
 			},
-			localStorageUser(){
-				this.user=localStorage.getItem("user")
-				this.passWord=localStorage.getItem("passWord")
-				this.checked=localStorage.getItem("checked")	
-			},
+			// localStorageUser(){
+			// 	this.user=localStorage.getItem("user")
+			// 	this.passWord=localStorage.getItem("passWord")
+			// 	this.checked=localStorage.getItem("checked")	
+			// },
 			bannerImg(){
 				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {
 					if(res.data.result) {
