@@ -1,10 +1,11 @@
 <template>
 	<div>
 		<div class="containers overflow">
+			<!-- <div v-model="value1" :id="value1">value1</div> -->
 			<div class="container_header overflow">
-				<van-dropdown-menu class='van-dropdown'>
-				   <van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)"/>
-				   <van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)"/>
+				<van-dropdown-menu class='van-dropdown' >
+				   <van-dropdown-item :id="value1" v-model="value1" :options="option1" @change="change1(value1)"/>
+				   <van-dropdown-item :id="value1" v-model="value2" :options="option2" @change="change2(value2)"/>
 				</van-dropdown-menu>		
 			</div>
 		</div>
@@ -54,14 +55,13 @@
 				value1:0,
 			    value2:0,
 				option1: [
-					{ text: '全部标段', value: 0 },
-					{ text: '1标', value: 1 },
-					{ text: '2标', value: 2 },
-					{ text: '3标', value: 3 },
-					{ text: '4标', value: 4 },
-					{ text: '5-1标', value: 5 },
-					{ text: '5-2标', value: 6 },
-					{ text: '6标', value: 7 },
+					{ text: 'CYCZQ-1标', value: 0, name:'1标'},
+					{ text: 'CYCZQ-2标', value: 1, name:'2标'},
+					{ text: 'CYCZQ-3标', value: 2, name:'3标'},
+					{ text: 'CYCZQ-4标', value: 3, name:'4标'},
+					{ text: 'CYCZQ-5标1', value: 4, name:'5-1标'},
+					{ text: 'CYCZQ-5标2', value: 5, name:'5-2标'},
+					{ text: 'CYCZQ-6标', value: 6, name:'6标'},
 				],
 			    
 				option2: [
@@ -75,13 +75,17 @@
 				// 1.1.1.获取全部人员数量参数
 				BD:"",
 				GD:"",
+				eachatDataX:[]
 			}
 		},
 		created() {
-			
+			this.value1=Number(this.$route.query.ValueId);
+			// this.change1(this.value1)
 		},
 		mounted() {
 			
+			// this.value1=this.$route.query.ValueId
+			// console.log(this.value1)
 			this.StaffRetrieveList();
 			this.capacityEachart();
 			this.capacityEachartS();
@@ -92,74 +96,95 @@
 			
 		},
 		methods: {
-			// 人员变化
+			// 工种统计
 			capacityEachart(){
-				
-				
-				
 			  let this_ = this;
 			  let myChart = this.$echarts.init(document.getElementById('chart_example'));
-			  let option = {
-				color: ['#f44'],
-				tooltip : {
-				  trigger: 'axis',
-				  axisPointer : {
-					type : 'shadow'
-				  }
-				},
-				grid: {
-				    left: '0%',
-				    right: '0%',
-				    bottom: '10%',
-				    containLabel: true
-				},
-				xAxis : [
-				  {
-					type : 'category',
-					data : ['木工','木工','木工','木工','木工','木工','木工','木工','木工','木工','木工','木工'],
-					axisTick: {
-					  alignWithLabel: true
+			  // 1.1.3.获取每个工种类别下的人员数量
+			  // BD	String	输入文本如: '2标'
+			  // GD	String	输入文本如: '汉寿梁场'
+			  this.BD="2标";this.GD="汉寿梁场"
+			  ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
+			  	
+			  	if(res.data.result) {
+			  		
+			  	    this.eachatDataX=res.data.data;
+					console.log("获取每个工种类别下的人员数量",this.eachatDataX)
+					var eachatData_xAxis=[]
+					for(var i = 0;i<this.eachatDataX.length;i++){
+					    eachatData_xAxis.push(this.eachatDataX[i].WORKTYPE)
 					}
-				  }
-				],
-				yAxis : [
-				  {
-				   
-					type : 'value'
-				  }
-				],
-				series : [
-				  {
-					name:'每月花费',
-					type:'bar',
-					barWidth: '60%',
-					data:[995,666,444,858,654,236,645,546,846,225,547,356]
-				  }
-				]
-			  };
-			  myChart.setOption(option);
-			  //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
-			  window.addEventListener('resize',function() {myChart.resize()});
-				
+					var eachatData_yAxis=[]
+					for(var i = 0;i<this.eachatDataX.length;i++){
+					    eachatData_yAxis.push(this.eachatDataX[i].COUNT)
+					}
+					console.log("eachatData_xAxis",this.eachatDataX.length,eachatData_xAxis,eachatData_yAxis)
+					let option = {
+						color: ['#f44'],
+						tooltip : {
+						  trigger: 'axis',
+						  axisPointer : {
+							type : 'shadow'
+						  }
+						},
+						grid: {
+							left: '0%',
+							right: '0%',
+							bottom: '10%',
+							containLabel: true
+						},
+						xAxis : [
+						  {
+							type : 'category',
+							data :eachatData_xAxis,
+							axisTick: {
+							  alignWithLabel: true
+							}
+						  }
+						],
+						yAxis : [
+						  {
+							type : 'value'
+						  }
+						],
+						series : [
+						  {
+							name:'人数',
+							type:'bar',
+							barWidth: '60%',
+							data:eachatData_yAxis
+						  }
+						]
+					};
+					myChart.setOption(option);
+					//建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
+					window.addEventListener('resize',function() {myChart.resize()});
+			  	}
+			  })
 			},
 			capacityEachartS(){
-				ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
+				// 1.1.3.获取每个工种类别下的人员数量
+				// BD	String	输入文本如: '2标'
+				// GD	String	输入文本如: '汉寿梁场'
+				// this.BD="2标";this.GD="汉寿梁场"
+				// ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
 					
-					if(res.data.result) {
-						console.log("getUserTypeNumber",res)
+				// 	if(res.data.result) {
+				// 		console.log("getUserTypeNumber",res)
+				// 	    this.eachatDataX=res.data.data;
+				// 	}
+				// })
+				// ajax.get('/API/WebAPIDataAudit/getUserNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
 					
-					}
-				})
-				ajax.get('/API/WebAPIDataAudit/getUserNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
+				// 	if(res.data.result) {
+				// 		console.log("getUserNumber",res)
 					
-					if(res.data.result) {
-						console.log("getUserNumber",res)
-					
-					}
-				})
+				// 	}
+				// })
 				
 			  let this_ = this;
 			  let myChart = this.$echarts.init(document.getElementById('chart_examples'));
+			 
 			  let option = {
 				  grid: {
 				      left: '0%',
@@ -186,8 +211,9 @@
 				
 			},
 			change1(val){
-				this.Section = this.option1[val].text
-				console.log("当前标段：",this.option1[val].text)
+				this.Section = this.option1[val].name
+				console.log("当前标段：",this.option1[val].name)
+				this.StaffRetrieveList() 
 			},
 			change2(val){
 				this.Unit = this.option2[val].text
@@ -195,8 +221,7 @@
 			},
 			
 			StaffRetrieveList() {
-			
-                ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
+                ajax.get('/API/WebAPIDataAudit/getUserWorkPoint?Section='+this.Section).then(res => {
 					
 					if(res.data.result) {
 						console.log("全部工点名称",res)

@@ -98,6 +98,10 @@ export default {
 	.header{
 	    background: #212841!important;	
 		height:46px !important;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
 	}
 	.header span,.header .van-icon-arrow-left,.active .van-checkbox__label{
 		color:#fff !important;

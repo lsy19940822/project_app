@@ -154,6 +154,7 @@
 			getExamList() {
 				ajax.get('/API/WebAPIDataAudit/GetPaper?IDcard=' + this.$route.query.IDCard).then(res => {
 					if(res.data.result) {
+						console.log(res.data.data)
 						this.questionList = res.data.data
 						console.log("全部问题", this.questionList)
 						this.total = res.data.data.length
