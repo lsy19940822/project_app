@@ -24,17 +24,17 @@
 				 </p>
 			 </div>
 		</div>
-		<div class="container_list container_lists">
+		<div class="container_list container_lists" :style="{'height': !eachatft ? '100px' : 'auto'}">
 			<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_pro@2x.png" alt="">工种统计</p>
 			<div class="flase" v-show="!eachatft" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无工种统计</div>		
-			<div id="chart_example" v-show="eachatft">
+			<div id="chart_example" :class="{isShowEt: !eachatft}">
 				 
 			</div>
 		</div>
-		<div class="container_list container_lists">
+		<div class="container_list container_lists" :style="{'height': !eachatft ? '100px' : 'auto'}">
 			<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_bor@2x.png" alt="">人员变化</p>
 			<div class="flase" v-show="!eachatft"style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无人员变化</div>		
-			<div id="chart_examples" v-show="eachatft">
+			<div id="chart_examples" :class="{isShowEt: !eachatft}">
 				 
 			</div>
 		</div>
@@ -332,6 +332,11 @@
 	.header-right {
 		line-height: 5px;
 		color:#fff;
+	}
+	.isShowEt {
+		visibility: hidden;
+		/*height: 0!important;*/
+		overflow: hidden;
 	}
 	.containers{background: #fff;padding:12px;border-bottom:1px solid #ddd}
 

@@ -8,8 +8,8 @@
 				</p>
 			</div>
 		</vant-header>
-		<router-link to="/machinePositioning/manchine" tag="div" class="routerlink">人员定位</router-link>
-		<router-link to="/machinePositioning/car" tag="div" class="routerlink">车辆定位</router-link>
+		<router-link to="/machinePositioning/manchine" replace tag="div" class="routerlink">人员定位</router-link>
+		<router-link to="/machinePositioning/car" replace tag="div" class="routerlink">车辆定位</router-link>
 
 		<!--search-->
 		<div class="search-wrap" v-show="isSearchShow">
@@ -112,7 +112,7 @@
 		methods: {
 
 			activeClassButton() {
-				this.activeClassType = !this.activeClassType
+				this.activeClassType = !this.activeClassType;
 			},
 			searchShowHide() {
 				this.isSearchShow = !this.isSearchShow

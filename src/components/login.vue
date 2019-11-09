@@ -7,6 +7,12 @@
 					<img :src="image.PHOTOURL" class="back_img">
 				</van-swipe-item>
 			</van-swipe>
+			<van-swipe :loop="false">
+				<van-swipe-item class="banner-box">
+					<img src="../assets/images/exam/login_txt.png" class="back_img1">
+					<img src="../assets/images/exam/bj.png" class="back_img">
+				</van-swipe-item>
+			</van-swipe>
 			<div class="login-form">
 
 				<div class="form overflow">
@@ -16,7 +22,7 @@
 					<div class="loginButton" @click="phoneLogin()">登录系统</div>
 
 					<div class="overflow">
-						<van-checkbox v-model="checked" shape="square" @click="toggle(checked)">记住密码</van-checkbox>
+						<van-checkbox v-model="checked" shape="square" @click="toggle(checked)" style="color: #999;">记住密码</van-checkbox>
 					</div>
 
 				</div>
@@ -68,9 +74,9 @@
 		created() {
 			// localStorage.setItem("checked",null)
 			// this.localStorageUser();
+//			this.bannerImg()
 		},
 		mounted() {
-			this.bannerImg()
 		},
 		methods: {
 			toggle(val) {
@@ -158,10 +164,23 @@
 	.container .login-bg {
 		width: 100%;
 		height: auto;
+		margin-top: 46px;
 		overflow: hidden;
 		float: left;
 	}
-	
+	.banner-box {
+		position: relative;
+	}
+	.banner-box img.back_img1 {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-100%);
+		-webkit-transform: translateX(-50%) translateY(-100%);
+		-moz-transform: translateX(-50%) translateY(-100%);
+		-ms-transform: translateX(-50%) translateY(-100%);
+		-o-transform: translateX(-50%) translateY(-100%);
+	}
 	.container .login-bg img.back_img {
 		width: 100%;
 		float: left;
@@ -287,7 +306,7 @@
 		background: rgba(255, 255, 255, 0.15);
 		border-radius: 2px;
 		padding: 10px 15px;
-		border: 1px solid #7d7e80;
+		border: 1px solid #ddd;
 		margin-bottom: 25px;
 	}
 	
