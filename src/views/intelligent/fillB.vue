@@ -9,46 +9,26 @@
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
 				<van-dropdown-menu class='van-dropdown'>
-				  <van-dropdown-item v-model="value1" :options="option1" />
-				  <van-dropdown-item v-model="value2" :options="option2" />
+				  <van-dropdown-item v-model="value1" :options="option1"  @change="change1(value1)"/>
+				  <van-dropdown-item v-model="value2" :options="option2"  @change="change2(value2)"/>
 				</van-dropdown-menu>
 			</div>
-			<ul class="overflow">
-				<li>
+			<div class="flase" v-show="!show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无数据</div>	
+			<ul class="overflow" v-show='show'>
+				<li v-for="(item,index) in TreedataO" :key="index">
 					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="1">
-						<div slot="title">阮江特大桥
+					  <van-collapse-item :name="index">
+						<div slot="title">{{item.NAME}}
 							<span style="color: #aaa;float: right;">已完成</span>
 							<span style="color: #69966F;float: right;">78% </span>
 						</div>
-						<van-cell is-link @click="$router.push({path:'/fillC'})">
+						<van-cell is-link @click="$router.push({path:'/fillC?name='+item.NAME+'&id='+item.ID+'&ValueId=0'})">
 						   <img src="../../assets/images/user_icon/icon_up@2x (1).png" alt="" width='12'>&nbsp;&nbsp;上部工程
 						  <span style="color: #aaa;float: right;">已完成</span>
 						  <span style="color: #69966F;float: right;">78% </span>
 						</van-cell>
-						<van-cell is-link>
+						<van-cell is-link @click="$router.push({path:'/fillC?name='+item.NAME+'&id='+item.ID+'&ValueId=1'})">
 						   <img  src="../../assets/images/user_icon/icon_up@2x (2).png" alt="" width='12'>&nbsp;&nbsp;下部工程
-						  <span style="color: #aaa;float: right;">已完成</span>
-						  <span style="color: #69966F;float: right;">78% </span>
-						</van-cell>
-					    
-					  </van-collapse-item>
-					</van-collapse>
-				</li>
-				<li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="2">
-						<div slot="title">阮江特大桥
-							<span style="color: #aaa;float: right;">已完成</span>
-							<span style="color: #7099D0;float: right;">100% </span>
-						</div>
-						<van-cell is-link >
-						  <img src="../../assets/images/user_icon/icon_up@2x (1).png" alt="" width='12'>&nbsp;&nbsp;上部工程
-						  <span style="color: #aaa;float: right;">已完成</span>
-						  <span style="color: #69966F;float: right;">22% </span>
-						</van-cell>
-						<van-cell is-link>
-						  <img  src="../../assets/images/user_icon/icon_up@2x (2).png" alt="" width='12'>&nbsp;&nbsp;下部工程
 						  <span style="color: #aaa;float: right;">已完成</span>
 						  <span style="color: #69966F;float: right;">78% </span>
 						</van-cell>
@@ -66,10 +46,10 @@
 
 <script>
 	import vantHeader from '@/components/header.vue'
-	import studyFooter from '@/components/studyFooter.vue'
+	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
+		
 	import { Collapse, CollapseItem } from 'vant';
-	
 	Vue.use(Collapse).use(CollapseItem);
 	import { DropdownMenu, DropdownItem, Cell,Loading ,Icon} from 'vant';
 	
@@ -78,38 +58,79 @@
 	export default {
 		components: {
 			vantHeader,
-			studyFooter
 		},
 		data() {
 			return {
-				questionText:"CYCZQ-1标",
+				questionText:localStorage.getItem("labor_value_name"),
 				value1: 0,
 			    value2: 0,
-				option1: [
-					{ text: '一部分', value: 0 },
-					{ text: '二部分', value: 1 },
-					{ text: '三部分', value: 2 },
-					{ text: '四部分', value: 3 },
-					{ text: '五部分', value: 4 },
-					{ text: '六部分', value: 5},
-				],
+				option1: [],
 			    option2: [
 					{ text: '全部工程', value: 0 },
-					{ text: '全部工程1', value: 1 },
-					{ text: '全部工程2', value: 2 },
+				
 			    ],
 				isLoading:true,
-				activeNames: ['1']
+				activeNames: ['-1'],
+				Treedata:[],
+				TreedataO:[],
+				show:false,
 			}
 		},
 		created() {
+			// this.value1=Number(this.$route.query.ValueId)
 			
+			// localStorage.setItem("labor_value_id",this.value1)
+			this.GetMenuTreeList();
 		},
 		mounted() {
+			this.value1=Number(this.$route.query.ValueId)
 			
 		},
 		
 		methods: {
+			change1(val){
+				console.log(val,this.option1[val].text)
+				localStorage.setItem("labor_value_id_S",this.option1[val].id)
+				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+this.option1[val].id+"&name=").then(res => {
+					if(res.data.result==true) {
+					    this.TreedataO=res.data.data;
+						this.show=true
+						
+						console.log('智能进度GetMenuTre3:',this.TreedataO)
+						
+					}else{
+						this.show=false
+					}
+					
+				})
+			},
+			change2(val){
+			},
+			GetMenuTreeList(){
+				//智能进度
+				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1'+"&name=").then(res => {
+					if(res.data.result) {
+						this.Treedata=res.data.data;
+						for(let k in res.data.data) {
+						   this.option1.push({text:res.data.data[k].NAME,value:Number(k),id:res.data.data[k].ID})
+						}	
+						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+this.$route.query.id+"&name=").then(res => {
+							if(res.data.result) {
+							    this.TreedataO=res.data.data;
+								if(res.data.data.length!=''){
+									this.show=true
+								}else{
+									this.show=false
+								}
+								console.log('智能进度GetMenuTre3:',this.TreedataO)
+								for(let k in res.data.data) {
+								   this.option2.push({text:res.data.data[k].NAME,value:Number(k)+Number(1)})
+								}	
+							}
+						})
+					}
+				})
+			}
 		}
 	}
 </script>

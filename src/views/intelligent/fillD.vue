@@ -9,36 +9,37 @@
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
 				<van-dropdown-menu class='van-dropdown'>
-				  <van-dropdown-item v-model="value1" :options="option1" />
-				  <van-dropdown-item v-model="value2" :options="option2" />
+				  <van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)"/>
+				  <van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)"/>
 				</van-dropdown-menu>
 			</div>
-			<ul class="overflow">
-				<li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="1">
-						<div slot="title">一分部
+			<div class="flase" v-show="!show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无数据</div>	
+			<ul class="overflow" v-show="show">
+				<li v-for="(item,index) in Treedata" :key="index">
+					<van-collapse v-model="activeNames" >
+					  <van-collapse-item :name="index">
+						<div slot="title">{{item.NAME}}
 							<span style="color: #aaa;float: right;">已完成</span>
 							<span style="color: #69966F;float: right;">78% </span>
 						</div>
-						<van-cell is-link @click="$router.push({path:'/fillB'})">
+						<van-cell is-link @click="$router.push({path:'/fillB?ValueId='+index+'&id='+item.ID})">
 						 <img src="../../assets/images/user_icon/icon_g@2x (3).png" alt="" width='12'>&nbsp;&nbsp;桥梁
 						  <span style="color: #aaa;float: right;">已完成</span>
 						  <span style="color: #69966F;float: right;">22% </span>
 						</van-cell>
-						<van-cell is-link >
+						<van-cell is-link  @click="$router.push({path:'/fillB?ValueId='+index+'&id='+item.ID})">
 						 <img src="../../assets/images/user_icon/icon_g@2x (4).png" alt="" width='12'>&nbsp;&nbsp;涵洞
 						<span style="color: #aaa;float: right;">已完成</span>
 						<span style="color: #69966F;float: right;">22% </span>
 						  
 						</van-cell>
-						<van-cell is-link @click="$router.push({path:'/fill'})">
+						<van-cell is-link  @click="$router.push({path:'/fillB?ValueId='+index+'&id='+item.ID})">
 						 <img src="../../assets/images/user_icon/icon_g@2x (2).png" alt="" width='12'>&nbsp;&nbsp;隧道
 						<span style="color: #aaa;float: right;">已完成</span>
 						<span style="color: #69966F;float: right;">22% </span>
 						
 						</van-cell>
-					    <van-cell is-link @click="$router.push({path:'/fill'})">
+					    <van-cell is-link  @click="$router.push({path:'/fillB?id='+item.ID})">
 					     <img src="../../assets/images/user_icon/icon_g@2x (1).png" alt="" width='12'>&nbsp;&nbsp;地基
 					    <span style="color: #aaa;float: right;">已完成</span>
 					    <span style="color: #69966F;float: right;">22% </span>
@@ -47,39 +48,7 @@
 					  </van-collapse-item>
 					</van-collapse>
 				</li>
-				<li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="2">
-						<div slot="title">二分部
-							<span style="color: #aaa;float: right;">已完成</span>
-							<span style="color: #7099D0;float: right;">100% </span>
-						</div>
-						<van-cell is-link >
-						 <img src="../../assets/images/user_icon/icon_g@2x (3).png" alt="" width='12'>&nbsp;&nbsp;桥梁
-						  <span style="color: #aaa;float: right;">已完成</span>
-						  <span style="color: #69966F;float: right;">22% </span>
-						</van-cell>
-						<van-cell is-link >
-						 <img src="../../assets/images/user_icon/icon_g@2x (4).png" alt="" width='12'>&nbsp;&nbsp;涵洞
-						<span style="color: #aaa;float: right;">已完成</span>
-						<span style="color: #69966F;float: right;">22% </span>
-						  
-						</van-cell>
-						<van-cell is-link @click="$router.push({path:'/fill'})">
-						 <img src="../../assets/images/user_icon/icon_g@2x (2).png" alt="" width='12'>&nbsp;&nbsp;隧道
-						<span style="color: #aaa;float: right;">已完成</span>
-						<span style="color: #69966F;float: right;">22% </span>
-						
-						</van-cell>
-						<van-cell is-link @click="$router.push({path:'/fill'})">
-						 <img src="../../assets/images/user_icon/icon_g@2x (1).png" alt="" width='12'>&nbsp;&nbsp;地基
-						<span style="color: #aaa;float: right;">已完成</span>
-						<span style="color: #69966F;float: right;">22% </span>
-						
-						</van-cell>
-					  </van-collapse-item>
-					</van-collapse>
-				</li>
+				
 			</ul>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
@@ -90,7 +59,7 @@
 
 <script>
 	import vantHeader from '@/components/header.vue'
-	import studyFooter from '@/components/studyFooter.vue'
+	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
 	import { Collapse, CollapseItem } from 'vant';
 	
@@ -102,7 +71,6 @@
 	export default {
 		components: {
 			vantHeader,
-			studyFooter
 		},
 		data() {
 			return {
@@ -120,21 +88,63 @@
 				],
 			    option2: [
 					{ text: '全部工程', value: 0 },
-					{ text: '全部工程1', value: 1 },
-					{ text: '全部工程2', value: 2 },
+					
 			    ],
 				isLoading:true,
-				activeNames: ['0']
+				activeNames: ['-1'],
+				show:false,
+				Treedata:[]
 			}
 		},
 		created() {
-			
+			this.value1=Number(this.$route.query.ValueId)
+			if(this.value1 == 1){
+				this.show = true;
+			}else{
+				this.show = false;
+			}
+			localStorage.setItem("labor_value_id",this.value1)
+			localStorage.setItem("labor_value_name",this.option1[this.value1].text)
+			this.GetMenuTreeList();
 		},
 		mounted() {
 			
 		},
 		
 		methods: {
+			change1(val){
+				
+				console.log("当前标段：",this.option1[val].name)
+				if(val == 1){
+					this.show = true;
+				}else{
+					this.show = false;
+				}
+				localStorage.setItem("labor_value_id",val);
+				localStorage.setItem("labor_value_name",this.option1[val].text)
+			},
+			change2(val){
+				
+				console.log("当前工程：",this.option2[val].text)
+			},
+			GetMenuTreeList(){
+				//智能进度
+				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+"&name=CYCZQ2标").then(res => {
+					if(res.data.result) {
+						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1'+"&name=").then(res => {
+							if(res.data.result) {
+								this.Treedata=res.data.data;
+								console.log('智能进度GetMenuTre2:',this.Treedata)
+								for(let k in res.data.data) {
+								   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
+								   
+								}
+									
+							}
+						})
+					}
+				})
+			}
 		}
 	}
 </script>

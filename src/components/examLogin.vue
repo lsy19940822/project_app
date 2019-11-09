@@ -64,6 +64,9 @@
 		created() {
 			this.bannerImg()
 		},
+		mounted() {
+			
+		},
 		methods: {
 			bannerImg(){
 				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {

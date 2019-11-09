@@ -13,20 +13,21 @@
 				  <van-dropdown-item v-model="value2" :options="option2" />
 				</van-dropdown-menu>
 			</div>
-			<ul class="overflow">
-				<li>
+			<div class="flase" v-show="!show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无数据</div>
+			<ul class="overflow" v-show='show'>
+				<li v-for="(item,index) in TreedataO" :key="index">
 					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="1">
-						<div slot="title">柱
+					  <van-collapse-item :name="index">
+						<div slot="title">{{item.NAME}}
 							<span style="color: #aaa;float: right;">已完成</span>
 							<span style="color: #69966F;float: right;">78% </span>
 						</div>
-						<van-cell is-link @click="$router.push({path:'/fillA'})">
+						<van-cell is-link @click="$router.push({path:'/fillA?&id='+item.ID+'&name='+item.NAME})">
 						 <img src="../../assets/images/user_icon/icon_liang@2x.png" alt="" width='12'>&nbsp;&nbsp;527# 梁
 						  <span style="color: #aaa;float: right;">已完成</span>
 						  <span style="color: #69966F;float: right;">22% </span>
 						</van-cell>
-						<van-cell is-link >
+						<van-cell is-link @click="$router.push({path:'/fillA?&id='+item.ID+'&name='+item.NAME})">
 						 <img src="../../assets/images/user_icon/icon_liang@2x.png" alt="" width='12'>&nbsp;&nbsp;527# 梁
 						  <span style="color: #69966F;float: right;">已完成</span>
 						  
@@ -40,31 +41,7 @@
 					  </van-collapse-item>
 					</van-collapse>
 				</li>
-				<li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="2">
-						<div slot="title">梁
-							<span style="color: #aaa;float: right;">已完成</span>
-							<span style="color: #7099D0;float: right;">100% </span>
-						</div>
-						<van-cell is-link >
-						 <img src="../../assets/images/user_icon/icon_liang@2x.png" alt="" width='12'>&nbsp;&nbsp;527# 梁
-						  <span style="color: #aaa;float: right;">已完成</span>
-						  <span style="color: #69966F;float: right;">22% </span>
-						</van-cell>
-					    <van-cell is-link >
-					     <img src="../../assets/images/user_icon/icon_liang@2x.png" alt="" width='12'>&nbsp;&nbsp;527# 梁
-					      <span style="color: #69966F;float: right;">已完成</span>
-					      
-					    </van-cell>
-						<van-cell is-link @click="$router.push({path:'/fill'})">
-						 <img src="../../assets/images/user_icon/icon_liang@2x.png" alt="" width='12'>&nbsp;&nbsp;527# 梁
-						  <span style="color: #aaa;float: right;">未填报</span>
-						
-						</van-cell>
-					  </van-collapse-item>
-					</van-collapse>
-				</li>
+				
 			</ul>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
@@ -74,8 +51,8 @@
 </template>
 
 <script>
-	import vantHeader from '@/components/header.vue'
-	import studyFooter from '@/components/studyFooter.vue'
+	import vantHeader from '@/components/header.vue'	
+	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
 	import { Collapse, CollapseItem } from 'vant';
 	
@@ -87,39 +64,61 @@
 	export default {
 		components: {
 			vantHeader,
-			studyFooter
 		},
 		data() {
 			return {
-				questionText:"阮江特大桥",
+				questionText:this.$route.query.name,
 				value1: 0,
 			    value2: 0,
 				option1: [
-					{ text: 'CYCZQ-1标', value: 0 },
-					{ text: 'CYCZQ-2标', value: 1 },
-					{ text: 'CYCZQ-3标', value: 2 },
-					{ text: 'CYCZQ-4标', value: 3 },
-					{ text: 'CYCZQ-5标-1', value: 4 },
-					{ text: 'CYCZQ-5标-2', value: 5 },
-					{ text: 'CYCZQ-6标', value: 6 },
+					{ text: '上部工程', value: 0 },
+					{ text: '下部工程', value: 1 },
 				],
 			    option2: [
 					{ text: '全部工程', value: 0 },
-					{ text: '全部工程1', value: 1 },
-					{ text: '全部工程2', value: 2 },
 			    ],
 				isLoading:true,
-				activeNames: ['1']
+				activeNames: ['-1'],
+				TreedataO:[],
+				show:false
 			}
 		},
 		created() {
-			
+			this.value1=Number(this.$route.query.ValueId)
+			this.GetMenuTreeList()
 		},
 		mounted() {
 			
 		},
-		
+		change2(val){
+			this.GetMenuTreeList();
+		},
 		methods: {
+			GetMenuTreeList(){
+				//智能进度
+				// ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1'+"&name=").then(res => {
+					// if(res.data.result) {
+						// this.Treedata=res.data.data;
+						// for(let k in res.data.data) {
+						//    this.option1.push({text:res.data.data[k].NAME,value:Number(k),id:res.data.data[k].ID})
+						// }	
+						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+this.$route.query.id+"&name=").then(res => {
+							if(res.data.result) {
+							    this.TreedataO=res.data.data;
+								if(res.data.data.length!=''){
+									this.show=true
+								}else{
+									this.show=false
+								}
+								console.log('智能进度GetMenuTre3:',this.TreedataO)
+								for(let k in res.data.data) {
+								    this.option2.push({text:res.data.data[k].NAME,value:Number(k)+Number(1)})
+								}	
+							}
+						})
+					// }
+				// })
+			}
 		}
 	}
 </script>

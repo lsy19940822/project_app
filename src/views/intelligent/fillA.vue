@@ -37,7 +37,7 @@
 
 <script>
 	import vantHeader from '@/components/header.vue'
-	import studyFooter from '@/components/studyFooter.vue'
+	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
 	import { DropdownMenu, DropdownItem, Cell,Loading } from 'vant';
 	
@@ -46,23 +46,47 @@
 	export default {
 		components: {
 			vantHeader,
-			studyFooter
 		},
 		data() {
 			return {
-				questionText:"527# 梁",
+				questionText:this.$route.query.name,
 				
 				isLoading:true,
 			}
 		},
 		created() {
-			
+			this.GetMenuTreeList();
 		},
 		mounted() {
 			
 		},
 		
 		methods: {
+			GetMenuTreeList(){
+				//智能进度
+				// ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1'+"&name=").then(res => {
+					// if(res.data.result) {
+						// this.Treedata=res.data.data;
+						// for(let k in res.data.data) {
+						//    this.option1.push({text:res.data.data[k].NAME,value:Number(k),id:res.data.data[k].ID})
+						// }	
+						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+this.$route.query.id+"&name=").then(res => {
+							if(res.data.result) {
+							    this.TreedataO=res.data.data;
+								if(res.data.data.length!=''){
+									this.show=true
+								}else{
+									this.show=false
+								}
+								console.log('智能进度GetMenuTre3:',this.TreedataO)
+								for(let k in res.data.data) {
+								   this.option2.push({text:res.data.data[k].NAME,value:Number(k)+Number(1)})
+								}	
+							}
+						})
+					// }
+				// })
+			}
 		}
 	}
 </script>

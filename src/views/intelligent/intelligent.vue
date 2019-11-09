@@ -57,7 +57,7 @@
 							</span>
 						</p>
 						<p>
-							<van-progress color="#DCAA4F" :percentage="percentage.percentage3" stroke-width="6" />
+							<van-progress color="#DCAA4F" :percentage="percentage.percentage5" stroke-width="6" />
 						</p>
 					</div>
 					<div class="navLists"prop="percentage">
@@ -84,8 +84,8 @@
 				</li>
 			</ul>
 			<ul>
-				<li class='Buttond'  @click="$router.push({path:'/fillD'})">
-					<van-button color="#7099D0" size="normal" style='width: 100%;'>查看进度详情</van-button>
+				<li class='Buttond'  @click="$router.push({path:'/fillD?ValueId='+id})">
+					<van-button color="#7099D0" size="normal" style='width: 100%;' >查看进度详情</van-button>
 				</li>
 			</ul>
 		</div>
@@ -135,16 +135,18 @@
 					percentage2:0,
 					percentage3:0,
 					percentage4:0,
-				}
+					percentage5:0,
+				},
+				id:""
 			}
 		},
 		created() {
-			// this.num=Number(this.$route.query.ValueId);
-			// console.log(this.num);
+			 this.GetMenuTreeList();
+		
 		},
 		mounted() {
-            this.GetMenuTreeList();
-			this.num=Number(this.$route.query.ValueId);
+           
+			this.id=Number(this.$route.query.ValueId);
 			
 		},
 		methods: {
@@ -153,6 +155,7 @@
 			},
 			studyActives(event, index) {
 				console.log("当前标段id：",event.target.id)
+				this.id=event.target.id;
 				this.num=index;
 				if(this.num<3){
 					this.$refs.style[0].style.marginLeft='0px'
@@ -164,30 +167,23 @@
 				if(this.num == 1){
 					this.percentage.percentage1=Number(32)
 					this.percentage.percentage2=Number(61)
-					this.percentage.percentage3=Number(12365)
-					this.percentage.percentage4=Number(65)
+					this.percentage.percentage3=Number(32)
+					this.percentage.percentage4=Number(61)
+					this.percentage.percentage5=Number(32)
+					// this.percentage.percentage3=Number(12365)
+					// this.percentage.percentage4=Number(65)
 				}else{
 					this.percentage.percentage1=0
 					this.percentage.percentage2=0
 					this.percentage.percentage3=0
 					this.percentage.percentage4=0
+					this.percentage.percentage5=0
 				}
 				// console.log("左右滑动",index,91/2+(index)*6,this.$refs.style[0],this.$refs.style[0].style.marginLeft=+Number(-(91/2+(index)*6))+'px')
 			
 			},
              GetMenuTreeList(){
-				//智能进度
-				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+"&name=CYCZQ2标").then(res => {
-					if(res.data.result) {
-						console.log('智能进度GetMenuTree1:',res)
-						// ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1'+"&name=").then(res => {
-						// 	if(res.data.result) {
-						// 		console.log('智能进度GetMenuTre2:',res)
-						// 		// this.images=res.data.data;
-						// 	}
-						// })
-					}
-				})
+				
 			}
 		}
 	}
