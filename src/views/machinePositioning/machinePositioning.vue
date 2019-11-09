@@ -368,6 +368,7 @@
 		width: 100%;
 		bottom: 0;
 		background: #fff;
+		overflow: hidden;
 	}
 	
 	.l-list {

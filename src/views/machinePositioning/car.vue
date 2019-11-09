@@ -10,25 +10,12 @@
 		<div id="containerS"></div>
 		<ul class="footer_k footer_car" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
 			<div @click="activeClassButton()"></div>
-			<li @click="$router.push({path:'/machinePositioning_carX'})"><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
+			<!--$router.push({path:'/machinePositioning_carX'})-->
+			<li @click="showCarDetails(item)" v-for="item in carList.slice(0,4)"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.CARNUMBER}}</span></li>
 		</ul>
 		<ul class="footer_k footer_carS" :class="{'activeClass': activeClassType}" v-show='activeClassType'>
 			<div @click="activeClassButton()"></div>
-			<li><img src="../../assets/images/exam/car.jpg" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
-			<li><img src="" alt=""><span>湘A02806</span></li>
+			<li @click="showCarDetails(item)" v-for="item in carList"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.CARNUMBER}}</span></li>
 		</ul>
 
 		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
@@ -50,8 +37,9 @@
 		Search,
 		DropdownMenu,
 		DropdownItem,
+		Toast
 	} from 'vant';
-	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem);
+	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem).use(Toast);
 	export default {
 		data() {
 			return {
@@ -63,7 +51,9 @@
 				activeClassType: false,
 				value1: 0,
 				value2: 0,
+				ajax: ajax,
 				map: null,
+				carList: [],
 				option1: [{
 						text: '全部标段',
 						value: 0
@@ -100,13 +90,14 @@
 				option2: [{
 					text: '全部工点',
 					value: 0
-				}, ],
+				}]
 			}
 		},
 		components: {
 			vantHeader
 		},
 		created() {
+			console.log(ajax)
 		},
 		mounted() {
 			this.init();
@@ -147,9 +138,10 @@
 				// console.log(this.value1,this.$route.query.value);
 
 				// 工点
-				ajax.get('/API/WebAPIDataAudit/getAllGPS').then(res => {
-					if(res.status == 200 && res.data.data && res.data.data.result.length > 0) {
-						var data = res.data.data.result;
+				ajax.get('/API/WebAPIDataAudit/getCarInfo').then(res => {
+					if(res.status == 200 && res.data.data && res.data.data.length > 0) {
+						var data = res.data.data;
+						that.carList = data;
 						for(var i = 0;i < data.length;i++) {
 							var anchor = new qq.maps.Point(6, 6),
 								size = new qq.maps.Size(40, 19),
@@ -159,11 +151,20 @@
 								icon: icon,
 								map: that.map,
 								rotation: Math.random() * 360,
-								position: new qq.maps.LatLng(data[i].lat, data[i].lng)
+								position: new qq.maps.LatLng(data[i].LATITUDE, data[i].LONGITUDE)
 							});
 						}
 					}
 				})
+			},
+			showCarDetails(infor) {
+				console.log(infor)
+				if(!infor.LATITUDE || !infor.LONGITUDE) {
+					Toast.fail('暂无车辆位置信息');
+					return;
+				}
+				sessionStorage.setItem("curCarInfor", JSON.stringify(infor));
+				this.$router.push("/machinePositioning_carX");
 			}
 		}
 	}
