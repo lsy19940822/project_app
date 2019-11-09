@@ -7,14 +7,11 @@
 		<div class="containerIndex">
 			<div class="header_inte">
 				<div class="inte_gent">
-					<ul class="innerLabel">
-						<li class='activeLabel'>CYCZQ-1标</li>
-						<li>CYCZQ-2标</li>
-						<li>CYCZQ-3标</li>
-						<li>CYCZQ-4标</li>
-						<li>CYCZQ-5标1</li>
-						<li>CYCZQ-5标2</li>
-						<li>CYCZQ-6标</li>
+					<ul class="innerLabel" >
+						<li ref='style'
+						@click="studyActives($event,index)" 
+						:class="{activeLabel:num==index}" v-for="(item,index) in cycaqData"
+						:id="index">{{item.title}}</li>
 					</ul>
 				</div>
 			</div>
@@ -122,16 +119,46 @@
 		data() {
 			return {
 				questionText: "智能进度",
+				cycaqData:[
+					{"title":"CYCZQ-1标"},
+					{"title":"CYCZQ-2标"},
+					{"title":"CYCZQ-3标"},
+					{"title":"CYCZQ-4标"},
+					{"title":"CYCZQ-5标1"},
+					{"title":"CYCZQ-5标2"},
+					{"title":"CYCZQ-6标"},
+				],
+				num:0,
+				transform:0
 			}
 		},
 		created() {
-			
+			// this.num=Number(this.$route.query.ValueId);
+			// console.log(this.num);
 		},
 		mounted() {
             this.GetMenuTreeList();
+			this.num=Number(this.$route.query.ValueId);
+			
 		},
 
 		methods: {
+			inte(){
+				
+			},
+			studyActives(event, index) {
+				console.log("当前标段id：",event.target.id)
+				this.num=index;
+				if(this.num<3){
+					this.$refs.style[0].style.marginLeft='0px'
+				}else if(this.num == 3){
+					this.$refs.style[0].style.marginLeft=+Number(-(91/2+(index)*6))+'px'
+				}else if(this.num>3){
+					this.$refs.style[0].style.marginLeft=+Number(-(91/2+(index)*6)*4.5)+'px'
+				}
+				// console.log("左右滑动",index,91/2+(index)*6,this.$refs.style[0],this.$refs.style[0].style.marginLeft=+Number(-(91/2+(index)*6))+'px')
+			
+			},
              GetMenuTreeList(){
 				//智能进度
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree').then(res => {
@@ -168,8 +195,9 @@
 		transform: all .5s ease;
 		border-radius:2px;
 		line-height: 24px;
-		
-		
+	}
+	.innerLabel li:first-child{
+		margin-left: 0;
 	}
 	.inte_gent,.innerLabel{
 		width: 100%;

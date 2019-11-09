@@ -6,8 +6,8 @@
 			</div>
 		</vant-header>
 		<div class="view">
-			<router-link to="/Intelligence/labor" tag="div" class="routerlink">劳务统计</router-link>
-			<router-link to="/Intelligence/personnel"  tag="div" class="routerlink">员工详情</router-link>
+			<router-link :to="'/Intelligence/labor?ValueId='+localStorage" tag="div" class="routerlink">劳务统计</router-link>
+			<router-link  to="/Intelligence/personnel"  tag="div" class="routerlink">员工详情</router-link>
 			<router-view></router-view>
 		</div>
 	</div>
@@ -23,7 +23,7 @@
 		data() {
 			return {
 				questionText:"智能劳务",
-				
+				localStorage:localStorage.getItem('labor_value_id')
 			}
 		},
 		created() {

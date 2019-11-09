@@ -44,13 +44,14 @@
 					<span>{{StaffInfoData.endDate}}</span>
 				</li>
 				<li>
+					<!-- <span :style="{'color':(questionList[this.current].ZQDA == allAnswers[this.current]?'#7AB182':'#C36363')}" style="float: right;" v-if="questionList[this.current].ZQDA == allAnswers[this.current]?allAnswers[this.current]:questionList[this.current].ZQDA">{{questionList[this.current].ZQDA == allAnswers[this.current]?"回答正确":"回答错误"}}</span> -->
 					<span>分配意见</span>
 					 <!-- style="color: #7AA0D3;" -->
-					<span>{{StaffInfoData.opinion?StaffInfoData.opinion:'暂无意见'}}</span>
+					<span :style="{'color':(StaffInfoData.opinion== 1?'#7AA0D3':'#C86565')}">{{StaffInfoData.opinion==1?"同意，请相关人员及时整改":'问题描述不明确、请修改'}}</span>
 				</li>
 				<!-- <li>
 					<span>分配意见</span>
-					<span style="color: #C86565;">问题描述不明确、请修改</span>
+					<span style="color: #C86565;"></span>
 				</li> -->
 			</ul>
 			<ul class="container_list">

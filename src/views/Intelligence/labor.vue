@@ -79,7 +79,8 @@
 			}
 		},
 		created() {
-			
+			this.value1=Number(this.$route.query.ValueId)
+			localStorage.setItem("labor_value_id",this.value1)
 		},
 		mounted() {
 			this.StaffRetrieveList();
@@ -194,7 +195,7 @@
 			          type: 'value'
 			      },
 			      series: [{
-			          data: [820, 932, 901, 934, 1290, 1330, 1320],
+			          data: [1, 2, 3, 4, 5, 6, 7,8,9,10,11,12],
 			          type: 'line'
 			      }]
 			  };
