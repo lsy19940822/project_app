@@ -9,10 +9,10 @@
 			<ul class="footer_k" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
 				<div @click="activeClassButton()" class="shu"></div>
 				<div class="overflow">
-					<li @click="$router.push({path:'/car/informationCar'})"><img src="" alt=""><span>车辆信息</span></li>
+					<li @click="$router.push({path:'/car/informationCar'})"><img src="../../../assets/images/exam/car_1.png" alt=""><span>车辆信息</span></li>
 					<li>
 						<a class="overflow" :href="'tel:' + carInfor.DRIVERPHONE" style="float:right;display: block;color: #666666;">
-							<img src="" alt=""><span>联系司机</span>
+							<img src="../../../assets/images/exam/car_2.png" alt=""><span>联系司机</span>
 						</a>
 					</li>
 					<!--<li @click="$router.push({path:'/car/machinePositioning_AQ'})"><img src="" alt=""><span>安全范围</span></li>-->
