@@ -3,7 +3,7 @@
 		<vant-header :leftArrow="true" :titleType="1" :title="`成绩发布`" :rightType="2" />
 		<div class="grade-box">
 			<div class="grade-circle">
-				<van-circle v-model="currentRate" :rate="rate" :clockwise="false" color='#7AB182' size="120px" text="逆时针方向">
+				<van-circle v-model="currentRate" :rate="100 - $route.query.misitakeRate.slice(0, -1)" :clockwise="false" color='#7AB182' layer-color="#f2f2f2" :stroke-width="80" size="120px" text="逆时针方向">
 					<div class="grade-text">
 						<h2 class="f42">{{$route.query.Score}}<span class="f12">分</span></h2>
 						<p class="g-text f12">本次考试得分</p>

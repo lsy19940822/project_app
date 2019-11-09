@@ -37,6 +37,7 @@
 			rightText: { type: String,fault: ''},  //右侧文案
 			border: { type: Boolean,default: false}, //是否显示下边框
 			preventGoBack: {type: Boolean,default: false},//是否阻止返回
+			preventGoLink: {type: String,default: '/'},//是否阻止返回并使用自定义返回链接
 			fixed: { type: Boolean,default: true},  //是否固定在顶部
 			zIndex: { type: Number,default: 100}//元素 z-index
 		},
@@ -45,7 +46,7 @@
 				
 				if(this.preventGoBack){
 					this.$emit('on-click-left');
-					this.router.push({path:'/examLogin'})
+					this.$router.push({path: this.preventGoLink})
 				}else{
 					this.$router.go(-1);
 				}

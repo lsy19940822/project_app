@@ -193,7 +193,7 @@
 			pre() {
 				if(this.current > 0) {
 					this.current--
-					this.$router.push({
+					this.$router.replace({
 						path: '/questionDetail',
 						query: {
 							index: this.current
@@ -212,7 +212,7 @@
 			next() {
 				if(this.current < this.total-1) {
 					this.current ++
-					this.$router.push({
+					this.$router.replace({
 						path: '/questionDetail',
 						query: {
 							index: this.current
