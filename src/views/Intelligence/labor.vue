@@ -223,10 +223,6 @@
 					this.eachatft = false;
 				}
 				localStorage.setItem("labor_value_id",val)
-				// if(val == 0){
-				// 	this.eachatft = false;
-				// }else 
-				// this.StaffRetrieveList() 
 			},
 			change2(val){
 				this.Unit = this.option2[val].text
