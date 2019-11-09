@@ -133,20 +133,22 @@
 			}
 		},
 		created() {
-			
+			// this.num=Number(this.$route.query.ValueId);
+			// console.log(this.num);
 		},
 		mounted() {
             this.GetMenuTreeList();
+			this.num=Number(this.$route.query.ValueId);
+			
 		},
 
 		methods: {
+			inte(){
+				
+			},
 			studyActives(event, index) {
 				console.log("当前标段id：",event.target.id)
 				this.num=index;
-				
-	 // this.$refs.content.$el.style.top=`${this.$refs.image.clientHeight}px`
-				// this.$refs[el][0].style.display = "none";,
-				
 				if(this.num<3){
 					this.$refs.style[0].style.marginLeft='0px'
 				}else if(this.num == 3){

@@ -58,7 +58,7 @@
 					</van-dropdown-menu>
 				</div>
 				<ul class="l-list">
-					<li v-for="(item,index) in safeData" :key="index" :id="item.id">
+					<li v-for="(item,index) in safeData" :key="index" :id="item.id" @click="$router.push({path:'/LeaderProblemW?userId='+$route.query.userId+'&id='+item.id})">
 						<div class="item" :id="item.id">
 							<h6 class="title":id="item.id">{{item.quesDesc}}</h6>
 							<div class="explain marginT12":id="item.id">
