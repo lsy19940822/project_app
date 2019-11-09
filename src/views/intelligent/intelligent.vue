@@ -23,12 +23,12 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (5).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段实际进度</span>
 							<span style="float: right;">
-								<span>72%</span>
+								<span>{{percentage1}}</span>
 								<span style="color:rgba(64,69,94,1);">/100%</span>
 							</span>
 						</p>
 						<p>
-							<van-progress color="#7AB182" :percentage="72" stroke-width="6" />
+							<van-progress color="#7AB182" :percentage="percentage1" stroke-width="6" />
 						</p>
 					</div>
 					<div class="navLists">
@@ -36,12 +36,12 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (4).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段计划进度</span>
 							<span style="float: right;">
-								<span>66%</span>
+								<span>{{percentage2}}</span>
 								<span style="color:rgba(64,69,94,1);">/100%</span>
 							</span>
 						</p>
 						<p style="margin-bottom: 0;">
-							<van-progress color="#AAAAAA" :percentage="66" stroke-width="6" />
+							<van-progress color="#AAAAAA" :percentage="percentage2" stroke-width="6" />
 						</p>
 					</div>
 				</div>
@@ -51,13 +51,13 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (3).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段产值</span>
 							<span style="float: right;">
-								<span>20989.99万</span>
+								<span>{{percentage3}}</span>
 								<span style="color:rgba(64,69,94,1);">/30989.99万</span>
 
 							</span>
 						</p>
 						<p>
-							<van-progress color="#DCAA4F" :percentage="63" stroke-width="6" />
+							<van-progress color="#DCAA4F" :percentage="percentage3" stroke-width="6" />
 						</p>
 					</div>
 					<div class="navLists">
@@ -65,12 +65,12 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (2).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段工期</span>
 							<span style="float: right;">
-								<span>87天</span>
+								<span>{{percentage4}}</span>
 								<span style="color:rgba(64,69,94,1);">/330天</span>
 							</span>
 						</p>
 						<p style="margin-bottom: 0;">
-							<van-progress color="#6A94B9" :percentage="56" stroke-width="6" />
+							<van-progress color="#6A94B9" :percentage="percentage4" stroke-width="6" />
 						</p>
 					</div>
 				</div>
@@ -79,7 +79,7 @@
 				<li class="overflow" @click="$router.push({path:'/BeyondThe'})">
 					<van-cell is-link>
 						<span>超期工程</span>
-						<span class='tag' style="float: right;"><span style='color: #C86565;'>12</span><span class='color:#AAAAAA'>/20325</span></span>
+						<span class='tag' style="float: right;"><span style='color: #C86565;'>0</span><span class='color:#AAAAAA'>/20325</span></span>
 					</van-cell>
 				</li>
 			</ul>
@@ -129,7 +129,13 @@
 					{"title":"CYCZQ-6标"},
 				],
 				num:0,
-				transform:0
+				transform:0,
+				percentage:{
+					percentage1:0
+					percentage2:0
+					percentage3:0
+					percentage4:0
+				}
 			}
 		},
 		created() {
@@ -161,10 +167,15 @@
 			},
              GetMenuTreeList(){
 				//智能进度
-				ajax.get('/API/WebAPIDataAudit/GetMenuTree').then(res => {
+				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+"&name=CYCZQ2标").then(res => {
 					if(res.data.result) {
-						console.log('智能进度GetMenuTree:',res)
-						// this.images=res.data.data;
+						console.log('智能进度GetMenuTree1:',res)
+						// ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1'+"&name=").then(res => {
+						// 	if(res.data.result) {
+						// 		console.log('智能进度GetMenuTre2:',res)
+						// 		// this.images=res.data.data;
+						// 	}
+						// })
 					}
 				})
 			}
