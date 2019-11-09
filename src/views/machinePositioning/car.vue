@@ -49,47 +49,49 @@
 				searchVal: '',
 				isSearchShow: false,
 				activeClassType: false,
-				value1: 0,
-				value2: 0,
+				value1: '',
+				Section: '',
+				value2: '',
+				Worksite: '',
 				ajax: ajax,
 				map: null,
 				carList: [],
 				option1: [{
 						text: '全部标段',
-						value: 0
+						value: ''
 					},
 					{
 						text: '1标',
-						value: 1
+						value: '1'
 					},
 					{
 						text: '2标',
-						value: 2
+						value: '2'
 					},
 					{
 						text: '3标',
-						value: 3
+						value: '3'
 					},
 					{
 						text: '4标',
-						value: 4
+						value: '4'
 					},
 					{
 						text: '5标-1',
-						value: 5
+						value: '5'
 					},
 					{
 						text: '5标-2',
-						value: 6
+						value: '6'
 					},
 					{
 						text: '6标',
-						value: 7
+						value: '7'
 					},
 				],
 				option2: [{
 					text: '全部工点',
-					value: 0
+					value: ''
 				}]
 			}
 		},
@@ -105,7 +107,6 @@
 		},
 		methods: {
 			init() {
-				console.log('11')
 				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
 				this.map = new qq.maps.Map(document.getElementById("containerS"), {
 					center: new qq.maps.LatLng(39.916527, 116.397128), // 地图的中心地理坐标。
@@ -138,7 +139,7 @@
 				// console.log(this.value1,this.$route.query.value);
 
 				// 工点
-				ajax.get('/API/WebAPIDataAudit/getCarInfo').then(res => {
+				ajax.get('/API/WebAPIDataAudit/getCarInfo?section='+this.Section+'&worksite='+this.Worksite).then(res => {
 					if(res.status == 200 && res.data.data && res.data.data.length > 0) {
 						var data = res.data.data;
 						that.carList = data;

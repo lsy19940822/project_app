@@ -11,17 +11,18 @@
 				<div class="overflow">
 					<li @click="$router.push({path:'/car/informationCar'})"><img src="" alt=""><span>车辆信息</span></li>
 					<li>
-						<a class="overflow" href="tel:" style="width: 48%;float:right;display: block;color: #666666;"></a>
-						<img src="" alt=""><span>联系司机</span>
+						<a class="overflow" :href="'tel:' + carInfor.DRIVERPHONE" style="float:right;display: block;color: #666666;">
+							<img src="" alt=""><span>联系司机</span>
+						</a>
 					</li>
 					<!--<li @click="$router.push({path:'/car/machinePositioning_AQ'})"><img src="" alt=""><span>安全范围</span></li>-->
 					<!--<li @click="$router.push({path:'/car/machinePositioning_GJ'})"><img src="" alt=""><span>活动轨迹</span></li>-->
 				</div>
 				
 				<div class="position">
-					<img src="" alt="">
-					<span>湘A02806</span>
-					<span>推土机</span>
+					<img :src="ajax.http + carInfor.CARPHOTOURL.slice(2)" alt="">
+					<span>{{carInfor.CARNUMBER}}</span>
+					<span>{{carInfor.CARTYPE}}</span>
 				</div>
 			</ul>
 			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
@@ -43,49 +44,55 @@
 		Tabs,
 		Icon,
 		Search,
-		DropdownMenu, DropdownItem,
+		DropdownMenu, DropdownItem,Toast
 	} from 'vant';
-	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem);
+	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem).use(Toast);
 	export default {
 		data() {
 			return {
 				questionText: '车辆详情',
 				isLoading: true,
 				active: 0,
+				ajax: ajax,
 				searchVal: '',
 				isSearchShow: false,
 				activeClassType:false,
-				value1: 0,
-				value2: 0,
-				option1: [
-					{ text: '全部标段', value: 0 },
-					{ text: '1标', value: 1 },
-					{ text: '2标', value: 2 },
-					{ text: '3标', value: 3 },
-					{ text: '4标', value: 4 },
-					{ text: '5标-1', value: 5},
-					{ text: '5标-2', value: 6 },
-					{ text: '6标', value: 7},
-				],
-				option2: [
-					{ text: '全部工点', value: 0 },
-				],
+				map: null,
+				carInfor: {}
 			}
 		},
 		components: {
 			vantHeader
 		},
+		created() {
+			var infor = sessionStorage.getItem("curCarInfor");
+			if(!infor) {
+				Toast.fail('为获取到车辆信息，请重新获取');
+				return;
+			}
+			Object.assign(this.carInfor, JSON.parse(infor));
+			console.log(JSON.parse(infor))
+		},
 		mounted() {
 			this.init()
-			this.getUserWorkPointList()
+//			this.getUserWorkPointList()
 		},
 		methods: {
 			init() {
 				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
-				 var map = new qq.maps.Map(document.getElementById("containerS"), {
+				this.map = new qq.maps.Map(document.getElementById("containerS"), {
 					center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
-					zoom:8,
-					
+					zoom:8
+				});
+				var anchor = new qq.maps.Point(6, 6),
+					size = new qq.maps.Size(40, 19),
+					origin = new qq.maps.Point(0, 0),
+					icon = new qq.maps.MarkerImage(require('../../../assets/images/exam/car.jpg'), size, origin, anchor, size);
+				var marker = new qq.maps.Marker({
+					icon: icon,
+					map: this.map,
+					rotation: Math.random() * 360,
+					position: new qq.maps.LatLng(this.carInfor.LATITUDE, this.carInfor.LONGITUDE)
 				});
 			},
 			activeClassButton(){
@@ -98,15 +105,7 @@
 				this.searchShowHide();
 			},
 			onSearch() {
-			
-			},
-			change1(val){
-				this.Section = this.option1[val].text
-				console.log("当前标段：",this.option1[val].text)
-			},
-			change2(val){
-				this.Worksite = this.option2[val].text
-				console.log("当前工点：",this.option2[val].text)
+				
 			},
 			getUserWorkPointList(){
 				let that = this;
@@ -180,6 +179,7 @@
 		margin: 0 auto 10px;
 	}
 	.footer_k li{
+		display: inline-block;
 		width: 25%;
 		height: auto;
 		overflow: hidden;
