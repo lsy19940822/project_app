@@ -88,7 +88,11 @@
 			}else{
 				this.eachatft = false;
 			}
-			
+			// if(this.value1 == 0||this.value1 == 2||this.value1 == 3||this.value1 == 4||this.value1 == 5||this.value1 == 6){
+			// 	this.eachatft = false;
+			// }else if(this.value1 == 1){
+			// 	this.eachatft = true;
+			// }
 			localStorage.setItem("labor_value_id",this.value1)
 		},
 		mounted() {
@@ -223,6 +227,10 @@
 					this.eachatft = false;
 				}
 				localStorage.setItem("labor_value_id",val)
+				// if(val == 0){
+				// 	this.eachatft = false;
+				// }else 
+				// this.StaffRetrieveList() 
 			},
 			change2(val){
 				this.Unit = this.option2[val].text
