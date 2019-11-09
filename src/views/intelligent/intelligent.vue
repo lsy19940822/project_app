@@ -18,59 +18,59 @@
 			<div class="container_list">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/user_icon/icon_M@2x (1).png" alt="">标段详情</p>
 				<div class="container_nav">
-					<div class="navLists">
+					<div class="navLists" prop="percentage">
 						<p style="font-size:13px;margin: 0;">
 							<span><img src="../../assets/images/user_icon/icon_M@2x (5).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段实际进度</span>
 							<span style="float: right;">
-								<span>{{percentage1}}</span>
+								<span>{{percentage.percentage1}}</span>
 								<span style="color:rgba(64,69,94,1);">/100%</span>
 							</span>
 						</p>
 						<p>
-							<van-progress color="#7AB182" :percentage="percentage1" stroke-width="6" />
+							<van-progress color="#7AB182" :percentage="percentage.percentage1" stroke-width="6" />
 						</p>
 					</div>
-					<div class="navLists">
+					<div class="navLists" prop="percentage">
 						<p style="font-size:13px;margin: 0;">
 							<span><img src="../../assets/images/user_icon/icon_M@2x (4).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段计划进度</span>
 							<span style="float: right;">
-								<span>{{percentage2}}</span>
+								<span>{{percentage.percentage2}}</span>
 								<span style="color:rgba(64,69,94,1);">/100%</span>
 							</span>
 						</p>
 						<p style="margin-bottom: 0;">
-							<van-progress color="#AAAAAA" :percentage="percentage2" stroke-width="6" />
+							<van-progress color="#AAAAAA" :percentage="percentage.percentage2" stroke-width="6" />
 						</p>
 					</div>
 				</div>
 				<div class="container_nav">
-					<div class="navLists">
+					<div class="navLists" prop="percentage">
 						<p style="font-size:13px;margin: 0;">
 							<span><img src="../../assets/images/user_icon/icon_M@2x (3).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段产值</span>
 							<span style="float: right;">
-								<span>{{percentage3}}</span>
+								<span>{{percentage.percentage3}}</span>
 								<span style="color:rgba(64,69,94,1);">/30989.99万</span>
 
 							</span>
 						</p>
 						<p>
-							<van-progress color="#DCAA4F" :percentage="percentage3" stroke-width="6" />
+							<van-progress color="#DCAA4F" :percentage="percentage.percentage3" stroke-width="6" />
 						</p>
 					</div>
-					<div class="navLists">
+					<div class="navLists"prop="percentage">
 						<p style="font-size:13px;margin: 0;">
 							<span><img src="../../assets/images/user_icon/icon_M@2x (2).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段工期</span>
 							<span style="float: right;">
-								<span>{{percentage4}}</span>
+								<span>{{percentage.percentage4}}</span>
 								<span style="color:rgba(64,69,94,1);">/330天</span>
 							</span>
 						</p>
 						<p style="margin-bottom: 0;">
-							<van-progress color="#6A94B9" :percentage="percentage4" stroke-width="6" />
+							<van-progress color="#6A94B9" :percentage="percentage.percentage4" stroke-width="6" />
 						</p>
 					</div>
 				</div>
@@ -131,10 +131,10 @@
 				num:0,
 				transform:0,
 				percentage:{
-					percentage1:0
-					percentage2:0
-					percentage3:0
-					percentage4:0
+					percentage1:0,
+					percentage2:0,
+					percentage3:0,
+					percentage4:0,
 				}
 			}
 		},
@@ -147,7 +147,6 @@
 			this.num=Number(this.$route.query.ValueId);
 			
 		},
-
 		methods: {
 			inte(){
 				
@@ -161,6 +160,17 @@
 					this.$refs.style[0].style.marginLeft=+Number(-(91/2+(index)*6))+'px'
 				}else if(this.num>3){
 					this.$refs.style[0].style.marginLeft=+Number(-(91/2+(index)*6)*4.5)+'px'
+				}
+				if(this.num == 1){
+					this.percentage.percentage1=Number(32)
+					this.percentage.percentage2=Number(61)
+					this.percentage.percentage3=Number(12365)
+					this.percentage.percentage4=Number(65)
+				}else{
+					this.percentage.percentage1=0
+					this.percentage.percentage2=0
+					this.percentage.percentage3=0
+					this.percentage.percentage4=0
 				}
 				// console.log("左右滑动",index,91/2+(index)*6,this.$refs.style[0],this.$refs.style[0].style.marginLeft=+Number(-(91/2+(index)*6))+'px')
 			
