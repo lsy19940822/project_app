@@ -26,13 +26,15 @@
 		</div>
 		<div class="container_list container_lists">
 			<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_pro@2x.png" alt="">工种统计</p>
-			<div id="chart_example">
+			<div class="flase" v-show="!eachatft" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无工种统计</div>		
+			<div id="chart_example" v-show="eachatft">
 				 
 			</div>
 		</div>
 		<div class="container_list container_lists">
 			<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_bor@2x.png" alt="">人员变化</p>
-			<div id="chart_examples">
+			<div class="flase" v-show="!eachatft"style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无人员变化</div>		
+			<div id="chart_examples" v-show="eachatft">
 				 
 			</div>
 		</div>
@@ -75,11 +77,18 @@
 				// 1.1.1.获取全部人员数量参数
 				BD:"",
 				GD:"",
-				eachatDataX:[]
+				eachatDataX:[],
+		        eachatft:false,
 			}
 		},
 		created() {
 			this.value1=Number(this.$route.query.ValueId)
+			if(this.value1 == 1){
+				this.eachatft = true;
+			}else{
+				this.eachatft = false;
+			}
+			
 			localStorage.setItem("labor_value_id",this.value1)
 		},
 		mounted() {
@@ -195,7 +204,7 @@
 			          type: 'value'
 			      },
 			      series: [{
-			          data: [1, 2, 3, 4, 5, 6, 7,8,9,10,11,12],
+			          data: [0, 0, 0,0,0,0,0,0,0,0,0,0],
 			          type: 'line'
 			      }]
 			  };
@@ -208,7 +217,16 @@
 			change1(val){
 				this.Section = this.option1[val].name
 				console.log("当前标段：",this.option1[val].name)
-				this.StaffRetrieveList() 
+				if(val == 1){
+					this.eachatft = true;
+				}else{
+					this.eachatft = false;
+				}
+				localStorage.setItem("labor_value_id",val)
+				// if(val == 0){
+				// 	this.eachatft = false;
+				// }else 
+				// this.StaffRetrieveList() 
 			},
 			change2(val){
 				this.Unit = this.option2[val].text

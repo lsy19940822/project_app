@@ -9,8 +9,9 @@
 				</van-dropdown-menu>
 			</div>
 		</div>
-
-		<div class="containers-bar overflow" style="position: relative;">
+        <div class="flase" v-show="!show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无人员</div>	
+		<div class="containers-bar overflow" style="position: relative;" v-show="show">
+			
 			<!--<van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()' />-->
 			<van-index-bar :sticky='true' :sticky-offset-top='46' :index-list="indexlist">
 				<div v-for="(item,index) in NameArrS">
@@ -213,10 +214,11 @@
 				// 1.1.1.获取全部人员数量参数
 				BD: "",
 				GD: "",
+				show:true
 			}
 		},
 		created() {
-this.getCompanyList()
+              this.getCompanyList()
 		},
 		mounted() {
 			this.StaffRetrieveList();
@@ -234,16 +236,30 @@ this.getCompanyList()
 			change1(val) {
 				this.Section = this.option1[val].text
 				console.log("当前标段：", this.option1[val].text)
-				this.searchButton()
+				// this.searchButton()
+				if(val == 2 ||val==0){
+					this.Section=''
+					this.Unit=''
+					this.show=true
+				}else{
+					this.Section=''
+					this.Unit=''
+					this.show=false
+				}
 			},
 			change2(val) {
 				this.Unit = this.option2[val].text
 				console.log("当前单位：", this.option2[val].text)
-				this.searchButton()
+				this.Section=''
+				this.Unit=''
+				// this.searchButton()
 			},
 			change3(val) {
 				this.TypeWork = this.option3[val].text
 				console.log("当前工种：", this.option3[val].text)
+				if(this.option3[val].text == "全部工种"){
+					this.TypeWork = ''
+				}
 				this.searchButton()
 			},
 			getCompanyList(){
@@ -269,7 +285,7 @@ this.getCompanyList()
 			searchButton() {
 				console.log("当前标段：", this.Section, "当前单位：", this.Unit, "当前工种：", this.TypeWork)
 				if(this.TypeWork == "全部工种"){
-					this.TypeWork = null
+					this.TypeWork = ''
 				}
 				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section + '&Unit=' + this.Unit + '&TypeWork=' + this.TypeWork).then(res => {
 

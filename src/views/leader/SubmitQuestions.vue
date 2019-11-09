@@ -117,10 +117,10 @@
 					</div>
 				</li>
 				<li class='Buttond'> 
-					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead'})">点击选择人员</van-button>
+					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead?userId='+$route.query.userId})">点击选择人员</van-button>
 				</li>
 				<li class='Buttond'>
-					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead'})">重新选择人员</van-button>
+					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead?userId='+$route.query.userId})">重新选择人员</van-button>
 				</li>
 			</ul>
 			<ul>
@@ -208,30 +208,34 @@
 				city:'',
 				longlat:false,
 				peleList:'',
+				quesType:'',
+				degreeid:'',
 				user:{
-					
-				}
+					userName:'',
+					userId:''
+				},
+				fileSrc:""
 			}
 		},
 		mounted() {
 			
 		},
 		created() {
-			
+			// 用户信息
+			ajax.getW('/api/safety/selectUserById?id='+this.$route.query.userId).then(res => {
+				if(res.status == 200) {
+					if(res.data.code == 200) {
+						this.user.userName=res.data.data.info.TYPES
+						this.user.userId=res.data.data.info.BID
+					}
+				}
+			});
 		},
 		methods: {
-			// 用户信息
-			// ajax.getW('/api/safety/selectUserById?id='+this.$route.query.userId).then(res => {
-			// 	if(res.status == 200) {
-			// 		if(res.data.code == 200) {
-			// 			this.type=res.data.data.info.TYPES
-			// 			console.log("selectUserById：",res.data);
-			// 		}
-			// 	}
-			// }),
 			afterRead(file) {
 			  // 此时可以自行将文件上传至服务器
-			  console.log(file);
+			  console.log(file,file.content);
+			  this.fileSrc+=file.content
 			},
 			longlatButton(){
 				Dialog.confirm({
@@ -268,16 +272,16 @@
 			},
 			
 			sumtrienButton() {
-				if(this.value == ''){
+				if(this.value == ''){//1 安全 2 质量 3进度
 					Toast('请选择问题类型');
 					return;
 				}
-				if(this.valueS == ''){
+				if(this.valueS == ''){//1特别  2紧急 3一般
 					Toast('请选择紧急类型');
 					return;
 				}
 				if(this.timeValueStart == ''){
-					Toast('请选择限定时间');
+					Toast('请选择开始时间');
 					return;
 				}
 				if(this.timeValue == ''){
@@ -303,17 +307,32 @@
 					Toast('请选择负责人');
 					return;
 				}
-				if(this.timeValueStart && this.value!='' && this.timeValue!='' && this.peleList!=''  && this.valueS!=''  && this.fileList!=''  && this.message!=''  && this.messageQuesc!=''  && this.addr!='' ){
-				
-					// ajax.getW('/api/safety/saveSafety?id='+that.$route.query.id).then(res => {
-					// 	if(res.status == 200) {
-					// 		if(res.data.code == 200) {
-					// 			console.log("selectSafetyInfoById",res.data);
-					// 			res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
-					// 			this.StaffInfoData=res.data.data;
-					// 		}
-					// 	}
-					// })
+				if(this.timeValueStart!='' && this.value!='' && this.timeValue!='' && this.peleList!=''  && this.valueS!=''  && this.fileList!=''  && this.message!=''  && this.messageQuesc!=''  && this.addr!='' ){
+				    
+					
+						
+					ajax.postParams('/api/safety/saveSafety',{
+						'putNameId':this.user.userId,
+						'putName':this.user.userName,
+						'quesType':this.quesType,
+						'degreeid':this.degreeid,
+						'dates':this.timeValueStart, 	
+						'quesDesc':	this.messageQuesc,
+						'quesDetail':this.message,
+						'quesPic':	this.fileSrc,
+						'endDate':this.timeValue,	
+						'principle':this.user,	
+						'departmentid':	this.user,
+						'principleName':this.user,	
+					}).then(res => {
+						if(res.status == 200) {
+							if(res.data.code == 200) {
+								console.log("selectSafetyInfoById",res.data);
+								res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
+								this.StaffInfoData=res.data.data;
+							}
+						}
+					})
 				}
 			},
 			//定位获得当前位置信息精准
@@ -461,15 +480,18 @@
 				// this.currentDateX=year + '-' + this.month_s + '-' + this.day_s + " " + this.getHour_s + ":" + this.getMinutes_s
 			
 			},
-			onConfirm(value) {
+			onConfirm(value,index) {
 			    this.value = value;
 			    this.showPicker = false;
+				this.quesType=index+Number(1);
+				console.log("---quesType--",this.quesType)
 			},
-			onConfirmS(value) {
+			onConfirmS(value,index) {
 			    this.valueS = value;
 			    this.showPickerS = false;
+				this.degreeid=index+Number(1);
+				console.log("--degreeid---",this.degreeid)
 			},
-			
 			
 			StaffInfoF(){
 				

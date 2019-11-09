@@ -14,18 +14,18 @@
 	</vant-header>
     <van-search placeholder="请输入负责人" v-model="value" />
 	<div class="containers-bar overflow" style="position: relative;">
-		<van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()' />
+		<!-- <van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()' /> -->
 		<van-index-bar :sticky='true' :sticky-offset-top='46' :index-list="indexlist">
 			<div v-for="(item,index) in NameArrS">
 				<van-index-anchor :index="item.letter" />
-				<van-cell v-for="(items,index) in item.data" class='vanCell' :CERTNUMBR="items.CERTNUMBR" :key="items.CERTNUMBR">
+				<!-- <van-cell v-for="(items,index) in item.data" class='vanCell'>
 					 <van-radio-group v-model="radio" style='float: left;margin: 10px 10px 0 0 '>
 					   <van-radio :name="items"></van-radio>
 					 </van-radio-group>
-					<img :src="items.PHOTOURL" alt="" :CERTNUMBR="items.CERTNUMBR"> 
-					<span :CERTNUMBR="items.CERTNUMBR">{{items.EXAMNAME}}</span>
-					<span :CERTNUMBR="items.CERTNUMBR">{{items.WORKTYPE}}</span>
-				</van-cell>
+					<img :src="items.PHOTOURL" alt="" :CERTNUMBR="items.CERTNUMBR">
+					<span :username="items.username">{{items.username}}</span>
+					 <span :CERTNUMBR="items.CERTNUMBR">{{items.WORKTYPE}}</span>
+				</van-cell> -->
 			</div>
 		</van-index-bar>
 	</div>
@@ -77,18 +77,12 @@
 				radio: '',
 				value:'',
 				isLoading: true,
-				TypeWork: '', //工种
-				Unit: '', //单位
-				Section: '', //所在标段
 				NameArrS: [],
-				examRecord: [],
-				// 1.1.1.获取全部人员数量参数
-				BD: "",
-				GD: "",
+				BID:''
 			}
 		},
 		created() {
-
+           
 		},
 		mounted() {
 			this.StaffRetrieveList();
@@ -105,37 +99,33 @@
 		methods: {
 			drawLineMothes() {},
 			searchButton() {
-				// ajax.get('getUserTypeNumber?BD=' + this.BD + '&GD=' + this.GD).then(res => {
-				// 	if (res.data.result) {
-				// 		console.log("1.1.3.获取每个工种类别下的人员数量", res)
-				// 		this.StaffRetrieveList();
-				// 	}
-				// })
+				
 			},
 			StaffRetrieveList() {
-				ajax.getW('/api/safety/selectUserList').then(res => {
-                    if(res.status == 200) {
+				let that=this;
+				// 用户信息
+				ajax.getW('/api/safety/selectUserById?id='+this.$route.query.userId).then(res => {
+					if(res.status == 200) {
 						if(res.data.code == 200) {
-							console.log("3.查询系统用户列表 用于指定负责人及工人",res)
+							this.BID=res.data.data.info.BID
+							// 查询系统用户列表 用于指定负责人及工人
+							ajax.getW('/api/safety/selectUserList?type=2'+'&bid='+that.BID).then(res => {
+							    if(res.status == 200) {
+									if(res.data.code == 200) {
+									
+										console.log("3.查询系统用户列表 用于指定负责人及工人",res)
+										let NameArr = []
+										for (let k in res.data.data) {
+											console.log(res.data.data[k]);
+											NameArr.push(res.data.data[k])
+										}
+										this.pySegSort(NameArr)
+									}
+								}
+							})
 						}
 					}
-				})
-				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section + '&Unit=' + this.Unit + '&TypeWork=' + this.TypeWork).then(res => {
-
-					if (res.data.result) {
-
-						let NameArr = []
-
-
-						for (let k in res.data.data) {
-							if (res.data.data[k].PHOTOURL != null) {
-								res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
-							}
-							NameArr.push(res.data.data[k])
-						}
-						this.pySegSort(NameArr)
-					}
-				})
+				});
 			},
 			pySegSort(arr) {
 				if (!String.prototype.localeCompare)
@@ -152,19 +142,20 @@
 						data: []
 					};
 					arr.forEach(function(item2) {
-						if ((!zh[i - 1] || zh[i - 1].localeCompare(item2.EXAMNAME) <= 0) && item2.EXAMNAME.localeCompare(zh[i]) == -1) {
+						console.log(item2)
+						if ((!zh[i - 1] || zh[i - 1].localeCompare(item2.username) <= 0) && item2.username.localeCompare(zh[i]) == -1) {
 							curr.data.push(item2);
 						}
 					});
 					if (curr.data.length) {
 						segs.push(curr);
 						curr.data.sort(function(a, b) {
-							return a.EXAMNAME.localeCompare(b);
+							return a.username.localeCompare(b);
 						});
 					}
 				});
 				this.NameArrS = segs;
-
+                console.log("this.NameArrS：",this.NameArrS)
 				return this.NameArrS;
 
 
