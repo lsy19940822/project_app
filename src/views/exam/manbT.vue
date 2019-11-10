@@ -80,7 +80,7 @@
 								_this.$router.push("/information?IDCard="+res.data.data.Data[0].image);
 							else Toast('未匹配到相关人员');
 						} else {
-							Toast(res.data.msg);
+							Toast(res.data.msg || '未匹配到相关人员');
 						}
 					});
 				}, 1000)
