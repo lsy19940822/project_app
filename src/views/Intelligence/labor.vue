@@ -111,7 +111,7 @@
 			  // 1.1.3.获取每个工种类别下的人员数量
 			  // BD	String	输入文本如: '2标'
 			  // GD	String	输入文本如: '汉寿梁场'
-			  this.BD="2标";this.GD="汉寿梁场"
+			  this.BD="2标";this.GD=""
 			  ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
 			  	
 			  	if(res.data.result) {
