@@ -23,7 +23,7 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (5).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段实际进度</span>
 							<span style="float: right;">
-								<span>{{percentage.percentage1}}</span>
+								<span>{{percentage.percentage1}}<span v-if="percentage.percentage1!=0">%</span></span>
 								<span style="color:rgba(64,69,94,1);">/100%</span>
 							</span>
 						</p>
@@ -36,7 +36,7 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (4).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段计划进度</span>
 							<span style="float: right;">
-								<span>{{percentage.percentage2}}</span>
+								<span>{{percentage.percentage2}}<span v-if="percentage.percentage2!=0">%</span></span>
 								<span style="color:rgba(64,69,94,1);">/100%</span>
 							</span>
 						</p>
@@ -51,7 +51,7 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (3).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段产值</span>
 							<span style="float: right;">
-								<span>{{percentage.percentage3}}</span>
+								<span>{{percentage.percentage3}}<span v-if="percentage.percentage3!=0">万</span></span>
 								<span style="color:rgba(64,69,94,1);">/30989.99万</span>
 
 							</span>
@@ -65,7 +65,7 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (2).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段工期</span>
 							<span style="float: right;">
-								<span>{{percentage.percentage4}}</span>
+								<span>{{percentage.percentage4}}<span v-if="percentage.percentage4!=0">天</span></span>
 								<span style="color:rgba(64,69,94,1);">/330天</span>
 							</span>
 						</p>
