@@ -23,8 +23,6 @@
 					<van-button color="rgba(89,95,115,1) " size="normal" style='width: 100%;'>导航到该位置</van-button>
 				</li>
 			</ul>
-			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 		</div>
 
 	</div>
@@ -53,25 +51,7 @@
 			return {
 				questionText: '问题地点',
 				isLoading: true,
-				active: 0,
-				searchVal: '',
-				isSearchShow: false,
-				activeClassType:false,
-				value1: 0,
-				value2: 0,
-				option1: [
-					{ text: '全部标段', value: 0 },
-					{ text: '1标', value: 1 },
-					{ text: '2标', value: 2 },
-					{ text: '3标', value: 3 },
-					{ text: '4标', value: 4 },
-					{ text: '5标-1', value: 5},
-					{ text: '5标-2', value: 6 },
-					{ text: '6标', value: 7},
-				],
-				option2: [
-					{ text: '全部工点', value: 0 },
-				],
+				
 			}
 		},
 		components: {
@@ -79,7 +59,6 @@
 		},
 		mounted() {
 			this.init()
-			this.getUserWorkPointList()
 		},
 		methods: {
 			init() {
@@ -89,44 +68,6 @@
 					zoom:8,
 					
 				});
-			},
-			activeClassButton(){
-				this.activeClassType=!this.activeClassType
-			},
-			searchShowHide() {
-				this.isSearchShow = !this.isSearchShow
-			},
-			searchCancel() {
-				this.searchShowHide();
-			},
-			onSearch() {
-			
-			},
-			change1(val){
-				this.Section = this.option1[val].text
-				console.log("当前标段：",this.option1[val].text)
-			},
-			change2(val){
-				this.Worksite = this.option2[val].text
-				console.log("当前工点：",this.option2[val].text)
-			},
-			getUserWorkPointList(){
-				let that = this;
-				// this.$route.query.id=this.value1;
-				// console.log(this.value1,this.$route.query.value);
-
-				
-				// 工点
-				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
-					if(res.data.result) {
-						console.log("1.1.2.获取全部工点名称",res)
-						for(let k in res.data.data) {
-						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
-						   // NameArr.push(res.data.data[k])
-						}	
-						console.log("工点：",this.option2)
-					}
-				})
 			}
 		}
 	}

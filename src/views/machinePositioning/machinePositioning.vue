@@ -58,45 +58,7 @@
 				searchVal: '',
 				isSearchShow: false,
 				activeClassType: false,
-				value1: 0,
-				value2: 0,
-				option1: [{
-						text: '全部标段',
-						value: 0
-					},
-					{
-						text: '1标',
-						value: 1
-					},
-					{
-						text: '2标',
-						value: 2
-					},
-					{
-						text: '3标',
-						value: 3
-					},
-					{
-						text: '4标',
-						value: 4
-					},
-					{
-						text: '5标-1',
-						value: 5
-					},
-					{
-						text: '5标-2',
-						value: 6
-					},
-					{
-						text: '6标',
-						value: 7
-					},
-				],
-				option2: [{
-					text: '全部工点',
-					value: 0
-				}, ],
+				
 			}
 		},
 		components: {
@@ -122,30 +84,6 @@
 			},
 			onSearch() {
 
-			},
-			change1(val) {
-				this.Section = this.option1[val].text
-				console.log("当前标段：", this.option1[val].text)
-			},
-			change2(val) {
-				this.Worksite = this.option2[val].text
-				console.log("当前工点：", this.option2[val].text)
-			},
-			getUserWorkPointList() {
-				let that = this;
-				// 工点
-				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
-					if(res.data.result) {
-						console.log("1.1.2.获取全部工点名称", res)
-						for(let k in res.data.data) {
-							this.option2.push({
-								text: res.data.data[k].WORKAREA,
-								value: Number(k) + Number(1)
-							})
-						}
-						console.log("工点：", this.option2)
-					}
-				})
 			}
 		}
 	}

@@ -42,14 +42,14 @@
 				value2: 0,
 				value3: 0,
 				option1: [
-					{ text: '全部标段', value: 0, name:'全部标段'},
-					{ text: 'CYCZQ-1标', value: 1, name:'1标'},
-					{ text: 'CYCZQ-2标', value: 2, name:'2标'},
-					{ text: 'CYCZQ-3标', value: 3, name:'3标'},
-					{ text: 'CYCZQ-4标', value: 4, name:'4标'},
-					{ text: 'CYCZQ-5标1', value: 5, name:'5-1标'},
-					{ text: 'CYCZQ-5标2', value: 6, name:'5-2标'},
-					{ text: 'CYCZQ-6标', value: 7, name:'6标'},
+					{ text: '全部标段', value: 0},
+					{ text: 'CYCZQ-1标', value: 1},
+					{ text: 'CYCZQ-2标', value: 2},
+					{ text: 'CYCZQ-3标', value: 3},
+					{ text: 'CYCZQ-4标', value: 4},
+					{ text: 'CYCZQ-5标1', value: 5},
+					{ text: 'CYCZQ-5标2', value: 6},
+					{ text: 'CYCZQ-6标', value: 7},
 				],
 				option2: [{
 						text: '全部单位',
@@ -328,7 +328,7 @@
 				if(!String.prototype.localeCompare)
 					return null;
 
-				var letters = "*abcdefghjklmnopqrstwxyz".split('');
+				var letters = "*abcdefghijklmnopqrstuvwxyz".split('');
 				var zh = "阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀".split('');
 
 				var segs = [];
