@@ -127,7 +127,7 @@
 			},
 			GetMenuTreeList(){
 				//智能进度
-				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+"&name=CYCZQ2标").then(res => {
+				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+"&name=CYCZQ-2标").then(res => {
 					if(res.data.result) {
 						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1'+"&name=").then(res => {
 							if(res.data.result) {

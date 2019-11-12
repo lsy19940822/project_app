@@ -84,7 +84,7 @@
 				</li>
 			</ul>
 			<ul>
-				<li class='Buttond'  @click="$router.push({path:'/fillD?ValueId='+id})">
+				<li class='Buttond'  @click="$router.push({path:'/intelligent_firstLevel?ValueId='+id})">
 					<van-button color="#7099D0" size="normal" style='width: 100%;' >查看进度详情</van-button>
 				</li>
 			</ul>
@@ -141,12 +141,12 @@
 			}
 		},
 		created() {
-			 this.GetMenuTreeList();
-		
+			this.GetMenuTreeList();
+			this.id=Number(this.$route.query.ValueId);
 		},
 		mounted() {
            
-			this.id=Number(this.$route.query.ValueId);
+		
 			
 		},
 		methods: {
@@ -160,9 +160,9 @@
 				if(this.num<3){
 					this.$refs.style[0].style.marginLeft='0px'
 				}else if(this.num == 3){
-					this.$refs.style[0].style.marginLeft=+Number(-(91/2+(index)*6))+'px'
+					this.$refs.style[0].style.marginLeft=Number(-(91/2+(index)*6))+'px'
 				}else if(this.num>3){
-					this.$refs.style[0].style.marginLeft=+Number(-(91/2+(index)*6)*4.5)+'px'
+					this.$refs.style[0].style.marginLeft=Number(-(91/2+(index)*6)*4.5)+'px'
 				}
 				if(this.num == 1){
 					this.percentage.percentage1=Number(32)

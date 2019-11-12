@@ -238,13 +238,11 @@
 			},
 			
 			StaffRetrieveList() {
-                ajax.get('/API/WebAPIDataAudit/getUserWorkPoint?Section='+this.Section).then(res => {
-					
+                ajax.get('/API/WebAPIDataAudit/getUserWorkPoint?Section='+this.Section).then(res => {	
 					if(res.data.result) {
 						console.log("全部工点名称",res)
 						for(let k in res.data.data) {
 						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
-						   
 						}	
 					}
 				})
