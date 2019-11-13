@@ -14,14 +14,17 @@
 			</div>
 			<ul class="container_list overflow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
-					<img :src="item.VIDEOURL" alt="" @click="show = true">
+					<div class="video-cover">
+						<img src="../../assets/images/exam/video_cover.png" alt="" width="100%" height="100%" @click="playVideo(item)">
+					</div>
 					<p>【{{item.SECTION}}】 {{item.VIDEONAME}}</p>
 				</li>
 
 			</ul>
-			<van-dialog v-model="show" title="【5标-1】 指挥部侧门" :showCancelButton='false' confirmButtonText='关闭'>
-
-				<img src="https://img.yzcdn.cn/vant/apple-3.jpg" width="100%">
+			<van-dialog v-model="show" :title="'【' + curPlayVideo.SECTION + '】' + curPlayVideo.VIDEONAME" @close="videoClose" :showCancelButton='false' confirmButtonText='关闭'>
+				<video ref="myPlayer" id="myPlayer" width="100%" height="auto" poster="../../assets/images/exam/video_cover.png" controls playsInline webkit-playsinline>
+					<source :src="curPlayVideo.VIDEOURL" type="application/x-mpegURL" />
+				</video>
 			</van-dialog>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
@@ -88,16 +91,16 @@
 				}],
 				isLoading: true,
 				Section: '',
-				Worksite: ''
-
+				Worksite: '',
+				curPlayVideo: {}
 			}
 		},
 		created() {
-				this.value1 = Number(this.$route.query.value || 0);
+			this.value1 = Number(this.$route.query.value || 0);
 		},
 		mounted() {
-			this.getUserWorkPointList()
-
+			this.getUserWorkPointList();
+			this.player = new EZUIPlayer(this.$refs.myPlayer);
 		},
 		methods: {
 			change1(val) {
@@ -120,19 +123,29 @@
 					}
 				})
 				// 工点
-				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
-					if(res.data.result) {
-						console.log("1.1.2.获取全部工点名称", res)
-						for(let k in res.data.data) {
-							this.option2.push({
-								text: res.data.data[k].WORKAREA,
-								value: Number(k) + Number(1)
-							})
-							// NameArr.push(res.data.data[k])
-						}
-						console.log("工点：", this.option2)
-					}
-				})
+				//				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
+				//					if(res.data.result) {
+				//						console.log("1.1.2.获取全部工点名称", res)
+				//						for(let k in res.data.data) {
+				//							this.option2.push({
+				//								text: res.data.data[k].WORKAREA,
+				//								value: Number(k) + Number(1)
+				//							})
+				//							// NameArr.push(res.data.data[k])
+				//						}
+				//						console.log("工点：", this.option2)
+				//					}
+				//				})
+			},
+			playVideo(item) {
+				this.show = true;
+				Object.assign(this.curPlayVideo, item);
+			},
+			videoClose() {
+				//				new EZuikit.EZUIPlayer('myPlayer').stop();
+				this.curPlayVideo.VIDEOURL = "";
+				this.player.stop();
+				this.$refs.myPlayer.stop();
 			}
 		}
 	}
@@ -197,6 +210,8 @@
 		float: left;
 		padding-bottom: 16px;
 		border-bottom: 1px solid #eee;
+		color: #666;
+		font-size: 14px;
 	}
 	
 	.container_list li:nth-of-type(2n) {
@@ -205,12 +220,17 @@
 	
 	.container_list li img {
 		display: block;
-		width: 100%;
-		height: 104px;
-		background: #333;
+		background: #666;
 	}
 	
 	p {
 		margin-bottom: 0;
+	}
+	
+	.video-cover {
+		width: 100%;
+		height: 100px;
+		border-radius: 7px;
+		overflow: hidden;
 	}
 </style>
