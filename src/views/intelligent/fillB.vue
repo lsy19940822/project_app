@@ -32,7 +32,6 @@
 						  <span style="color: #aaa;float: right;">已完成</span>
 						  <span style="color: #69966F;float: right;">78% </span>
 						</van-cell>
-					    
 					  </van-collapse-item>
 					</van-collapse>
 				</li>
@@ -130,7 +129,24 @@
 						})
 					}
 				})
-			}
+				
+			},
+			// TreeList(event,index){
+			// 	ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+$event.target.id+"&name=").then(res => {
+			// 		if(res.data.result) {
+			// 		    // this.TreedataO=res.data.data;
+			// 			if(res.data.data.length!=''){
+			// 				this.show=true
+			// 			}else{
+			// 				this.show=false
+			// 			}
+			// 			// console.log('智能进度GetMenuTre3:',this.TreedataO)
+			// 			// for(let k in res.data.data) {
+			// 			//     this.option2.push({text:res.data.data[k].NAME,value:Number(k)+Number(1)})
+			// 			// }	
+			// 		}
+			// 	})
+			// }
 		}
 	}
 </script>

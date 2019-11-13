@@ -42,47 +42,17 @@
 				value2: 0,
 				value3: 0,
 				option1: [
-					{ text: '全部标段', value: 0, name:'全部标段'},
-					{ text: 'CYCZQ-1标', value: 1, name:'1标'},
-					{ text: 'CYCZQ-2标', value: 2, name:'2标'},
-					{ text: 'CYCZQ-3标', value: 3, name:'3标'},
-					{ text: 'CYCZQ-4标', value: 4, name:'4标'},
-					{ text: 'CYCZQ-5标1', value: 5, name:'5-1标'},
-					{ text: 'CYCZQ-5标2', value: 6, name:'5-2标'},
-					{ text: 'CYCZQ-6标', value: 7, name:'6标'},
+					{ text: '全部标段', value: 0},
+					{ text: 'CYCZQ-1标', value: 1},
+					{ text: 'CYCZQ-2标', value: 2},
+					{ text: 'CYCZQ-3标', value: 3},
+					{ text: 'CYCZQ-4标', value: 4},
+					{ text: 'CYCZQ-5标1', value: 5},
+					{ text: 'CYCZQ-5标2', value: 6},
+					{ text: 'CYCZQ-6标', value: 7},
 				],
-				option2: [{
-						text: '全部单位',
-						value: 0
-					},
-					{
-						text: '中铁三局集团有限公司',
-						value: 1
-					},
-					{
-						text: '中铁十二局集团有限公司',
-						value: 2
-					},
-					{
-						text: '中铁五局集团有限公司',
-						value: 3
-					},
-					{
-						text: '中铁上海工程局集团有限公司',
-						value: 4
-					},
-					{
-						text: '中铁二十四局集团有限公司',
-						value: 5
-					},
-					{
-						text: '湖南路桥建设集团有限公司',
-						value: 6
-					},
-					{
-						text: '中铁十一局集团有限公司',
-						value: 7
-					},
+				option2: [
+					{ text: '全部单位',value: 0},
 				],
 				option3: [{
 						text: '全部工种',
@@ -210,7 +180,6 @@
 				Unit: '', //单位
 				Section: '', //所在标段
 				NameArrS: [],
-				examRecord: [],
 				// 1.1.1.获取全部人员数量参数
 				BD: "",
 				GD: "",
@@ -234,10 +203,14 @@
 		methods: {
 
 			change1(val) {
-				this.Section = this.option1[val].text
-				console.log("当前标段：", this.option1[val].text)
-				// this.searchButton()
-				if(val == 2 ||val==0){
+				let that=this;
+				that.Section = that.option1[val].text
+				console.log("当前标段：", that.Section)
+				if(val == 2){
+					this.Section= that.Section
+					this.Unit=that.Unit
+					this.show=true
+				}else if(val==0){
 					this.Section=''
 					this.Unit=''
 					this.show=true
@@ -246,38 +219,85 @@
 					this.Unit=''
 					this.show=false
 				}
+				
+				// 1.1.1.根据标段查单位
+				ajax.get('/API/WebAPIDataAudit/getCompany?Compan='+that.Section).then(res => {
+					if(res.data.result) {
+						console.log("根据标段查单位getCompany:",res.data)
+						for(let k in res.data.data) {
+						   that.option2.push({
+							   text:res.data.data[k].COMPANY,
+							   value:Number(k) + Number(1) 
+							})
+						}	
+					}
+				})
+				// this.searchButton()
+				
 			},
 			change2(val) {
-				this.Unit = this.option2[val].text
-				console.log("当前单位：", this.option2[val].text)
-				this.Section=''
-				this.Unit=''
+				let that=this;
+				that.Unit = that.option2[val].text
+				console.log("当前单位：", that.Unit)
+				if(val == 2){
+					this.Section= that.Section
+					this.Unit=that.Unit
+					this.show=true
+				}else if(val==0){
+					this.Section=''
+					this.Unit=''
+					this.show=true
+				}else{
+					this.Section=''
+					this.Unit=''
+					this.show=false
+				}
+				ajax.get('/API/WebAPIDataAudit/GetWorkType?worktype='+that.Unit).then(res => {
+					if(res.data.result) {
+						console.log("当前单位GetWorkType:",res.data)
+						for(let k in res.data.data) {
+						   that.option3.push({
+							   text:res.data.data[k].WorkType,
+							   value:Number(k) + Number(1) 
+							})
+						}	
+					}
+					// Toast.fail(res.data.resultMsg || '查询失败，请重试！');
+				})
 				// this.searchButton()
 			},
 			change3(val) {
-				this.TypeWork = this.option3[val].text
-				console.log("当前工种：", this.option3[val].text)
-				if(this.option3[val].text == "全部工种"){
-					this.TypeWork = ''
+				let that=this;
+				that.TypeWork = that.option3[val].text
+				console.log("当前工种：", that.TypeWork)
+				if(that.TypeWork == "全部工种"){
+					that.TypeWork = ''
 				}
 				this.searchButton()
 			},
 			getCompanyList(){
 				// 1.1.1.根据标段查单位
-				ajax.get('/API/WebAPIDataAudit/getCompany?Compan=null').then(res => {
-				
+				ajax.get('/API/WebAPIDataAudit/getCompany?Compan='+this.Section).then(res => {
 					if(res.data.result) {
-				
 						console.log("getCompany:",res.data)
+						for(let k in res.data.data) {
+						   this.option2.push({
+							   text:res.data.data[k].WORKAREA,
+							   value:Number(k) + Number(1) 
+							})
+						}	
 					}
-					// Toast.fail(res.data.resultMsg || '查询失败，请重试！');
 				})
 				// 1.1.2.根据单位查工种
-				ajax.get('/API/WebAPIDataAudit/GetWorkType?worktype=null').then(res => {
-				
+				ajax.get('/API/WebAPIDataAudit/GetWorkType?worktype='+this.Unit).then(res => {
 					if(res.data.result) {
-				
 						console.log("worktype:",res.data)
+						for(let k in res.data.data) {
+						   this.option3.push({
+							   text:res.data.data[k].WORKAREA,
+							   value:Number(k) + Number(1) 
+							})
+						}	
 					}
 					// Toast.fail(res.data.resultMsg || '查询失败，请重试！');
 				})

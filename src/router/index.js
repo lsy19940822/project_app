@@ -37,20 +37,41 @@ const router = new Router({
 			component: resolve => require(['../views/intelligent/intelligent.vue'], resolve)
 		},
 		{ //一级列表
-			path: '/fillD',
-			name: 'fillD',
-			component: resolve => require(['../views/intelligent/fillD.vue'], resolve)
+			path: '/intelligent_firstLevel',
+			name: 'intelligent_firstLevel',
+			component: resolve => require(['../views/intelligent/intelligent_firstLevel.vue'], resolve)
 		},
+		{ //二级列表
+			path: '/intelligent_secondLevel',
+			name: 'intelligent_secondLevel',
+			component: resolve => require(['../views/intelligent/intelligent_secondLevel.vue'], resolve)
+		},
+		{ //三级列表
+			path: '/intelligent_thirdLevel',
+			name: 'intelligent_thirdLevel',
+			component: resolve => require(['../views/intelligent/intelligent_thirdLevel.vue'], resolve)
+		},
+		{ //四级列表
+			path: '/intelligent_fourthLevel',
+			name: 'intelligent_fourthLevel',
+			component: resolve => require(['../views/intelligent/intelligent_fourthLevel.vue'], resolve)
+		},
+		// { //二级列表
+		// 	path: '/fillB',
+		// 	name: 'fillB',
+		// 	component: resolve => require(['../views/intelligent/fillB.vue'], resolve)
+		// },
+		// { //一级列表
+		// 	path: '/fillD',
+		// 	name: 'fillD',
+		// 	component: resolve => require(['../views/intelligent/fillD.vue'], resolve)
+		// },
 		{ //超期工程
 			path: '/BeyondThe',
 			name: 'BeyondThe',
 			component: resolve => require(['../views/intelligent/BeyondThe.vue'], resolve)
 		},
-		{ //二级列表
-			path: '/fillB',
-			name: 'fillB',
-			component: resolve => require(['../views/intelligent/fillB.vue'], resolve)
-		},
+		
 		{ //三级列表
 			path: '/fillC',
 			name: 'fillC',

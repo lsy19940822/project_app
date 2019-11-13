@@ -78,13 +78,13 @@
 				value1: 0,
 			    value2: 0,
 				option1: [
-					{ text: 'CYCZQ-1标', value: 0, name:'1标'},
-					{ text: 'CYCZQ-2标', value: 1, name:'2标'},
-					{ text: 'CYCZQ-3标', value: 2, name:'3标'},
-					{ text: 'CYCZQ-4标', value: 3, name:'4标'},
-					{ text: 'CYCZQ-5标1', value: 4, name:'5-1标'},
-					{ text: 'CYCZQ-5标2', value: 5, name:'5-2标'},
-					{ text: 'CYCZQ-6标', value: 6, name:'6标'},
+					{ text: 'CYCZQ-1标', value: 0},
+					{ text: 'CYCZQ-2标', value: 1},
+					{ text: 'CYCZQ-3标', value: 2},
+					{ text: 'CYCZQ-4标', value: 3},
+					{ text: 'CYCZQ-5标1', value: 4},
+					{ text: 'CYCZQ-5标2', value: 5},
+					{ text: 'CYCZQ-6标', value: 6},
 				],
 			    option2: [
 					{ text: '全部工程', value: 0 },
@@ -113,8 +113,6 @@
 		
 		methods: {
 			change1(val){
-				
-				console.log("当前标段：",this.option1[val].name)
 				if(val == 1){
 					this.show = true;
 				}else{
@@ -129,7 +127,7 @@
 			},
 			GetMenuTreeList(){
 				//智能进度
-				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+"&name=CYCZQ2标").then(res => {
+				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+"&name=CYCZQ-2标").then(res => {
 					if(res.data.result) {
 						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1'+"&name=").then(res => {
 							if(res.data.result) {

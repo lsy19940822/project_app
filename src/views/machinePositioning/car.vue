@@ -56,38 +56,15 @@
 				ajax: ajax,
 				map: null,
 				carList: [],
-				option1: [{
-						text: '全部标段',
-						value: ''
-					},
-					{
-						text: '1标',
-						value: '1'
-					},
-					{
-						text: '2标',
-						value: '2'
-					},
-					{
-						text: '3标',
-						value: '3'
-					},
-					{
-						text: '4标',
-						value: '4'
-					},
-					{
-						text: '5标-1',
-						value: '5'
-					},
-					{
-						text: '5标-2',
-						value: '6'
-					},
-					{
-						text: '6标',
-						value: '7'
-					},
+				option1: [
+					{text: '全部标段',value: ''},
+					{ text: 'CYCZQ-1标', value: 1},
+					{ text: 'CYCZQ-2标', value: 2},
+					{ text: 'CYCZQ-3标', value:3},
+					{ text: 'CYCZQ-4标', value: 4},
+					{ text: 'CYCZQ-5标1', value: 5},
+					{ text: 'CYCZQ-5标2', value: 6},
+					{ text: 'CYCZQ-6标', value: 7},
 				],
 				option2: [{
 					text: '全部工点',

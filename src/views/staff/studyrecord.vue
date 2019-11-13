@@ -65,16 +65,16 @@
 			return {
 				questionText:"学习课程",
 				value1: 0,
-			    value2: 'a',
+			    value2: 0,
 				option1: [
 					{ text: '全部课程', value: 0 },
 					{ text: '火灾自动报警系统设计规范', value: 1 },
 					{ text: '给排水工程造价', value: 2 }
 				],
 			    option2: [
-					{ text: '全部类型', value: 'a' },
-					{ text: '建筑规范', value: 'b' },
-					{ text: '建筑规范2', value: 'c' },
+					{ text: '全部类型', value: 0 },
+					{ text: '建筑规范', value: 1 },
+					{ text: '建筑规范2', value: 2 },
 			    ],
 				isLoading:true,
 				active:3

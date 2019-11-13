@@ -57,13 +57,13 @@
 				value1:0,
 			    value2:0,
 				option1: [
-					{ text: 'CYCZQ-1标', value: 0, name:'1标'},
-					{ text: 'CYCZQ-2标', value: 1, name:'2标'},
-					{ text: 'CYCZQ-3标', value: 2, name:'3标'},
-					{ text: 'CYCZQ-4标', value: 3, name:'4标'},
-					{ text: 'CYCZQ-5标1', value: 4, name:'5-1标'},
-					{ text: 'CYCZQ-5标2', value: 5, name:'5-2标'},
-					{ text: 'CYCZQ-6标', value: 6, name:'6标'},
+					{ text: 'CYCZQ-1标', value: 0},
+					{ text: 'CYCZQ-2标', value: 1},
+					{ text: 'CYCZQ-3标', value: 2},
+					{ text: 'CYCZQ-4标', value: 3},
+					{ text: 'CYCZQ-5标1', value: 4},
+					{ text: 'CYCZQ-5标2', value: 5},
+					{ text: 'CYCZQ-6标', value: 6},
 				],
 			    
 				option2: [
@@ -111,7 +111,7 @@
 			  // 1.1.3.获取每个工种类别下的人员数量
 			  // BD	String	输入文本如: '2标'
 			  // GD	String	输入文本如: '汉寿梁场'
-			  this.BD="2标";this.GD=""
+			  this.BD="CYCZQ-2标";this.GD=""
 			  ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
 			  	
 			  	if(res.data.result) {
@@ -219,8 +219,8 @@
 				
 			},
 			change1(val){
-				this.Section = this.option1[val].name
-				console.log("当前标段：",this.option1[val].name)
+				this.Section = this.option1[val].text
+				console.log("当前标段：",this.option1[val].text)
 				if(val == 1){
 					this.eachatft = true;
 				}else{
@@ -238,13 +238,11 @@
 			},
 			
 			StaffRetrieveList() {
-                ajax.get('/API/WebAPIDataAudit/getUserWorkPoint?Section='+this.Section).then(res => {
-					
+                ajax.get('/API/WebAPIDataAudit/getUserWorkPoint?Section='+this.Section).then(res => {	
 					if(res.data.result) {
 						console.log("全部工点名称",res)
 						for(let k in res.data.data) {
 						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
-						   
 						}	
 					}
 				})

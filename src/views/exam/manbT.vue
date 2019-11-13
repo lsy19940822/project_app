@@ -69,7 +69,7 @@
 				console.log(file.file)
 				var formData = new FormData();
 				formData.append("imageFile",file.file);
-				formData.append("groupName", '2标');
+				formData.append("groupName", 'CYCZQ-2标');
 				
 				setTimeout(function() {
 					ajax.postW('/api/faceRecognition/recognizeFace', formData).then(res => {
