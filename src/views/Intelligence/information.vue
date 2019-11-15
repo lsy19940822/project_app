@@ -14,9 +14,16 @@
 						<a class="overflow" :href="'tel:'+StaffInfoData[0].TELEPHONE" style="width: 48%;float:right;display: block;color: #666666;"></a>
 						<img src="../../assets/images/user_icon/phone.png" alt=""><span>拨打电话</span>
 					</li>
-					<li @click="$router.push({path:'/voice?IDCard='+$route.query.IDCard})"><img src="../../assets/images/user_icon/yuyin.png" alt=""><span>发送语音</span></li>
-					<li @click="show=true"><img src="../../assets/images/user_icon/yuangongxinxi.png" alt=""><span>一键报警</span></li>
-					<van-dialog
+					<li @click="showPicker= true"><img src="../../assets/images/user_icon/yuyin.png" alt=""><span>发送语音</span></li>
+					<li><img src="../../assets/images/user_icon/yuangongxinxi.png" alt=""><span>一键报警</span></li>
+					<van-popup v-model="showPicker" position="bottom">
+					  <van-picker
+					    show-toolbar
+					    :columns="columns"
+					    @cancel="showPicker = false"
+					    @confirm="onConfirm"/>
+					</van-popup>
+					<!-- <van-dialog
 					  v-model="show"
 					  title="报警提示" 
 					  @confirm="confirmButton"
@@ -29,7 +36,7 @@
 						
 					  </div>
 					    <p style="padding: 12px 0;margin: 0 auto !important;color:#333;display: block;text-align: center;" class="hader_top">是否向此员工发送报警提示？</p>
-					</van-dialog>
+					</van-dialog> -->
 				</ul>
 			</div>
 			<ul class="container_list container_lists">
@@ -117,8 +124,8 @@
 	// 全局注册
 	Vue.use(Dialog);
 	Vue.use(Button);
-	import {Icon, IndexBar, IndexAnchor } from 'vant';
-	Vue.use(IndexBar).use(IndexAnchor).use(Icon);
+	import {Icon, IndexBar, IndexAnchor,Popup,Picker } from 'vant';
+	Vue.use(IndexBar).use(IndexAnchor).use(Icon).use(Popup).use(Picker);
 	Vue.use(Cell)
 	export default {
 		components: {
@@ -132,7 +139,16 @@
 				examRecordTime:[],
 				StaffInfoData:[],
 				IDCard:'',
-				show:false
+				show:false,
+				columns: ['防空报警', '请带好安全帽',
+					'危险请注意','已收到报警，请等待救援',
+					"附近有人需要救援","请不要违规作业",
+					"请回到岗位","请到办公室","请充电",
+					"请联系管理人员","你是否需要帮助",
+					"请立即离开","请回电"],//1 2 3 7 8 9 10 11 12 13 14 15 16
+				showPicker: false,
+				quesType:'',
+				value:""
 			}
 		},
 		mounted() {
@@ -147,6 +163,12 @@
 			},
 			cancelButton(){
 				console.log("取消提交")
+			},
+			onConfirm(value,index) {
+			    this.value = value;
+			    this.showPicker = false;
+				this.quesType=index+Number(1);
+				console.log("---quesType--",this.quesType)
 			},
 			StaffInfoF(){
 				let that=this;

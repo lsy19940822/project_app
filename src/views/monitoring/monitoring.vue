@@ -5,8 +5,8 @@
 		<div class="container overflow">
 			<ul class="overflow">
 				<li  v-for="(item,index) in dataList" :key="index">
-					<van-collapse v-model="activeNames" v-if="item.router != 1 && item.router != 2 && item.router != 3 && item.router != 4">
-					  <van-collapse-item :name="index-1">
+					<van-collapse v-model="activeNames">
+					  <van-collapse-item :name="index-1" v-if="item.data != '' " >
 						<div slot="title">
 							<p class="van-hairline--bottom exam-title">
 								<img :src="item.img" alt="" >{{item.title}}
@@ -20,23 +20,16 @@
 						   </ul>
 						</van-cell>
 					  </van-collapse-item>
+					  <van-collapse-item :name="index-1" v-if="item.data == '' " disabled>
+						<div slot="title">
+							<p class="van-hairline--bottom exam-title">
+								<img :src="item.img" alt="" >{{item.title}}
+							</p>
+						</div>
+						
+					  </van-collapse-item>
 					</van-collapse>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 1" >
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
-						<span>{{item.title}}</span>
-					</van-cell>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 2" >
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
-						<span>{{item.title}}</span>
-					</van-cell>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 3">
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
-						<span>{{item.title}}</span>
-					</van-cell>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 4">
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
-						<span>{{item.title}}</span>
-					</van-cell>
+					
 				</li>
 				
 			</ul>
@@ -100,7 +93,7 @@
 							    imgsrcOne:require('../../assets/engineering/gongcheng@2x (2).png'),
 							},
 							{
-								text:'CYCZQ-5标6',
+								text:'CYCZQ-6标',
 							    imgsrcOne:require('../../assets/engineering/gongcheng@2x (3).png'),
 							},
 						]

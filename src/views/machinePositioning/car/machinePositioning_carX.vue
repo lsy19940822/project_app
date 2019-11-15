@@ -23,9 +23,9 @@
 					<img :src="ajax.http + carInfor.CARPHOTOURL.slice(2)" alt="">
 					
 					<span>{{carInfor.CARNUMBER}}</span>
-					<span class="status">运行中</span>
-					<span class="status" style="background: #A52A2A">00:00:00</span>
-					<span class="status" style="background: #B9B9B9">离线状态</span>
+					<span class="status" v-if="carInfor.STATUS == 1">运行中</span>
+					<span class="status" style="background: #A52A2A" v-if="carInfor.STATUS == 2">静止时间 00:00:00</span>
+					<span class="status" style="background: #B9B9B9" v-if="carInfor.STATUS == 0">离线状态</span>
 					<span>{{carInfor.CARTYPE}}</span>
 				</div>
 			</ul>

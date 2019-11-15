@@ -64,8 +64,6 @@
 
 		},
 		mounted() {
-			// this.init()
-			this.getUserWorkPointList()
 		},
 		methods: {
 
