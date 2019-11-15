@@ -12,9 +12,10 @@ module.exports = {
 		proxyTable: {
 		},
 
-		 host:'192.168.0.138',
-		 // host:"192.168.31.226",
-		// host:'192.168.31.10',
+		 // host:'192.168.0.106',
+		 // host:"192.168.31.121",
+		// host:'192.168.31.10'
+		host:"192.168.0.102",
 
 		// host: '192.168.31.10', // can be overwritten by process.env.HOST
 		port: 8282, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined

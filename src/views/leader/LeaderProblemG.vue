@@ -2,9 +2,6 @@
 	<div id="examrecord">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
 			
-			<div slot='right_slot'>
-				<p class="header-right"><img src="../../assets/images/user_icon/icon_lc@2x.png" width="16" alt=""></p>
-			</div>
 		</vant-header>
 		<div class="container">
 			<ul class="container_list container_lists">

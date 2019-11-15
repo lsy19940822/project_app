@@ -1,157 +1,48 @@
 <template>
 	<div class="study">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			<div slot='right_slot' @click="$router.push({path:'/leaderNew'})">
-				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div>
 		</vant-header>
 		<div class="container overflow">
 			<ul class="overflow">
-				<li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="1">
+				<li  v-for="(item,index) in dataList" :key="index">
+					<van-collapse v-model="activeNames" v-if="item.router != 1 && item.router != 2 && item.router != 3 && item.router != 4">
+					  <van-collapse-item :name="index-1">
 						<div slot="title">
 							<p class="van-hairline--bottom exam-title">
-								<img src="../../assets/images/index_icon/icon_jd@2x.png" alt="">视频监控
-							</p>
-						
-						</div>
-						<van-cell>
-						   <ul class="list_ul overflow">
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=0'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-1标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=1'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-2标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=2'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-3标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=3'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-4标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=4'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-5标1</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=5'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-5标2</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list?value=6'})"><img src="../../assets/images/exam/camera_icon.png" alt=""><span>CYCZQ-6标</span></li>
-						   </ul>
-						</van-cell>
-					  </van-collapse-item>
-					</van-collapse>
-				</li>
-				
-				<li class="IS_link" @click="tost()">
-					<van-cell is-link>
-						<p class="van-hairline--bottom exam-title" style="padding-left: 0;line-height: 40px;">
-							<img src="../../assets/images/index_icon/icon_lw@2x.png" alt="">能耗监控
-						</p>		
-					</van-cell>
-				</li>
-				<li class="IS_link" @click="tost()">
-					<van-cell is-link>
-						<p class="van-hairline--bottom exam-title" style="padding-left: 0;line-height: 40px;">
-							<img src="../../assets/images/index_icon/icon_lw@2x.png" alt="">无人机巡查
-						</p>		
-					</van-cell>
-				</li>
-				<li class="IS_link" @click="tost()">
-					<van-cell is-link>
-						<p class="van-hairline--bottom exam-title" style="padding-left: 0;line-height: 40px;">
-							<img src="../../assets/images/index_icon/icon_lw@2x.png" alt="">VR全景展示
-						</p>		
-					</van-cell>
-				</li>
-				<li class="IS_link" @click="tost()">
-					<van-cell is-link>
-						<p class="van-hairline--bottom exam-title" style="padding-left: 0;line-height: 40px;">
-							<img src="../../assets/images/index_icon/icon_lw@2x.png" alt="">基坑监测
-						</p>		
-					</van-cell>
-				</li>
-			    <!-- <li>
-					  <van-collapse v-model="activeNames">
-					  <van-collapse-item name="2">
-						<div slot="title">
-							
-						</div>
-						<van-cell>
-						   <ul class="list_ul overflow">
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list_N?value=0'})"><img src="" alt=""><span>CYCZQ-1标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list_N?value=1'})"><img src="" alt=""><span>CYCZQ-2标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list_N?value=2'})"><img src="" alt=""><span>CYCZQ-3标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list_N?value=3'})"><img src="" alt=""><span>CYCZQ-4标</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list_N?value=4'})"><img src="" alt=""><span>CYCZQ-5标1</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list_N?value=5'})"><img src="" alt=""><span>CYCZQ-5标2</span></li>
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list_N?value=6'})"><img src="" alt=""><span>CYCZQ-6标</span></li>
-						   </ul>
-						</van-cell>
-					  </van-collapse-item>
-					</van-collapse> 
-				</li>-->
-				
-				<!-- <li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="3">
-						<div slot="title">
-							<p class="van-hairline--bottom exam-title">
-								<img src="../../assets/images/index_icon/icon_aq@2x.png" alt="">无人机巡查
+								<img :src="item.img" alt="" >{{item.title}}
 							</p>
 						</div>
 						<van-cell>
 						   <ul class="list_ul overflow">
-							   <li class="overflow" @click="$router.push({path:'/monitoring_list_W'})"><img src="" alt=""><span>CYCZQ-1标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-2标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-3标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-4标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标1</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标2</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-6标</span></li>
+							    <li class="overflow" v-if='item.router==0' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/monitoring_list?value='+index+'&text='+list.text})">
+							        <img :src="list.imgsrcOne" alt=""><span>{{list.text}}</span>
+							    </li>
 						   </ul>
 						</van-cell>
 					  </van-collapse-item>
 					</van-collapse>
-				</li> -->
+					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 1" >
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+						<span>{{item.title}}</span>
+					</van-cell>
+					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 2" >
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+						<span>{{item.title}}</span>
+					</van-cell>
+					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 3">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+						<span>{{item.title}}</span>
+					</van-cell>
+					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 4">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+						<span>{{item.title}}</span>
+					</van-cell>
+				</li>
 				
-				<!-- <li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="4">
-						<div slot="title">
-							<p class="van-hairline--bottom exam-title">
-								<img src="../../assets/images/index_icon/icon_aq@2x.png" alt="">VR全景展示
-							</p>
-						</div>
-						<van-cell>
-						   <ul class="list_ul overflow">
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-1标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-2标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-3标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-4标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标1</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标2</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-6标</span></li>
-						   </ul>
-						</van-cell>
-					  </van-collapse-item>
-					</van-collapse>
-				</li> -->
-				
-				<!-- <li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="5">
-						<div slot="title">
-							<p class="van-hairline--bottom exam-title">
-								<img src="../../assets/images/index_icon/icon_aq@2x.png" alt="">基坑监测
-							</p>
-						</div>
-						<van-cell>
-						   <ul class="list_ul overflow">
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-1标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-2标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-3标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-4标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标1</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标2</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-6标</span></li>
-						   </ul>
-						</van-cell>
-					  </van-collapse-item>
-					</van-collapse>
-				</li> -->
 			</ul>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
-		<!-- <index-footer></index-footer> -->
+		<index-footer></index-footer>
 		
 	</div>
 	
@@ -161,9 +52,9 @@
 	import vantHeader from '@/components/header.vue'
     import indexFooter from '@/components/indexFooter.vue'
 	import Vue from 'vue';
-	import { Collapse,Toast, CollapseItem } from 'vant';
+	import { Collapse, CollapseItem } from 'vant';
 	
-	Vue.use(Collapse).use(CollapseItem).use(Toast);
+	Vue.use(Collapse).use(CollapseItem);
 	import { DropdownMenu, DropdownItem, Cell,Loading ,Icon} from 'vant';
 	
 	Vue.use(DropdownMenu).use(DropdownItem).use(Cell).use(Loading).use(Icon);
@@ -175,9 +66,72 @@
 		},
 		data() {
 			return {
-				questionText:"智能监控",
+				questionText:"常益长铁路工程管理平台",
 				isLoading:true,
-				activeNames: ['1']
+				activeNames: ['-1'],
+				dataList:[
+					{
+						title:"智能监控",
+						router:'0',
+						img:require('../../assets/engineering/icon_jk@2x (3).png'),
+						data:[
+							{
+								text:'CYCZQ-1标',
+						        imgsrcOne:require('../../assets/engineering/gongcheng@2x (1).png'),
+							},
+							{
+								text:'CYCZQ-2标',
+							    imgsrcOne:require('../../assets/engineering/gongcheng@2x (5).png'),
+							},
+							{
+								text:'CYCZQ-3标',
+							    imgsrcOne:require('../../assets/engineering/gongcheng@2x (6).png'),
+							},
+							{
+								text:'CYCZQ-4标',
+							    imgsrcOne:require('../../assets/engineering/gongcheng@2x (4).png'),
+							},
+							{
+								text:'CYCZQ-5标1',
+							    imgsrcOne:require('../../assets/engineering/gongcheng@2x (2).png'),
+							},
+							{
+								text:'CYCZQ-5标2',
+							    imgsrcOne:require('../../assets/engineering/gongcheng@2x (2).png'),
+							},
+							{
+								text:'CYCZQ-5标6',
+							    imgsrcOne:require('../../assets/engineering/gongcheng@2x (3).png'),
+							},
+						]
+					},
+					
+					{
+						title:"能耗监控",
+						router:'1',
+						img:require('../../assets/engineering/icon_jk@2x (4).png'),
+						data:[]
+					},
+					
+				    {
+				    	title:"无人机巡查",
+				    	router:'2',
+				    	img:require('../../assets/engineering/icon_jk@2x (5).png'),
+				    	data:[]
+				    },
+					{
+						title:"VR全景展示",
+						router:'3',
+						img:require('../../assets/engineering/icon_jk@2x (1).png'),
+						data:[]
+					},
+					{
+						title:"基坑监测",
+						router:'4',
+						img:require('../../assets/engineering/icon_jk@2x (2).png'),
+						data:[]
+					},
+				]
 			}
 		},
 		created() {
@@ -188,45 +142,32 @@
 		},
 		
 		methods: {
-			tost(){
-				Toast('开发中 ！');
-			}
 		}
 	}
 </script>
 
 <style scoped>
-	/deep/
-	.IS_link .van-cell{padding: 0 16px;}
-	.list_ul li{
-		width: 25%;
-		float: left;
-		padding: 10px 0;
-	}
+	.list_ul li{padding: 10px 0;}
 	.list_ul li img{
-		width:24px;
-		height:24px;
-		display: block;
-		margin: 0 auto;
+		width:20px;
+		margin-right: 10px;
+		float: left;
 	}
 	.list_ul li span{
 		display: block;
-		text-align: center;
 		line-height: 20px;
 		font-size: 12px;
 	}
 	.van-hairline--bottom{
 	    height: 40px;
-	    width: 60%;
+	    width: 100%;
 	    float: left;
 	    font-size: 14px;
 	    padding-left: 14px;
 	    font-family: PingFangSC-Regular,PingFang SC;
 	    font-weight: 400;
 	    color: rgba(51,51,51,1);
-	   
 	    margin: 0;
-	    /* border-bottom: 1px solid rgba(238,238,238,1); */
 	}
 	/deep/
 	.van-collapse-item__title{
@@ -240,10 +181,10 @@
 		margin-top: 8px;
 	}
 	.van-hairline--bottom img{
-	    width: 12px;
+	    width: 14px;
 	    float: left;
 	    margin-right: 5px;
-	    margin-top: 14px;
+	    margin-top: 12px;
 	}
 	/deep/
 	.van-collapse-item__title .van-cell__right-icon::before{

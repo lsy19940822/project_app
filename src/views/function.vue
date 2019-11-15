@@ -1,30 +1,74 @@
 <template>
 	<div class="study">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			<div slot='right_slot' @click="$router.push({path:'/leaderNew'})">
-				<p class="header-right"><img src="../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div>
 		</vant-header>
 		<div class="container overflow">
 			<ul class="overflow">
-				<li>
+				<li  v-for="(item,index) in dataList" :key="index">
+					<van-collapse v-model="activeNames" v-if="item.router != 3 && item.router != 5 && item.router != 6">
+					  <van-collapse-item :name="index-1">
+						<div slot="title">
+							<p class="van-hairline--bottom exam-title">
+								<img :src="item.img" alt="" >{{item.title}}
+							</p>
+						</div>
+						<van-cell>
+						   <ul class="list_ul overflow">
+							    <li class="overflow" v-if='item.router==0' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/intelligent?ValueId='+index})">
+							        <img :src="list.imgsrcOne" alt=""><span>{{list.text}}</span>
+							    </li>
+								<li class="overflow" v-if='item.router==1' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/Intelligence/labor?ValueId='+index})">
+								    <img :src="list.imgsrcOne" alt=""><span>{{list.text}}</span>
+								</li>
+								<li class="overflow" v-if='item.router==2 && list.router==0' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/SubmitQuestions'})">
+								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
+								</li>
+								<li class="overflow" v-if='item.router==2 && list.router==1' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/leader_resolved'})">
+								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
+								</li>
+								<li class="overflow" v-if='item.router==2 && list.router==2' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/leader_safeIssue'})">
+								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
+								</li>
+								<li class="overflow" v-if='item.router==2 && list.router==3' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/leader_safeIssueZ'})">
+								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
+								</li>
+								<li class="overflow" v-if='item.router==4' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/monitoring_list?value='+index})">
+								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
+								</li>
+						   </ul>
+						</van-cell>
+					  </van-collapse-item>
+					</van-collapse>
+					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 3" @click="$router.push({path:'/examLogin'})">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+						<span>{{item.title}}</span>
+					</van-cell>
+					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 5" @click="$router.push({path:'/machinePositioning'})">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+						<span>{{item.title}}</span>
+					</van-cell>
+					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 6">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+						<span>{{item.title}}</span>
+					</van-cell>
+				</li>
+				<!-- <li  v-for="(item,index) in dataList" :key="index" v-if="item.router==3">monitoring_list?value=2
+					
+				</li> -->
+				<!-- <li>
 					<van-collapse v-model="activeNames">
 					  <van-collapse-item name="1">
 						<div slot="title">
 							<p class="van-hairline--bottom exam-title">
-								<img src="../assets/images/index_icon/icon_jd@2x.png" alt="">智能进度
+								<img src="../assets/images/index_icon/icon_lw@2x.png" alt="">智能劳务
 							</p>
 						
 						</div>
 						<van-cell>
 						   <ul class="list_ul overflow">
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-1标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-2标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-3标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-4标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标1</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标2</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-6标</span></li>
+							    <li class="overflow" v-for="(item,index) in data" :key="index" @click="$router.push({path:'/Intelligence/labor?ValueId='+index})">
+							        <img :src="item.imgsrcTwo" alt=""><span>{{item.text}}</span>
+							    </li>
 						   </ul>
 						</van-cell>
 					  </van-collapse-item>
@@ -35,30 +79,7 @@
 					  <van-collapse-item name="2">
 						<div slot="title">
 							<p class="van-hairline--bottom exam-title">
-								<img src="../assets/images/index_icon/icon_lw@2x.png" alt="">智能劳务
-							</p>
-						
-						</div>
-						<van-cell>
-						   <ul class="list_ul overflow">
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-1标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-2标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-3标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-4标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标1</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标2</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-6标</span></li>
-						   </ul>
-						</van-cell>
-					  </van-collapse-item>
-					</van-collapse>
-				</li>
-				<li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="3">
-						<div slot="title">
-							<p class="van-hairline--bottom exam-title">
-								<img src="../assets/images/index_icon/icon_aq@2x.png" alt="">安全质量
+								<img src="" alt="">安全质量
 							</p>
 						</div>
 						<van-cell>
@@ -74,7 +95,7 @@
 						</van-cell>
 					  </van-collapse-item>
 					</van-collapse>
-				</li>
+				</li> -->
 			</ul>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
@@ -104,7 +125,160 @@
 			return {
 				questionText:"常益长铁路工程管理平台",
 				isLoading:true,
-				activeNames: ['1']
+				activeNames: ['-1'],
+				dataList:[
+					{
+						title:"智能进度",
+						router:'0',
+						img:require('../assets/images/index_icon/icon_jd@2x.png'),
+						data:[
+							{
+								text:'CYCZQ-1标',
+						        imgsrcOne:require('../assets/engineering/engineering@2x.png'),
+							},
+							{
+								text:'CYCZQ-2标',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(1).png'),
+							},
+							{
+								text:'CYCZQ-3标',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(2).png'),
+							},
+							{
+								text:'CYCZQ-4标',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(3).png'),
+							},
+							{
+								text:'CYCZQ-5标1',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(4).png'),
+							},
+							{
+								text:'CYCZQ-5标2',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(5).png'),
+							},
+							{
+								text:'CYCZQ-5标6',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(6).png'),
+							},
+						]
+					},
+					{
+						title:"智能劳务",
+						router:'1',
+						img:require('../assets/engineering/icon_lw@2x.png'),
+						data:[
+							{
+								text:'CYCZQ-1标',
+						        imgsrcOne:require('../assets/engineering/engineering@2x(7).png'),
+							},
+							{
+								text:'CYCZQ-2标',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(8).png'),
+							},
+							{
+								text:'CYCZQ-3标',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(9).png'),
+							},
+							{
+								text:'CYCZQ-4标',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(10).png'),
+							},
+							{
+								text:'CYCZQ-5标1',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(11).png'),
+							},
+							{
+								text:'CYCZQ-5标2',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(11).png'),
+							},
+							{
+								text:'CYCZQ-5标6',
+							    imgsrcOne:require('../assets/engineering/engineering@2x(12).png'),
+							},
+						]
+					},
+					{
+						title:"安全质量",
+						router:'2',
+						img:require('../assets/images/index_icon/icon_aq@2x.png'),
+						data:[
+							{
+								text:'提出问题',
+								router:'0',
+						        imgsrcOne:require('../assets/engineering/engineering_t@2x.png'),
+							},
+							{
+								text:'已解决问题',
+								router:'1',
+							    imgsrcOne:require('../assets/engineering/engineering_j@2x.png'),
+							},
+							{
+								text:'安全问题',
+								router:'2',
+							    imgsrcOne:require('../assets/engineering/engineering_aq@2x.png'),
+							},
+							{
+								text:'质量问题',
+								router:'3',
+							    imgsrcOne:require('../assets/engineering/engineering_c@2x.png'),
+							},
+							
+						]
+					},
+					{
+						title:"考核培训",
+						router:'3',
+						img:require('../assets/engineering/exam@2x.png'),
+						data:[]
+					},
+					{
+						title:"智能监控",
+						router:'4',
+						img:require('../assets/engineering/monitoring@2x.png'),
+						data:[
+							{
+								text:'CYCZQ-1标',
+						        imgsrcOne:require('../assets/engineering/gongcheng@2x (1).png'),
+							},
+							{
+								text:'CYCZQ-2标',
+							    imgsrcOne:require('../assets/engineering/gongcheng@2x (5).png'),
+							},
+							{
+								text:'CYCZQ-3标',
+							    imgsrcOne:require('../assets/engineering/gongcheng@2x (6).png'),
+							},
+							{
+								text:'CYCZQ-4标',
+							    imgsrcOne:require('../assets/engineering/gongcheng@2x (4).png'),
+							},
+							{
+								text:'CYCZQ-5标1',
+							    imgsrcOne:require('../assets/engineering/gongcheng@2x (2).png'),
+							},
+							{
+								text:'CYCZQ-5标2',
+							    imgsrcOne:require('../assets/engineering/gongcheng@2x (2).png'),
+							},
+							{
+								text:'CYCZQ-5标6',
+							    imgsrcOne:require('../assets/engineering/gongcheng@2x (3).png'),
+							},
+						]
+					},
+				    {
+				    	title:"人机定位",
+				    	router:'5',
+				    	img:require('../assets/engineering/dingwei@2x.png'),
+				    	data:[]
+				    },
+					{
+						title:"环境监控",
+						router:'6',
+						img:require('../assets/engineering/huanjing@2x.png'),
+						data:[]
+					},
+				]
 			}
 		},
 		created() {
@@ -120,35 +294,27 @@
 </script>
 
 <style scoped>
-	.list_ul li{
-		width: 25%;
-		float: left;
-		padding: 10px 0;
-	}
+	.list_ul li{padding: 10px 0;}
 	.list_ul li img{
-		width:24px;
-		display: block;
-		margin: 0 auto;
-		background: black;
+		width:20px;
+		margin-right: 10px;
+		float: left;
 	}
 	.list_ul li span{
 		display: block;
-		text-align: center;
 		line-height: 20px;
 		font-size: 12px;
 	}
 	.van-hairline--bottom{
 	    height: 40px;
-	    width: 60%;
+	    width: 100%;
 	    float: left;
 	    font-size: 14px;
 	    padding-left: 14px;
 	    font-family: PingFangSC-Regular,PingFang SC;
 	    font-weight: 400;
 	    color: rgba(51,51,51,1);
-	   
 	    margin: 0;
-	    /* border-bottom: 1px solid rgba(238,238,238,1); */
 	}
 	/deep/
 	.van-collapse-item__title{
@@ -162,10 +328,10 @@
 		margin-top: 8px;
 	}
 	.van-hairline--bottom img{
-	    width: 12px;
+	    width: 14px;
 	    float: left;
 	    margin-right: 5px;
-	    margin-top: 14px;
+	    margin-top: 12px;
 	}
 	/deep/
 	.van-collapse-item__title .van-cell__right-icon::before{

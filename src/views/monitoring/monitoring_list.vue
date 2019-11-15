@@ -8,20 +8,24 @@
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
 				<van-dropdown-menu class='van-dropdown'>
-					<van-dropdown-item v-model="value1" :options="option1" @change="change2(value1)" />
-					<van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)" />
+					<van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)" />
+					<van-dropdown-item v-model="value2" :disabled="disabledSection" :options="option2" @change="change2(value2)" />
 				</van-dropdown-menu>
 			</div>
-			<ul class="container_list overflow">
+			 <div class="flase" v-show="!GetVideoDatashow" style="background: none; text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无视频源</div>	
+			<ul class="container_list overflow" v-show="GetVideoDatashow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
-					<img :src="item.VIDEOURL" alt="" @click="show = true">
+					<div class="video-cover">
+						<img src="../../assets/images/exam/video_cover.png" alt="" width="100%" height="100%" @click="playVideo(item)">
+					</div>
 					<p>【{{item.SECTION}}】 {{item.VIDEONAME}}</p>
 				</li>
 
 			</ul>
-			<van-dialog v-model="show" title="【5标-1】 指挥部侧门" :showCancelButton='false' confirmButtonText='关闭'>
-
-				<img src="https://img.yzcdn.cn/vant/apple-3.jpg" width="100%">
+			<van-dialog v-model="show" :title="'【' + curPlayVideo.SECTION + '】' + curPlayVideo.VIDEONAME" @close="videoClose" :showCancelButton='false' confirmButtonText='关闭'>
+				<video ref="myPlayer" id="myPlayer" width="100%" height="auto" poster="../../assets/images/exam/video_cover.png" controls playsInline webkit-playsinline>
+					<source :src="curPlayVideo.VIDEOURL" type="application/x-mpegURL" />
+				</video>
 			</van-dialog>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
@@ -68,51 +72,97 @@
 				}],
 				isLoading: true,
 				Section: '',
-				Worksite: ''
-
+				Worksite: '',
+				curPlayVideo: {},
+				disabledSection:false,
+				GetVideoDatashow:true,
 			}
 		},
 		created() {
-				this.value1 = Number(this.$route.query.value || 0);
+			this.value1 = Number(this.$route.query.value || 0);
+			this.change1(this.value1)
+			// if(this.value1!=0){
+				
+			// }
+			// this.change1(0)
+			this.StaffRetrieveList()
+			this.getUserWorkPointList();
 		},
-		mounted() {
-			this.getUserWorkPointList()
+		
+		
 
+		mounted() {
+			
+			this.player = new EZUIPlayer(this.$refs.myPlayer);
 		},
 		methods: {
 			change1(val) {
 				this.Section = this.option1[val].text
 				console.log("当前标段：", this.option1[val].text)
+				this.StaffRetrieveList();
+				this.getUserWorkPointList();
+				this.option2.splice(1);
 			},
 			change2(val) {
-				this.Worksite = this.option2[val].text
+				// this.Worksite = this.option2[val].text
+				this.Worksite = this.option2[val].text.replace("#", "%23")
 				console.log("当前工点：", this.option2[val].text)
+				// this.StaffRetrieveList();
+				// this.getUserWorkPointList();
 			},
 			getUserWorkPointList() {
 				let that = this;
-				// this.$route.query.id=this.value1;
-				// console.log(this.value1,this.$route.query.value);
+				// that.Section="CYCZQ-1标"
 				//视频
-				ajax.get('/API/WebAPIDataAudit/GetVideo?Section=' + this.Section + '&Worksite=' + this.Worksite).then(res => {
-					if(res.data.result) {
-						console.log('视频GetVideo:', res.data.data)
+				ajax.get('/API/WebAPIDataAudit/GetVideo?Section=' + this.Section+ '&Worksite=' + this.Worksite).then(res => {
+					if(res.data.result == false){
+						that.GetVideoDatashow=false;
+						return;
+					}
+					if(res.data.result == true){
+						that.GetVideoDatashow=true;
 						that.GetVideoData = res.data.data;
+						return;
 					}
+					// if(res.data.result) {
+					// 	console.log('视频GetVideo:', res.data.data)
+					// 	that.GetVideoData = res.data.data;
+					// }
 				})
-				// 工点
-				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
-					if(res.data.result) {
-						console.log("1.1.2.获取全部工点名称", res)
+				
+			},
+			// 工点
+			StaffRetrieveList() {
+				let that = this;
+				// that.Section="CYCZQ-1标"
+			    ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section='+this.Section).then(res => {	
+					if(res.data.result == false){
+						that.disabledSection=true;
+						return;
+					}
+					if(res.data.result == true){
 						for(let k in res.data.data) {
-							this.option2.push({
-								text: res.data.data[k].WORKAREA,
-								value: Number(k) + Number(1)
-							})
-							// NameArr.push(res.data.data[k])
+							if(res.data.data[k].WORKAREA != null){
+								that.option2.push({
+									text:res.data.data[k].WORKAREA,
+									value:Number(k)
+								})
+							}
 						}
-						console.log("工点：", this.option2)
+						that.disabledSection=false;
+						return;
 					}
 				})
+			},
+			playVideo(item) {
+				this.show = true;
+				Object.assign(this.curPlayVideo, item);
+			},
+			videoClose() {
+				//				new EZuikit.EZUIPlayer('myPlayer').stop();
+				this.curPlayVideo.VIDEOURL = "";
+				this.player.stop();
+				this.$refs.myPlayer.stop();
 			}
 		}
 	}
@@ -177,6 +227,8 @@
 		float: left;
 		padding-bottom: 16px;
 		border-bottom: 1px solid #eee;
+		color: #666;
+		font-size: 14px;
 	}
 	
 	.container_list li:nth-of-type(2n) {
@@ -185,12 +237,19 @@
 	
 	.container_list li img {
 		display: block;
-		width: 100%;
-		height: 104px;
-		background: #333;
+		background: #666;
 	}
 	
 	p {
 		margin-bottom: 0;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	
+	.video-cover {
+		width: 100%;
+		border-radius: 7px;
+		overflow: hidden;
 	}
 </style>

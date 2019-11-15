@@ -84,7 +84,7 @@
 				</li>
 			</ul>
 			<ul>
-				<li class='Buttond'  @click="$router.push({path:'/intelligent_firstLevel?ValueId='+id})">
+				<li class='Buttond'  @click="$router.push({path:'/intelligent_firstLevel?ValueId='+num})">
 					<van-button color="#7099D0" size="normal" style='width: 100%;' >查看进度详情</van-button>
 				</li>
 			</ul>
@@ -137,16 +137,16 @@
 					percentage4:0,
 					percentage5:0,
 				},
-				id:""
+				id:0
 			}
 		},
 		created() {
 			this.GetMenuTreeList();
-			this.id=Number(this.$route.query.ValueId);
+			 this.num=Number(this.$route.query.ValueId);
 		},
 		mounted() {
            
-		
+		  
 			
 		},
 		methods: {
@@ -155,7 +155,7 @@
 			},
 			studyActives(event, index) {
 				console.log("当前标段id：",event.target.id)
-				this.id=event.target.id;
+				// this.id=event.target.id;
 				this.num=index;
 				if(this.num<3){
 					this.$refs.style[0].style.marginLeft='0px'

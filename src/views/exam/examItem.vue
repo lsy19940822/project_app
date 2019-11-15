@@ -1,9 +1,6 @@
 <template>
 	<div class="container">
 		<vant-header :leftArrow="true" :preventGoBack="false" :titleType="1" :title="questionText+`测试`" :rightType="2">
-			<div slot='right_slot'>
-				<p class="header-right">{{current+1}}/{{total}}</p>
-			</div>
 		</vant-header>
 		<van-count-down style="display: none;" ref="countDown" millisecond :time="time" format="HH:mm:ss" @finish="('countDown')" />
 		<!-- <van-count-down millisecond @finish="finish('time')"  :ref="time" :time="time" format="mm:ss"/> -->

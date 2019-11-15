@@ -1,9 +1,6 @@
 <template>
 	<div id="staffUser">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2" >
-			<div slot='right_slot' @click="$router.push({path:'/staffNew'})">
-				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div>
 		</vant-header>
 		<div class="container overflow">
 			<div class="userHeader overflow" @click="$router.push({path:'/staff_information?IDCard='+IDCard})">

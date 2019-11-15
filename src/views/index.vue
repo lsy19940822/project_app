@@ -1,11 +1,7 @@
 <template>
 	
 	<div id="index">
-		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType="2">
-			<div slot='right_slot' @click="$router.push({path:'/leaderNew'})">
-				<p class="header-right"><img src="../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div>
-		</vant-header>
+		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType="2"></vant-header>
 		
 		<div class="containerIndex">
 			

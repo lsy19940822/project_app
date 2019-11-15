@@ -1,10 +1,6 @@
 <template>
 	<div id="examrecord">
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			<div slot='right_slot'  @click="$router.push({path:'/staffNew'})">
-				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div>
-		</vant-header>
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2"></vant-header>
 		<div class="container">
 			<div v-if='examRecord==""' style="padding: 10px 16px;color: #969799; font-size: 14px;line-height: 24px;text-align: center;background: none;">暂无考试记录</div>
 			<ul class="container_list">

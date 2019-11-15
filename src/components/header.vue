@@ -60,6 +60,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+	/deep/
+	.van-nav-bar__title{
+		width:85%;
+		max-width: 85%;
+	}
   a{
     display: block;
   }

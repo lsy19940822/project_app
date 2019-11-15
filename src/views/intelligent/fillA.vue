@@ -1,10 +1,6 @@
 <template>
 	<div class="study">
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			<!-- <div slot='right_slot'  @click="$router.push({path:'/staffNew'})">
-				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div> -->
-		</vant-header>
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2"></vant-header>
 		<div class="container overflow">
 			
 			<ul class="overflow">

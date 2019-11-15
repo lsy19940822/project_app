@@ -9,14 +9,27 @@
 			
 			<ul class="footer_k" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
 				<div @click="activeClassButton()" class="shu"></div>
-				<div class="overflow">
-					<li @click="$router.push({path:'/information?IDCard=111111111111111111'})"><img src="" alt=""><span>员工信息</span></li>
+				<div class="overflow vanDialog">
+					<li @click="$router.push({path:'/information?IDCard=111111111111111111'})"><img src="../../../assets/images/exam/yuangong.png" alt=""><span>员工信息</span></li>
 					<li>
 						<a class="overflow" href="tel:" style="width: 48%;float:right;display: block;color: #666666;"></a>
-						<img src="" alt=""><span>拨打电话</span>
+						<img src="../../../assets/images/exam/car_2.png" alt=""><span>拨打电话</span>
 					</li>
-					<li @click="$router.push({path:'/machinePositioning_AQ?IDCard=111111111111111111'})"><img src="" alt=""><span>安全范围</span></li>
-					<li @click="$router.push({path:'/machinePositioning_GJ?IDCard=111111111111111111'})"><img src="" alt=""><span>活动轨迹</span></li>
+					<li @click="$router.push({path:'/voice?IDCard=111111111111111111'})"><img src="../../../assets/images/exam/yuyin.png" alt=""><span>发送语音</span></li>
+					<li @click="show=true"><img src="../../../assets/images/exam/jingbao.png" alt=""><span>一键报警</span></li>
+					<van-dialog
+					  v-model="show"
+					  title="报警提示" 
+					  @confirm="confirmButton"
+					  @cancel="cancelButton"
+					  show-cancel-button>
+					  <div class="overflow hader_top">
+						 <img src="" alt="">
+						  <h3>心碎小猴<van-icon name="manager" /></h3>
+						  <p>项目经理/常务副经理</p>
+					  </div>
+					    <p style="padding: 12px 0;margin: 0 auto !important;color:#333;display: block;text-align: center;" class="hader_top">是否向此员工发送报警提示？</p>
+					</van-dialog>
 				</div>
 				
 				<div class="position">
@@ -47,6 +60,10 @@
 		Search,
 		DropdownMenu, DropdownItem,
 	} from 'vant';
+	import { Dialog } from 'vant';
+	
+	// 全局注册
+	Vue.use(Dialog);
 	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem);
 	export default {
 		data() {
@@ -72,6 +89,7 @@
 				option2: [
 					{ text: '全部工点', value: 0 },
 				],
+				show:false
 			}
 		},
 		components: {
@@ -82,6 +100,12 @@
 			this.getUserWorkPointList()
 		},
 		methods: {
+			confirmButton(){
+				console.log("确认提交")
+			},
+			cancelButton(){
+				console.log("取消提交")
+			},
 			init() {
 				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
 				 var map = new qq.maps.Map(document.getElementById("containerS"), {
@@ -133,6 +157,56 @@
 </script>
 
 <style scoped>
+	.vanDialog h3 .van-icon{
+	    /* margin-top: 5px; */
+	    color: #00A0E9;
+	    /* visibility: initial; */
+	    font-size: 14px;
+	}
+	/deep/
+	.van-dialog__confirm, .van-dialog__confirm:active{
+		color:#333333;
+	}
+	/deep/
+	.van-dialog__confirm{
+		background: #F7F9FC;
+		
+	}
+	/deep/
+	.van-dialog__cancel .van-button__text{
+		color:#aaa;
+	}
+	.hader_top{
+		margin: 0 auto;
+		width: 90%;
+		border-bottom: 1px solid rgba(238,238,238,1);
+		margin-top: 25px;
+	}
+	/deep/
+	.van-dialog__header{
+		height:48px;
+		text-align:left;
+		line-height: 48px;
+		border-bottom: 1px solid rgba(238,238,238,1);
+		padding:0;
+		padding-left: 15px;
+	}
+	/deep/.van-dialog{
+		border-radius: 0;
+	}
+	.vanDialog img{
+	    width: 65px;
+	    height: 85px;
+	    border-radius: 1px;
+	    background: rgba(238,238,238,1);
+	    border: 1px solid rgba(238,238,238,1);
+	    display: block;
+	    margin: 0 auto;
+	}
+	.vanDialog h3, .vanDialog p{
+	    text-align: center;
+	    margin: 10px 0 !important;
+	}
 	#containerS{
 	    min-width:100%;
 	  	    min-height:100%;

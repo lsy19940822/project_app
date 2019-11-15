@@ -2,11 +2,7 @@
 	<div class="container">
 		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2'>
-			<div slot='right_slot' style="top: 10px;" @click="searchShowHide">
-				<p class="header-right notice-box">
-					<van-icon name="search" />
-				</p>
-			</div>
+			
 		</vant-header>
 		<!--search-->
 		<div class="search-wrap" v-show="isSearchShow">
