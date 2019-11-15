@@ -2,12 +2,7 @@
 	<div class="container">
 		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2' >
-			<!-- <div slot='right_slot' style="top: 10px;">
-				<p class="header-right notice-box"><img src="../../assets/images/safeQuality/icon_notice.png"></p>
-			</div> -->
-			<div slot='right_slot' @click="$router.push({path:'/leaderNew'})">
-				<p class="header-right"><img src="../../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div>
+			
 		</vant-header>
 
 		<!--content list-->

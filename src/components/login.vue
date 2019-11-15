@@ -72,30 +72,31 @@
 			}
 		},
 		created() {
-			// localStorage.setItem("checked",null)
-			// this.localStorageUser();
+			
+			
+			// console.log(localStorage.getItem("checked"))
+			// 
 //			this.bannerImg()
 		},
 		mounted() {
+			this.localStorageUser();
 		},
 		methods: {
 			toggle(val) {
 				console.log(val)
 				if(val == false || val == null) {
-					localStorage.setItem("user", this.user)
+					localStorage.setItem("user", (/^\w+$/.test(this.user) ? this.user : null || /^\d+$/.test(this.user) ? this.user : null))
 					localStorage.setItem("passWord", this.passWord)
 					localStorage.setItem("checked", true)
 				} else {
-					localStorage.removeItem("user")
-					localStorage.removeItem("passWord")
-					localStorage.removeItem("checked")
+					localStorage.setItem("user", '')
+					localStorage.setItem("passWord", '')
+					localStorage.setItem("checked", false)
+					
 				}
+				this.localStorageUser();
 			},
-			// localStorageUser(){
-			// 	this.user=localStorage.getItem("user")
-			// 	this.passWord=localStorage.getItem("passWord")
-			// 	this.checked=localStorage.getItem("checked")	
-			// },
+			
 			bannerImg(){
 				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {
 					if(res.data.result) {
@@ -104,9 +105,10 @@
 					}
 				})
 			},
-
+           
 			phoneLogin() {
-				if(this.user.trim() === '') {
+				// $("#EarningsTypes").val() == undefined ? '' : $("#EarningsTypes").val().trim();
+				if(!this.user || this.user.trim() == "") {
 					Toast('请输入用户名/手机号！');
 					return;
 				}
@@ -156,6 +158,11 @@
 					})
 				}
 
+			},
+			localStorageUser(){
+				this.user=localStorage.getItem("user")
+				this.passWord=localStorage.getItem("passWord")
+				this.checked=localStorage.getItem("checked")	
 			},
 		}
 	}

@@ -11,7 +11,7 @@
 				<div class="overflow">
 					<li @click="$router.push({path:'/car/informationCar'})"><img src="../../../assets/images/exam/car_1.png" alt=""><span>车辆信息</span></li>
 					<li>
-						<a class="overflow" :href="'tel:' + carInfor.DRIVERPHONE" style="float:right;display: block;color: #666666;">
+						<a class="overflow" :href="'tel:' + carInfor.DRIVERPHONE" style="display: block;color: #666666;">
 							<img src="../../../assets/images/exam/car_2.png" alt=""><span>联系司机</span>
 						</a>
 					</li>
@@ -21,7 +21,11 @@
 				
 				<div class="position">
 					<img :src="ajax.http + carInfor.CARPHOTOURL.slice(2)" alt="">
+					
 					<span>{{carInfor.CARNUMBER}}</span>
+					<span class="status" v-if="carInfor.STATUS == 1">运行中</span>
+					<span class="status" style="background: #A52A2A" v-if="carInfor.STATUS == 2">静止时间 00:00:00</span>
+					<span class="status" style="background: #B9B9B9" v-if="carInfor.STATUS == 0">离线状态</span>
 					<span>{{carInfor.CARTYPE}}</span>
 				</div>
 			</ul>
@@ -71,7 +75,7 @@
 				return;
 			}
 			Object.assign(this.carInfor, JSON.parse(infor));
-			console.log(JSON.parse(infor))
+			console.log("=====",JSON.parse(infor))
 		},
 		mounted() {
 			this.init()
@@ -106,29 +110,20 @@
 			},
 			onSearch() {
 				
-			},
-			getUserWorkPointList(){
-				let that = this;
-				// this.$route.query.id=this.value1;
-				// console.log(this.value1,this.$route.query.value);
-				
-				// 工点
-				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
-					if(res.data.result) {
-						console.log("1.1.2.获取全部工点名称",res)
-						for(let k in res.data.data) {
-						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
-						   // NameArr.push(res.data.data[k])
-						}	
-						console.log("工点：",this.option2)
-					}
-				})
 			}
 		}
 	}
 </script>
 
 <style scoped>
+	.status{
+		padding: 5px 10px;
+		background:#7AB182;
+		border-radius:2px;
+		color:#fff;
+		font-size: 12px;
+		margin-left: 14px;
+	}
 	#containerS{
 	    min-width:100%;
 	  	min-height:100%;
@@ -180,7 +175,7 @@
 	}
 	.footer_k li{
 		display: inline-block;
-		width: 25%;
+		width: 50%;
 		height: auto;
 		overflow: hidden;
 		float: left;

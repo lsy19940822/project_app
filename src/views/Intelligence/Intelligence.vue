@@ -1,13 +1,10 @@
 <template>
 	<div class="container">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			<div slot='right_slot'>
-				<p class="header-right"style="line-height: 20px;"><van-icon name="search" color="#fff" /></p>
-			</div>
 		</vant-header>
 		<div class="view">
-			<router-link :to="'/Intelligence/labor?ValueId='+localStorage" tag="div" class="routerlink">劳务统计</router-link>
-			<router-link  to="/Intelligence/personnel"  tag="div" class="routerlink">员工详情</router-link>
+			<router-link :to="'/Intelligence/labor?ValueId='+localStorage" replace tag="div" class="routerlink">劳务统计</router-link>
+			<router-link  to="/Intelligence/personnel"  replace tag="div" class="routerlink">员工详情</router-link>
 			<router-view></router-view>
 		</div>
 	</div>

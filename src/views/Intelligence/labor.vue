@@ -5,7 +5,7 @@
 			<div class="container_header overflow">
 				<van-dropdown-menu class='van-dropdown' >
 				   <van-dropdown-item :id="value1" v-model="value1" :options="option1" @change="change1(value1)"/>
-				   <van-dropdown-item :id="value1" v-model="value2" :options="option2" @change="change2(value2)"/>
+				   <van-dropdown-item :id="value2" :disabled="disabledSection" v-model="value2" :options="option2" @change="change2(value2)"/>
 				</van-dropdown-menu>		
 			</div>
 		</div>
@@ -15,12 +15,12 @@
 					 <span><img src="../../assets/images/index_icon/icon_zcq@2x.png" alt="" width="11px"></span>
 					 <span style="color:rgba(102,102,102,1);">总出勤职工</span>
 					 <span style="float: right;">
-						 <span>32,234人</span>
-						 <span style="color:rgba(64,69,94,1);">/38,762人</span>
+						 <span>{{user.UserNumber}}人</span>
+						 <span style="color:rgba(64,69,94,1);">/{{user.AllUserNumber}}人</span>
 					 </span>
 				</p>
 				 <p  style="margin-bottom: 0;">
-					 <van-progress color="#6A94B9" :percentage="56" stroke-width="6" />
+					 <van-progress color="#6A94B9" :percentage="percentage.percentage1" stroke-width="6" />
 				 </p>
 			 </div>
 		</div>
@@ -78,11 +78,22 @@
 				BD:"",
 				GD:"",
 				eachatDataX:[],
+				eachatDataY:[],
 		        eachatft:false,
+				disabledSection:false,
+				user:{
+					UserNumber:'',
+					AllUserNumber:'',
+					
+				},
+				percentage:{
+					percentage1:0
+				},
 			}
 		},
 		created() {
 			this.value1=Number(this.$route.query.ValueId)
+			this.Section='CYCZQ-1标'
 			if(this.value1 == 1){
 				this.eachatft = true;
 			}else{
@@ -94,30 +105,54 @@
 			// 	this.eachatft = true;
 			// }
 			localStorage.setItem("labor_value_id",this.value1)
-		},
-		mounted() {
 			this.StaffRetrieveList();
+			this.getWorkUserNumberS()
 			this.capacityEachart();
 			this.capacityEachartS();
+			
+		},
+		mounted() {
+			
 		},
 		computed:{
 			
 		},
 		methods: {
+			change1(val){
+				this.Section = this.option1[val].text
+				console.log("当前标段：",this.option1[val].text)
+				this.option2.splice(1);
+				this.StaffRetrieveList();
+				this.capacityEachart();
+				this.capacityEachartS();
+				this.getWorkUserNumberS()
+				if(val == 1){
+					this.eachatft = true;
+				}else{
+					this.eachatft = false;
+				}
+				localStorage.setItem("labor_value_id",val)
+			},
+			change2(val){
+				// this.Unit = this.option2[val].text
+				this.Unit = this.option2[val].text.replace("#", "%23")
+				// this.option2.splice(1);
+				console.log("当前工点：",this.option2[val].text)
+			    this.getWorkUserNumberS()
+				this.StaffRetrieveList();
+				this.capacityEachart();
+				this.capacityEachartS();
+				// this.getWorkUserNumberS()
+			},
 			// 工种统计
 			capacityEachart(){
 			  let this_ = this;
 			  let myChart = this.$echarts.init(document.getElementById('chart_example'));
-			  // 1.1.3.获取每个工种类别下的人员数量
-			  // BD	String	输入文本如: '2标'
-			  // GD	String	输入文本如: '汉寿梁场'
-			  this.BD="CYCZQ-2标";this.GD=""
-			  ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
+			  ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.Section+'&GD='+this.Unit).then(res => {
 			  	
 			  	if(res.data.result) {
 			  		
 			  	    this.eachatDataX=res.data.data;
-					console.log("获取每个工种类别下的人员数量",this.eachatDataX)
 					var eachatData_xAxis=[]
 					for(var i = 0;i<this.eachatDataX.length;i++){
 					    eachatData_xAxis.push(this.eachatDataX[i].WORKTYPE)
@@ -126,125 +161,232 @@
 					for(var i = 0;i<this.eachatDataX.length;i++){
 					    eachatData_yAxis.push(this.eachatDataX[i].COUNT)
 					}
-					console.log("eachatData_xAxis",this.eachatDataX.length,eachatData_xAxis,eachatData_yAxis)
-					let option = {
-						color: ['#f44'],
-						tooltip : {
-						  trigger: 'axis',
-						  axisPointer : {
-							type : 'shadow'
-						  }
-						},
-						grid: {
-							left: '0%',
-							right: '0%',
-							bottom: '10%',
-							containLabel: true
-						},
-						xAxis : [
-						  {
-							type : 'category',
-							data :eachatData_xAxis,
-							axisTick: {
-							  alignWithLabel: true
-							}
-						  }
-						],
-						yAxis : [
-						  {
-							type : 'value'
-						  }
-						],
-						series : [
-						  {
-							name:'人数',
-							type:'bar',
-							barWidth: '60%',
-							data:eachatData_yAxis
-						  }
-						]
+					
+					var dataAxis = ['点', '击', '柱', '子', '或', '者', '两', '指', '在', '触', '屏', '上', '滑', '动', '能', '够', '自', '动', '缩', '放'];
+					var data = [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 133, 334, 198, 123, 125, 220];
+					var yMax = 500;
+					var dataShadow = [];
+					
+					for (var i = 0; i < data.length; i++) {
+					    dataShadow.push(yMax);
+					}
+					
+					option = {
+					    title: {
+					        text: '特性示例：渐变色 阴影 点击缩放',
+					        subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
+					    },
+					    xAxis: {
+					        data: dataAxis,
+					        axisLabel: {
+					            inside: true,
+					            textStyle: {
+					                color: '#fff'
+					            }
+					        },
+					        axisTick: {
+					            show: false
+					        },
+					        axisLine: {
+					            show: false
+					        },
+					        z: 10
+					    },
+					    yAxis: {
+					        axisLine: {
+					            show: false
+					        },
+					        axisTick: {
+					            show: false
+					        },
+					        axisLabel: {
+					            textStyle: {
+					                color: '#999'
+					            }
+					        }
+					    },
+					    dataZoom: [
+					        {
+					            type: 'inside'
+					        }
+					    ],
+					    series: [
+					        { // For shadow
+					            type: 'bar',
+					            itemStyle: {
+					                normal: {color: 'rgba(0,0,0,0.05)'}
+					            },
+					            barGap:'-100%',
+					            barCategoryGap:'40%',
+					            data: dataShadow,
+					            animation: false
+					        },
+					        {
+					            type: 'bar',
+					            itemStyle: {
+					                normal: {
+					                    color: new echarts.graphic.LinearGradient(
+					                        0, 0, 0, 1,
+					                        [
+					                            {offset: 0, color: '#83bff6'},
+					                            {offset: 0.5, color: '#188df0'},
+					                            {offset: 1, color: '#188df0'}
+					                        ]
+					                    )
+					                },
+					                emphasis: {
+					                    color: new echarts.graphic.LinearGradient(
+					                        0, 0, 0, 1,
+					                        [
+					                            {offset: 0, color: '#2378f7'},
+					                            {offset: 0.7, color: '#2378f7'},
+					                            {offset: 1, color: '#83bff6'}
+					                        ]
+					                    )
+					                }
+					            },
+					            data: data
+					        }
+					    ]
 					};
 					myChart.setOption(option);
+					// Enable data zoom when user click bar.
+					var zoomSize = 6;
+					myChart.on('click', function (params) {
+					    console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+					    myChart.dispatchAction({
+					        type: 'dataZoom',
+					        startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+					        endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+					    });
+					});
 					//建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
-					window.addEventListener('resize',function() {myChart.resize()});
+					// window.addEventListener('resize',function() {myChart.resize()});
+					// let option = {
+					// 	color: ['#f44'],
+					// 	tooltip : {
+					// 	  trigger: 'axis',
+					// 	  axisPointer : {
+					// 		type : 'shadow'
+					// 	  }
+					// 	},
+					// 	grid: {
+					// 		left: '0%',
+					// 		right: '0%',
+					// 		bottom: '10%',
+					// 		containLabel: true
+					// 	},
+					// 	xAxis : [
+					// 	  {
+					// 		type : 'category',
+					// 		data :eachatData_xAxis,
+					// 		axisTick: {
+					// 		  alignWithLabel: true
+					// 		}
+					// 	  }
+					// 	],
+					// 	yAxis : [
+					// 	  {
+					// 		type : 'value'
+					// 	  }
+					// 	],
+					// 	series : [
+					// 	  {
+					// 		name:'人数',
+					// 		type:'bar',
+					// 		barWidth: '60%',
+					// 		data:eachatData_yAxis
+					// 	  }
+					// 	]
+					// };
+					// myChart.setOption(option);
+					// //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
+					// window.addEventListener('resize',function() {myChart.resize()});
 			  	}
 			  })
 			},
 			capacityEachartS(){
-				// 1.1.3.获取每个工种类别下的人员数量
-				// BD	String	输入文本如: '2标'
-				// GD	String	输入文本如: '汉寿梁场'
-				// this.BD="2标";this.GD="汉寿梁场"
-				// ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
+				let date=new Date()
+				let year=date.getFullYear();
+				console.log("year",year)
+				ajax.get('/API/WebAPIDataAudit/getPeopleNumber?year='+year).then(res => {
 					
-				// 	if(res.data.result) {
-				// 		console.log("getUserTypeNumber",res)
-				// 	    this.eachatDataX=res.data.data;
-				// 	}
-				// })
-				// ajax.get('/API/WebAPIDataAudit/getUserNumber?BD='+this.BD+'&GD='+this.GD).then(res => {
-					
-				// 	if(res.data.result) {
-				// 		console.log("getUserNumber",res)
-					
-				// 	}
-				// })
+					if(res.data.result) {
+						console.log("getUserTypeNumber",res)
+					    this.eachatDataY=res.data.data;
+						var eachatData_xAxis=[]
+						for(var i = 0;i<this.eachatDataY.length;i++){
+						    eachatData_xAxis.push(this.eachatDataY[i].MONTH)
+						}
+						var eachatData_yAxis=[]
+						for(var i = 0;i<this.eachatDataY.length;i++){
+						    eachatData_yAxis.push(this.eachatDataY[i].PEOPLENUMBER)
+						}
+						let myChart = this.$echarts.init(document.getElementById('chart_examples'));
+						let option = {
+							grid: {
+								left: '0%',
+								right: '0%',
+								bottom: '10%',
+								containLabel: true
+							},
+						    xAxis: {
+						        type: 'category',
+						        data : eachatData_xAxis,
+						    },
+						    yAxis: {
+						        type: 'value'
+						    },
+						    series: [{
+						        data: eachatData_yAxis,
+						        type: 'line'
+						    }]
+						};
+						
+						myChart.setOption(option);
+						//建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
+						window.addEventListener('resize',function() {myChart.resize()});
+					}
+				})
+			  
 				
-			  let this_ = this;
-			  let myChart = this.$echarts.init(document.getElementById('chart_examples'));
-			 
-			  let option = {
-				  grid: {
-				      left: '0%',
-				      right: '0%',
-				      bottom: '10%',
-				      containLabel: true
-				  },
-			      xAxis: {
-			          type: 'category',
-			          data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
-			      },
-			      yAxis: {
-			          type: 'value'
-			      },
-			      series: [{
-			          data: [0, 0, 0,0,0,0,0,0,0,0,0,0],
-			          type: 'line'
-			      }]
-			  };
-
-			  myChart.setOption(option);
-			  //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
-			  window.addEventListener('resize',function() {myChart.resize()});
-				
-			},
-			change1(val){
-				this.Section = this.option1[val].text
-				console.log("当前标段：",this.option1[val].text)
-				if(val == 1){
-					this.eachatft = true;
-				}else{
-					this.eachatft = false;
-				}
-				localStorage.setItem("labor_value_id",val)
-				// if(val == 0){
-				// 	this.eachatft = false;
-				// }else 
-				// this.StaffRetrieveList() 
-			},
-			change2(val){
-				this.Unit = this.option2[val].text
-				console.log("当前工点：",this.option2[val].text)
 			},
 			
+			
 			StaffRetrieveList() {
-                ajax.get('/API/WebAPIDataAudit/getUserWorkPoint?Section='+this.Section).then(res => {	
-					if(res.data.result) {
-						console.log("全部工点名称",res)
-						for(let k in res.data.data) {
-						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
-						}	
+                ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section='+this.Section).then(res => {	
+					if(res.data.result == false){
+						this.disabledSection=true;
+						return;
 					}
+					if(res.data.result == true){
+						for(let k in res.data.data) {
+							if(res.data.data[k].WORKAREA != null){
+								this.option2.push({
+									text:res.data.data[k].WORKAREA,
+									value:Number(k)
+								})
+							}
+						}
+						this.disabledSection=false;
+						return;
+					}
+				})
+				
+			},
+			getWorkUserNumberS(){
+				ajax.get('/API/WebAPIDataAudit/getWorkUserNumber?BD='+this.Section+'&GD='+this.Unit).then(res => {
+					console.log(res.data.data)
+					if(res.data.data.UserNumber !=0 || res.data.data.UserNumber !=0 ||res.data.data.UserNumber >0 || res.data.data.UserNumber >0){
+						this.user.UserNumber=res.data.data.UserNumber
+						this.user.AllUserNumber=res.data.data.AllUserNumber
+						this.percentage.percentage1=Number((this.user.UserNumber/this.user.AllUserNumber)*100)
+					}else{
+						this.user.UserNumber=0
+						this.user.AllUserNumber=0
+						this.percentage.percentage1=0
+					}
+					
 				})
 			}
 		}

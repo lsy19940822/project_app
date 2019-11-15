@@ -4,8 +4,8 @@
 			<div class="container_header overflow">
 				<van-dropdown-menu class='Intelligence-dropdown'>
 					<van-dropdown-item v-model="value1" :options="option1" class='' @change="change1(value1)" />
-					<van-dropdown-item v-model="value2" :options="option2" class='' @change="change2(value2)" />
-					<van-dropdown-item v-model="value3" :options="option3" class='' @change="change3(value3)" />
+					<van-dropdown-item v-model="value2" :options="option2" class='' :disabled="disabledSection"  @change="change2(value2)" />
+					<van-dropdown-item v-model="value3" :options="option3" class='' :disabled="disabledUnit"@change="change3(value3)" />
 				</van-dropdown-menu>
 			</div>
 		</div>
@@ -38,11 +38,13 @@
 		components: {},
 		data() {
 			return {
+				disabledSection:false,
+				disabledUnit:false,
 				value1: 0,
 				value2: 0,
 				value3: 0,
 				option1: [
-					{ text: '全部标段', value: 0},
+					{ text: '全部标段', value:0},
 					{ text: 'CYCZQ-1标', value: 1},
 					{ text: 'CYCZQ-2标', value: 2},
 					{ text: 'CYCZQ-3标', value: 3},
@@ -51,146 +53,26 @@
 					{ text: 'CYCZQ-5标2', value: 6},
 					{ text: 'CYCZQ-6标', value: 7},
 				],
-				option2: [
-					{ text: '全部单位',value: 0},
-				],
-				option3: [{
-						text: '全部工种',
-						value: 0
-					},
-					{
-						text: '木工',
-						value: 1
-					},
-					{
-						text: '电工',
-						value: 2
-					},
-					{
-						text: '焊接工',
-						value: 3
-					},
-					{
-						text: '架子工',
-						value: 4
-					},
-					{
-						text: '管道工',
-						value: 5
-					},
-					{
-						text: '司机',
-						value: 6
-					},
-					{
-						text: '钳工',
-						value: 7
-					},
-					{
-						text: '项目经理',
-						value: 8
-					},
-					{
-						text: '常务副经理',
-						value: 9
-					},
-					{
-						text: '党工委书计',
-						value: 10
-					},
-					{
-						text: '总工程师',
-						value: 11
-					},
-					{
-						text: '安全总监',
-						value: 12
-					},
-					{
-						text: '工程部长',
-						value: 13
-					},
-					{
-						text: '中心实验室主任',
-						value: 14
-					},
-					{
-						text: '财务部长',
-						value: 15
-					},
-					{
-						text: '计划部长',
-						value: 16
-					},
-					{
-						text: '物资部长',
-						value: 17
-					},
-					{
-						text: '设备部长',
-						value: 18
-					},
-					{
-						text: '安质部长',
-						value: 19
-					},
-					{
-						text: '测量队长',
-						value: 20
-					},
-					{
-						text: '综合办公室主任',
-						value: 21
-					},
-					{
-						text: '办公室副主任',
-						value: 22
-					},
-					{
-						text: '资料员',
-						value: 23
-					},
-					{
-						text: '出纳',
-						value: 24
-					},
-					{
-						text: '技术主管',
-						value: 25
-					},
-					{
-						text: '会计',
-						value: 26
-					},
-					{
-						text: '预算员',
-						value: 27
-					},
-					{
-						text: '资料员',
-						value: 28
-					},
-					{
-						text: '技术员',
-						value: 29
-					}
-				],
+				option2: [{ text: '全部单位', value:0},],
+				option3: [{ text: '全部工种', value: 0},],
 
-				TypeWork: '', //工种
-				Unit: '', //单位
-				Section: '', //所在标段
+				TypeWork: '',
+				Unit: '',
+				Section: '',
 				NameArrS: [],
-				// 1.1.1.获取全部人员数量参数
+				
 				BD: "",
 				GD: "",
 				show:true
 			}
 		},
 		created() {
-              this.getCompanyList()
+           this.getCompanyList()
+		   this.StaffRetrieveList();
+		   this.GetWorkTypeList()
 		},
 		mounted() {
-			this.StaffRetrieveList();
+			
 
 		},
 		computed: {
@@ -203,109 +85,106 @@
 		methods: {
 
 			change1(val) {
-				let that=this;
-				that.Section = that.option1[val].text
-				console.log("当前标段：", that.Section)
-				if(val == 2){
-					this.Section= that.Section
-					this.Unit=that.Unit
-					this.show=true
-				}else if(val==0){
-					this.Section=''
-					this.Unit=''
-					this.show=true
-				}else{
-					this.Section=''
-					this.Unit=''
-					this.show=false
-				}
+				this.Section = this.option1[val].text
+				console.log("当前标段：", this.Section);
+				this.option2.splice(1);
+				this.option3.splice(1);
 				
-				// 1.1.1.根据标段查单位
-				ajax.get('/API/WebAPIDataAudit/getCompany?Compan='+that.Section).then(res => {
-					if(res.data.result) {
-						console.log("根据标段查单位getCompany:",res.data)
-						for(let k in res.data.data) {
-						   that.option2.push({
-							   text:res.data.data[k].COMPANY,
-							   value:Number(k) + Number(1) 
-							})
-						}	
-					}
-				})
-				// this.searchButton()
+					// this.option2[0].text='全部单位'
 				
+				// this.Section= '';
+				this.getCompanyList();
+				this.searchButton(); 
+				this.StaffRetrieveList();
+				this.GetWorkTypeList()
 			},
 			change2(val) {
-				let that=this;
-				that.Unit = that.option2[val].text
-				console.log("当前单位：", that.Unit)
-				if(val == 2){
-					this.Section= that.Section
-					this.Unit=that.Unit
-					this.show=true
-				}else if(val==0){
-					this.Section=''
-					this.Unit=''
-					this.show=true
-				}else{
-					this.Section=''
-					this.Unit=''
-					this.show=false
-				}
-				ajax.get('/API/WebAPIDataAudit/GetWorkType?worktype='+that.Unit).then(res => {
-					if(res.data.result) {
-						console.log("当前单位GetWorkType:",res.data)
-						for(let k in res.data.data) {
-						   that.option3.push({
-							   text:res.data.data[k].WorkType,
-							   value:Number(k) + Number(1) 
-							})
-						}	
-					}
-					// Toast.fail(res.data.resultMsg || '查询失败，请重试！');
-				})
-				// this.searchButton()
+				this.Unit = this.option2[val].text
+				console.log("当前单位：", val,this.Unit)
+				this.option3.splice(1);
+				// this.getCompanyList();
+				this.searchButton(); 
+				this.StaffRetrieveList();
+				this.GetWorkTypeList();
+				
 			},
 			change3(val) {
-				let that=this;
-				that.TypeWork = that.option3[val].text
-				console.log("当前工种：", that.TypeWork)
-				if(that.TypeWork == "全部工种"){
-					that.TypeWork = ''
+				this.TypeWork = this.option3[val].text
+				console.log("当前工种：",val, this.TypeWork)
+				if(this.TypeWork == "全部工种"){
 				}
-				this.searchButton()
+				this.searchButton();
+				this.StaffRetrieveList();
+				this.GetWorkTypeList();
 			},
 			getCompanyList(){
 				// 1.1.1.根据标段查单位
-				ajax.get('/API/WebAPIDataAudit/getCompany?Compan='+this.Section).then(res => {
-					if(res.data.result) {
-						console.log("getCompany:",res.data)
+				if(this.Section== '全部标段'){
+					this.Section= '';
+					
+				}
+				ajax.get('/API/WebAPIDataAudit/getCompany?Section='+this.Section).then(res => {
+					if(res.data.result == false){
+						
+						this.option2.push({text: '暂无单位',value: 0})
+						this.disabledSection=true;
+						if(this.disabledSection==true){
+							this.disabledUnit=true;
+							return;
+						}
+						return;
+					}
+					if(res.data.result == true){
 						for(let k in res.data.data) {
-						   this.option2.push({
-							   text:res.data.data[k].WORKAREA,
-							   value:Number(k) + Number(1) 
-							})
-						}	
+							if(res.data.data[k].COMPANY != null){
+								this.option2.push({
+									text:res.data.data[k].COMPANY,
+									value:Number(k)
+								})
+							}
+						}
+						this.disabledSection=false;
+						if(this.disabledSection==false){
+							this.disabledUnit=false;
+							
+							return;
+						}
+						return;
 					}
 				})
 				// 1.1.2.根据单位查工种
-				ajax.get('/API/WebAPIDataAudit/GetWorkType?worktype='+this.Unit).then(res => {
-					if(res.data.result) {
-						console.log("worktype:",res.data)
-						for(let k in res.data.data) {
-						   this.option3.push({
-							   text:res.data.data[k].WORKAREA,
-							   value:Number(k) + Number(1) 
-							})
-						}	
+				// if(this.disabledSection == true){
+					
+				// }
+				
+			},
+			GetWorkTypeList(){
+				ajax.get('/API/WebAPIDataAudit/GetWorkType?Unit='+this.Unit).then(res => {
+					if(res.data.result == false){
+						this.disabledUnit=true;
 					}
-					// Toast.fail(res.data.resultMsg || '查询失败，请重试！');
+					if(res.data.result == true){
+						
+						for(let k in res.data.data) {
+							if(res.data.data[k].WORKTYPE != null){
+								this.option3.push({
+									text:res.data.data[k].WORKTYPE,
+									value:Number(k)+Number(1)
+								})
+							}
+						}
+						return;
+					}
+					
 				})
 			},
 			searchButton() {
 				console.log("当前标段：", this.Section, "当前单位：", this.Unit, "当前工种：", this.TypeWork)
-				if(this.TypeWork == "全部工种"){
-					this.TypeWork = ''
+				if(this.Section== '全部标段' || this.Unit == '全部单位' || this.TypeWork == '全部工种'){
+					this.Section="";
+					this.Unit='';
+					this.TypeWork='';
+					
 				}
 				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section + '&Unit=' + this.Unit + '&TypeWork=' + this.TypeWork).then(res => {
 
@@ -323,25 +202,33 @@
 						this.pySegSort(NameArr)
 						return;
 					}
-					Toast.fail(res.data.resultMsg || '查询失败，请重试！');
+					// Toast(res.data.resultMsg || '查询失败，请重试！');
 				})
 			},
+			// 全部员工
 			StaffRetrieveList() {
-
+                if(this.Section== '全部标段' || this.Unit == '全部单位' || this.TypeWork == '全部工种'){
+					this.Section="";
+					this.Unit='';
+					this.TypeWork='';
+				}
 				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section + '&Unit=' + this.Unit + '&TypeWork=' + this.TypeWork).then(res => {
-
-					if(res.data.result) {
-
-						let NameArr = []
-
-						for(let k in res.data.data) {
-							if(res.data.data[k].PHOTOURL != null) {
-								res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
-							}
-							NameArr.push(res.data.data[k])
-						}
-						this.pySegSort(NameArr)
-					}
+                    if(res.data.result == false){
+                    	this.show=false;
+                    	return;
+                    }
+                    if(res.data.result == true){
+                    	let NameArr = []
+                    	this.show=true;
+                    	for(let k in res.data.data) {
+                    		if(res.data.data[k].PHOTOURL != null) {
+                    			res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
+                    		}
+                    		NameArr.push(res.data.data[k])
+                    	}
+                    	this.pySegSort(NameArr)
+                    	return;
+                    }
 				})
 			},
 			pySegSort(arr) {

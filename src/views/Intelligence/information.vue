@@ -8,12 +8,36 @@
 				<img :src="StaffInfoData[0].PHOTOURL" alt="">
 				<h3>{{StaffInfoData[0].EXAMNAME}}<van-icon name="manager" /></h3>
 				<p>{{StaffInfoData[0].WORKTYPE}}</p>
-				<div class="overflow">
-					<!-- 18501343420 -->
-					<van-button icon="location" type="info">查看定位</van-button>
-					<a class="overflow" :href="'tel:'+StaffInfoData[0].TELEPHONE" style="width: 48%;float:right;display: block;color: #fff;"><van-button icon="phone" type="primary" style='width:100%'>拨打电话</van-button></a>
-				</div>
-				
+				<ul class="overflow footer_k">
+					<li @click="$router.push({path:'/information?IDCard='+$route.query.IDCard})"><img src="../../assets/images/user_icon/dingwei.png" alt=""><span>查看定位</span></li>
+					<li>
+						<a class="overflow" :href="'tel:'+StaffInfoData[0].TELEPHONE" style="width: 48%;float:right;display: block;color: #666666;"></a>
+						<img src="../../assets/images/user_icon/phone.png" alt=""><span>拨打电话</span>
+					</li>
+					<li @click="showPicker= true"><img src="../../assets/images/user_icon/yuyin.png" alt=""><span>发送语音</span></li>
+					<li><img src="../../assets/images/user_icon/yuangongxinxi.png" alt=""><span>一键报警</span></li>
+					<van-popup v-model="showPicker" position="bottom">
+					  <van-picker
+					    show-toolbar
+					    :columns="columns"
+					    @cancel="showPicker = false"
+					    @confirm="onConfirm"/>
+					</van-popup>
+					<!-- <van-dialog
+					  v-model="show"
+					  title="报警提示" 
+					  @confirm="confirmButton"
+					  @cancel="cancelButton"
+					  show-cancel-button>
+					  <div class="overflow hader_top">
+						  <img :src="StaffInfoData[0].PHOTOURL" alt="">
+						  <h3>{{StaffInfoData[0].EXAMNAME}}<van-icon name="manager" /></h3>
+						  <p>{{StaffInfoData[0].WORKTYPE}}</p>
+						
+					  </div>
+					    <p style="padding: 12px 0;margin: 0 auto !important;color:#333;display: block;text-align: center;" class="hader_top">是否向此员工发送报警提示？</p>
+					</van-dialog> -->
+				</ul>
 			</div>
 			<ul class="container_list container_lists">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/user_icon/userH@2x.png" alt="">员工详情</p>
@@ -95,10 +119,13 @@
 	import Vue from 'vue';
 	import { Cell} from 'vant';
 	import { Button } from 'vant';
+	import { Dialog } from 'vant';
 	
+	// 全局注册
+	Vue.use(Dialog);
 	Vue.use(Button);
-	import {Icon, IndexBar, IndexAnchor } from 'vant';
-	Vue.use(IndexBar).use(IndexAnchor).use(Icon);
+	import {Icon, IndexBar, IndexAnchor,Popup,Picker } from 'vant';
+	Vue.use(IndexBar).use(IndexAnchor).use(Icon).use(Popup).use(Picker);
 	Vue.use(Cell)
 	export default {
 		components: {
@@ -111,7 +138,17 @@
 				examRecord:[],
 				examRecordTime:[],
 				StaffInfoData:[],
-				IDCard:''
+				IDCard:'',
+				show:false,
+				columns: ['防空报警', '请带好安全帽',
+					'危险请注意','已收到报警，请等待救援',
+					"附近有人需要救援","请不要违规作业",
+					"请回到岗位","请到办公室","请充电",
+					"请联系管理人员","你是否需要帮助",
+					"请立即离开","请回电"],//1 2 3 7 8 9 10 11 12 13 14 15 16
+				showPicker: false,
+				quesType:'',
+				value:""
 			}
 		},
 		mounted() {
@@ -121,6 +158,18 @@
 			this.StaffInfoF()
 		},
 		methods: {
+			confirmButton(){
+				console.log("确认提交")
+			},
+			cancelButton(){
+				console.log("取消提交")
+			},
+			onConfirm(value,index) {
+			    this.value = value;
+			    this.showPicker = false;
+				this.quesType=index+Number(1);
+				console.log("---quesType--",this.quesType)
+			},
 			StaffInfoF(){
 				let that=this;
 				that.IDCard=that.$route.query.IDCard;
@@ -152,6 +201,60 @@
 </script>
 
 <style scoped>
+	/deep/
+	.van-dialog__confirm, .van-dialog__confirm:active{
+		color:#333333;
+	}
+	/deep/
+	.van-dialog__confirm{
+		background: #F7F9FC;
+		
+	}
+	/deep/
+	.van-dialog__cancel .van-button__text{
+		color:#aaa;
+	}
+	.hader_top{
+		margin: 0 auto;
+		width: 90%;
+		border-bottom: 1px solid rgba(238,238,238,1);
+		margin-top: 25px;
+	}
+	/deep/
+	.van-dialog__header{
+		height:48px;
+		text-align:left;
+		line-height: 48px;
+		border-bottom: 1px solid rgba(238,238,238,1);
+		padding:0;
+		padding-left: 15px;
+	}
+	/deep/.van-dialog{
+		border-radius: 0;
+	}
+	.footer_k li span{
+	    margin-top: 10px;
+	    display: block;
+	    text-align: center;
+	}
+	.footer_k li img{
+	    width: 32px;
+	    height: 32px;
+	    background: rgba(133,142,167,1);
+	    border-radius: 2px;
+	    background: #DDDDDD;
+	    display: block;
+	    margin: 0 auto;
+	}
+	.footer_k li{
+	    width: 25%;
+	    height: auto;
+	    overflow: hidden;
+	    float: left;
+	    font-size: 14px;
+	    color: #666666;
+	    padding: 0 10px 15px;
+	}
 	.container_lists li{
 		padding: 10px 16px;
 		color: #323233;
@@ -205,9 +308,10 @@
 		float: right;
 	}
 	.infor_header img{
-		width:65;
+		width:65px;
 		height:85px;
 		border-radius:1px;
+		background: rgba(238,238,238,1);
 		border:1px solid rgba(238,238,238,1);
 		display: block;
 		margin: 0 auto;

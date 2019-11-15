@@ -2,11 +2,7 @@
 	<div class="container">
 		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2'>
-			<div slot='right_slot' style="top: 10px;" @click="searchShowHide">
-				<p class="header-right notice-box">
-					<van-icon name="search" />
-				</p>
-			</div>
+		
 		</vant-header>
 		<router-link to="/machinePositioning/manchine" replace tag="div" class="routerlink">人员定位</router-link>
 		<router-link to="/machinePositioning/car" replace tag="div" class="routerlink">车辆定位</router-link>
@@ -68,8 +64,6 @@
 
 		},
 		mounted() {
-			// this.init()
-			this.getUserWorkPointList()
 		},
 		methods: {
 

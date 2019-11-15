@@ -1,18 +1,16 @@
 <template>
 	<div class="study">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			<!-- <div slot='right_slot'  @click="$router.push({path:'/staffNew'})">
-				<p class="header-right"><img src="../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div> -->
 		</vant-header>
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
 				<van-dropdown-menu class='van-dropdown'>
-					<van-dropdown-item v-model="value1" :options="option1" @change="change2(value1)" />
-					<van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)" />
+					<van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)" />
+					<van-dropdown-item v-model="value2" :disabled="disabledSection" :options="option2" @change="change2(value2)" />
 				</van-dropdown-menu>
 			</div>
-			<ul class="container_list overflow">
+			 <div class="flase" v-show="!GetVideoDatashow" style="background: none; text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无视频源</div>	
+			<ul class="container_list overflow" v-show="GetVideoDatashow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
 					<div class="video-cover">
 						<img src="../../assets/images/exam/video_cover.png" alt="" width="100%" height="100%" @click="playVideo(item)">
@@ -72,11 +70,17 @@
 				isLoading: true,
 				Section: '',
 				Worksite: '',
+				disabledSection:false,
+				GetVideoDatashow:true,
 				curPlayVideo: {}
+
 			}
 		},
 		created() {
 			this.value1 = Number(this.$route.query.value || 0);
+			this.change1(this.value1)
+			this.StaffRetrieveList()
+			this.getUserWorkPointList();
 		},
 		mounted() {
 			this.getUserWorkPointList();
@@ -86,43 +90,57 @@
 			change1(val) {
 				this.Section = this.option1[val].text
 				console.log("当前标段：", this.option1[val].text)
+				this.StaffRetrieveList();
+				this.getUserWorkPointList();
+				this.option2.splice(1);
 			},
 			change2(val) {
-				this.Worksite = this.option2[val].text
+				this.Worksite = this.option2[val].text.replace("#", "%23")
 				console.log("当前工点：", this.option2[val].text)
 			},
 			getUserWorkPointList() {
 				let that = this;
-				// this.$route.query.id=this.value1;
-				// console.log(this.value1,this.$route.query.value);
 				//视频
-				ajax.get('/API/WebAPIDataAudit/GetVideo?Section=' + this.Section + '&Worksite=' + this.Worksite).then(res => {
-					if(res.data.result) {
-						console.log('视频GetVideo:', res.data.data)
+				ajax.get('/API/WebAPIDataAudit/GetVideo?Section=' + this.Section+ '&Worksite=' + this.Worksite).then(res => {
+					if(res.data.result == false){
+						that.GetVideoDatashow=false;
+						return;
+					}
+					if(res.data.result == true){
+						that.GetVideoDatashow=true;
 						that.GetVideoData = res.data.data;
+						return;
 					}
 				})
-				// 工点
-				//				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
-				//					if(res.data.result) {
-				//						console.log("1.1.2.获取全部工点名称", res)
-				//						for(let k in res.data.data) {
-				//							this.option2.push({
-				//								text: res.data.data[k].WORKAREA,
-				//								value: Number(k) + Number(1)
-				//							})
-				//							// NameArr.push(res.data.data[k])
-				//						}
-				//						console.log("工点：", this.option2)
-				//					}
-				//				})
+				
+			},
+			// 工点
+			StaffRetrieveList() {
+				let that = this;
+			    ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section='+this.Section).then(res => {	
+					if(res.data.result == false){
+						that.disabledSection=true;
+						return;
+					}
+					if(res.data.result == true){
+						for(let k in res.data.data) {
+							if(res.data.data[k].WORKAREA != null){
+								that.option2.push({
+									text:res.data.data[k].WORKAREA,
+									value:Number(k)
+								})
+							}
+						}
+						that.disabledSection=false;
+						return;
+					}
+				})
 			},
 			playVideo(item) {
 				this.show = true;
 				Object.assign(this.curPlayVideo, item);
 			},
 			videoClose() {
-				//				new EZuikit.EZUIPlayer('myPlayer').stop();
 				this.curPlayVideo.VIDEOURL = "";
 				this.player.stop();
 				this.$refs.myPlayer.stop();
@@ -205,6 +223,15 @@
 	
 	p {
 		margin-bottom: 0;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	
+	.video-cover {
+		width: 100%;
+		border-radius: 7px;
+		overflow: hidden;
 	}
 	
 	.video-cover {

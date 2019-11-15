@@ -39,37 +39,7 @@
 			<li><img src="" alt=""><span>孙猴子</span></li>
 			<li><img src="" alt=""><span>孙猴子</span></li>
 		</ul>
-			<!-- </van-tab> -->
-			<!-- <van-tab title="车辆定位" @click="$router.push({path:'/about'})"> -->
-				<!-- <router-view></router-view> -->
-				<!-- <div class="l-dropdown">
-					<van-dropdown-menu>
-						  <van-dropdown-item v-model="value1" :options="option1" />
-						  <van-dropdown-item v-model="value2" :options="option2" />
-					</van-dropdown-menu>
-				</div>
-				<ul class="footer_k footer_car" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
-					<div @click="activeClassButton()"></div>
-					<li @click="$router.push({path:'/machinePositioning_carX'})"><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-				</ul>
-				<ul class="footer_k footer_carS" :class="{'activeClass': activeClassType}" v-show='activeClassType'>
-					<div @click="activeClassButton()"></div>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-					<li><img src="" alt=""><span>湘A02806</span></li>
-				</ul> -->
+			
 		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
 		<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 	</div>
@@ -99,17 +69,17 @@
 				searchVal: '',
 				isSearchShow: false,
 				activeClassType:false,
-				value1: 0,
+				value1: '',
 				value2: 0,
 				option1: [
 					{ text: '全部标段', value: 0 },
-					{ text: '1标', value: 1 },
-					{ text: '2标', value: 2 },
-					{ text: '3标', value: 3 },
-					{ text: '4标', value: 4 },
-					{ text: '5标-1', value: 5},
-					{ text: '5标-2', value: 6 },
-					{ text: '6标', value: 7},
+					{ text: 'CYCZQ-1标', value: 1},
+					{ text: 'CYCZQ-2标', value: 2},
+					{ text: 'CYCZQ-3标', value: 3},
+					{ text: 'CYCZQ-4标', value: 4},
+					{ text: 'CYCZQ-5标1', value: 5},
+					{ text: 'CYCZQ-5标2', value: 6},
+					{ text: 'CYCZQ-6标', value: 7},
 				],
 				option2: [
 					{ text: '全部工点', value: 0 },
@@ -120,13 +90,13 @@
 			vantHeader
 		},
 		created() {
-			
+			this.value1=Number(this.$route.query.ValueId);
+			this.change1(this.value1);
+			this.getUserWorkPointList()
 		},
 		mounted() {
-			
 			this.init()
 			
-			this.getUserWorkPointList()
 		},
 		methods: {
 			init() {
@@ -134,7 +104,6 @@
 				 var map = new qq.maps.Map(document.getElementById("container"), {
 					center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
 					zoom:8,
-					
 				});
 			},
 			activeClassButton(){
@@ -159,11 +128,11 @@
 			},
 			getUserWorkPointList(){
 				let that = this;
-				// this.$route.query.id=this.value1;
-				// console.log(this.value1,this.$route.query.value);
-				
+				if(this.Section == "全部标段"){
+					this.Section == '';
+				}
 				// 工点
-				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
+				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section='+this.Section).then(res => {
 					if(res.data.result) {
 						console.log("1.1.2.获取全部工点名称",res)
 						for(let k in res.data.data) {

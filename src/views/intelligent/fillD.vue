@@ -1,11 +1,6 @@
 <template>
 	<div class="study">
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			  <!-- @click="$router.push({path:'/staffNew'})" -->
-			<div slot='right_slot'>
-				<p class="header-right"><van-icon name="search" color='#fff'/></p>
-			</div>
-		</vant-header>
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2"></vant-header>
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
 				<van-dropdown-menu class='van-dropdown'>

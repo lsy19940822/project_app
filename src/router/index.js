@@ -10,6 +10,7 @@ const router = new Router({
 			component: resolve => require(["../components/header.vue"], resolve),
 			redirect: '/index', //默认选中--首页
 		},
+		
 		{
 			path: '/login', //登录
 			name: 'login',
@@ -144,6 +145,11 @@ const router = new Router({
 			path: '/information',
 			name: 'information',
 			component: resolve => require(['../views/Intelligence/information.vue'], resolve)
+		},
+		{
+			path: '/voice',
+			name: 'voice',
+			component: resolve => require(['../views/Intelligence/voice.vue'], resolve)
 		},
 		{ //人机定位
 			path: '/machinePositioning',
