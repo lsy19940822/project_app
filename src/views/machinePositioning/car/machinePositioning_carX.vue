@@ -71,7 +71,7 @@
 		created() {
 			var infor = sessionStorage.getItem("curCarInfor");
 			if(!infor) {
-				Toast.fail('为获取到车辆信息，请重新获取');
+				Toast.fail('未获取到车辆信息，请重新获取');
 				return;
 			}
 			Object.assign(this.carInfor, JSON.parse(infor));

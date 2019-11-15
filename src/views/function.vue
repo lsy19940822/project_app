@@ -3,8 +3,8 @@
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
 		</vant-header>
 		<div class="container overflow">
-			<ul class="overflow">
-				<li  v-for="(item,index) in dataList" :key="index">
+			<ul class="overflow function">
+				<li  v-for="(item,index) in dataList" :key="index" class="index">
 					<van-collapse v-model="activeNames" v-if="item.router != 3 && item.router != 5 && item.router != 6">
 					  <van-collapse-item :name="index-1">
 						<div slot="title">
@@ -43,7 +43,7 @@
 					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 5" @click="$router.push({path:'/machinePositioning'})">
+					<van-cell is-link style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 5" @click="$router.push({path:'/machinePositioning?ValueId=0'})">
 					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
@@ -52,50 +52,7 @@
 						<span>{{item.title}}</span>
 					</van-cell>
 				</li>
-				<!-- <li  v-for="(item,index) in dataList" :key="index" v-if="item.router==3">monitoring_list?value=2
-					
-				</li> -->
-				<!-- <li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="1">
-						<div slot="title">
-							<p class="van-hairline--bottom exam-title">
-								<img src="../assets/images/index_icon/icon_lw@2x.png" alt="">智能劳务
-							</p>
-						
-						</div>
-						<van-cell>
-						   <ul class="list_ul overflow">
-							    <li class="overflow" v-for="(item,index) in data" :key="index" @click="$router.push({path:'/Intelligence/labor?ValueId='+index})">
-							        <img :src="item.imgsrcTwo" alt=""><span>{{item.text}}</span>
-							    </li>
-						   </ul>
-						</van-cell>
-					  </van-collapse-item>
-					</van-collapse>
-				</li>
-				<li>
-					<van-collapse v-model="activeNames">
-					  <van-collapse-item name="2">
-						<div slot="title">
-							<p class="van-hairline--bottom exam-title">
-								<img src="" alt="">安全质量
-							</p>
-						</div>
-						<van-cell>
-						   <ul class="list_ul overflow">
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-1标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-2标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-3标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-4标</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标1</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-5标2</span></li>
-							   <li class="overflow"><img src="" alt=""><span>CYCZQ-6标</span></li>
-						   </ul>
-						</van-cell>
-					  </van-collapse-item>
-					</van-collapse>
-				</li> -->
+				
 			</ul>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>

@@ -3,41 +3,21 @@
 		
 		<div class="l-dropdown">
 			<van-dropdown-menu>
-				  <van-dropdown-item v-model="value1" :options="option1" />
-				  <van-dropdown-item v-model="value2" :options="option2" />
+				<van-dropdown-item :id="value1" v-model="value1" :options="option1" @change="change1(value1)"/>
+				<van-dropdown-item :id="value2" :disabled="disabledSection" v-model="value2" :options="option2" @change="change2(value2)"/>
 			</van-dropdown-menu>
 		</div>
 		<div id="container"></div>
 		<ul class="footer_k" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
 			<div @click="activeClassButton()"></div>
-			<li @click="$router.push({path:'/machinePositioning_X'})"><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
+			<li v-show="showList" style="width: 100%;text-align: center;">暂无人员信息</li>
+			<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index<5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
+	
 		</ul>
-		<ul class="footer_k footer_kS" :class="{'activeClass': activeClassType}" v-show='activeClassType'>
+		<ul class="footer_k footer_kS" :class="{'activeClass': activeClassType}" v-show='activeClassType' style="overflow: auto;">
 			<div @click="activeClassButton()"></div>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
-			<li><img src="" alt=""><span>孙猴子</span></li>
+			<li v-show="showList" style="width: 100%;text-align: center;">暂无人员信息</li>
+			<li @click="showUserDetails(item)"v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index>=5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
 		</ul>
 			
 		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
@@ -46,9 +26,9 @@
 </template>
 
 <script>
-	import vantHeader from '@/components/header.vue'
+	import vantHeader from '@/components/header.vue';
 	import Vue from 'vue';
-	import * as ajax from '@/utils/api'
+	import * as ajax from '@/utils/api';
 	import {
 		Row,
 		Col,
@@ -57,9 +37,10 @@
 		Tabs,
 		Icon,
 		Search,
+		Toast,
 		DropdownMenu, DropdownItem,
 	} from 'vant';
-	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem);
+	Vue.use(Row).use(Toast).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem);
 	export default {
 		data() {
 			return {
@@ -67,10 +48,12 @@
 				isLoading: true,
 				active: 0,
 				searchVal: '',
+				map: null,
 				isSearchShow: false,
 				activeClassType:false,
-				value1: '',
+				value1: 0,
 				value2: 0,
+				ajax: ajax,
 				option1: [
 					{ text: '全部标段', value: 0 },
 					{ text: 'CYCZQ-1标', value: 1},
@@ -84,6 +67,14 @@
 				option2: [
 					{ text: '全部工点', value: 0 },
 				],
+				Section:"",
+				disabledSection:"",
+				worksite:'',
+				Saffdata:[],
+				showList:true,
+				longitude:0,//经度
+				latitude:0,//纬度
+				city:''
 			}
 		},
 		components: {
@@ -91,17 +82,22 @@
 		},
 		created() {
 			this.value1=Number(this.$route.query.ValueId);
-			this.change1(this.value1);
-			this.getUserWorkPointList()
+			if(this.value1 == 0){
+				this.Section == '';
+			}else{
+				this.change1(this.value1);
+			}
+			this.getUserWorkPointList();
+			
 		},
 		mounted() {
 			this.init()
-			
+			this.getUserMessageData();
 		},
 		methods: {
 			init() {
 				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
-				 var map = new qq.maps.Map(document.getElementById("container"), {
+				this.map = new qq.maps.Map(document.getElementById("container"), {
 					center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
 					zoom:8,
 				});
@@ -119,29 +115,87 @@
 			
 			},
 			change1(val){
-				this.Section = this.option1[val].text
-				console.log("当前标段：",this.option1[val].text)
+				
+				let that=this;
+				if(val != 0){
+					that.Section = that.option1[val].text
+				}else{
+					that.Section = '';
+				}
+				that.option2.splice(1);
+				that.getUserWorkPointList();
+				that.getUserMessageData();
 			},
 			change2(val){
-				this.Worksite = this.option2[val].text
-				console.log("当前工点：",this.option2[val].text)
+				let that=this;
+				if(val != 0){
+					that.Worksite = that.option1[val].text
+				}else{
+					that.Worksite = '';
+				}
+				that.Worksite = that.option2[val].text.replace("#", "%23")
+				that.getUserMessageData();
+				
 			},
 			getUserWorkPointList(){
-				let that = this;
-				if(this.Section == "全部标段"){
-					this.Section == '';
-				}
-				// 工点
 				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section='+this.Section).then(res => {
-					if(res.data.result) {
-						console.log("1.1.2.获取全部工点名称",res)
+					if(res.data.result == false){
+						this.disabledSection=true;
+						this.showList=true;
+						return;
+					}
+					if(res.data.result == true){
 						for(let k in res.data.data) {
-						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
-						   // NameArr.push(res.data.data[k])
-						}	
-						console.log("工点：",this.option2)
+							if(res.data.data[k].WORKAREA != null){
+								this.option2.push({
+									text:res.data.data[k].WORKAREA,
+									value:Number(k)
+								})
+							}
+						}
+						this.disabledSection=false;
+						this.showList=false;
+						return;
 					}
 				})
+			},
+			getUserMessageData(){
+				let that = this;
+				ajax.get('/API/WebAPIDataAudit/getUserMessage?Section='+this.Section+'&worksite='+this.worksite).then(res => {
+					
+					
+					if(res.status == 200 && res.data.data && res.data.data.length > 0) {
+						
+						that.Saffdata=res.data.data;
+						for(let k in res.data.data) {
+							if(res.data.data[k].PHOTOURL != null) {
+								res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
+							}
+							
+							var anchor = new qq.maps.Point(6, 6),
+								size = new qq.maps.Size(40, 19),
+								origin = new qq.maps.Point(0, 0),
+								// center:new qq.maps.LatLng(this.userInfor.LATITUDE,this.userInfor.LONGITUDE),
+								icon = new qq.maps.MarkerImage(require('../../assets/images/exam/car.jpg'), size, origin, anchor, size);
+							var marker = new qq.maps.Marker({
+								icon: icon,
+								map: that.map,
+								rotation: Math.random() * 360,
+								position: new qq.maps.LatLng(res.data.data[k].LATITUDE, res.data.data[k].LONGITUDE)
+							});
+							console.log("marker::===",marker)
+						}
+					
+					}
+				})
+			},
+			showUserDetails(infor) {
+				if(!infor.LATITUDE || !infor.LONGITUDE) {
+					Toast.fail('暂无人员位置信息');
+					return;
+				}
+				sessionStorage.setItem("userInfor", JSON.stringify(infor));
+				this.$router.push("/machinePositioning_X");
 			}
 		}
 	}

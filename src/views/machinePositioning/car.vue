@@ -107,15 +107,11 @@
 				console.log("当前标段：", this.option1[val].text)
 			},
 			change2(val) {
-				this.Worksite = this.option2[val].text
+				this.Worksite = this.option2[val].text.replace("#", "%23")
 				console.log("当前工点：", this.option2[val].text)
 			},
 			getAllGPS() {
 				let that = this;
-				// this.$route.query.id=this.value1;
-				// console.log(this.value1,this.$route.query.value);
-
-				// 工点
 				ajax.get('/API/WebAPIDataAudit/getCarInfo?section='+this.Section+'&worksite='+this.Worksite).then(res => {
 					if(res.status == 200 && res.data.data && res.data.data.length > 0) {
 						var data = res.data.data;

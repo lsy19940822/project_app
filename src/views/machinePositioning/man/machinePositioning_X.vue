@@ -10,7 +10,7 @@
 			<ul class="footer_k" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
 				<div @click="activeClassButton()" class="shu"></div>
 				<div class="overflow vanDialog">
-					<li @click="$router.push({path:'/information?IDCard=111111111111111111'})"><img src="../../../assets/images/exam/yuangong.png" alt=""><span>员工信息</span></li>
+					<li @click="$router.push({path:'/information?IDCard='+userInfor.CERTNUMBR})"><img src="../../../assets/images/exam/yuangong.png" alt=""><span>员工信息</span></li>
 					<li>
 						<a class="overflow" href="tel:" style="width: 48%;float:right;display: block;color: #666666;"></a>
 						<img src="../../../assets/images/exam/car_2.png" alt=""><span>拨打电话</span>
@@ -41,10 +41,9 @@
 				</div>
 				
 				<div class="position">
-					<img src="" alt="">
-					<span>孙悟空 <van-icon name="manager" color='#00A0E9' style='vertical-align: middle;
-    font-size: 14px;'/></span>
-					<span>项目经理/常务副经理</span>
+					<img :src="userInfor.PHOTOURL" alt="">
+					<span>{{userInfor.EXAMNAME}} <van-icon name="manager" color='#00A0E9' style='vertical-align: middle;font-size: 14px;'/></span>
+					<span>{{userInfor.WORKTYPE}}</span>
 				</div>
 			</ul>
 			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
@@ -106,7 +105,10 @@
 					"请立即离开","请回电"],//1 2 3 7 8 9 10 11 12 13 14 15 16
 				showPicker: false,
 				quesType:'',
-				value:""
+				value:"",
+				userInfor: {},
+				LATITUDE:'',
+				LONGITUDE:''
 			}
 		},
 		components: {
@@ -114,6 +116,15 @@
 		},
 		mounted() {
 			this.init()
+		},
+		created() {
+			var infor = sessionStorage.getItem("userInfor");
+			if(!infor) {
+				Toast.fail('未获取到人员信息，请重新获取');
+				return;
+			}
+			Object.assign(this.userInfor, JSON.parse(infor));
+			// console.log("=====",JSON.parse(infor))
 		},
 		methods: {
 			confirmButton(){
@@ -130,10 +141,20 @@
 			},
 			init() {
 				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
-				 var map = new qq.maps.Map(document.getElementById("containerS"), {
-					center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
+				 this.map = new qq.maps.Map(document.getElementById("containerS"), {
+					// center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
+					center:new qq.maps.LatLng(this.userInfor.LATITUDE,this.userInfor.LONGITUDE),
 					zoom:8,
-					
+				});
+				var anchor = new qq.maps.Point(6, 6),
+					size = new qq.maps.Size(40, 19),
+					origin = new qq.maps.Point(0, 0),
+					icon = new qq.maps.MarkerImage(require('../../../assets/images/exam/eimg.png'), size, origin, anchor, size);
+				var marker = new qq.maps.Marker({
+					icon: icon,
+					map: this.map,
+					rotation: Math.random() * 360,
+					position: new qq.maps.LatLng(this.userInfor.LATITUDE, this.userInfor.LONGITUDE)
 				});
 			},
 			activeClassButton(){

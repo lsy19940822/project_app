@@ -139,10 +139,10 @@
 				// this.option2.splice(1);
 				console.log("当前工点：",this.option2[val].text)
 			    this.getWorkUserNumberS()
-				this.StaffRetrieveList();
+				// this.StaffRetrieveList();
 				this.capacityEachart();
 				this.capacityEachartS();
-				// this.getWorkUserNumberS()
+				this.getWorkUserNumberS()
 			},
 			// 工种统计
 			capacityEachart(){
@@ -171,13 +171,13 @@
 					    dataShadow.push(yMax);
 					}
 					
-					option = {
+					let option = {
 					    title: {
 					        text: '特性示例：渐变色 阴影 点击缩放',
 					        subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
 					    },
 					    xAxis: {
-					        data: dataAxis,
+					        data: eachatData_xAxis,
 					        axisLabel: {
 					            inside: true,
 					            textStyle: {
@@ -225,7 +225,7 @@
 					            type: 'bar',
 					            itemStyle: {
 					                normal: {
-					                    color: new echarts.graphic.LinearGradient(
+					                    color: this.$echarts.graphic.LinearGradient(
 					                        0, 0, 0, 1,
 					                        [
 					                            {offset: 0, color: '#83bff6'},
@@ -235,7 +235,7 @@
 					                    )
 					                },
 					                emphasis: {
-					                    color: new echarts.graphic.LinearGradient(
+					                    color: this.$echarts.graphic.LinearGradient(
 					                        0, 0, 0, 1,
 					                        [
 					                            {offset: 0, color: '#2378f7'},
@@ -249,19 +249,18 @@
 					        }
 					    ]
 					};
-					myChart.setOption(option);
-					// Enable data zoom when user click bar.
-					var zoomSize = 6;
-					myChart.on('click', function (params) {
-					    console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
-					    myChart.dispatchAction({
-					        type: 'dataZoom',
-					        startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
-					        endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
-					    });
-					});
-					//建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
-					// window.addEventListener('resize',function() {myChart.resize()});
+					// myChart.setOption(option);
+					// // Enable data zoom when user click bar.
+					// var zoomSize = 6;
+					// myChart.on('click', function (params) {
+					//     console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+					//     myChart.dispatchAction({
+					//         type: 'dataZoom',
+					//         startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+					//         endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+					//     });
+					// });
+					
 					// let option = {
 					// 	color: ['#f44'],
 					// 	tooltip : {
@@ -299,9 +298,9 @@
 					// 	  }
 					// 	]
 					// };
-					// myChart.setOption(option);
-					// //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
-					// window.addEventListener('resize',function() {myChart.resize()});
+					myChart.setOption(option);
+					//建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
+					window.addEventListener('resize',function() {myChart.resize()});
 			  	}
 			  })
 			},
