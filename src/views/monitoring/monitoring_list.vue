@@ -1,9 +1,6 @@
 <template>
 	<div class="study">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			<!-- <div slot='right_slot'  @click="$router.push({path:'/staffNew'})">
-				<p class="header-right"><img src="../assets/images/index_icon/icon_l.png" alt=""></p>
-			</div> -->
 		</vant-header>
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
@@ -73,26 +70,20 @@
 				isLoading: true,
 				Section: '',
 				Worksite: '',
-				curPlayVideo: {},
 				disabledSection:false,
 				GetVideoDatashow:true,
+				curPlayVideo: {}
+
 			}
 		},
 		created() {
 			this.value1 = Number(this.$route.query.value || 0);
 			this.change1(this.value1)
-			// if(this.value1!=0){
-				
-			// }
-			// this.change1(0)
 			this.StaffRetrieveList()
 			this.getUserWorkPointList();
 		},
-		
-		
-
 		mounted() {
-			
+			this.getUserWorkPointList();
 			this.player = new EZUIPlayer(this.$refs.myPlayer);
 		},
 		methods: {
@@ -104,15 +95,11 @@
 				this.option2.splice(1);
 			},
 			change2(val) {
-				// this.Worksite = this.option2[val].text
 				this.Worksite = this.option2[val].text.replace("#", "%23")
 				console.log("当前工点：", this.option2[val].text)
-				// this.StaffRetrieveList();
-				// this.getUserWorkPointList();
 			},
 			getUserWorkPointList() {
 				let that = this;
-				// that.Section="CYCZQ-1标"
 				//视频
 				ajax.get('/API/WebAPIDataAudit/GetVideo?Section=' + this.Section+ '&Worksite=' + this.Worksite).then(res => {
 					if(res.data.result == false){
@@ -124,17 +111,12 @@
 						that.GetVideoData = res.data.data;
 						return;
 					}
-					// if(res.data.result) {
-					// 	console.log('视频GetVideo:', res.data.data)
-					// 	that.GetVideoData = res.data.data;
-					// }
 				})
 				
 			},
 			// 工点
 			StaffRetrieveList() {
 				let that = this;
-				// that.Section="CYCZQ-1标"
 			    ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section='+this.Section).then(res => {	
 					if(res.data.result == false){
 						that.disabledSection=true;
@@ -159,7 +141,6 @@
 				Object.assign(this.curPlayVideo, item);
 			},
 			videoClose() {
-				//				new EZuikit.EZUIPlayer('myPlayer').stop();
 				this.curPlayVideo.VIDEOURL = "";
 				this.player.stop();
 				this.$refs.myPlayer.stop();
@@ -249,6 +230,13 @@
 	
 	.video-cover {
 		width: 100%;
+		border-radius: 7px;
+		overflow: hidden;
+	}
+	
+	.video-cover {
+		width: 100%;
+		height: 100px;
 		border-radius: 7px;
 		overflow: hidden;
 	}
