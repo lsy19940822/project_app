@@ -141,21 +141,56 @@
 			},
 			init() {
 				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
-				 this.map = new qq.maps.Map(document.getElementById("containerS"), {
-					// center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
-					center:new qq.maps.LatLng(this.userInfor.LATITUDE,this.userInfor.LONGITUDE),
-					zoom:8,
-				});
-				var anchor = new qq.maps.Point(6, 6),
-					size = new qq.maps.Size(40, 19),
-					origin = new qq.maps.Point(0, 0),
-					icon = new qq.maps.MarkerImage(require('../../../assets/images/exam/eimg.png'), size, origin, anchor, size);
-				var marker = new qq.maps.Marker({
-					icon: icon,
-					map: this.map,
-					rotation: Math.random() * 360,
-					position: new qq.maps.LatLng(this.userInfor.LATITUDE, this.userInfor.LONGITUDE)
-				});
+//				 this.map = new qq.maps.Map(document.getElementById("containerS"), {
+//					// center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
+//					center:new qq.maps.LatLng(this.userInfor.LATITUDE,this.userInfor.LONGITUDE),
+//					zoom:8,
+//				});
+//				var anchor = new qq.maps.Point(6, 6),
+//					size = new qq.maps.Size(40, 19),
+//					origin = new qq.maps.Point(0, 0),
+//					icon = new qq.maps.MarkerImage(require('../../../assets/images/exam/eimg.png'), size, origin, anchor, size);
+//				var marker = new qq.maps.Marker({
+//					icon: icon,
+//					map: this.map,
+//					rotation: Math.random() * 360,
+//					position: new qq.maps.LatLng(this.userInfor.LATITUDE, this.userInfor.LONGITUDE)
+//				});
+				
+				this.map = new BMap.Map("containerS");
+				var point = new BMap.Point(116.404, 39.915);
+				this.map.centerAndZoom(point, 15);
+				this.map.addControl(new BMap.MapTypeControl({
+					mapTypes: [
+						BMAP_NORMAL_MAP,
+						BMAP_HYBRID_MAP
+					]
+				}));
+				this.map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+				var points = [new BMap.Point(this.userInfor.LONGITUDE, this.userInfor.LATITUDE)];
+				// 坐标转化
+				var that = this;
+				var convertor = new BMap.Convertor();
+				convertor.translate(points, 1, 5, function(data) {
+					if(data.status === 0) {
+						for(var j = 0; j < data.points.length; j++) {
+							console.log(data.points)
+							var icon = new BMap.Icon(require('../../../assets/images/exam/timg.jpg'), new BMap.Size(24, 25), {
+								anchor: new BMap.Size(24, 25),
+								offset: new BMap.Size(24, 25),
+								imageSize: new BMap.Size(24, 25),
+							});
+							var mkr = new BMap.Marker(data.points[j], {
+								icon: icon,
+								rotation: 0,
+								title: ''
+							});
+							that.map.addOverlay(mkr);
+							//									that.map.addOverlay(new BMap.Marker(data.points[j]));
+							that.map.setCenter(data.points[j]);
+						}
+					}
+				})
 			},
 			activeClassButton(){
 				this.activeClassType=!this.activeClassType

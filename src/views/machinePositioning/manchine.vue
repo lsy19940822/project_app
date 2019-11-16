@@ -1,10 +1,10 @@
 <template>
 	<div class="list-container">
-		
+
 		<div class="l-dropdown">
 			<van-dropdown-menu>
-				<van-dropdown-item :id="value1" v-model="value1" :options="option1" @change="change1(value1)"/>
-				<van-dropdown-item :id="value2" :disabled="disabledSection" v-model="value2" :options="option2" @change="change2(value2)"/>
+				<van-dropdown-item :id="value1" v-model="value1" :options="option1" @change="change1(value1)" />
+				<van-dropdown-item :id="value2" :disabled="disabledSection" v-model="value2" :options="option2" @change="change2(value2)" />
 			</van-dropdown-menu>
 		</div>
 		<div id="container"></div>
@@ -12,14 +12,14 @@
 			<div @click="activeClassButton()"></div>
 			<li v-show="showList" style="width: 100%;text-align: center;">暂无人员信息</li>
 			<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index<5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
-	
+
 		</ul>
 		<ul class="footer_k footer_kS" :class="{'activeClass': activeClassType}" v-show='activeClassType' style="overflow: auto;">
 			<div @click="activeClassButton()"></div>
 			<li v-show="showList" style="width: 100%;text-align: center;">暂无人员信息</li>
-			<li @click="showUserDetails(item)"v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index>=5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
+			<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index>=5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
 		</ul>
-			
+
 		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
 		<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 	</div>
@@ -38,7 +38,8 @@
 		Icon,
 		Search,
 		Toast,
-		DropdownMenu, DropdownItem,
+		DropdownMenu,
+		DropdownItem,
 	} from 'vant';
 	Vue.use(Row).use(Toast).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem);
 	export default {
@@ -50,45 +51,69 @@
 				searchVal: '',
 				map: null,
 				isSearchShow: false,
-				activeClassType:false,
+				activeClassType: false,
 				value1: 0,
 				value2: 0,
 				ajax: ajax,
-				option1: [
-					{ text: '全部标段', value: 0 },
-					{ text: 'CYCZQ-1标', value: 1},
-					{ text: 'CYCZQ-2标', value: 2},
-					{ text: 'CYCZQ-3标', value: 3},
-					{ text: 'CYCZQ-4标', value: 4},
-					{ text: 'CYCZQ-5标1', value: 5},
-					{ text: 'CYCZQ-5标2', value: 6},
-					{ text: 'CYCZQ-6标', value: 7},
+				option1: [{
+						text: '全部标段',
+						value: 0
+					},
+					{
+						text: 'CYCZQ-1标',
+						value: 1
+					},
+					{
+						text: 'CYCZQ-2标',
+						value: 2
+					},
+					{
+						text: 'CYCZQ-3标',
+						value: 3
+					},
+					{
+						text: 'CYCZQ-4标',
+						value: 4
+					},
+					{
+						text: 'CYCZQ-5标1',
+						value: 5
+					},
+					{
+						text: 'CYCZQ-5标2',
+						value: 6
+					},
+					{
+						text: 'CYCZQ-6标',
+						value: 7
+					},
 				],
-				option2: [
-					{ text: '全部工点', value: 0 },
-				],
-				Section:"",
-				disabledSection:"",
-				worksite:'',
-				Saffdata:[],
-				showList:true,
-				longitude:0,//经度
-				latitude:0,//纬度
-				city:''
+				option2: [{
+					text: '全部工点',
+					value: 0
+				}, ],
+				Section: "",
+				disabledSection: "",
+				worksite: '',
+				Saffdata: [],
+				showList: true,
+				longitude: 0, //经度
+				latitude: 0, //纬度
+				city: ''
 			}
 		},
 		components: {
 			vantHeader
 		},
 		created() {
-			this.value1=Number(this.$route.query.ValueId);
-			if(this.value1 == 0){
+			this.value1 = Number(this.$route.query.ValueId);
+			if(this.value1 == 0) {
 				this.Section == '';
-			}else{
+			} else {
 				this.change1(this.value1);
 			}
 			this.getUserWorkPointList();
-			
+
 		},
 		mounted() {
 			this.init()
@@ -97,13 +122,19 @@
 		methods: {
 			init() {
 				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
-				this.map = new qq.maps.Map(document.getElementById("container"), {
-					center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
-					zoom:8,
-				});
+				this.map = new BMap.Map("container");
+				var point = new BMap.Point(116.404, 39.915);
+				this.map.centerAndZoom(point, 15);
+				this.map.addControl(new BMap.MapTypeControl({
+					mapTypes: [
+						BMAP_NORMAL_MAP,
+						BMAP_HYBRID_MAP
+					]
+				}));
+				this.map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 			},
-			activeClassButton(){
-				this.activeClassType=!this.activeClassType
+			activeClassButton() {
+				this.activeClassType = !this.activeClassType
 			},
 			searchShowHide() {
 				this.isSearchShow = !this.isSearchShow
@@ -112,80 +143,108 @@
 				this.searchShowHide();
 			},
 			onSearch() {
-			
+
 			},
-			change1(val){
-				
-				let that=this;
-				if(val != 0){
+			change1(val) {
+
+				let that = this;
+				if(val != 0) {
 					that.Section = that.option1[val].text
-				}else{
+				} else {
 					that.Section = '';
 				}
 				that.option2.splice(1);
 				that.getUserWorkPointList();
 				that.getUserMessageData();
 			},
-			change2(val){
-				let that=this;
-				if(val != 0){
+			change2(val) {
+				let that = this;
+				if(val != 0) {
 					that.Worksite = that.option1[val].text
-				}else{
+				} else {
 					that.Worksite = '';
 				}
 				that.Worksite = that.option2[val].text.replace("#", "%23")
 				that.getUserMessageData();
-				
+
 			},
-			getUserWorkPointList(){
-				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section='+this.Section).then(res => {
-					if(res.data.result == false){
-						this.disabledSection=true;
-						this.showList=true;
+			getUserWorkPointList() {
+				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section=' + this.Section).then(res => {
+					if(res.data.result == false) {
+						this.disabledSection = true;
+						this.showList = true;
 						return;
 					}
-					if(res.data.result == true){
+					if(res.data.result == true) {
 						for(let k in res.data.data) {
-							if(res.data.data[k].WORKAREA != null){
+							if(res.data.data[k].WORKAREA != null) {
 								this.option2.push({
-									text:res.data.data[k].WORKAREA,
-									value:Number(k)
+									text: res.data.data[k].WORKAREA,
+									value: Number(k)
 								})
 							}
 						}
-						this.disabledSection=false;
-						this.showList=false;
+						this.disabledSection = false;
+						this.showList = false;
 						return;
 					}
 				})
 			},
-			getUserMessageData(){
+			getUserMessageData() {
 				let that = this;
-				ajax.get('/API/WebAPIDataAudit/getUserMessage?Section='+this.Section+'&worksite='+this.worksite).then(res => {
-					
-					
+				ajax.get('/API/WebAPIDataAudit/getUserMessage?Section=' + this.Section + '&worksite=' + this.worksite).then(res => {
+
 					if(res.status == 200 && res.data.data && res.data.data.length > 0) {
-						
-						that.Saffdata=res.data.data;
-						for(let k in res.data.data) {
+
+						that.Saffdata = res.data.data;
+						var points = [], pointsIndex = [];
+						for(var k = 0; k < res.data.data.length; k++) {
 							if(res.data.data[k].PHOTOURL != null) {
 								res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
 							}
-							
-							var anchor = new qq.maps.Point(6, 6),
-								size = new qq.maps.Size(40, 19),
-								origin = new qq.maps.Point(0, 0),
-								// center:new qq.maps.LatLng(this.userInfor.LATITUDE,this.userInfor.LONGITUDE),
-								icon = new qq.maps.MarkerImage(require('../../assets/images/exam/car.jpg'), size, origin, anchor, size);
-							var marker = new qq.maps.Marker({
-								icon: icon,
-								map: that.map,
-								rotation: Math.random() * 360,
-								position: new qq.maps.LatLng(res.data.data[k].LATITUDE, res.data.data[k].LONGITUDE)
-							});
-							console.log("marker::===",marker)
+
+							//							var anchor = new qq.maps.Point(6, 6),
+							//								size = new qq.maps.Size(30, 30),
+							//								origin = new qq.maps.Point(0, 0),
+							//								// center:new qq.maps.LatLng(this.userInfor.LATITUDE,this.userInfor.LONGITUDE),
+							//								icon = new qq.maps.MarkerImage(res.data.data[k].PHOTOURL, size, origin, anchor, size);
+							//							var marker = new qq.maps.Marker({
+							//								icon: icon,
+							//								map: that.map,
+							//								position: new qq.maps.LatLng(res.data.data[k].LATITUDE, res.data.data[k].LONGITUDE)
+							//							});
+							//							that.map.panTo(new qq.maps.LatLng(res.data.data[k].LATITUDE, res.data.data[k].LONGITUDE));
+							//							console.log("marker::===", marker)
+
+							//							for(var i = 0; i < data.length; i++) {
+							if(res.data.data[k].LONGITUDE && res.data.data[k].LATITUDE){
+								points.push(new BMap.Point(res.data.data[k].LONGITUDE, res.data.data[k].LATITUDE));
+								pointsIndex.push(k);
+							}
+							//							}
 						}
-					
+						// 坐标转化
+						var convertor = new BMap.Convertor();
+						convertor.translate(points, 1, 5, function(data) {
+							if(data.status === 0) {
+								for(var j = 0; j < data.points.length; j++) {
+									var icon = new BMap.Icon(res.data.data[pointsIndex[j]].PHOTOURL || require('../../assets/images/exam/timg.jpg'), new BMap.Size(24, 25), {
+										anchor: new BMap.Size(24, 25),
+										offset: new BMap.Size(24, 25),
+										imageSize: new BMap.Size(24, 25),
+									});
+									var mkr = new BMap.Marker(data.points[j], {
+										icon: icon,
+										rotation: 0,
+										title: 'awdawa'
+									});
+									that.map.addOverlay(mkr);
+									//									that.map.addOverlay(new BMap.Marker(data.points[j]));
+									that.map.setCenter(data.points[j]);
+								}
+							}
+						})
+
 					}
 				})
 			},
@@ -202,45 +261,50 @@
 </script>
 
 <style scoped>
-	#container{
-	    min-width:100%;
-	    min-height:100%;
+	#container {
+		min-width: 100%;
+		min-height: 100%;
 		top: 70px;
 	}
-	.l-dropdown{
-	    padding: 10px 0;
-	    background: #fff;
-	    border-bottom: 1px solid #ECECEC;
+	
+	.l-dropdown {
+		padding: 10px 0;
+		background: #fff;
+		border-bottom: 1px solid #ECECEC;
 		position: absolute;
 		width: 100%;
 		top: 0;
 		z-index: 1;
 	}
-	.position{
+	
+	.position {
 		border-top: 1px solid #eee;
 		padding: 16px;
 		line-height: 32px;
-		font-size:17px;
+		font-size: 17px;
 	}
-	.position span:last-child{
+	
+	.position span:last-child {
 		float: right;
 		color: #ddd;
 		font-size: 14px;
 	}
-	.position img{
-	    width:32px;
-		height:32px;
+	
+	.position img {
+		width: 32px;
+		height: 32px;
 		display: block;
 		float: left;
 		margin-right: 10px;
 		background: #9499AA;
 	}
-	.footer_k{
-		width:100%;
-		height:auto;
+	
+	.footer_k {
+		width: 100%;
+		height: auto;
 		overflow: hidden;
-		background:rgba(255,255,255,1);
-		box-shadow:0px -1px 2px 0px rgba(0,0,0,0.06);
+		background: rgba(255, 255, 255, 1);
+		box-shadow: 0px -1px 2px 0px rgba(0, 0, 0, 0.06);
 		position: fixed;
 		bottom: 0;
 		padding: 15px 10px;
@@ -251,67 +315,81 @@
 		-webkit-overflow-scrolling: touch;
 		z-index: 999;
 	}
+	
 	.activeClass {
-	    height: 90% !important;
+		height: 90% !important;
 	}
-	.footer_k div{
-		width:19px;
-		height:2px;
-		background:rgba(112,153,208,1);
-		border-radius:1px;
+	
+	.footer_k div {
+		width: 19px;
+		height: 2px;
+		background: rgba(112, 153, 208, 1);
+		border-radius: 1px;
 		margin: 0 auto 10px;
 	}
-	.footer_car li,.footer_carS li{
+	
+	.footer_car li,
+	.footer_carS li {
 		width: 25% !important;
 	}
-	.footer_car li img,.footer_carS li img{
+	
+	.footer_car li img,
+	.footer_carS li img {
 		width: 90% !important;
-		height:46px;
-		border-radius:2px;
-		border:1px solid rgba(238,238,238,1);
+		height: 46px;
+		border-radius: 2px;
+		border: 1px solid rgba(238, 238, 238, 1);
 	}
-	.footer_k li{
+	
+	.footer_k li {
 		width: 20%;
 		height: auto;
 		overflow: hidden;
 		float: left;
 	}
-	.footer_k li img{
-		width:45px;
-		height:45px;
-		
+	
+	.footer_k li img {
+		width: 45px;
+		height: 45px;
 		background: #DDDDDD;
 		display: block;
 		margin: 0 auto;
 	}
-	.footer_kS li span,.footer_carS li span{
+	
+	.footer_kS li span,
+	.footer_carS li span {
 		margin: 10px 0;
 	}
-	.footer_k li span{
+	
+	.footer_k li span {
 		margin-top: 10px;
-	    display: block;
+		display: block;
 		text-align: center;
 	}
 	/*  */
+	
 	/deep/ .van-dropdown-menu .van-dropdown-menu__item:first-child {
-	    border-right: 1px solid #ccc;
-	    margin-right: 10px;
+		border-right: 1px solid #ccc;
+		margin-right: 10px;
 	}
+	
 	/deep/.van-dropdown-menu .van-dropdown-menu__item {
-	    border: 1px solid #CCC;
-	    border-radius: 2px;
-	    background: #F9F9F9;
+		border: 1px solid #CCC;
+		border-radius: 2px;
+		background: #F9F9F9;
 	}
-	.van-dropdown-menu{
-	    width: 90%;
-	    margin: 0 auto;
+	
+	.van-dropdown-menu {
+		width: 90%;
+		margin: 0 auto;
 	}
+	
 	.innerLabel li.activeLabel {
 		background: #595F73;
 		border: 1px solid #595F73;
 		color: #fff;
 	}
-
+	
 	.innerLabel li {
 		padding: 0 12px;
 		width: auto;
@@ -327,10 +405,8 @@
 		transform: all .5s ease;
 		border-radius: 2px;
 		line-height: 24px;
-
-
 	}
-
+	
 	.inte_gent,
 	.innerLabel {
 		width: 100%;
@@ -344,7 +420,7 @@
 		align-items: middle;
 		overflow: auto;
 	}
-
+	
 	.header_inte {
 		width: auto;
 		height: auto;
@@ -353,122 +429,121 @@
 		background: #fff;
 		border-bottom: 1px solid rgba(238, 238, 238, 1);
 	}
-
 	/*  */
+	
 	.clearfix::after {
 		content: '';
 		display: block;
 		clear: both;
 	}
-
+	
 	* {
 		margin: 0;
 	}
-
+	
 	img {
 		display: block;
 		width: 100%;
 		height: auto
 	}
-
+	
 	/deep/ .van-tabs__line {
 		background-color: #9499AA;
 		width: 50% !important;
 	}
-
+	
 	.color666 {
 		color: #666;
 	}
-
+	
 	.omit {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-
+	
 	.omit2 {
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 		overflow: hidden;
 	}
-
+	
 	.marginT12 {
 		margin-top: 12px;
 	}
-
+	
 	.container {
 		padding-top: 46px;
 	}
-
+	
 	.van-nav-bar .van-icon {
 		font-size: 18px;
 		color: #fff;
 	}
-
 	/*.notice-box{width:20px;height:20px;}*/
 	/*ontent list*/
+	
 	.list-container {
 		width: 100%;
 		height: 100%;
 		background: #fff;
 	}
-
+	
 	.list-container {
 		/* margin-top: 10px; */
 	}
-
+	
 	.l-list {
 		padding: 0 14px;
 	}
-
+	
 	.l-list li {
 		border-bottom: 1px solid #eee;
 	}
-
+	
 	.title {
 		font-size: 18px;
 		color: #333;
 		line-height: 24px;
 	}
-
+	
 	.explain {
 		font-size: 12px;
 	}
-
+	
 	.intro {
 		font-size: 16px;
 		color: #666;
 	}
-
+	
 	.item {
 		padding: 14px 0;
 	}
-
-	
 	/*待复核*/
 	/*loading*/
+	
 	.spinner {
 		text-align: center;
 		font-size: 14px;
 		padding: 15px 0;
 		color: #969799;
 	}
-
 	/**/
+	
 	.small-headPhoto {
 		width: 20px;
 		height: 20px;
 		float: left;
 		margin-right: 5px;
 	}
-
 	/*检索关键字*/
+	
 	.retrieval-box {
 		border-bottom: 1px solid #DDD;
 		padding: 14px;
 	}
-
+	
 	.retrieval-list li {
 		padding: 6px 15px;
 		border: 1px solid #ccc;
@@ -477,37 +552,37 @@
 		float: left;
 		margin-right: 5px;
 	}
-
+	
 	.retrieval-list li.current {
 		color: #fff;
 		background: #595F73;
 	}
-
 	/*search*/
+	
 	.searh-clear {
 		padding: 14px;
 		color: #666;
 		font-size: 16px;
 	}
-
+	
 	.clear-btn {
 		text-align: right;
 	}
-
+	
 	.clear-btn .van-icon {
 		top: 2px;
 		right: 4px;
 	}
-
+	
 	.s-history {
 		padding: 0 14px;
 		background: #fff;
 	}
-
+	
 	.s-historyList li {
 		float: left;
 	}
-
+	
 	.h-tag {
 		margin-bottom: 10px;
 		color: #333;
@@ -517,7 +592,7 @@
 		font-size: 14px;
 		margin-right: 10px;
 	}
-
+	
 	.search-wrap {
 		position: fixed;
 		top: 0;

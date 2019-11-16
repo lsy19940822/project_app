@@ -56,15 +56,38 @@
 				ajax: ajax,
 				map: null,
 				carList: [],
-				option1: [
-					{text: '全部标段',value: ''},
-					{ text: 'CYCZQ-1标', value: 1},
-					{ text: 'CYCZQ-2标', value: 2},
-					{ text: 'CYCZQ-3标', value:3},
-					{ text: 'CYCZQ-4标', value: 4},
-					{ text: 'CYCZQ-5标1', value: 5},
-					{ text: 'CYCZQ-5标2', value: 6},
-					{ text: 'CYCZQ-6标', value: 7},
+				option1: [{
+						text: '全部标段',
+						value: ''
+					},
+					{
+						text: 'CYCZQ-1标',
+						value: 1
+					},
+					{
+						text: 'CYCZQ-2标',
+						value: 2
+					},
+					{
+						text: 'CYCZQ-3标',
+						value: 3
+					},
+					{
+						text: 'CYCZQ-4标',
+						value: 4
+					},
+					{
+						text: 'CYCZQ-5标1',
+						value: 5
+					},
+					{
+						text: 'CYCZQ-5标2',
+						value: 6
+					},
+					{
+						text: 'CYCZQ-6标',
+						value: 7
+					},
 				],
 				option2: [{
 					text: '全部工点',
@@ -85,10 +108,20 @@
 		methods: {
 			init() {
 				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
-				this.map = new qq.maps.Map(document.getElementById("containerS"), {
-					center: new qq.maps.LatLng(39.916527, 116.397128), // 地图的中心地理坐标。
-					zoom: 8
-				});
+				//				this.map = new qq.maps.Map(document.getElementById("containerS"), {
+				//					center: new qq.maps.LatLng(39.916527, 116.397128), // 地图的中心地理坐标。
+				//					zoom: 8
+				//				});
+				this.map = new BMap.Map("containerS");
+				var point = new BMap.Point(116.404, 39.915);
+				this.map.centerAndZoom(point, 15);
+				this.map.addControl(new BMap.MapTypeControl({
+					mapTypes: [
+						BMAP_NORMAL_MAP,
+						BMAP_HYBRID_MAP
+					]
+				}));
+				this.map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 			},
 			activeClassButton() {
 				this.activeClassType = !this.activeClassType
@@ -112,22 +145,38 @@
 			},
 			getAllGPS() {
 				let that = this;
-				ajax.get('/API/WebAPIDataAudit/getCarInfo?section='+this.Section+'&worksite='+this.Worksite).then(res => {
+				ajax.get('/API/WebAPIDataAudit/getCarInfo?section=' + this.Section + '&worksite=' + this.Worksite).then(res => {
 					if(res.status == 200 && res.data.data && res.data.data.length > 0) {
 						var data = res.data.data;
 						that.carList = data;
-						for(var i = 0;i < data.length;i++) {
-							var anchor = new qq.maps.Point(6, 6),
-								size = new qq.maps.Size(40, 19),
-								origin = new qq.maps.Point(0, 0),
-								icon = new qq.maps.MarkerImage(require('../../assets/images/exam/car.jpg'), size, origin, anchor, size);
-							var marker = new qq.maps.Marker({
-								icon: icon,
-								map: that.map,
-								rotation: Math.random() * 360,
-								position: new qq.maps.LatLng(data[i].LATITUDE, data[i].LONGITUDE)
-							});
+						var dr = [],
+							points = [];
+						for(var i = 0; i < data.length; i++) {
+							if(data[i].LONGITUDE && data[i].LATITUDE)
+								points.push(new BMap.Point(data[i].LONGITUDE, data[i].LATITUDE));
 						}
+						// 坐标转化
+						var convertor = new BMap.Convertor();
+						convertor.translate(points, 1, 5, function(data) {
+							if(data.status === 0) {
+								for(var j = 0; j < data.points.length; j++) {
+									console.log(data.points)
+									var icon = new BMap.Icon(require('../../assets/images/exam/car.jpg'), new BMap.Size(40, 19), {
+										anchor: new BMap.Size(40, 19),
+										offset: new BMap.Size(40, 19),
+										imageSize: new BMap.Size(40, 19),
+									});
+									var mkr = new BMap.Marker(data.points[j], {
+										icon: icon,
+										rotation: Math.random() * 360,
+										title: 'awdawa'
+									});
+									that.map.addOverlay(mkr);
+									//									that.map.addOverlay(new BMap.Marker(data.points[j]));
+									that.map.setCenter(data.points[j]);
+								}
+							}
+						})
 					}
 				})
 			},
