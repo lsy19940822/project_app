@@ -102,7 +102,7 @@
 				this.Unit = this.option2[val].text
 				console.log("当前单位：", val,this.Unit)
 				this.option3.splice(1);
-				// this.getCompanyList();
+				this.getCompanyList();
 				this.searchButton(); 
 				this.StaffRetrieveList();
 				this.GetWorkTypeList();
@@ -115,7 +115,7 @@
 				}
 				this.searchButton();
 				this.StaffRetrieveList();
-				this.GetWorkTypeList();
+				// this.GetWorkTypeList();
 			},
 			getCompanyList(){
 				// 1.1.1.根据标段查单位

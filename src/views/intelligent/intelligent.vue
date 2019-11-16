@@ -53,7 +53,6 @@
 							<span style="float: right;">
 								<span>{{percentage.percentage3}}<span v-if="percentage.percentage3!=0">万</span></span>
 								<span style="color:rgba(64,69,94,1);">/30989.99万</span>
-
 							</span>
 						</p>
 						<p>
@@ -84,7 +83,7 @@
 				</li>
 			</ul>
 			<ul>
-				<li class='Buttond'  @click="$router.push({path:'/intelligent_firstLevel?ValueId='+num})">
+				<li class='Buttond'  @click="$router.push({path:'/intelligent_firstLevel?ValueId='+id})">
 					<van-button color="#7099D0" size="normal" style='width: 100%;' >查看进度详情</van-button>
 				</li>
 			</ul>
@@ -129,7 +128,6 @@
 					{"title":"CYCZQ-6标"},
 				],
 				num:0,
-				transform:0,
 				percentage:{
 					percentage1:0,
 					percentage2:0,
@@ -142,7 +140,22 @@
 		},
 		created() {
 			this.GetMenuTreeList();
-			 this.num=Number(this.$route.query.ValueId);
+			this.num=Number(this.$route.query.ValueId);
+			if(this.num == 1){
+				this.percentage.percentage1=Number(32)
+				this.percentage.percentage2=Number(61)
+				this.percentage.percentage3=Number(32)
+				this.percentage.percentage4=Number(61)
+				this.percentage.percentage5=Number(32)
+				// this.percentage.percentage3=Number(12365)
+				// this.percentage.percentage4=Number(65)
+			}else{
+				this.percentage.percentage1=0
+				this.percentage.percentage2=0
+				this.percentage.percentage3=0
+				this.percentage.percentage4=0
+				this.percentage.percentage5=0
+			} 
 		},
 		mounted() {
            
@@ -155,7 +168,7 @@
 			},
 			studyActives(event, index) {
 				console.log("当前标段id：",event.target.id)
-				// this.id=event.target.id;
+				this.id=event.target.id;
 				this.num=index;
 				if(this.num<3){
 					this.$refs.style[0].style.marginLeft='0px'

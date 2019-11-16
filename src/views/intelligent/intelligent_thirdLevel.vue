@@ -5,8 +5,8 @@
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
 				<van-dropdown-menu class='van-dropdown'>
-					<van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)" />
-					<van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)" />
+					<van-dropdown-item :id="value1" v-model="value1" :options="option1" @change="change1(value1)"/>
+					<van-dropdown-item :id="value2" :disabled="disabledSection" v-model="value2" :options="option2" @change="change2(value2)"/>
 				</van-dropdown-menu>
 			</div>
 			<div class="flase" v-show="!show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无数据</div>
@@ -83,7 +83,8 @@
 				showList: false,
 				Treedata: [],
 				Treedata_r: [],
-				Treedata_y:[]
+				Treedata_y:[],
+				disabledSection:false
 			}
 		},
 		created() {
@@ -106,14 +107,19 @@
 				
 				localStorage.setItem("labor_value_id_S",this.option1[val].id)
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+this.option1[val].id+"&name=").then(res => {
-					if(res.data.result==true) {
-					    this.Treedata=res.data.data;
-						this.show=true
-						
-						console.log('智能进度GetMenuTre3:',this.Treedata)
-						
-					}else{
-						this.show=false
+					if(res.data.result == false){
+						this.disabledSection=true;
+						this.show = false;
+						return;
+					}
+					if(res.data.result == true){
+						 this.Treedata=res.data.data;	
+						for(let k in res.data.data) {
+						   this.option2.push({text:res.data.data[k].NAME,value:Number(k)+Number(1),id:res.data.data[k].ID})
+						}
+						this.disabledSection=false;
+						this.show = true;	
+						return;
 					}
 					
 				})
@@ -131,11 +137,19 @@
 						   this.option1.push({text:res.data.data[k].NAME,value:Number(k),id:res.data.data[k].ID})
 						}	
 						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+this.$route.query.id+"&name=").then(res => {
-							if(res.data.result) {
-							    this.Treedata_y=res.data.data;
+							if(res.data.result == false){
+								this.disabledSection=true;
+								this.show = false;
+								return;
 							}
-							for(let k in res.data.data) {
-							   this.option2.push({text:res.data.data[k].NAME,value:Number(k)+Number(1),id:res.data.data[k].ID})
+							if(res.data.result == true){
+								 this.Treedata_y=res.data.data;	
+								for(let k in res.data.data) {
+								   this.option2.push({text:res.data.data[k].NAME,value:Number(k)+Number(1),id:res.data.data[k].ID})
+								}
+								this.disabledSection=false;
+								this.show = true;	
+								return;
 							}	
 						})
 					}

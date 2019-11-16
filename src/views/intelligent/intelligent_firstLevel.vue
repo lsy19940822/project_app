@@ -6,8 +6,8 @@
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
 				<van-dropdown-menu class='van-dropdown'>
-					<van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)" />
-					<van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)" />
+					<van-dropdown-item :id="value1" v-model="value1" :options="option1" @change="change1(value1)"/>
+					<van-dropdown-item :id="value2" :disabled="disabledSection" v-model="value2" :options="option2" @change="change2(value2)"/>
 				</van-dropdown-menu>
 			</div>
 			<div class="flase" v-show="!show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无数据</div>
@@ -114,17 +114,19 @@
 				show: false,
 				showList: false,
 				Treedata: [],
-				Treedata_r: []
+				Treedata_r: [],
+				disabledSection:false
 			}
 		},
 		created() {
 			this.GetMenuTreeList();
 			this.value1 = Number(this.$route.query.ValueId)
-			if (this.value1 == 1) {
-				this.show = true;
-			} else {
-				this.show = false;
-			}
+			// if (this.value1 == 1) {
+			// 	this.show = true;
+			// } else {
+			// 	this.show = false;
+			// }
+			this.change1(this.value1) 
 			localStorage.setItem("intellgent_option1_value",this.$route.query.ValueId)
 			localStorage.setItem("labor_value_name", this.option1[this.value1].text)
 			
@@ -134,34 +136,40 @@
 		},
 		methods: {
 			change1(val) {
-				if (val == 1) {
-					this.show = true;
-				} else {
-					this.show = false;
-				}
+				// if (val == 1) {
+				// 	this.show = true;
+				// } else {
+				// 	this.show = false;
+				// }
+				this.option2.splice(1);
 				localStorage.setItem("labor_value_id", val);
 				localStorage.setItem("labor_value_name", this.option1[val].text)
+				this.GetMenuTreeList();
 			},
 			change2(val) {
-
 				console.log("当前工程：", this.option2[val].text)
 			},
 			GetMenuTreeList() {
 				//智能进度
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=' + "&name=" + localStorage.getItem("labor_value_name")).then(res => {
 					if (res.data.result) {
-						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1' + "&name=").then(res => {
-							if (res.data.result) {
+						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+res.data.data[0].ID+ "&name=").then(res => {
+							if(res.data.result == false){
+								this.disabledSection=true;
+								this.show = false;
+								return;
+							}
+							if(res.data.result == true){
 								this.Treedata = res.data.data;
-								console.log('智能进度GetMenuTre2:', this.Treedata)
-								for (let k in res.data.data) {
-									this.option2.push({
-										text: res.data.data[k].NAME,
-										value: Number(k) + Number(1)
-									})
-
+								for(let k in res.data.data) {
+										this.option2.push({
+											text:res.data.data[k].NAME,
+											value:Number(k)+ Number(1)
+										})
 								}
-
+								this.disabledSection=false;
+								this.show = true;	
+								return;
 							}
 						})
 					}

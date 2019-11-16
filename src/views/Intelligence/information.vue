@@ -5,16 +5,31 @@
 		</vant-header>
 		<div class="container">
 			<div class="infor_header overflow">
-				<img :src="StaffInfoData[0].PHOTOURL" alt="">
-				<h3>{{StaffInfoData[0].EXAMNAME}}<van-icon name="manager" /></h3>
+				
+				<div ><img :src="StaffInfoData[0].PHOTOURL" alt="" @click="imgShowButton()"></div>
+				<h3>{{StaffInfoData[0].EXAMNAME}}<van-icon name="manager" /></h3>  
 				<p>{{StaffInfoData[0].WORKTYPE}}</p>
-				<ul class="overflow footer_k">
-					<li @click="$router.push({path:'/information?IDCard='+$route.query.IDCard})"><img src="../../assets/images/user_icon/dingwei.png" alt=""><span>查看定位</span></li>
-					<li>
-						<a class="overflow" :href="'tel:'+StaffInfoData[0].TELEPHONE" style="width: 48%;float:right;display: block;color: #666666;"></a>
-						<img src="../../assets/images/user_icon/phone.png" alt=""><span>拨打电话</span>
+			<!-- 	<van-image-preview
+				  v-model="imgShow"
+				  :images="StaffInfoData[0].PHOTOURL"
+				  @change="onChange"
+				>
+				  <!-- <template v-slot:index>第{{ index }}页</template> -->
+				<!-- </van-image-preview> -->
+				<ul class="overflow">
+					<!-- -->
+					<li  class="overflow" style="float: left;width:48%"  @click="showUserDetails(StaffInfoData[0])">
+						
+						<van-button type="info" icon="location-o" color="#7099D0">查看定位</van-button>
+						<!-- <img src="../../assets/images/user_icon/dingwei.png" alt=""><span>查看定位</span> -->
 					</li>
-					<li @click="showPicker= true"><img src="../../assets/images/user_icon/yuyin.png" alt=""><span>发送语音</span></li>
+					<li  class="overflow" style="float: right;width:48%">
+						<a class="overflow" :href="'tel:'+StaffInfoData[0].TELEPHONE" style="width: 100%;float:right;display: block;color: #666666;">
+							<van-button type="primary" icon="phone-o" color="#7AB182">拨打电话</van-button>
+						</a>
+						
+					</li>
+					<!-- <li @click="showPicker= true"><img src="../../assets/images/user_icon/yuyin.png" alt=""><span>发送语音</span></li>
 					<li><img src="../../assets/images/user_icon/yuangongxinxi.png" alt=""><span>一键报警</span></li>
 					<van-popup v-model="showPicker" position="bottom">
 					  <van-picker
@@ -22,7 +37,7 @@
 					    :columns="columns"
 					    @cancel="showPicker = false"
 					    @confirm="onConfirm"/>
-					</van-popup>
+					</van-popup> -->
 					<!-- <van-dialog
 					  v-model="show"
 					  title="报警提示" 
@@ -120,12 +135,14 @@
 	import { Cell} from 'vant';
 	import { Button } from 'vant';
 	import { Dialog } from 'vant';
+	import { ImagePreview } from 'vant';
 	
+	Vue.use(ImagePreview);
 	// 全局注册
 	Vue.use(Dialog);
 	Vue.use(Button);
-	import {Icon, IndexBar, IndexAnchor,Popup,Picker } from 'vant';
-	Vue.use(IndexBar).use(IndexAnchor).use(Icon).use(Popup).use(Picker);
+	import {Icon, Toast,IndexBar, IndexAnchor,Popup,Picker } from 'vant';
+	Vue.use(IndexBar).use(IndexAnchor).use(Icon).use(Popup).use(Picker).use(Toast);;
 	Vue.use(Cell)
 	export default {
 		components: {
@@ -138,6 +155,12 @@
 				examRecord:[],
 				examRecordTime:[],
 				StaffInfoData:[],
+				imgShow: false,
+				index: 0,
+				images: [
+					'https://img.yzcdn.cn/1.jpg',
+					'https://img.yzcdn.cn/2.jpg'
+			    ],
 				IDCard:'',
 				show:false,
 				columns: ['防空报警', '请带好安全帽',
@@ -156,8 +179,26 @@
 		},
 		created() {
 			this.StaffInfoF()
+			
 		},
 		methods: {
+			imgShowButton(){
+				ImagePreview([
+				 this.StaffInfoData[0].PHOTOURL
+				 
+				]);
+			},
+			onChange(index) {
+			  this.index = index;
+			},
+			showUserDetails(infor) {
+				if(!infor.LATITUDE || !infor.LONGITUDE) {
+					Toast.fail('暂无人员位置信息');
+					return;
+				}
+				sessionStorage.setItem("userInfor", JSON.stringify(infor));
+				this.$router.push("/machinePositioning_X");
+			},
 			confirmButton(){
 				console.log("确认提交")
 			},
@@ -201,6 +242,7 @@
 </script>
 
 <style scoped>
+	
 	/deep/
 	.van-dialog__confirm, .van-dialog__confirm:active{
 		color:#333333;
@@ -245,15 +287,6 @@
 	    background: #DDDDDD;
 	    display: block;
 	    margin: 0 auto;
-	}
-	.footer_k li{
-	    width: 25%;
-	    height: auto;
-	    overflow: hidden;
-	    float: left;
-	    font-size: 14px;
-	    color: #666666;
-	    padding: 0 10px 15px;
 	}
 	.container_lists li{
 		padding: 10px 16px;
@@ -302,7 +335,7 @@
 	}
 	/deep/
 	.infor_header .van-button{
-		width:48%;
+		width:100%;
 	} 
 	.infor_header .van-button:last-child{
 		float: right;

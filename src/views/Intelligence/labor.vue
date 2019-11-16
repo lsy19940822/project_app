@@ -93,12 +93,7 @@
 		},
 		created() {
 			this.value1=Number(this.$route.query.ValueId)
-			this.Section='CYCZQ-1标'
-			if(this.value1 == 1){
-				this.eachatft = true;
-			}else{
-				this.eachatft = false;
-			}
+		this.change1(this.value1)
 			// if(this.value1 == 0||this.value1 == 2||this.value1 == 3||this.value1 == 4||this.value1 == 5||this.value1 == 6){
 			// 	this.eachatft = false;
 			// }else if(this.value1 == 1){
@@ -147,11 +142,18 @@
 			// 工种统计
 			capacityEachart(){
 			  let this_ = this;
-			  let myChart = this.$echarts.init(document.getElementById('chart_example'));
+			 if(this.Unit == "全部工点"){
+				 this.Unit='';
+			 }
 			  ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.Section+'&GD='+this.Unit).then(res => {
 			  	
 			  	if(res.data.result) {
-			  		
+					if(res.data.data==""){
+						this.eachatft = false;
+					}else{
+						this.eachatft = true;
+					}
+			  		let myChart = this.$echarts.init(document.getElementById('chart_example'));
 			  	    this.eachatDataX=res.data.data;
 					var eachatData_xAxis=[]
 					for(var i = 0;i<this.eachatDataX.length;i++){
@@ -161,143 +163,48 @@
 					for(var i = 0;i<this.eachatDataX.length;i++){
 					    eachatData_yAxis.push(this.eachatDataX[i].COUNT)
 					}
-					
-					var dataAxis = ['点', '击', '柱', '子', '或', '者', '两', '指', '在', '触', '屏', '上', '滑', '动', '能', '够', '自', '动', '缩', '放'];
-					var data = [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 133, 334, 198, 123, 125, 220];
-					var yMax = 500;
 					var dataShadow = [];
 					
-					for (var i = 0; i < data.length; i++) {
-					    dataShadow.push(yMax);
-					}
-					
 					let option = {
-					    title: {
-					        text: '特性示例：渐变色 阴影 点击缩放',
-					        subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
-					    },
 					    xAxis: {
 					        data: eachatData_xAxis,
-					        axisLabel: {
-					            inside: true,
-					            textStyle: {
-					                color: '#fff'
-					            }
-					        },
-					        axisTick: {
-					            show: false
-					        },
-					        axisLine: {
-					            show: false
-					        },
-					        z: 10
+							axisLabel: {
+							    interval:0,
+							    formatter:function(value){
+								   return value.split("").join("\n");
+							    }
+							},
+							
 					    },
+						// legend:{
+						// 	itemWidth:"25"
+						// },
+						grid: {
+							left: '10%',
+							bottom:'30%'
+						},
 					    yAxis: {
-					        axisLine: {
-					            show: false
-					        },
-					        axisTick: {
-					            show: false
-					        },
-					        axisLabel: {
-					            textStyle: {
-					                color: '#999'
-					            }
-					        }
+					        
 					    },
 					    dataZoom: [
 					        {
-					            type: 'inside'
+					            type: 'inside',
+					            throttle:'50',
+					            minValueSpan:4,
+					            start: 0,
+					            end: 15
 					        }
 					    ],
 					    series: [
-					        { // For shadow
-					            type: 'bar',
-					            itemStyle: {
-					                normal: {color: 'rgba(0,0,0,0.05)'}
-					            },
-					            barGap:'-100%',
-					            barCategoryGap:'40%',
-					            data: dataShadow,
-					            animation: false
-					        },
 					        {
-					            type: 'bar',
-					            itemStyle: {
-					                normal: {
-					                    color: this.$echarts.graphic.LinearGradient(
-					                        0, 0, 0, 1,
-					                        [
-					                            {offset: 0, color: '#83bff6'},
-					                            {offset: 0.5, color: '#188df0'},
-					                            {offset: 1, color: '#188df0'}
-					                        ]
-					                    )
-					                },
-					                emphasis: {
-					                    color: this.$echarts.graphic.LinearGradient(
-					                        0, 0, 0, 1,
-					                        [
-					                            {offset: 0, color: '#2378f7'},
-					                            {offset: 0.7, color: '#2378f7'},
-					                            {offset: 1, color: '#83bff6'}
-					                        ]
-					                    )
-					                }
-					            },
-					            data: data
-					        }
+					       		name:'人数',
+					       		type:'bar',
+					       		barWidth : 30,//柱图宽度
+					       		data:eachatData_yAxis
+					       	}
 					    ]
 					};
-					// myChart.setOption(option);
-					// // Enable data zoom when user click bar.
-					// var zoomSize = 6;
-					// myChart.on('click', function (params) {
-					//     console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
-					//     myChart.dispatchAction({
-					//         type: 'dataZoom',
-					//         startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
-					//         endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
-					//     });
-					// });
 					
-					// let option = {
-					// 	color: ['#f44'],
-					// 	tooltip : {
-					// 	  trigger: 'axis',
-					// 	  axisPointer : {
-					// 		type : 'shadow'
-					// 	  }
-					// 	},
-					// 	grid: {
-					// 		left: '0%',
-					// 		right: '0%',
-					// 		bottom: '10%',
-					// 		containLabel: true
-					// 	},
-					// 	xAxis : [
-					// 	  {
-					// 		type : 'category',
-					// 		data :eachatData_xAxis,
-					// 		axisTick: {
-					// 		  alignWithLabel: true
-					// 		}
-					// 	  }
-					// 	],
-					// 	yAxis : [
-					// 	  {
-					// 		type : 'value'
-					// 	  }
-					// 	],
-					// 	series : [
-					// 	  {
-					// 		name:'人数',
-					// 		type:'bar',
-					// 		barWidth: '60%',
-					// 		data:eachatData_yAxis
-					// 	  }
-					// 	]
-					// };
 					myChart.setOption(option);
 					//建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
 					window.addEventListener('resize',function() {myChart.resize()});
