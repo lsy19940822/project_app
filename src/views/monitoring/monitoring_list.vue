@@ -9,20 +9,29 @@
 					<van-dropdown-item v-model="value2" :disabled="disabledSection" :options="option2" @change="change2(value2)" />
 				</van-dropdown-menu>
 			</div>
-			 <div class="flase" v-show="!GetVideoDatashow" style="background: none; text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无视频源</div>	
+			<div class="flase" v-show="!GetVideoDatashow" style="background: none; text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无视频源</div>
 			<ul class="container_list overflow" v-show="GetVideoDatashow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
 					<div class="video-cover">
-						<img src="../../assets/images/exam/video_cover.png" alt="" width="100%" height="100%" @click="playVideo(item)">
+						<video ref="myPlayer" :id="'myPlayer' + (index + 1)" width="100%" height="100%" poster="../../assets/images/exam/video_cover2.png" controls="controls" autoplay="autoplay" x-webkit-airplay="true" x5-video-player-fullscreen="true" preload="auto" playsinline="true" webkit-playsinline x5-video-player-typ="h5">
+							<source :src="item.VIDEOURL" type="application/x-mpegURL" />
+						</video>
+						<!--<video ref="myPlayer1" id="myPlayer1" width="100%" height="auto" controls playsInline webkit-playsinline>
+							<source :src="curPlayVideo.VIDEOURL" type="application/x-mpegURL" />
+						</video>-->
+						<img src="../../assets/images/exam/video_cover2.png" alt="" width="100%" height="100%" @click="playVideo(item)">
 					</div>
 					<p>【{{item.SECTION}}】 {{item.VIDEONAME}}</p>
 				</li>
 
 			</ul>
 			<van-dialog v-model="show" :title="'【' + curPlayVideo.SECTION + '】' + curPlayVideo.VIDEONAME" @close="videoClose" :showCancelButton='false' confirmButtonText='关闭'>
-				<video ref="myPlayer" id="myPlayer" width="100%" height="auto" poster="../../assets/images/exam/video_cover.png" controls playsInline webkit-playsinline>
+				<!--<video ref="myPlayer" id="myPlayer" width="100%" height="auto" poster="../../assets/images/exam/video_cover2.png" controls="controls" autoplay="autoplay"
+				    x-webkit-airplay="true" x5-video-player-fullscreen="true"
+				    preload="auto" playsinline="true" webkit-playsinline
+				    x5-video-player-typ="h5">
 					<source :src="curPlayVideo.VIDEOURL" type="application/x-mpegURL" />
-				</video>
+				</video>-->
 			</van-dialog>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
@@ -54,14 +63,34 @@
 				value2: 0,
 				show: false,
 				GetVideoData: [],
-				option1: [
-					{ text: 'CYCZQ-1标', value: 0},
-					{ text: 'CYCZQ-2标', value: 1},
-					{ text: 'CYCZQ-3标', value: 2},
-					{ text: 'CYCZQ-4标', value: 3},
-					{ text: 'CYCZQ-5标1', value: 4},
-					{ text: 'CYCZQ-5标2', value: 5},
-					{ text: 'CYCZQ-6标', value: 6},
+				option1: [{
+						text: 'CYCZQ-1标',
+						value: 0
+					},
+					{
+						text: 'CYCZQ-2标',
+						value: 1
+					},
+					{
+						text: 'CYCZQ-3标',
+						value: 2
+					},
+					{
+						text: 'CYCZQ-4标',
+						value: 3
+					},
+					{
+						text: 'CYCZQ-5标1',
+						value: 4
+					},
+					{
+						text: 'CYCZQ-5标2',
+						value: 5
+					},
+					{
+						text: 'CYCZQ-6标',
+						value: 6
+					},
 				],
 				option2: [{
 					text: '全部工点',
@@ -70,10 +99,10 @@
 				isLoading: true,
 				Section: '',
 				Worksite: '',
-				disabledSection:false,
-				GetVideoDatashow:true,
-				curPlayVideo: {}
-
+				disabledSection: false,
+				GetVideoDatashow: true,
+				curPlayVideo: {},
+				player: ""
 			}
 		},
 		created() {
@@ -84,7 +113,11 @@
 		},
 		mounted() {
 			this.getUserWorkPointList();
-			this.player = new EZUIPlayer(this.$refs.myPlayer);
+			//			this.player = new EZUIPlayer(this.$refs.myPlayer);
+			//			this.player = new EZUIPlayer('myPlayer1');
+			//			setTimeout(function () {
+			//				this.player.play();
+			//			}.bind(this), 3000)
 		},
 		methods: {
 			change1(val) {
@@ -101,37 +134,50 @@
 			getUserWorkPointList() {
 				let that = this;
 				//视频
-				ajax.get('/API/WebAPIDataAudit/GetVideo?Section=' + this.Section+ '&Worksite=' + this.Worksite).then(res => {
-					if(res.data.result == false){
-						that.GetVideoDatashow=false;
+				ajax.get('/API/WebAPIDataAudit/GetVideo?Section=' + this.Section + '&Worksite=' + this.Worksite).then(res => {
+					if(res.data.result == false) {
+						that.GetVideoDatashow = false;
 						return;
 					}
-					if(res.data.result == true){
-						that.GetVideoDatashow=true;
+					if(res.data.result == true) {
+						that.GetVideoDatashow = true;
 						that.GetVideoData = res.data.data;
+
+						document.addEventListener("WeixinJSBridgeReady", function() {
+							for(var v = 1; v <= that.GetVideoData.length; v++) {
+								document.getElementById('myPlayer' + v).play();
+							}
+						}, false);
+						wx.getNetworkType({
+							success: function(res) {
+								for(var v2 = 1; v2 <= that.GetVideoData.length; v2++) {
+									document.getElementById('myPlayer' + v2).play();
+								}
+							}
+						});
 						return;
 					}
 				})
-				
+
 			},
 			// 工点
 			StaffRetrieveList() {
 				let that = this;
-			    ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section='+this.Section).then(res => {	
-					if(res.data.result == false){
-						that.disabledSection=true;
+				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section=' + this.Section).then(res => {
+					if(res.data.result == false) {
+						that.disabledSection = true;
 						return;
 					}
-					if(res.data.result == true){
+					if(res.data.result == true) {
 						for(let k in res.data.data) {
-							if(res.data.data[k].WORKAREA != null){
+							if(res.data.data[k].WORKAREA != null) {
 								that.option2.push({
-									text:res.data.data[k].WORKAREA,
-									value:Number(k)
+									text: res.data.data[k].WORKAREA,
+									value: Number(k)
 								})
 							}
 						}
-						that.disabledSection=false;
+						that.disabledSection = false;
 						return;
 					}
 				})
@@ -141,9 +187,9 @@
 				Object.assign(this.curPlayVideo, item);
 			},
 			videoClose() {
-				this.curPlayVideo.VIDEOURL = "";
-				this.player.stop();
-				this.$refs.myPlayer.stop();
+				//				this.curPlayVideo.VIDEOURL = "";
+				//				this.player.stop();
+				//				this.$refs.myPlayer.stop();
 			}
 		}
 	}
@@ -224,7 +270,7 @@
 	p {
 		margin-bottom: 0;
 		overflow: hidden;
-		text-overflow:ellipsis;
+		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 	
