@@ -236,8 +236,8 @@
 					return null;
 
 				var letters = "*abcdefghjklmnopqrstwxyz".split('');
-				var zh = "阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀".split('');
-
+				// "妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀
+				var zh = "阿八嚓哒额发高哈及咔垃马拏噢妑七呥扨它穵夕丫帀".split('');
 				var segs = [];
 				var curr;
 				letters.forEach(function(item, i) {
@@ -245,6 +245,7 @@
 						letter: item.toUpperCase(),
 						data: []
 					};
+					
 					arr.forEach(function(item2) {
 						if((!zh[i - 1] || zh[i - 1].localeCompare(item2.EXAMNAME) <= 0) && item2.EXAMNAME.localeCompare(zh[i]) == -1) {
 							curr.data.push(item2);
@@ -255,7 +256,9 @@
 						curr.data.sort(function(a, b) {
 							return a.EXAMNAME.localeCompare(b);
 						});
+						console.log("curr====",curr)
 					}
+					
 				});
 				this.NameArrS = segs;
 

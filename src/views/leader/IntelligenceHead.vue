@@ -8,7 +8,7 @@
 						right: 0px;
 						width: 60px;
 						height: 26px;
-						line-height: 26px;'>确认</van-button>
+						line-height: 26px;' @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})">确认</van-button>
 				</p>
 	        </div>
 	</vant-header>
@@ -18,14 +18,14 @@
 		<van-index-bar :sticky='true' :sticky-offset-top='46' :index-list="indexlist">
 			<div v-for="(item,index) in NameArrS">
 				<van-index-anchor :index="item.letter" />
-				<!-- <van-cell v-for="(items,index) in item.data" class='vanCell'>
+				<van-cell v-for="(items,index) in item.data" class='vanCell' :key="index">
 					 <van-radio-group v-model="radio" style='float: left;margin: 10px 10px 0 0 '>
-					   <van-radio :name="items"></van-radio>
+					   <van-radio :name="items" :id="items.userid" @click="radioButton(items)">{{items.username}}</van-radio>
 					 </van-radio-group>
-					<img :src="items.PHOTOURL" alt="" :CERTNUMBR="items.CERTNUMBR">
-					<span :username="items.username">{{items.username}}</span>
-					 <span :CERTNUMBR="items.CERTNUMBR">{{items.WORKTYPE}}</span>
-				</van-cell> -->
+					<!-- <img :src="items.PHOTOURL" alt="" :CERTNUMBR="items.CERTNUMBR"> -->
+					<!-- <span :username="items.username"></span> -->
+					<span ></span>
+				</van-cell>
 			</div>
 		</van-index-bar>
 	</div>
@@ -79,9 +79,11 @@
 				isLoading: true,
 				NameArrS: [],
 				BID:''
+				
 			}
 		},
 		created() {
+			
            
 		},
 		mounted() {
@@ -97,6 +99,10 @@
 			}
 		},
 		methods: {
+			radioButton(item){
+				console.log(item)
+				sessionStorage.setItem("principal", JSON.stringify(item));
+			},
 			drawLineMothes() {},
 			searchButton() {
 				
@@ -115,9 +121,8 @@
 									
 										console.log("3.查询系统用户列表 用于指定负责人及工人",res)
 										let NameArr = []
-										for (let k in res.data.data) {
-											console.log(res.data.data[k]);
-											NameArr.push(res.data.data[k])
+										for (let k in res.data.data.userList) {
+											NameArr.push(res.data.data.userList[k])
 										}
 										this.pySegSort(NameArr)
 									}
@@ -132,7 +137,8 @@
 					return null;
 
 				var letters = "*abcdefghjklmnopqrstwxyz".split('');
-				var zh = "阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀".split('');
+				// "妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀
+				var zh = "阿八嚓哒额发高哈及咔垃马拏噢妑七呥扨它穵夕丫帀".split('');
 
 				var segs = [];
 				var curr;
@@ -142,7 +148,6 @@
 						data: []
 					};
 					arr.forEach(function(item2) {
-						console.log(item2)
 						if ((!zh[i - 1] || zh[i - 1].localeCompare(item2.username) <= 0) && item2.username.localeCompare(zh[i]) == -1) {
 							curr.data.push(item2);
 						}
@@ -155,7 +160,6 @@
 					}
 				});
 				this.NameArrS = segs;
-                console.log("this.NameArrS：",this.NameArrS)
 				return this.NameArrS;
 
 

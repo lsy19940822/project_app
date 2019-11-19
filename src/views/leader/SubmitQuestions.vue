@@ -109,18 +109,19 @@
 			</ul>
 			<h5>现成负责人</h5>
 			<ul class="container_list">
-				<li class='more' style="padding: 10px 16px;">
+				<li class='more' style="padding: 10px 16px;" v-if="price">
 					<div style="border:1px dashed #E6EDF7;">
 						<van-cell style='color: #304F83;background:#F7FAFF;'>
-							<span style="margin-top: 2px; display: block;float: left;"><van-icon name="manager" color='#304F83'/></span>孙悟空（CYCZQ-5标-1负责人）
+							<input type="text" v-model="peleList" style="display: none;">
+							<span style="margin-top: 2px; display: block;float: left;"><van-icon name="manager" color='#304F83'/></span>{{principal.username}}（CYCZQ-5标-1负责人）
 						</van-cell>
 					</div>
 				</li>
 				<li class='Buttond'> 
-					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead?userId='+$route.query.userId})">点击选择人员</van-button>
+					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead?userId='+$route.query.userId})" v-if="!price">点击选择人员</van-button>
 				</li>
 				<li class='Buttond'>
-					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead?userId='+$route.query.userId})">重新选择人员</van-button>
+					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead?userId='+$route.query.userId})" v-if="price">重新选择人员</van-button>
 				</li>
 			</ul>
 			<ul>
@@ -212,9 +213,12 @@
 				degreeid:'',
 				user:{
 					userName:'',
-					userId:''
+					BID:'',
+					userid:''
 				},
-				fileSrc:""
+				fileSrc:"",
+				principal:{},
+				price:false,
 			}
 		},
 		mounted() {
@@ -225,17 +229,36 @@
 			ajax.getW('/api/safety/selectUserById?id='+this.$route.query.userId).then(res => {
 				if(res.status == 200) {
 					if(res.data.code == 200) {
-						this.user.userName=res.data.data.info.TYPES
-						this.user.userId=res.data.data.info.BID
+						this.user.userName=res.data.data.info.USERNAME
+						this.user.BID=res.data.data.info.BID
+						this.user.userid=res.data.data.info.USERID
 					}
 				}
 			});
+			
+			
+			var princ = sessionStorage.getItem("principal");
+			if(!princ) {
+				sessionStorage.setItem("principal",null);
+				if(sessionStorage.getItem("principal")== null){
+					this.price= false;
+				}
+				return;
+			}else{
+				this.price= true;
+				
+				
+			}
+			Object.assign(this.principal, JSON.parse(princ));
+			this.peleList=this.principal.username
+			console.log("this。pele",this.peleList)
 		},
 		methods: {
 			afterRead(file) {
 			  // 此时可以自行将文件上传至服务器
-			  console.log(file,file.content);
+			 console.log(file.content)
 			  this.fileSrc+=file.content
+			  //  console.log(file,this.fileSrc);
 			},
 			longlatButton(){
 				Dialog.confirm({
@@ -288,7 +311,7 @@
 					Toast('请选择限定时间');
 					return;
 				}
-				if(this.addr == ''){
+				if(this.city == ''){
 					Toast('请获取您当前位置');
 					return;
 				}if(this.messageQuesc == ''){
@@ -307,12 +330,23 @@
 					Toast('请选择负责人');
 					return;
 				}
-				if(this.timeValueStart!='' && this.value!='' && this.timeValue!='' && this.peleList!=''  && this.valueS!=''  && this.fileList!=''  && this.message!=''  && this.messageQuesc!=''  && this.addr!='' ){
-				    
+				if(this.timeValueStart!='' && this.value!='' && this.timeValue!='' && this.peleList!=''  && this.valueS!=''  && this.fileList!=''  && this.message!=''  && this.messageQuesc!=''  && this.city!='' ){
+				    console.log('putNameId',this.user.userid,
+						'putName',this.user.userName,
+						'quesType',this.quesType,
+						'degreeid',this.degreeid,
+						'dates',this.timeValueStart, 	
+						'quesDesc',this.messageQuesc,
+						'quesDetail',this.message,
+						'quesPic',this.fileSrc,
+						'endDate',this.timeValue,	
+						'principle',this.principal.userid,	
+						'departmentid',this.user.BID,
+						'principleName',this.peleList)
 					
 						
 					ajax.postParams('/api/safety/saveSafety',{
-						'putNameId':this.user.userId,
+						'putNameId':this.user.userid,
 						'putName':this.user.userName,
 						'quesType':this.quesType,
 						'degreeid':this.degreeid,
@@ -321,17 +355,18 @@
 						'quesDetail':this.message,
 						'quesPic':	this.fileSrc,
 						'endDate':this.timeValue,	
-						'principle':this.user,	
-						'departmentid':	this.user,
-						'principleName':this.user,	
+						'principle':this.principal.userid,	
+						'departmentid':	this.user.BID,
+						'principleName':this.peleList,	
 					}).then(res => {
-						if(res.status == 200) {
-							if(res.data.code == 200) {
-								console.log("selectSafetyInfoById",res.data);
-								res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
-								this.StaffInfoData=res.data.data;
-							}
-						}
+						console.log("selectSafetyInfoById",res);
+						// if(res.status == 200) {
+						// 	if(res.data.code == 200) {
+						// 		console.log("selectSafetyInfoById",res.data);
+						// 		res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
+						// 		// this.StaffInfoData=res.data.data;
+						// 	}
+						// }
 					})
 				}
 			},
