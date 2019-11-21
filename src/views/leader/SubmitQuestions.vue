@@ -172,7 +172,7 @@
 				examRecordTime:[],
 				StaffInfoData:[],
 				// fileList: [],
-				fileListImg: {},
+				fileListImg:'http://192.168.0.189:8282/72ede5a4-5e0d-4d3f-90ea-a343c27eb2af',
 				IDCard:'',
 				message:'',
 				// 问题类型
@@ -315,7 +315,7 @@
 					img.height = 200
 					img.src = src
 					preview.appendChild(img)
-					// this.fileListImg
+					this.fileListImg
 				}
 
 			},
@@ -428,7 +428,7 @@
 						'dates':this.timeValueStart, 	
 						'quesDesc':	this.messageQuesc,
 						'quesDetail':this.message,
-						'quesPic':'',
+						'quesPic':this.fileListImg,
 						'endDate':this.timeValue,	
 						'principle':this.principal.userid,	
 						'departmentid':	this.user.BID,

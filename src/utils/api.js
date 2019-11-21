@@ -19,7 +19,7 @@ export function postParams(url, data) {
 }
 export function postParamsW(url, data) {
 	return request({
-		url: httpW + url,
+		url: pathW + url,
 		method: 'POST',
 		params: data
 	})
