@@ -104,23 +104,31 @@
 			<ul class="container_list container_listp">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">上传照片 (最多4张)</p>
 				<li class="overflow">
-					<van-uploader :after-read="afterRead"  v-model="fileList" multiple :max-count="4" />
+					<div>
+						<label>图片</label>
+						<input type="file" id="picture" multiple @change="fileListImgButton($event)"/>
+					</div>
+					<div id="previewImg">
+						
+					</div>
+					<!-- <van-uploader :after-read="afterRead"  v-model="fileList" multiple :max-count="4" :delete="deleteButton()"/> -->
 				</li>
 			</ul>
 			<h5>现成负责人</h5>
 			<ul class="container_list">
-				<li class='more' style="padding: 10px 16px;">
+				<li class='more' style="padding: 10px 16px;" v-if="price">
 					<div style="border:1px dashed #E6EDF7;">
 						<van-cell style='color: #304F83;background:#F7FAFF;'>
-							<span style="margin-top: 2px; display: block;float: left;"><van-icon name="manager" color='#304F83'/></span>孙悟空（CYCZQ-5标-1负责人）
+							<input type="text" v-model="peleList" style="display: none;">
+							<span style="margin-top: 2px; display: block;float: left;"><van-icon name="manager" color='#304F83'/></span>{{principal.username}}（CYCZQ-5标-1负责人）
 						</van-cell>
 					</div>
 				</li>
 				<li class='Buttond'> 
-					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead?userId='+$route.query.userId})">点击选择人员</van-button>
+					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="IntelligenceButton()" v-if="!price">点击选择人员</van-button>
 				</li>
 				<li class='Buttond'>
-					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="$router.push({path:'/IntelligenceHead?userId='+$route.query.userId})">重新选择人员</van-button>
+					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="IntelligenceButton()" v-if="price">重新选择人员</van-button>
 				</li>
 			</ul>
 			<ul>
@@ -163,7 +171,8 @@
 				examRecord:[],
 				examRecordTime:[],
 				StaffInfoData:[],
-				 fileList: [],
+				// fileList: [],
+				fileListImg: {},
 				IDCard:'',
 				message:'',
 				// 问题类型
@@ -212,9 +221,13 @@
 				degreeid:'',
 				user:{
 					userName:'',
-					userId:''
+					BID:'',
+					userid:''
 				},
-				fileSrc:""
+				fileSrc:"",
+				principal:{},
+				price:false,
+				positiondata:{}
 			}
 		},
 		mounted() {
@@ -225,17 +238,100 @@
 			ajax.getW('/api/safety/selectUserById?id='+this.$route.query.userId).then(res => {
 				if(res.status == 200) {
 					if(res.data.code == 200) {
-						this.user.userName=res.data.data.info.TYPES
-						this.user.userId=res.data.data.info.BID
+						this.user.userName=res.data.data.info.USERNAME
+						this.user.BID=res.data.data.info.BID
+						this.user.userid=res.data.data.info.USERID
 					}
 				}
 			});
+			
+			
+			var princ = sessionStorage.getItem("principal");
+			if(!princ) {
+				sessionStorage.setItem("principal",null);
+				if(sessionStorage.getItem("principal")== null){
+					this.price= false;
+					return;
+				}
+				return;
+			}else{
+				this.price= true;
+			}
+			Object.assign(this.principal, JSON.parse(princ));
+			this.peleList=this.principal.username
+			
+			// 储值信息
+			this.value=sessionStorage.getItem("value");
+			this.valueS=sessionStorage.getItem("valueS");
+			this.timeValueStart=sessionStorage.getItem("timeValueStart")
+			this.timeValue=sessionStorage.getItem("timeValue")
+			let positionS=sessionStorage.getItem("position");
+			
+			if(!positionS) {
+				sessionStorage.setItem("position",null);
+				if(sessionStorage.getItem("position")== null){
+					this.longlat=false;
+					return;
+				}
+				return;
+			}else{
+				this.longlat=true;
+			}
+			Object.assign(this.positiondata, JSON.parse(positionS));
+			this.latitude = this.positiondata.latitude;
+			this.longitude = this.positiondata.longitude;
+			this.city=this.positiondata.city
+			this.addr=this.positiondata.addr
+			this.messageQuesc=sessionStorage.getItem("messageQuesc")
+			this.message=sessionStorage.getItem("message")
+			this.fileList=sessionStorage.getItem("fileListS")
 		},
 		methods: {
+			IntelligenceButton(){
+				sessionStorage.setItem("messageQuesc",this.messageQuesc)
+				sessionStorage.setItem("message",this.message)
+				// 
+				this.$router.push({path:'/IntelligenceHead?userId='+this.$route.query.userId})
+			},
+			deleteButton(){
+				
+			},
+			fileListImgButton(event){
+				let imgFiles = event.target.files
+				let filePath,fileFormat,src
+				console.log(imgFiles)
+				for (let i in imgFiles){
+					filePath = imgFiles[i].name
+					fileFormat = filePath.split('.')[1].toLowerCase()  
+					src = window.URL.createObjectURL(imgFiles[i])
+					console.log('====',src)
+					if( !fileFormat.match(/png|jpg|jpeg/) ) {  
+						alert('上传错误,文件格式必须为：png/jpg/jpeg')
+						return   
+					}
+					var preview = document.getElementById("previewImg")
+					var img = document.createElement('img')
+					img.width = 200
+					img.height = 200
+					img.src = src
+					preview.appendChild(img)
+					// this.fileListImg
+				}
+
+			},
 			afterRead(file) {
 			  // 此时可以自行将文件上传至服务器
-			  console.log(file,file.content);
-			  this.fileSrc+=file.content
+			  let that=this;
+			  var reader =new FileReader();//创建读取文件的方法
+			           // var img1=event.target.files[0];
+			           // reader.readAsDataURL(img1);//将文件已url的形式读入页面
+			  console.log("this.fileList",this.fileList)
+			  //FileReader可直接将上传文件转化为二进制流
+			  
+			   　　　　 
+			 // this.fileList.push(file.content)
+			 // sessionStorage.setItem("fileListS",JSON.stringify(this.fileListImg))
+			  //  console.log(file,this.fileSrc);
 			},
 			longlatButton(){
 				Dialog.confirm({
@@ -288,7 +384,7 @@
 					Toast('请选择限定时间');
 					return;
 				}
-				if(this.addr == ''){
+				if(this.city == ''){
 					Toast('请获取您当前位置');
 					return;
 				}if(this.messageQuesc == ''){
@@ -307,31 +403,45 @@
 					Toast('请选择负责人');
 					return;
 				}
-				if(this.timeValueStart!='' && this.value!='' && this.timeValue!='' && this.peleList!=''  && this.valueS!=''  && this.fileList!=''  && this.message!=''  && this.messageQuesc!=''  && this.addr!='' ){
-				    
+				if(this.timeValueStart!='' && this.value!='' && this.timeValue!='' && this.peleList!=''  && this.valueS!=''  && this.fileList!=''  && this.message!=''  && this.messageQuesc!=''  && this.city!='' ){
+				    console.log('putNameId',this.user.userid,
+						'putName',this.user.userName,
+						'quesType',this.quesType,
+						'degreeid',this.degreeid,
+						'dates',this.timeValueStart, 	
+						'quesDesc',this.messageQuesc,
+						'quesDetail',this.message,
+						'quesPic',JSON.stringify(this.fileListImg),
+						'endDate',this.timeValue,	
+						'principle',this.principal.userid,	
+						'departmentid',this.user.BID,
+						'principleName',this.peleList)
 					
-						
-					ajax.postParams('/api/safety/saveSafety',{
-						'putNameId':this.user.userId,
+						// fd, {headers: {
+						//         'Content-Type': 'multipart/form-data'
+						//       }})
+					ajax.postParamsW('/api/safety/saveSafety',{
+						'putNameId':this.user.userid,
 						'putName':this.user.userName,
 						'quesType':this.quesType,
 						'degreeid':this.degreeid,
 						'dates':this.timeValueStart, 	
 						'quesDesc':	this.messageQuesc,
 						'quesDetail':this.message,
-						'quesPic':	this.fileSrc,
+						'quesPic':'',
 						'endDate':this.timeValue,	
-						'principle':this.user,	
-						'departmentid':	this.user,
-						'principleName':this.user,	
+						'principle':this.principal.userid,	
+						'departmentid':	this.user.BID,
+						'principleName':this.peleList,	
 					}).then(res => {
-						if(res.status == 200) {
-							if(res.data.code == 200) {
-								console.log("selectSafetyInfoById",res.data);
-								res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
-								this.StaffInfoData=res.data.data;
-							}
-						}
+						console.log("selectSafetyInfoById",res);
+						// if(res.status == 200) {
+						// 	if(res.data.code == 200) {
+						// 		console.log("selectSafetyInfoById",res.data);
+						// 		res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
+						// 		// this.StaffInfoData=res.data.data;
+						// 	}
+						// }
 					})
 				}
 			},
@@ -346,6 +456,12 @@
 				this.longitude = position.lng;
 				this.city=position.city
 				this.addr=position.addr
+				sessionStorage.setItem("position", JSON.stringify({
+					'latitude':this.latitude,
+					'longitude':this.longitude,
+					'city':position.city,
+					'addr':position.addr
+				}));
 			},
 			showErr() {
 				if(!this.isFirstPosition) {
@@ -360,6 +476,7 @@
 			confirmFnStart() { // 确定按钮
 				this.timeValueStart = this.timeFormatStart(this.currentDateStart);
 				this.showStart = false;
+				sessionStorage.setItem("timeValueStart",this.timeValueStart)
 			},
 			cancelFnStart() {
 				this.showStart = false;
@@ -423,6 +540,7 @@
 			confirmFn() { // 确定按钮
 				this.timeValue = this.timeFormat(this.currentDate);
 				this.show = false;
+				sessionStorage.setItem("timeValue",this.timeValue)
 			},
 			cancelFn() {
 				this.show = false;
@@ -485,11 +603,13 @@
 			    this.showPicker = false;
 				this.quesType=index+Number(1);
 				console.log("---quesType--",this.quesType)
+				sessionStorage.setItem("value",this.value)
 			},
 			onConfirmS(value,index) {
 			    this.valueS = value;
 			    this.showPickerS = false;
 				this.degreeid=index+Number(1);
+				sessionStorage.setItem("valueS",this.valueS)
 				console.log("--degreeid---",this.degreeid)
 			},
 			
@@ -503,6 +623,8 @@
 </script>
 
 <style scoped>
+	/deep/
+	
 	.Buttond{
 		    margin: 10px 16px;
 		height:44px;

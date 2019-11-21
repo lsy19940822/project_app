@@ -176,9 +176,6 @@
 							},
 							
 					    },
-						// legend:{
-						// 	itemWidth:"25"
-						// },
 						grid: {
 							left: '10%',
 							bottom:'30%'
@@ -199,7 +196,7 @@
 					        {
 					       		name:'人数',
 					       		type:'bar',
-					       		barWidth : 30,//柱图宽度
+					       		barWidth :20,//柱图宽度
 					       		data:eachatData_yAxis
 					       	}
 					    ]

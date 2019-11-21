@@ -54,26 +54,26 @@
 						<div id='shu3-6'></div>
 						<div id='shu3-7'></div>
 						<div id='shu3-8'></div>
-						<li class='flowChart—li' style="background:rgba(241,247,242,1);border:1px solid rgba(122,177,130,1)">发起问题</li>
+						<li class='flowChart—li' style="background:rgba(241,247,242,1);border:1px solid rgba(122,177,130,1)"><img src="../../assets/images/index_icon/start@2x.png" alt="" style="width: 15px;float: left;margin-left: 20px;margin-top: 12px;"/><label style="margin-left: -10px;">发起问题</label></li>
 						<li class='flowChart—s'><span></span></li>
 						<span class='shu3'></span>
 						<span class='shu4'></span>
 						<div class="overflow" style="margin-top: -5px;">
-							<li class='flowChart—li' style="position: relative;background:rgba(112,153,208,1);color: #fff;float: left;">现场负责人<span class='shu3' id='shu3-1'></span></li>
-							<li class='flowChart—li' style="position: relative;float: left;">发起人修改<span class='shu3' id='shu3-2'></span></li>
+							<li class='flowChart—li' style="position: relative;background:rgba(112,153,208,1);color: #fff;float: left;"><img src="../../assets/images/index_icon/icon@2x (1).png" alt="" style="width: 12px;float: left;margin-left: 20px;margin-top: 12px;"/><label style="margin-left: -10px;">现场负责人</label><span class='shu3' id='shu3-1'></span></li>
+							<li class='flowChart—li' style="position: relative;float: left;"><img src="../../assets/images/index_icon/icon@2x (3).png" alt="" style="width: 12px;float: left;margin-left: 20px;margin-top: 12px;"/>发起人修改<span class='shu3' id='shu3-2'></span></li>
 						</div>
 						
 					
 						<li class='flowChart—s'><span class='shu2'></span></li>
-						<li class='flowChart—li' style="position: relative;">抄送相关人员<div id='shu3-3'></div></li>
+						<li class='flowChart—li' style="position: relative;"><img src="../../assets/images/index_icon/icon@2x (2).png" alt="" style="width: 12px;float: left;margin-left: 16px;margin-top: 12px;"/>抄送相关人员<div id='shu3-3'></div></li>
 						<li class='flowChart—s'><span class='shu2'></span></li>
-						<li class='flowChart—li'style="position: relative;">相关人员整改<span class='shu3' id='shu3-4'></span></li>
+						<li class='flowChart—li'style="position: relative;"><img src="../../assets/images/index_icon/icon@2x (2).png" alt="" style="width: 12px;float: left;margin-left: 16px;margin-top: 12px;"/>相关人员整改<span class='shu3' id='shu3-4'></span></li>
 						<li class='flowChart—s'><span class='shu2'></span></li>
-						<li class='flowChart—li'style="position: relative;">负责人审批<div  id='shu3-3'></div></li>
+						<li class='flowChart—li'style="position: relative;"><img src="../../assets/images/index_icon/icon@2x (2).png" alt="" style="width: 12px;float: left;margin-left: 20px;margin-top: 12px;"/>负责人审批<div  id='shu3-3'></div></li>
 						<li class='flowChart—s'><span class='shu2'></span></li>
-						<li class='flowChart—li' style="position: relative;">发起人复核<div  id='shu3-3' style="width: 100px;top: 62px;left: -35px"></div><span class='shu4'style="top: 22px;right: -68px"></span></li>
+						<li class='flowChart—li' style="position: relative;"><img src="../../assets/images/index_icon/icon@2x (2).png" alt="" style="width: 12px;float: left;margin-left: 20px;margin-top: 12px;"/>发起人复核<div  id='shu3-3' style="width: 100px;top: 62px;left: -35px"></div><span class='shu4'style="top: 22px;right: -68px"></span></li>
 						<li class='flowChart—s'><span class='shu2' style="height: 51px;"></span></li>
-						<li class='flowChart—li'>问题归档</li>
+						<li class='flowChart—li'><img src="../../assets/images/index_icon/icon@2x (2).png" alt="" style="width: 12px;float: left;margin-left: 20px;margin-top: 14px;"/>问题归档</li>
 						
 					</ul>
 			  </van-tab>

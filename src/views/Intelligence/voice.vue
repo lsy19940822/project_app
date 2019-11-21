@@ -63,16 +63,14 @@
 		data() {
 			return {
 				questionText:"发送语音",
-				StaffInfoData:[{
-					PHOTOURL:""
-				}],
+				StaffInfoData:[],
 				IDCard:'',
 				columns: ['防空报警', '请带好安全帽',
 					'危险请注意','已收到报警，请等待救援',
 					"附近有人需要救援","请不要违规作业",
 					"请回到岗位","请到办公室","请充电",
 					"请联系管理人员","你是否需要帮助",
-					"请立即离开","请回电"],
+					"请立即离开","请回电"],//1 2 3 7 8 9 10 11 12 13 14 15 16
 				showPicker: false,
 				quesType:'',
 				value:""

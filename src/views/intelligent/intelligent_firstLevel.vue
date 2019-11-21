@@ -121,11 +121,6 @@
 		created() {
 			this.GetMenuTreeList();
 			this.value1 = Number(this.$route.query.ValueId)
-			// if (this.value1 == 1) {
-			// 	this.show = true;
-			// } else {
-			// 	this.show = false;
-			// }
 			this.change1(this.value1) 
 			localStorage.setItem("intellgent_option1_value",this.$route.query.ValueId)
 			localStorage.setItem("labor_value_name", this.option1[this.value1].text)
@@ -136,11 +131,6 @@
 		},
 		methods: {
 			change1(val) {
-				// if (val == 1) {
-				// 	this.show = true;
-				// } else {
-				// 	this.show = false;
-				// }
 				this.option2.splice(1);
 				localStorage.setItem("labor_value_id", val);
 				localStorage.setItem("labor_value_name", this.option1[val].text)

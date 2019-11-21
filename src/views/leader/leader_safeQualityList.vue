@@ -12,7 +12,7 @@
 							<div class="img-box" @click="sumbit()">
 								<img src="../../assets/images/safeQuality/icon_issue.png" @click="sumbit()"/>
 							</div>
-							<div class="text" @click="">问题发起</div>
+							<div class="text" @click="sumbit()">问题发起</div>
 						</div>
 					</van-col>
 					

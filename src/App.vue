@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style>
+	.van-uploader__wrapper .van-uploader__preview:last-child,.van-uploader__wrapper .van-uploader__upload{
+		margin-right: 0 !important;
+	}
 	html,body,#app {
 		width: 100%;
 		height: 100%;

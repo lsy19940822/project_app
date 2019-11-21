@@ -17,6 +17,13 @@ export function postParams(url, data) {
 		params: data
 	})
 }
+export function postParamsW(url, data) {
+	return request({
+		url: httpW + url,
+		method: 'POST',
+		params: data
+	})
+}
 export function postW(url, data) {
 	return request({
 		url: pathW + url,
