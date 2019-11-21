@@ -13,7 +13,7 @@
 			<ul class="container_list overflow" v-show="GetVideoDatashow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
 					<div class="video-cover">
-						<video ref="myPlayer" :id="'myPlayer' + (index + 1)" width="100%" height="100%" poster="../../assets/images/exam/video_cover2.png" controls="controls" autoplay="autoplay" x-webkit-airplay="true" x5-video-player-fullscreen="true" preload="auto" playsinline="true" webkit-playsinline x5-video-player-typ="h5">
+						<video ref="myPlayer" :id="'myPlayer' + (index + 1)" width="100%" height="100%" poster="../../assets/images/exam/video_cover2.png" controls="controls" x-webkit-airplay="true" x5-video-player-fullscreen="true" preload="auto"  x5-video-player-typ="h5">
 							<source :src="item.VIDEOURL" type="application/x-mpegURL" />
 						</video>
 						<!--<video ref="myPlayer1" id="myPlayer1" width="100%" height="auto" controls playsInline webkit-playsinline>
@@ -142,19 +142,19 @@
 					if(res.data.result == true) {
 						that.GetVideoDatashow = true;
 						that.GetVideoData = res.data.data;
-
-						document.addEventListener("WeixinJSBridgeReady", function() {
-							for(var v = 1; v <= that.GetVideoData.length; v++) {
-								document.getElementById('myPlayer' + v).play();
-							}
-						}, false);
-						wx.getNetworkType({
-							success: function(res) {
-								for(var v2 = 1; v2 <= that.GetVideoData.length; v2++) {
-									document.getElementById('myPlayer' + v2).play();
-								}
-							}
-						});
+						/// 微信端自动播放
+						//						document.addEventListener("WeixinJSBridgeReady", function() {
+						//							for(var v = 1; v <= that.GetVideoData.length; v++) {
+						//								document.getElementById('myPlayer' + v).play();
+						//							}
+						//						}, false);
+						//						wx.getNetworkType({
+						//							success: function(res) {
+						//								for(var v2 = 1; v2 <= that.GetVideoData.length; v2++) {
+						//									document.getElementById('myPlayer' + v2).play();
+						//								}
+						//							}
+						//						});
 						return;
 					}
 				})
