@@ -104,14 +104,14 @@
 			<ul class="container_list container_listp">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">上传照片 (最多4张)</p>
 				<li class="overflow">
-					<div>
+					<!-- <div>
 						<label>图片</label>
 						<input type="file" id="picture" multiple @change="fileListImgButton($event)"/>
 					</div>
 					<div id="previewImg">
 						
-					</div>
-					<!-- <van-uploader :after-read="afterRead"  v-model="fileList" multiple :max-count="4" :delete="deleteButton()"/> -->
+					</div> -->
+					<van-uploader :after-read="afterRead"  v-model="fileList" multiple :max-count="4" :delete="deleteButton()"/>
 				</li>
 			</ul>
 			<h5>现成负责人</h5>
