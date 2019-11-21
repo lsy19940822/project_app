@@ -18,12 +18,14 @@
 				<li>
 					<!-- //1.安全 2 质量 3 进度 -->
 					<span>问题类型</span>
+					<span  v-if="!StaffInfoData.quesType"></span>
 					<span v-if="StaffInfoData.quesType==1">安全问题</span>
 					<span v-if="StaffInfoData.quesType==2">质量问题</span>
 					<span v-if="StaffInfoData.quesType==3">进度问题</span>
 				</li>
 				<li>
 					<span>紧急类型</span>
+					<span  v-if="!StaffInfoData.quesType"></span>
 					<span v-if="StaffInfoData.degreeid==1">特别紧急</span>
 					<span v-if="StaffInfoData.degreeid==2">紧急</span>
 					<span v-if="StaffInfoData.degreeid==3">一般</span>

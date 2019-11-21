@@ -171,7 +171,7 @@
 				examRecord:[],
 				examRecordTime:[],
 				StaffInfoData:[],
-				// fileList: [],
+				fileList: [],
 				fileListImg:'http://192.168.0.189:8282/72ede5a4-5e0d-4d3f-90ea-a343c27eb2af',
 				IDCard:'',
 				message:'',

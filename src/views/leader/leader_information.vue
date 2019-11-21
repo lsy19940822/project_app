@@ -5,11 +5,11 @@
 		</vant-header>
 		<div class="container">
 			<div class="infor_header overflow">
-				<img :src="StaffInfoData.PHOTOURL" alt="">
+				<img :src="userData.PHOTOURL" alt="">
 				<div class="user overflow">
-					<h3>{{StaffInfoData.EXAMNAME}}</h3>
-					<p>{{StaffInfoData.WORKTYPE}}</p>
-					<p>{{StaffInfoData.BIDSECTION}}</p>
+					<h3>{{userData.EXAMNAME}}</h3>
+					<p>{{userData.WORKTYPE}}</p>
+					<p>{{userData.BIDSECTION}}</p>
 				</div>
 			
 				
@@ -18,40 +18,40 @@
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/user_icon/userH@2x.png" alt="">个人信息</p>
 				<li>
 					<span>所在标段</span>
-					<span>{{StaffInfoData.BIDSECTION}}</span>
+					<span>{{userData.BIDSECTION}}</span>
 				</li>
 				
 				<li>
 					<span>所在单位</span>
-					<span>{{StaffInfoData.COMPANY}}</span>
+					<span>{{userData.COMPANY}}</span>
 				</li>
 				<li>
 					<span>所在工点</span>
-					<span>{{StaffInfoData.WORKPOINT}}</span>
+					<span>{{userData.WORKPOINT}}</span>
 				</li>
 				<li>
 					<span>手机号</span>
-					<span>{{StaffInfoData.TELEPHONE}}</span>
+					<span>{{userData.TELEPHONE}}</span>
 				</li>
 				<li>
 					<span>身份证号</span>
-					<span>{{StaffInfoData.CERTNUMBR}}</span>
+					<span>{{userData.CERTNUMBR}}</span>
 				</li>
 				<li>
 					<span>负责人姓名</span>
-					<span>{{StaffInfoData.LEADERUSER}}</span>
+					<span>{{userData.LEADERUSER}}</span>
 				</li>
 				<li>
 					<span>负责人手机</span>
-					<span>{{StaffInfoData.LEADERTELEPHONE}}</span>
+					<span>{{userData.LEADERTELEPHONE}}</span>
 				</li>
 				<li>
 					<span>入职时间</span>
-					<span>{{StaffInfoData.ENTRYDATE}}</span>
+					<span>{{userData.ENTRYDATE}}</span>
 				</li>
 				<li>
 					<span>离职时间</span>
-					<span>{{StaffInfoData.QUITDATE}}</span>
+					<span>{{userData.QUITDATE}}</span>
 				</li>
 				
 			</ul>
@@ -80,30 +80,34 @@
 		data() {
 			return {
 				questionText:"我的资料",
-				examRecord:[],
-				examRecordTime:[],
-				StaffInfoData:[],
-				IDCard:''
+				userData:{}
+				
 			}
 		},
 		mounted() {
+			
 		},
 		created() {
-			this.StaffInfoF()
+			let that=this;
+			let userData=sessionStorage.getItem("chang_yi_UserData")
+			Object.assign(this.userData, JSON.parse(userData));
+			this.userData.ENTRYDATE=this.userData.ENTRYDATE.replace("T", " ");
+			this.userData.QUITDATE=this.userData.QUITDATE.replace("T", " ");
 		},
 		methods: {
-			StaffInfoF(){
-				let that=this;
-				// that.IDCard=that.$route.query.IDCard;
-				ajax.get('/API/WebAPIDataAudit/StaffInfo?IDCard='+this.$route.query.IDCard).then(res => {
-					if(res.data.result) {
-						this.StaffInfoData=res.data.data[0]
-						this.StaffInfoData.PHOTOURL=ajax.http+that.StaffInfoData.PHOTOURL.slice(2)
-						this.StaffInfoData.ENTRYDATE=this.StaffInfoData.ENTRYDATE.replace("T", " ");
-						this.StaffInfoData.QUITDATE=this.StaffInfoData.QUITDATE.replace("T", " ");
-					}
-				})
-			}
+			// StaffInfoF(){
+			// 	let that=this;
+			// 	// that.IDCard=that.$route.query.IDCard;
+			// 	ajax.get('/API/WebAPIDataAudit/StaffInfo?IDCard='+this.$route.query.IDCard).then(res => {
+			// 		if(res.data.result) {
+			// 			this.StaffInfoData=res.data.data[0]
+			// 			console.log(this.StaffInfoData)
+			// 			// this.StaffInfoData.PHOTOURL=ajax.http+that.StaffInfoData.PHOTOURL.slice(2)
+			// 			this.StaffInfoData.ENTRYDATE=this.StaffInfoData.ENTRYDATE.replace("T", " ");
+			// 			this.StaffInfoData.QUITDATE=res.data.data.QUITDATE.replace("T", " ");
+			// 		}
+			// 	})
+			// }
 			
 		}
 	}

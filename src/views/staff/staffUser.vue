@@ -6,16 +6,16 @@
 			<div class="userHeader overflow" @click="$router.push({path:'/staff_information?IDCard='+IDCard})">
 				<van-cell is-link>
 				<div class="user_header">
-					<img :src="userHeader" alt="">
+					<img :src="StaffInfoData.PHOTOURL" alt="">
 				</div>
 				<div class="user_title overflow">
-					<p>{{StaffInfoData[0].EXAMNAME}}</p>
-					<p>{{StaffInfoData[0].BIDSECTION}}</p>
+					<p>{{StaffInfoData.EXAMNAME}}</p>
+					<p>{{StaffInfoData.BIDSECTION}}</p>
 				</div>
 				</van-cell>
 			</div>
 			<ul class="user_ul overflow">
-				<li class="overflow" @click="$router.push({path:'/studyrecord'})">
+				<li class="overflow" @click="$router.push({path:'/studyrecord?IDCard='+IDCard})">
 					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (5).png" alt="" width="18px">
 					</div>
@@ -39,7 +39,7 @@
 				</li>
 			</ul>
 			<ul class="user_ul overflow">
-				<li class="overflow" @click="$router.push({path:'/staff_safeQualityList'})">
+				<li class="overflow" @click="$router.push({path:'/staff_safeQualityList?IDCard='+IDCard})">
 					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (8).png" alt="" width="18px">
 						</div>
@@ -50,7 +50,7 @@
 						</van-cell>
 					</div>
 				</li>
-				<li class="overflow">
+				<li class="overflow" @click="$router.push({path:'/staff_safeQualityList?IDCard='+IDCard})">
 					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (2).png" alt="" width="18px">
 					</div>
@@ -95,7 +95,6 @@
 		data() {
 			return {
 				questionText:"我的",
-				userHeader:"",
 				StaffInfoData:[]
 			}
 		},
@@ -109,8 +108,8 @@
 				ajax.get('/API/WebAPIDataAudit/StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
 					if(res.data.result) {
 						console.log(res.data)
-						that.StaffInfoData=res.data.data
-						that.userHeader=that.StaffInfoData[0].PHOTOURL=ajax.http+that.StaffInfoData[0].PHOTOURL.slice(2)
+						that.StaffInfoData=res.data.data[0]
+						that.StaffInfoData.PHOTOURL=ajax.http+that.StaffInfoData.PHOTOURL.slice(2)
 					}
 				})
 			}
@@ -135,11 +134,12 @@
 		background: none !important;
 	}
 	.user_header,.user_header img{
-		/* width:58px; */
+		width:47px;
 		height:58px;
 		border-radius:4px;
 		display: block;
 		float: left;
+		background: #f2f2f2;
 	}
 	.user_title {
 		float: left;

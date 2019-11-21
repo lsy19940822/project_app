@@ -57,16 +57,6 @@ const router = new Router({
 			name: 'intelligent_fourthLevel',
 			component: resolve => require(['../views/intelligent/intelligent_fourthLevel.vue'], resolve)
 		},
-		// { //二级列表
-		// 	path: '/fillB',
-		// 	name: 'fillB',
-		// 	component: resolve => require(['../views/intelligent/fillB.vue'], resolve)
-		// },
-		// { //一级列表
-		// 	path: '/fillD',
-		// 	name: 'fillD',
-		// 	component: resolve => require(['../views/intelligent/fillD.vue'], resolve)
-		// },
 		{ //超期工程
 			path: '/BeyondThe',
 			name: 'BeyondThe',
@@ -310,7 +300,12 @@ const router = new Router({
 			name: 'staffNew',
 			component: resolve => require(['../views/staff/staffNew.vue'], resolve)
 		},
+        { //员工我的资料
+			path: '/leader_information',
+			name: 'leader_information',
+			component: resolve => require(['../views/leader/leader_information.vue'], resolve)
 
+		},
 		{ //员工我的资料
 			path: '/staff_information',
 			name: 'staff_information',

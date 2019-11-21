@@ -142,6 +142,7 @@
 					}).then(res => {
 						if(res.data.result) {
 							sessionStorage.setItem("chang_yi_User_token", true)
+							
 							toast.clear();
 							this.$router.push({
 								path: '/index',
@@ -149,6 +150,9 @@
 									userId: res.data.data[0].USERID
 								}
 							})
+							console.log(res.data.data[0])
+							res.data.data[0].PHOTOURL=ajax.http+res.data.data[0].PHOTOURL.slice(2)
+							sessionStorage.setItem("chang_yi_UserData", JSON.stringify(res.data.data[0]))
 							// 手机号13272812666密码1
 							console.log("用户名/手机号：", this.user, "密码：", this.passWord);
 

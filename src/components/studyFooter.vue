@@ -26,7 +26,7 @@
 			    :src="settingoprops.active ? icon[2].active : icon[2].normal"
 			  >
 		  </van-tabbar-item>
-		  <van-tabbar-item replace to="/staffUser">
+		  <van-tabbar-item replace to="/staffUser?IDCard=111111111111111111">
 			  <span>我的</span>
 			  <img
 			    slot="icon"

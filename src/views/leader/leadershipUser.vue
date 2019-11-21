@@ -4,58 +4,58 @@
 			
 		</vant-header>
 		<div class="container overflow">
-			<div class="userHeader overflow">
-				<van-cell is-link>
-				<div class="user_header">
-					<img :src="userHeader" alt="">
-				</div>
-				<div class="user_title overflow">
-					<p>孙悟空</p>
-					<p>中铁总经理</p>
-				</div>
+			<div class="userHeader overflow" @click="$router.push({path:'/leader_information'})">
+				<van-cell is-link @click="$router.push({path:'/leader_information'})">
+					<div class="user_header" @click="$router.push({path:'/leader_information'})">
+						<img :src="userData.PHOTOURL" alt="">
+					</div>
+					<div class="user_title overflow" @click="$router.push({path:'/leader_information'})">
+						<p>{{userData.EXAMNAME}}</p>
+						<p>{{userData.WORKTYPE}}</p>
+					</div>
 				</van-cell>
 			</div>
 			<ul class="user_ul overflow">
-				<li class="overflow">
-					<div class="icon_user">
+				<li class="overflow" @click="sumbit()">
+					<div class="icon_user" @click="sumbit()">
 						<img src="../../assets/images/user_icon/icon_user@2x (1).png" alt="" width="18px">
 						</div>
-					<div class="user_t">
-						<van-cell is-link>
+					<div class="user_t" @click="sumbit()">
+						<van-cell is-link @click="sumbit()">
 						    <span>提出问题</span>
 						</van-cell>
 					</div>
 				</li>
-				<li class="overflow">
-					<div class="icon_user">
+				<li class="overflow" @click="$router.push({path:'/dynamic?userId='+$route.query.userId})">
+					<div class="icon_user" @click="$router.push({path:'/dynamic?userId='+$route.query.userId})">
 						<img src="../../assets/images/user_icon/icon_user@2x (6).png" alt="" width="18px">
 					</div>
-					<div class="user_t">
-						<van-cell is-link>
+					<div class="user_t" @click="$router.push({path:'/dynamic?userId='+$route.query.userId})">
+						<van-cell is-link @click="$router.push({path:'/dynamic?userId='+$route.query.userId})">
 						    <span>暂存问题</span>
 							<span class='tag' >2</span>
 						</van-cell>
 					</div>
 				</li>
-				<li class="overflow">
-					<div class="icon_user">
+				<li class="overflow" @click="$router.push({path:'/leader_resolved?userId='+$route.query.userId})">
+					<div class="icon_user" @click="$router.push({path:'/leader_resolved?userId='+$route.query.userId})">
 						<img src="../../assets/images/user_icon/icon_user@2x (2).png" alt="" width="18px">
 					</div>
-					<div class="user_t"  style="border-bottom:none">
-						<van-cell is-link>
+					<div class="user_t"  style="border-bottom:none" @click="$router.push({path:'/leader_resolved?userId='+$route.query.userId})">
+						<van-cell is-link @click="$router.push({path:'/leader_resolved?userId='+$route.query.userId})">
 						    <span>问题记录</span>
 						</van-cell>
 					</div>
 				</li>
 			</ul>
 			<ul class="user_ul overflow">
-				<li class="overflow">
-					<div class="icon_user">
+				<li class="overflow" @click="$router.push({path:'/leader_information'})">
+					<div class="icon_user" @click="$router.push({path:'/leader_information'})">
 						<img src="../../assets/images/user_icon/icon_user@2x (3).png" alt="" width="18px">
 					</div>
-					<div class="user_t" style="border-bottom:none">
-						<van-cell is-link>
-						    <span>修改资料</span>
+					<div class="user_t" style="border-bottom:none" @click="$router.push({path:'/leader_information'})">
+						<van-cell is-link @click="$router.push({path:'/leader_information'})">
+						    <span>我的资料</span>
 						</van-cell>
 					</div>
 				</li>
@@ -81,8 +81,22 @@
 		data() {
 			return {
 				questionText:"我的",
-				userHeader:"http://b-ssl.duitang.com/uploads/item/201704/04/20170404153225_EiMHP.jpeg"
+				userData:{}
 			}
+		},
+		created() {
+			let userData=sessionStorage.getItem("chang_yi_UserData")
+			Object.assign(this.userData, JSON.parse(userData));
+		},
+		methods:{
+			sumbit(){
+				let that=this;
+			    if(that.$route.query.type == 1){
+					that.$router.push({path:'/SubmitQuestions?userId='+that.$route.query.userId})
+				}else{
+					Toast("你暂无发起权限")
+				}
+			},
 		}
 	}
 </script>
@@ -105,11 +119,12 @@
 		background: none !important;
 	}
 	.user_header,.user_header img{
-		width:58px;
+		width:47px;
 		height:58px;
 		border-radius:4px;
 		display: block;
 		float: left;
+		background: #f2f2f2;
 	}
 	.user_title {
 		float: left;

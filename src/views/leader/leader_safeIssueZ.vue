@@ -6,16 +6,16 @@
 		</vant-header>
 
 		<!--content list-->
-		<div v-if='safeData.length==0' style="text-align: center;background: #ececec;line-height: 36px;">暂无数据</div>
-		<div class="list-content" v-else>
+		
+		<div class="list-content">
 			<div class="l-dropdown">
 				<van-dropdown-menu>
 					  <van-dropdown-item v-model="value1" :options="option1" />
 					  <van-dropdown-item v-model="value2" :options="option2" />
 				</van-dropdown-menu>
 			</div>
-			
-			<ul class="l-list">
+			<div v-if='safeData.length==0' style="text-align: center;background: #ececec;line-height: 36px;">暂无数据</div>
+			<ul class="l-list"  v-else>
 				
 				<li v-for="(item,index) in safeData" :key="index" :id="item.id">
 					<div class="item" :id="item.id">
