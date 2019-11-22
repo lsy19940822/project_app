@@ -14,13 +14,13 @@
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
 					<div class="video-cover">
 						<!-- controls -->
-  <!-- ontouchmove="return false;"  webkit-playsinline playsinline   -->
+  <!-- ontouchmove="return false;"  webkit-playsinline playsinline    -->
 						<video :ref="'myPlayer' + (index + 1)" 
 						:id="'myPlayer' + (index + 1)" width="100%" height="100%"
 						 poster="../../assets/images/exam/video_cover2.png" 
 						 x-webkit-airplay="true" 
 						 x5-video-player-fullscreen="true" 
-						 preload="auto" 
+						 preload="auto"
 						 x5-video-player-type="h5">
 							<source :src="item.VIDEOURL" type="application/x-mpegURL" />
 						</video>
@@ -144,8 +144,14 @@
 				this.option2.splice(1);
 			},
 			change2(val) {
-				this.Worksite = this.option2[val].text.replace("#", "%23")
-				console.log("当前工点：", this.option2[val].text)
+				if(val == 0){
+					this.Worksite = '';
+				}else{
+					this.Worksite = this.option2[val].text.replace("#", "%23")
+				}
+				
+				console.log("当前工点：", this.option2[val].text);
+				this.getUserWorkPointList();
 			},
 			getUserWorkPointList() {
 				let that = this;
