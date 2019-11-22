@@ -13,24 +13,16 @@
 			<ul class="container_list overflow" v-show="GetVideoDatashow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
 					<div class="video-cover" ontouchmove="return false;">
-						 <!--  -->
-					
-						<video ref="myPlayer" :id="'myPlayer' + (index + 1)" 
-							width="100%" height="100%" 
-							poster="../../assets/images/exam/video_cover2.png" 
-							x-webkit-airplay="true" 
-							x5-video-player-fullscreen="true" 
-							preload="auto" 
-							controls="controls"
-							 playsinline webkit-playsinline
-						   x5-video-player-typ="h5">
+						<!-- controls -->
+
+						<video :ref="'myPlayer' + (index + 1)" :id="'myPlayer' + (index + 1)" width="100%" height="100%" poster="../../assets/images/exam/video_cover2.png" x-webkit-airplay="true" x5-video-player-fullscreen="true" preload="auto"   x5-video-player-typ="h5">
 							<source :src="item.VIDEOURL" type="application/x-mpegURL" />
 						</video>
 						<!--<video ref="myPlayer1" id="myPlayer1" width="100%" height="auto" controls playsInline webkit-playsinline>
 							<source :src="curPlayVideo.VIDEOURL" type="application/x-mpegURL" />
 						</video>-->
-						<!-- <div class="video-coverS"></div>
-						<img src="../../assets/images/exam/video.png" alt="" class="video" @click="videoButton()"> -->
+						<div class="video-coverS"></div>
+						<img src="../../assets/images/exam/video.png" alt="" class="video" @click="videoButton('myPlayer' + (index + 1))">
 						<img src="../../assets/images/exam/video_cover2.png" alt="" width="100%" height="100%" @click="playVideo(item)">
 					</div>
 					<p>【{{item.SECTION}}】 {{item.VIDEONAME}}</p>
@@ -126,16 +118,16 @@
 		mounted() {
 			this.getUserWorkPointList();
 			var video = document.querySelector('#mainvideo');
-			  var videobox = document.querySelector('.videobox');
-			
-			  //播放时改变外层包裹的宽度，使video宽度增加，
-			  //相应高度也增加了,播放器控件被挤下去，配合overflow：hidden
-			  //控件看不见也触摸不到了
-			  var setVideoStyle = function (){
-			    videobox.style.width = '120%';
-			    videobox.style.left = '-10%';
-			    video.style.width = '100%';
-			  }
+			var videobox = document.querySelector('.videobox');
+
+			//播放时改变外层包裹的宽度，使video宽度增加，
+			//相应高度也增加了,播放器控件被挤下去，配合overflow：hidden
+			//控件看不见也触摸不到了
+			var setVideoStyle = function() {
+				videobox.style.width = '120%';
+				videobox.style.left = '-10%';
+				video.style.width = '100%';
+			}
 			//			this.player = new EZUIPlayer(this.$refs.myPlayer);
 			//			this.player = new EZUIPlayer('myPlayer1');
 			//			setTimeout(function () {
@@ -207,23 +199,23 @@
 			},
 			playVideo(item) {
 				this.show = true;
-			
+
 				Object.assign(this.curPlayVideo, item);
 			},
 			//进入全屏
-			// FullScreen() {
-			//     var ele = this.$refs.myPlayer;
-			//     if (ele.requestFullscreen) {
-			//         ele.requestFullscreen();
-			//     } else if (ele .mozRequestFullScreen) {
-			//         ele.mozRequestFullScreen();
-			//     } else if (ele .webkitRequestFullScreen) {
-			//         ele.webkitRequestFullScreen();
-			//     }
-			// },
+			FullScreen() {
+				var ele = this.$refs.myPlayer;
+				if(ele.requestFullscreen) {
+					ele.requestFullscreen();
+				} else if(ele.mozRequestFullScreen) {
+					ele.mozRequestFullScreen();
+				} else if(ele.webkitRequestFullScreen) {
+					ele.webkitRequestFullScreen();
+				}
+			},
 			// //退出全屏
 			// exitFullscreen() {
-				
+
 			//     var de = this.$refs.myPlayer;
 			//     if (de.exitFullscreen) {
 			//         de.exitFullscreen();
@@ -233,19 +225,21 @@
 			//         de.webkitCancelFullScreen();
 			//     }
 			// },
-			// videoButton(){
-			// 	var video = document.querySelector('#myPlayer1');
-			// 	var videobox = document.querySelector('.video-cover');
-			// 	//播放时改变外层包裹的宽度，使video宽度增加，
-			// 	//相应高度也增加了,播放器控件被挤下去，配合overflow：hidden
-			// 	//控件看不见也触摸不到了
-			// 	var setVideoStyle = function (){
-			// 	  videobox.style.width = '120%';
-			// 	  videobox.style.left = '-10%';
-			// 	  video.style.width = '100%';
-			// 	}
-			// 	this.FullScreen()
-			// },
+			videoButton(el) {
+				console.log(this.$refs[el])
+				this.$refs[el][0].play();
+				//			 	var video = document.querySelector('#myPlayer1');
+				//			 	var videobox = document.querySelector('.video-cover');
+				//			 	//播放时改变外层包裹的宽度，使video宽度增加，
+				//			 	//相应高度也增加了,播放器控件被挤下去，配合overflow：hidden
+				//			 	//控件看不见也触摸不到了
+				//			 	var setVideoStyle = function (){
+				//			 	  videobox.style.width = '120%';
+				//			 	  videobox.style.left = '-10%';
+				//			 	  video.style.width = '100%';
+				//			 	}
+				this.FullScreen()
+			},
 			videoClose() {
 				//				this.curPlayVideo.VIDEOURL = "";
 				//				this.player.stop();
@@ -256,11 +250,12 @@
 </script>
 
 <style scoped>
-	
 	/* 去掉全屏时显示的自带控制条 */
-	video::-webkit-media-controls{
-	    display:none !important;
+	
+	video::-webkit-media-controls {
+		display: none !important;
 	}
+	
 	/deep/ .van-dialog {
 		top: 55%;
 	}
@@ -339,22 +334,24 @@
 		white-space: nowrap;
 	}
 	
-.video{
-	position: absolute;
-	top: 25px;
-	background: none !important;
-	left: 50%;
-	margin-left: -24px;
-}
-.video-coverS {
+	.video {
+		position: absolute;
+		top: 25px;
+		background: none !important;
+		left: 50%;
+		margin-left: -24px;
+	}
+	
+	.video-coverS {
 		width: 100%;
 		height: 100px;
 		border-radius: 7px;
 		overflow: hidden;
 		position: absolute;
-		top:0;
-		background:rgba(0,0,0,.5);
+		top: 0;
+		background: rgba(0, 0, 0, .5);
 	}
+	
 	.video-cover {
 		width: 100%;
 		height: 100px;
