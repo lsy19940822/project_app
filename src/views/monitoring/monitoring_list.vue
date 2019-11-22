@@ -10,7 +10,7 @@
 				</van-dropdown-menu>
 			</div>
 			<div class="flase" v-show="!GetVideoDatashow" style="background: none; text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无视频源</div>
-			<ul class="container_list overflow" v-show="GetVideoDatashow">
+			<ul class="container_list" style="overflow: auto;" v-show="GetVideoDatashow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
 					<div class="video-cover" ontouchmove="return false;">
 						 <!--  -->
@@ -281,6 +281,7 @@
 	
 	.container_list {
 		padding: 14px 16px 0;
+		    height: 540px;
 	}
 	
 	.van-dropdown-menu {
@@ -318,7 +319,6 @@
 		width: 48%;
 		float: left;
 		padding-bottom: 16px;
-		border-bottom: 1px solid #eee;
 		color: #666;
 		font-size: 14px;
 	}
@@ -360,6 +360,6 @@
 		height: 100px;
 		border-radius: 7px;
 		overflow: hidden;
-		position: relative;
+		/* position: relative; */
 	}
 </style>
