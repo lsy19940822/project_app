@@ -10,33 +10,34 @@
 				</van-dropdown-menu>
 			</div>
 			<div class="flase" v-show="!GetVideoDatashow" style="background: none; text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无视频源</div>
-			<ul class="container_list" style="overflow: auto;" v-show="GetVideoDatashow">
+			<ul class="container_list overflow"  v-show="GetVideoDatashow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
-					<div class="video-cover" ontouchmove="return false;">
+					<div class="video-cover">
 						<!-- controls -->
-
-						<video :ref="'myPlayer' + (index + 1)" :id="'myPlayer' + (index + 1)" width="100%" height="100%" poster="../../assets/images/exam/video_cover2.png" x-webkit-airplay="true" x5-video-player-fullscreen="true" preload="auto"   x5-video-player-typ="h5">
+  <!-- ontouchmove="return false;"  webkit-playsinline playsinline   -->
+						<video :ref="'myPlayer' + (index + 1)" 
+						:id="'myPlayer' + (index + 1)" width="100%" height="100%"
+						 poster="../../assets/images/exam/video_cover2.png" 
+						 x-webkit-airplay="true" 
+						 x5-video-player-fullscreen="true" 
+						 preload="auto" 
+						 x5-video-player-type="h5">
 							<source :src="item.VIDEOURL" type="application/x-mpegURL" />
 						</video>
 						<!--<video ref="myPlayer1" id="myPlayer1" width="100%" height="auto" controls playsInline webkit-playsinline>
 							<source :src="curPlayVideo.VIDEOURL" type="application/x-mpegURL" />
 						</video>-->
-						<div class="video-coverS"></div>
-						<img src="../../assets/images/exam/video.png" alt="" class="video" @click="videoButton('myPlayer' + (index + 1))">
-						<img src="../../assets/images/exam/video_cover2.png" alt="" width="100%" height="100%" @click="playVideo(item)">
+						<div class="video-coverS" ></div>
+						<img src="../../assets/images/exam/video.png" alt=""   class="video" @click="videoButton('myPlayer' + (index + 1))">
+						<!-- <img src="../../assets/images/exam/video_cover2.png" alt="" width="100%" height="100%" @click="playVideo(item)"> -->
 					</div>
 					<p>【{{item.SECTION}}】 {{item.VIDEONAME}}</p>
 				</li>
 
 			</ul>
-			<van-dialog v-model="show" :title="'【' + curPlayVideo.SECTION + '】' + curPlayVideo.VIDEONAME" @close="videoClose" :showCancelButton='false' confirmButtonText='关闭'>
-				<!--<video ref="myPlayer" id="myPlayer" width="100%" height="auto" poster="../../assets/images/exam/video_cover2.png" controls="controls" autoplay="autoplay"
-				    x-webkit-airplay="true" x5-video-player-fullscreen="true"
-				    preload="auto" playsinline="true" webkit-playsinline
-				    x5-video-player-typ="h5">
-					<source :src="curPlayVideo.VIDEOURL" type="application/x-mpegURL" />
-				</video>-->
-			</van-dialog>
+			<!-- <van-dialog v-model="show" :title="'【' + curPlayVideo.SECTION + '】' + curPlayVideo.VIDEONAME" @close="videoClose" :showCancelButton='false' confirmButtonText='关闭'>
+				
+			</van-dialog> -->
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
 		<!-- <study-footer></study-footer> -->
@@ -251,11 +252,47 @@
 
 <style scoped>
 	/* 去掉全屏时显示的自带控制条 */
-	
-	video::-webkit-media-controls {
-		display: none !important;
-	}
-	
+	 *::-webkit-media-controls-enclosure {
+	      display:none !important;
+	      -webkit-appearance: none;
+	    }
+	    *::-webkit-media-controls-panel {
+	      display: none!important;
+	      -webkit-appearance: none;
+	    }
+	    *::-webkit-media-controls-panel-container {
+	      display: none!important;
+	      -webkit-appearance: none;
+	    }
+	    *::--webkit-media-controls-play-button {
+	      display: none!important;
+	      -webkit-appearance: none;
+	    }
+	    *::-webkit-media-controls-start-playback-button {
+	      display: none!important;
+	      -webkit-appearance: none;
+	    }
+	    *::-webkit-media-controls {
+	    display: none!important;
+	    -webkit-appearance: none;
+	    }
+	video::-webkit-media-controls {display: none !important;}
+	video::-webkit-media-controls-panel {display: none !important;}
+	video::-webkit-media-controls-play-button {display: none !important;}
+	video::-webkit-media-controls-volume-slider-container {display: none !important;}
+	video::-webkit-media-controls-volume-slider {display: none !important;}
+	video::-webkit-media-controls-mute-button {display: none !important;}
+	video::-webkit-media-controls-timeline {display: none !important;}
+	video::-webkit-media-controls-current-time-display {display: none !important;}
+	video::-webkit-full-page-media::-webkit-media-controls-panel {display: none !important;}
+	video::-webkit-media-controls-timeline-container {display: none !important;}
+	video::-webkit-media-controls-time-remaining-display {display: none !important;}
+	video::-webkit-media-controls-seek-back-button {display: none !important;}
+	video::-webkit-media-controls-seek-forward-button {display: none !important;}
+	video::-webkit-media-controls-fullscreen-button {display: none !important;}
+	video::-webkit-media-controls-rewind-button {display: none !important;}
+	video::-webkit-media-controls-return-to-realtime-button {display: none !important;}
+	video::-webkit-media-controls-toggle-closed-captions-button {display: none !important;}
 	/deep/ .van-dialog {
 		top: 55%;
 	}
@@ -276,7 +313,6 @@
 	
 	.container_list {
 		padding: 14px 16px 0;
-		    height: 540px;
 	}
 	
 	.van-dropdown-menu {
@@ -357,6 +393,6 @@
 		height: 100px;
 		border-radius: 7px;
 		overflow: hidden;
-		/* position: relative; */
+		position: relative;
 	}
 </style>

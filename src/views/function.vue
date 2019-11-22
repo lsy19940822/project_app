@@ -5,7 +5,7 @@
 		<div class="container overflow">
 			<ul class="overflow function">
 				<li  v-for="(item,index) in dataList" :key="index" class="index">
-					<van-collapse v-model="activeNames" v-if="item.router != 3 && item.router != 5 && item.router != 6">
+					<van-collapse v-model="activeNames" v-if="item.router != 2 && item.router != 3 && item.router != 5 && item.router != 6">
 					  <van-collapse-item :name="index-1">
 						<div slot="title">
 							<p class="van-hairline--bottom exam-title">
@@ -20,7 +20,7 @@
 								<li class="overflow" v-if='item.router==1' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/Intelligence/labor?ValueId='+index})">
 								    <img :src="list.imgsrcOne" alt=""><span>{{list.text}}</span>
 								</li>
-								<li class="overflow" v-if='item.router==2 && list.router==0' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/SubmitQuestions'})">
+								<!-- <li class="overflow" v-if='item.router==2 && list.router==0' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/SubmitQuestions'})">
 								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
 								</li>
 								<li class="overflow" v-if='item.router==2 && list.router==1' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/leader_resolved'})">
@@ -31,7 +31,7 @@
 								</li>
 								<li class="overflow" v-if='item.router==2 && list.router==3' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/leader_safeIssueZ'})">
 								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
-								</li>
+								</li> -->
 								<li class="overflow" v-if='item.router==4' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/monitoring_list?value='+index})">
 								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
 								</li>
@@ -39,6 +39,10 @@
 						</van-cell>
 					  </van-collapse-item>
 					</van-collapse>
+					<van-cell is-link style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router ==2" @click="$router.push({path:'/application'})">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+						<span>{{item.title}}</span>
+					</van-cell>
 					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 3" @click="$router.push({path:'/examLogin'})">
 					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
 						<span>{{item.title}}</span>
@@ -155,33 +159,39 @@
 						]
 					},
 					{
-						title:"安全质量",
+						title:"应用管理",
 						router:'2',
 						img:require('../assets/images/index_icon/icon_aq@2x.png'),
-						data:[
-							{
-								text:'提出问题',
-								router:'0',
-						        imgsrcOne:require('../assets/engineering/engineering_t@2x.png'),
-							},
-							{
-								text:'已解决问题',
-								router:'1',
-							    imgsrcOne:require('../assets/engineering/engineering_j@2x.png'),
-							},
-							{
-								text:'安全问题',
-								router:'2',
-							    imgsrcOne:require('../assets/engineering/engineering_aq@2x.png'),
-							},
-							{
-								text:'质量问题',
-								router:'3',
-							    imgsrcOne:require('../assets/engineering/engineering_c@2x.png'),
-							},
-							
-						]
+						data:[]
 					},
+					// {
+					// 	title:"安全质量",
+					// 	router:'2',
+					// 	img:require('../assets/images/index_icon/icon_aq@2x.png'),
+					// 	data:[
+					// 		{
+					// 			text:'提出问题',
+					// 			router:'0',
+					// 	        imgsrcOne:require('../assets/engineering/engineering_t@2x.png'),
+					// 		},
+					// 		{
+					// 			text:'已解决问题',
+					// 			router:'1',
+					// 		    imgsrcOne:require('../assets/engineering/engineering_j@2x.png'),
+					// 		},
+					// 		{
+					// 			text:'安全问题',
+					// 			router:'2',
+					// 		    imgsrcOne:require('../assets/engineering/engineering_aq@2x.png'),
+					// 		},
+					// 		{
+					// 			text:'质量问题',
+					// 			router:'3',
+					// 		    imgsrcOne:require('../assets/engineering/engineering_c@2x.png'),
+					// 		},
+							
+					// 	]
+					// },
 					{
 						title:"考核培训",
 						router:'3',

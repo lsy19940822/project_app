@@ -76,19 +76,19 @@
 			<ul class="container_list container_lists" style="margin-top:0;">
 				<li>
 					<span>工程产值（元）</span>
-					<span><input type="text" name="" id="" placeholder="请输入"></span>
+					<span><input type="tel" name="" id="" placeholder="请输入"></span>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<span>总里程（公里）</span>
-					<span><input type="text" name="" id="" placeholder="请输入"></span>
+					<span><input type="tel" name="" id="" placeholder="请输入"></span>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<span>桩径（米）</span>
-					<span><input type="text" name="" id="" placeholder="请输入"></span>
+					<span><input type="tel" name="" id="" placeholder="请输入"></span>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<span>桩长（米）</span>
-					<span><input type="text" name="" id="" placeholder="请输入"></span>
+					<span><input type="tel" name="" id="" placeholder="请输入"></span>
 				</li>
 			</ul>
 
@@ -104,7 +104,7 @@
 			<h5>解决方案</h5>
 			<div class="container_list">
 				<van-cell-group>
-					<van-field v-model="message" rows="2" autosize type="textarea" maxlength="300" placeholder="请填写延期解决方案。"
+					<van-field v-model="messagey" rows="2" autosize type="textarea" maxlength="300" placeholder="请填写延期解决方案。"
 					 show-word-limit />
 				</van-cell-group>
 			</div>
@@ -159,6 +159,7 @@
 				StaffInfoData: [],
 				IDCard: '',
 				message: '',
+				messagey:'',
 				//实际开始时间
 				minDate: new Date(),
 				currentDate: new Date(),
@@ -270,8 +271,10 @@
 
 <style scoped>
 	input {
-		width: 48px;
-		height: 16px;
+		width: 90px;
+		height: 28px;
+		/* padding-right: 5px; */
+		/* margin-right: 10px; */
 		text-align: right;
 		border: none;
 	}

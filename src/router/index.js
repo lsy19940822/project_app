@@ -239,7 +239,11 @@ const router = new Router({
 			name: 'studyFooter',
 			component: resolve => require(["../components/studyFooter.vue"], resolve),
 		},
-
+        {
+			path: '/application',
+			name: 'application',
+			component: resolve => require(['../views/leader/application.vue'], resolve)
+		},
 		{
 			path: '/leader_safeQualityList',
 			name: 'leader_safeQualityList',

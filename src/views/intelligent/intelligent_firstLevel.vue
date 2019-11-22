@@ -259,10 +259,7 @@
 		border-bottom: 1px solid #eee;
 	}
 
-	li {
-		border-bottom: 1px solid #EEEEEE;
-	}
-
+	
 	li:last-child {
 		border-bottom: none;
 	}
