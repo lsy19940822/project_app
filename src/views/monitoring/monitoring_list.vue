@@ -13,7 +13,6 @@
 			<ul class="container_list overflow" v-show="GetVideoDatashow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
 					<div class="video-cover" ontouchmove="return false;">
-					
 						 <!--  -->
 					
 						<video ref="myPlayer" :id="'myPlayer' + (index + 1)" 
@@ -126,6 +125,17 @@
 		},
 		mounted() {
 			this.getUserWorkPointList();
+			var video = document.querySelector('#mainvideo');
+			  var videobox = document.querySelector('.videobox');
+			
+			  //播放时改变外层包裹的宽度，使video宽度增加，
+			  //相应高度也增加了,播放器控件被挤下去，配合overflow：hidden
+			  //控件看不见也触摸不到了
+			  var setVideoStyle = function (){
+			    videobox.style.width = '120%';
+			    videobox.style.left = '-10%';
+			    video.style.width = '100%';
+			  }
 			//			this.player = new EZUIPlayer(this.$refs.myPlayer);
 			//			this.player = new EZUIPlayer('myPlayer1');
 			//			setTimeout(function () {
@@ -246,6 +256,7 @@
 </script>
 
 <style scoped>
+	
 	/* 去掉全屏时显示的自带控制条 */
 	video::-webkit-media-controls{
 	    display:none !important;
