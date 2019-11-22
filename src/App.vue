@@ -15,14 +15,8 @@ export default {
 		margin-right: 0 !important;
 	}
 	html,body,#app {
-		padding: 0;
-		margin: 0;
 		width: 100%;
 		height: 100%;
-		
-		-webkit-user-select: none; 
-		user-select: none;
-		overflow: hidden;
 	}
 	/*  */
 	.routerlink{

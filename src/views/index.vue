@@ -13,9 +13,10 @@
 				</van-swipe>
 			</div>
 			<ul class="navList">
+				
 				<li @click="$router.push({path:'/intelligent?ValueId=0'})"><img src="../assets/images/index_icon/icon_jd@2x.png" alt=""><p>智能进度</p></li>
 				<li @click="$router.push({path:'/Intelligence/labor?ValueId=0'})"><img src="../assets/images/index_icon/icon_lw@2x.png" alt=""><p>智能劳务</p></li>
-				<li @click="windowButton()"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>应用管理</p></li>
+				<li @click="$router.push({path:'/application'})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>应用管理</p></li>
 				<!-- <li @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+type})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li> -->
 				<li @click="$router.push({path:'/examLogin'})"><img src="../assets/images/index_icon/icon_exam@2x.png" alt=""><p>考核测试</p></li>
 				<li @click="$router.push({path:'/machinePositioning?ValueId=0'})"><img src="../assets/images/index_icon/icon_dw@2x.png" alt=""><p>人机定位</p></li>
@@ -215,17 +216,21 @@
 			<div class="container_list">
 				<p class="van-hairline--bottom exam-title"><img src="../assets/images/index_icon/icon_aq@2x(1).png" alt="">安全质量</p>
 			    <ul class="container_nav" style="padding: 24px 0;">
-					 <li class="container_nav_aq"  @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+type})">
+					<!-- @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+type})" -->
+					 <li class="container_nav_aq"  >
 						   <p style="position: relative;">待解决<img src="../assets/images/index_icon/icon_zy@2x.png" alt="" width="16px" style="position: absolute;top:4px;right: 12px;"></p> 
 						   <p style="color: #C86565;">32个</p>
 					 </li>
+					 <!-- @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})" -->
 					 <li class="container_nav_shu"></li>
-					 <li class="container_nav_aq" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">
+					 <li class="container_nav_aq" >
 						 <p>安全问题</p> 
 						 <p>32个</p>
 					 </li>
+					 
 					 <li class="container_nav_shu"></li>
-					 <li class="container_nav_aq" @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})">
+					 <!-- @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})" -->
+					 <li class="container_nav_aq" >
 						 <p>质量问题</p> 
 						 <p>32个</p>
 					 </li>

@@ -90,12 +90,12 @@
 		},
 		methods:{
 			sumbit(){
-				let that=this;
-			    if(that.$route.query.type == 1){
-					that.$router.push({path:'/SubmitQuestions?userId='+that.$route.query.userId})
-				}else{
-					Toast("你暂无发起权限")
-				}
+				// let that=this;
+			 //    if(that.$route.query.type == 1){
+				// 	that.$router.push({path:'/SubmitQuestions?userId='+that.$route.query.userId})
+				// }else{
+				// 	Toast("你暂无发起权限")
+				// }
 			},
 		}
 	}

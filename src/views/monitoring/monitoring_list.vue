@@ -29,14 +29,9 @@
 				</li>
 
 			</ul>
-			<van-dialog v-model="show" :title="'【' + curPlayVideo.SECTION + '】' + curPlayVideo.VIDEONAME" @close="videoClose" :showCancelButton='false' confirmButtonText='关闭'>
-				<!--<video ref="myPlayer" id="myPlayer" width="100%" height="auto" poster="../../assets/images/exam/video_cover2.png" controls="controls" autoplay="autoplay"
-				    x-webkit-airplay="true" x5-video-player-fullscreen="true"
-				    preload="auto" playsinline="true" webkit-playsinline
-				    x5-video-player-typ="h5">
-					<source :src="curPlayVideo.VIDEOURL" type="application/x-mpegURL" />
-				</video>-->
-			</van-dialog>
+			<!-- <van-dialog v-model="show" :title="'【' + curPlayVideo.SECTION + '】' + curPlayVideo.VIDEONAME" @close="videoClose" :showCancelButton='false' confirmButtonText='关闭'>
+				
+			</van-dialog> -->
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
 		<!-- <study-footer></study-footer> -->
@@ -204,16 +199,16 @@
 				Object.assign(this.curPlayVideo, item);
 			},
 			//进入全屏
-//			FullScreen(el) {
-//				var ele = this.$refs[el][0];
-//				if(ele.requestFullscreen) {
-//					ele.requestFullscreen();
-//				} else if(ele.mozRequestFullScreen) {
-//					ele.mozRequestFullScreen();
-//				} else if(ele.webkitRequestFullScreen) {
-//					ele.webkitRequestFullScreen();
-//				}
-//			},
+			//			FullScreen(el) {
+			//				var ele = this.$refs[el][0];
+			//				if(ele.requestFullscreen) {
+			//					ele.requestFullscreen();
+			//				} else if(ele.mozRequestFullScreen) {
+			//					ele.mozRequestFullScreen();
+			//				} else if(ele.webkitRequestFullScreen) {
+			//					ele.webkitRequestFullScreen();
+			//				}
+			//			},
 			// //退出全屏
 			// exitFullscreen() {
 

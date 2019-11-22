@@ -119,7 +119,7 @@
 			}
 		},
 		created() {
-			this.GetMenuTreeList();
+			// this.GetMenuTreeList();
 			this.value1 = Number(this.$route.query.ValueId)
 			this.change1(this.value1) 
 			localStorage.setItem("intellgent_option1_value",this.$route.query.ValueId)
@@ -259,10 +259,7 @@
 		border-bottom: 1px solid #eee;
 	}
 
-	li {
-		border-bottom: 1px solid #EEEEEE;
-	}
-
+	
 	li:last-child {
 		border-bottom: none;
 	}

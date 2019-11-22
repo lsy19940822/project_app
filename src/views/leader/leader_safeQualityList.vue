@@ -15,7 +15,6 @@
 							<div class="text" @click="sumbit()">问题发起</div>
 						</div>
 					</van-col>
-					
 					<van-col span="6" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">
 						<div @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">
 							<div class="img-box" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">
@@ -234,3 +233,4 @@ overflow: hidden;
 /*loading*/
 .spinner{text-align:center;font-size:14px;padding:15px 0;color:#969799;}
 </style>
+
