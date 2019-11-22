@@ -1,9 +1,9 @@
 <template>
 	<div class="study">
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2" v-show="curPlayerId == ''">
 		</vant-header>
-		<div class="container overflow">
-			<div class="container_header overflow l-dropdown">
+		<div class="container overflow" :class="{'container-full': curPlayerId != ''}">
+			<div class="container_header overflow l-dropdown" v-show="curPlayerId == ''">
 				<van-dropdown-menu class='van-dropdown'>
 					<van-dropdown-item v-model="value1" :options="option1" @change="change1(value1)" />
 					<van-dropdown-item v-model="value2" :disabled="disabledSection" :options="option2" @change="change2(value2)" />
@@ -243,6 +243,9 @@
 </script>
 
 <style scoped>
+	.study {
+		height: 100%;
+	}
 	/* 去掉全屏时显示的自带控制条 */
 	
 	video::-webkit-media-controls {
@@ -384,17 +387,26 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		height: 100%;
+		right: 0;
+		bottom: 0;
+		height: 100%!important;
 		background: #333;
 		z-index: 500;
 		transition: all 0.3s linear;
 	}
 	
 	.video-close {
-		position: absolute;
+		position: fixed;
 		top: 10px;
 		right: 10px;
 		font-size: 30px;
 		color: #fff;
+		z-index: 500;
+	}
+	.container-full {
+		height: 100%;
+		padding-top: 0!important;
+		background: #333!important;
+		overflow: visible!important;
 	}
 </style>
