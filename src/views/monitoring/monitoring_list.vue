@@ -10,19 +10,19 @@
 				</van-dropdown-menu>
 			</div>
 			<div class="flase" v-show="!GetVideoDatashow" style="background: none; text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无视频源</div>
-			<ul class="container_list" style="overflow: auto;" v-show="GetVideoDatashow">
+			<ul class="container_list" v-show="GetVideoDatashow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
-					<div class="video-cover" ontouchmove="return false;">
+					<div class="video-cover" :class="{'video-play': curPlayerId == 'myPlayer' + (index + 1)}" ontouchmove="return false;">
 						<!-- controls -->
-
-						<video :ref="'myPlayer' + (index + 1)" :id="'myPlayer' + (index + 1)" width="100%" height="100%" poster="../../assets/images/exam/video_cover2.png" x-webkit-airplay="true" x5-video-player-fullscreen="true" preload="auto"   x5-video-player-typ="h5">
+						<van-icon name="cross" class="video-close" v-show="curPlayerId == 'myPlayer' + (index + 1)" @click="videoButton('myPlayer' + (index + 1), 'pause')" />
+						<video webkit-playsinline playsinline :ref="'myPlayer' + (index + 1)" :id="'myPlayer' + (index + 1)" width="100%" height="100%" poster="../../assets/images/exam/video_cover2.png" x-webkit-airplay="true" x5-video-player-fullscreen="true" preload="auto" x5-video-player-typ="h5">
 							<source :src="item.VIDEOURL" type="application/x-mpegURL" />
 						</video>
 						<!--<video ref="myPlayer1" id="myPlayer1" width="100%" height="auto" controls playsInline webkit-playsinline>
 							<source :src="curPlayVideo.VIDEOURL" type="application/x-mpegURL" />
 						</video>-->
-						<div class="video-coverS"></div>
-						<img src="../../assets/images/exam/video.png" alt="" class="video" @click="videoButton('myPlayer' + (index + 1))">
+						<div class="video-coverS" v-show="curPlayerId != 'myPlayer' + (index + 1)"></div>
+						<img src="../../assets/images/exam/video.png" alt="" class="video" v-show="curPlayerId != 'myPlayer' + (index + 1)" @click="videoButton('myPlayer' + (index + 1), 'play')">
 						<img src="../../assets/images/exam/video_cover2.png" alt="" width="100%" height="100%" @click="playVideo(item)">
 					</div>
 					<p>【{{item.SECTION}}】 {{item.VIDEONAME}}</p>
@@ -49,11 +49,11 @@
 	import studyFooter from '@/components/studyFooter.vue'
 
 	import Vue from 'vue';
-	import { DropdownMenu, DropdownItem, Cell, Loading } from 'vant';
+	import { DropdownMenu, DropdownItem, Cell, Loading, Icon } from 'vant';
 
 	import { Dialog } from 'vant';
 	Vue.use(Dialog);
-	Vue.use(DropdownMenu).use(DropdownItem).use(Cell).use(Loading);
+	Vue.use(DropdownMenu).use(DropdownItem).use(Cell).use(Loading).use(Icon);
 	import * as ajax from '@/utils/api'
 	export default {
 		components: {
@@ -106,7 +106,8 @@
 				disabledSection: false,
 				GetVideoDatashow: true,
 				curPlayVideo: {},
-				player: ""
+				player: "",
+				curPlayerId: ""
 			}
 		},
 		created() {
@@ -203,16 +204,16 @@
 				Object.assign(this.curPlayVideo, item);
 			},
 			//进入全屏
-			FullScreen() {
-				var ele = this.$refs.myPlayer;
-				if(ele.requestFullscreen) {
-					ele.requestFullscreen();
-				} else if(ele.mozRequestFullScreen) {
-					ele.mozRequestFullScreen();
-				} else if(ele.webkitRequestFullScreen) {
-					ele.webkitRequestFullScreen();
-				}
-			},
+//			FullScreen(el) {
+//				var ele = this.$refs[el][0];
+//				if(ele.requestFullscreen) {
+//					ele.requestFullscreen();
+//				} else if(ele.mozRequestFullScreen) {
+//					ele.mozRequestFullScreen();
+//				} else if(ele.webkitRequestFullScreen) {
+//					ele.webkitRequestFullScreen();
+//				}
+//			},
 			// //退出全屏
 			// exitFullscreen() {
 
@@ -225,20 +226,17 @@
 			//         de.webkitCancelFullScreen();
 			//     }
 			// },
-			videoButton(el) {
+			videoButton(el, type) {
 				console.log(this.$refs[el])
-				this.$refs[el][0].play();
-				//			 	var video = document.querySelector('#myPlayer1');
-				//			 	var videobox = document.querySelector('.video-cover');
-				//			 	//播放时改变外层包裹的宽度，使video宽度增加，
-				//			 	//相应高度也增加了,播放器控件被挤下去，配合overflow：hidden
-				//			 	//控件看不见也触摸不到了
-				//			 	var setVideoStyle = function (){
-				//			 	  videobox.style.width = '120%';
-				//			 	  videobox.style.left = '-10%';
-				//			 	  video.style.width = '100%';
-				//			 	}
-				this.FullScreen()
+				if(type == 'play') {
+					this.curPlayerId = el;
+					this.$refs[el][0].play();
+					return;
+				}
+				if(type == 'pause') {
+					this.curPlayerId = '';
+					this.$refs[el][0].pause();
+				}
 			},
 			videoClose() {
 				//				this.curPlayVideo.VIDEOURL = "";
@@ -253,6 +251,31 @@
 	/* 去掉全屏时显示的自带控制条 */
 	
 	video::-webkit-media-controls {
+		display: none !important;
+	}
+	/*video默认全屏按钮*/
+	
+	video::-webkit-media-controls-fullscreen-button {
+		display: none !important;
+	}
+	/*video默认aduio音量按钮*/
+	
+	video::-webkit-media-controls-mute-button {
+		display: none !important;
+	}
+	/*video默认setting按钮*/
+	
+	video::-internal-media-controls-overflow-button {
+		display: none !important;
+	}
+	/*腾讯云点播禁用firefox全屏、设置按钮*/
+	
+	.trump-button[sub-component="fullscreen_btn"],
+	.trump-button[now="fullscreen"] {
+		display: none!important;
+	}
+	
+	.trump-button[sub-component="setting"] {
 		display: none !important;
 	}
 	
@@ -276,7 +299,9 @@
 	
 	.container_list {
 		padding: 14px 16px 0;
-		    height: 540px;
+		height: 540px;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
 	}
 	
 	.van-dropdown-menu {
@@ -357,6 +382,24 @@
 		height: 100px;
 		border-radius: 7px;
 		overflow: hidden;
-		/* position: relative; */
+		position: relative;
+	}
+	
+	.video-play {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		background: #333;
+		z-index: 500;
+		transition: all 0.3s linear;
+	}
+	
+	.video-close {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		font-size: 30px;
+		color: #fff;
 	}
 </style>
