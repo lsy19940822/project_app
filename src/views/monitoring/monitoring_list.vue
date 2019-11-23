@@ -110,27 +110,10 @@
 		created() {
 			this.value1 = Number(this.$route.query.value || 0);
 			this.change1(this.value1)
-			this.StaffRetrieveList()
-			this.getUserWorkPointList();
+			// this.StaffRetrieveList()
+			// this.getUserWorkPointList();
 		},
 		mounted() {
-			this.getUserWorkPointList();
-			var video = document.querySelector('#mainvideo');
-			var videobox = document.querySelector('.videobox');
-
-			//播放时改变外层包裹的宽度，使video宽度增加，
-			//相应高度也增加了,播放器控件被挤下去，配合overflow：hidden
-			//控件看不见也触摸不到了
-			var setVideoStyle = function() {
-				videobox.style.width = '120%';
-				videobox.style.left = '-10%';
-				video.style.width = '100%';
-			}
-			//			this.player = new EZUIPlayer(this.$refs.myPlayer);
-			//			this.player = new EZUIPlayer('myPlayer1');
-			//			setTimeout(function () {
-			//				this.player.play();
-			//			}.bind(this), 3000)
 		},
 		methods: {
 			change1(val) {
@@ -161,19 +144,6 @@
 					if(res.data.result == true) {
 						that.GetVideoDatashow = true;
 						that.GetVideoData = res.data.data;
-						/// 微信端自动播放
-						//						document.addEventListener("WeixinJSBridgeReady", function() {
-						//							for(var v = 1; v <= that.GetVideoData.length; v++) {
-						//								document.getElementById('myPlayer' + v).play();
-						//							}
-						//						}, false);
-						//						wx.getNetworkType({
-						//							success: function(res) {
-						//								for(var v2 = 1; v2 <= that.GetVideoData.length; v2++) {
-						//									document.getElementById('myPlayer' + v2).play();
-						//								}
-						//							}
-						//						});
 						return;
 					}
 				})
@@ -206,29 +176,6 @@
 
 				Object.assign(this.curPlayVideo, item);
 			},
-			//进入全屏
-			//			FullScreen(el) {
-			//				var ele = this.$refs[el][0];
-			//				if(ele.requestFullscreen) {
-			//					ele.requestFullscreen();
-			//				} else if(ele.mozRequestFullScreen) {
-			//					ele.mozRequestFullScreen();
-			//				} else if(ele.webkitRequestFullScreen) {
-			//					ele.webkitRequestFullScreen();
-			//				}
-			//			},
-			// //退出全屏
-			// exitFullscreen() {
-
-			//     var de = this.$refs.myPlayer;
-			//     if (de.exitFullscreen) {
-			//         de.exitFullscreen();
-			//     } else if (de.mozCancelFullScreen) {
-			//         de.mozCancelFullScreen();
-			//     } else if (de.webkitCancelFullScreen) {
-			//         de.webkitCancelFullScreen();
-			//     }
-			// },
 			videoButton(el, type) {
 				console.log(this.$refs[el])
 				if(type == 'play') {
@@ -242,9 +189,6 @@
 				}
 			},
 			videoClose() {
-				//				this.curPlayVideo.VIDEOURL = "";
-				//				this.player.stop();
-				//				this.$refs.myPlayer.stop();
 			}
 		}
 	}
