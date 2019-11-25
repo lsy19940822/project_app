@@ -9,16 +9,21 @@
 		</div>
 		<div id="container"></div>
 		<ul class="footer_k" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
-			<div @click="activeClassButton()"></div>
+			<div @click="activeClassButton()"><van-icon name="arrow-up" color="rgba(112, 153, 208, 1)"  size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
 			<li v-show="showList" style="width: 100%;text-align: center;">暂无人员信息</li>
 			<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index<5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
 
 		</ul>
-		<ul class="footer_k footer_kS" :class="{'activeClass': activeClassType}" v-show='activeClassType' style="overflow: auto;">
-			<div @click="activeClassButton()"></div>
-			<li v-show="showList" style="width: 100%;text-align: center;">暂无人员信息</li>
-			<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index>=5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
-		</ul>
+		<transition name="van-slide-up">
+			<ul class="footer_k footer_kS" :class="{'activeClass': activeClassType}" v-show='activeClassType' style="overflow: auto;">
+				<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
+				<li v-show="showList" style="width: 100%;text-align: center;">暂无人员信息</li>
+				
+				<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index>=5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
+			</ul>
+		  <!-- <div v-show="visible">Slide Up</div> -->
+		</transition>
+		
 
 		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
 		<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
@@ -134,7 +139,12 @@
 				this.map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 			},
 			activeClassButton() {
-				this.activeClassType = !this.activeClassType
+				if(this.Saffdata.length<5){
+					Toast("暂无更多数据")
+				}else{
+					this.activeClassType = !this.activeClassType
+				}
+				
 			},
 			searchShowHide() {
 				this.isSearchShow = !this.isSearchShow
@@ -203,32 +213,17 @@
 								res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
 							}
 
-							//							var anchor = new qq.maps.Point(6, 6),
-							//								size = new qq.maps.Size(30, 30),
-							//								origin = new qq.maps.Point(0, 0),
-							//								// center:new qq.maps.LatLng(this.userInfor.LATITUDE,this.userInfor.LONGITUDE),
-							//								icon = new qq.maps.MarkerImage(res.data.data[k].PHOTOURL, size, origin, anchor, size);
-							//							var marker = new qq.maps.Marker({
-							//								icon: icon,
-							//								map: that.map,
-							//								position: new qq.maps.LatLng(res.data.data[k].LATITUDE, res.data.data[k].LONGITUDE)
-							//							});
-							//							that.map.panTo(new qq.maps.LatLng(res.data.data[k].LATITUDE, res.data.data[k].LONGITUDE));
-							//							console.log("marker::===", marker)
-
-							//							for(var i = 0; i < data.length; i++) {
 							if(res.data.data[k].LONGITUDE && res.data.data[k].LATITUDE){
 								points.push(new BMap.Point(res.data.data[k].LONGITUDE, res.data.data[k].LATITUDE));
 								pointsIndex.push(k);
 							}
-							//							}
 						}
 						// 坐标转化
 						var convertor = new BMap.Convertor();
 						convertor.translate(points, 1, 5, function(data) {
 							if(data.status === 0) {
 								for(var j = 0; j < data.points.length; j++) {
-									var icon = new BMap.Icon(res.data.data[pointsIndex[j]].PHOTOURL || require('../../assets/images/exam/timg.jpg'), new BMap.Size(24, 25), {
+									var icon = new BMap.Icon(res.data.data[pointsIndex[j]].PHOTOURL || require('../../assets/images/exam/eimg.png'), new BMap.Size(24, 25), {
 										anchor: new BMap.Size(24, 25),
 										offset: new BMap.Size(24, 25),
 										imageSize: new BMap.Size(24, 25),
@@ -320,13 +315,7 @@
 		height: 90% !important;
 	}
 	
-	.footer_k div {
-		width: 19px;
-		height: 2px;
-		background: rgba(112, 153, 208, 1);
-		border-radius: 1px;
-		margin: 0 auto 10px;
-	}
+	
 	
 	.footer_car li,
 	.footer_carS li {

@@ -39,20 +39,20 @@
 						</van-cell>
 					  </van-collapse-item>
 					</van-collapse>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router ==2" @click="$router.push({path:'/application'})">
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+					<van-cell is-link class="link" style="padding: 0 14px;border-bottom: 1px solid #eee;" v-if="item.router ==2" @click="$router.push({path:'/application'})">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 3" @click="$router.push({path:'/examLogin'})">
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+					<van-cell is-link class="link" style="padding: 0 14px;" v-if="item.router == 3" @click="$router.push({path:'/examLogin'})">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 5" @click="$router.push({path:'/machinePositioning?ValueId=0'})">
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+					<van-cell is-link class="link" style="padding: 0 14px;border-bottom: 1px solid #eee;" v-if="item.router == 5" @click="$router.push({path:'/machinePositioning?ValueId=0'})">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 6">
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+					<van-cell is-link class="link" style="padding: 0 14px;" v-if="item.router == 6">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
 				</li>
@@ -261,6 +261,7 @@
 </script>
 
 <style scoped>
+	
 	.list_ul li{padding: 10px 0;}
 	.list_ul li img{
 		width:20px;
@@ -272,8 +273,8 @@
 		line-height: 20px;
 		font-size: 12px;
 	}
-	.van-hairline--bottom{
-	    height: 40px;
+	p.van-hairline--bottom,p.van-cell__value,.link .van-cell__value{
+	    height: 50px;
 	    width: 100%;
 	    float: left;
 	    font-size: 14px;
@@ -282,24 +283,28 @@
 	    font-weight: 400;
 	    color: rgba(51,51,51,1);
 	    margin: 0;
+		line-height: 50px;
+	}
+	.link .van-cell__value{
+		  padding-left: 0px;
+	}
+	p.van-hairline--bottom img,p.van-cell__value img,.link .van-cell__value img {
+	    width: 14px;
+	    float: left;
+	    margin-right: 5px;
+	    margin-top: 18px;
 	}
 	/deep/
 	.van-collapse-item__title{
 		padding: 0;
 		padding-right: 14px;
-		 line-height: 40px;
 	}
 	/deep/
 	.van-cell__right-icon {
 	    margin-left: 5px;
-		margin-top: 8px;
+		margin-top: 15px;
 	}
-	.van-hairline--bottom img{
-	    width: 14px;
-	    float: left;
-	    margin-right: 5px;
-	    margin-top: 12px;
-	}
+	
 	/deep/
 	.van-collapse-item__title .van-cell__right-icon::before{
 		    -webkit-transform: rotate(0deg);

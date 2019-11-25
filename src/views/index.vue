@@ -16,9 +16,9 @@
 				
 				<li @click="$router.push({path:'/intelligent?ValueId=0'})"><img src="../assets/images/index_icon/icon_jd@2x.png" alt=""><p>智能进度</p></li>
 				<li @click="$router.push({path:'/Intelligence/labor?ValueId=0'})"><img src="../assets/images/index_icon/icon_lw@2x.png" alt=""><p>智能劳务</p></li>
-				<li @click="$router.push({path:'/application'})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>应用管理</p></li>
+				<li @click="$router.push({path:'/application'})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li>
 				<!-- <li @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+type})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li> -->
-				<li @click="$router.push({path:'/examLogin'})"><img src="../assets/images/index_icon/icon_exam@2x.png" alt=""><p>考核测试</p></li>
+				<li @click="$router.push({path:'/examLogin'})"><img src="../assets/images/index_icon/icon_exam@2x.png" alt=""><p>考核培训</p></li>
 				<li @click="$router.push({path:'/machinePositioning?ValueId=0'})"><img src="../assets/images/index_icon/icon_dw@2x.png" alt=""><p>人机定位</p></li>
 				<li @click="$router.push({path:'/monitoring'})"><img src="../assets/images/index_icon/icon_jk@2x.png" alt=""><p>智能监控</p></li>
 				<li @click="tost()"><img src="../assets/images/index_icon/icon_hj@2x.png" alt=""><p>环境监控</p></li>
@@ -61,13 +61,13 @@
 							 <span><img src="../assets/images/index_icon/icon_zcz@2x.png" alt="" width="11px"></span>
 							 <span style="color:rgba(102,102,102,1);">总产值</span>
 							 <span style="float: right;">
-								 <span>20989.99万</span>
-								 <span style="color:rgba(64,69,94,1);">/30989.99万</span>
+								 <span>{{getSchedule.CompletedOutputValue}}万</span>
+								 <span style="color:rgba(64,69,94,1);">/{{getSchedule.GrossOutput}}万</span>
 								
 							 </span>
 						</p>
 						<p>
-							 <van-progress color="#DCAA4F" :percentage="63" stroke-width="6" />
+							 <van-progress color="#DCAA4F" :percentage="getSchedule.PercentCompleted" stroke-width="6" />
 						 </p>
 					 </div>
 					 <div class="navLists">
@@ -390,6 +390,11 @@
 				questionText:"常益长铁路工程信息化管理平台",
 				images: [],
 				type:'',
+				getSchedule:{
+					GrossOutput:"",
+					CompletedOutputValue:"",
+					PercentCompleted:0
+				}
 			}
 		},
 		created() {
@@ -418,7 +423,14 @@
 						}
 					}
 				})
-				
+				ajax.get('/API/WebAPIDataAudit/getSchedule').then(res => {
+					if(res.data.result) {
+						this.getSchedule.GrossOutput = res.data.data.GrossOutput
+						this.getSchedule.CompletedOutputValue = res.data.data.CompletedOutputValue
+						this.getSchedule.PercentCompleted = Number((res.data.data.PercentCompleted)*100)
+						
+					}
+				})
 			},
 			tost(){
 				Toast('敬请期待！');

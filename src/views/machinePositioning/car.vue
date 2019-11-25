@@ -3,19 +3,21 @@
 
 		<div class="l-dropdown">
 			<van-dropdown-menu>
-				<van-dropdown-item v-model="value1" :options="option1" />
-				<van-dropdown-item v-model="value2" :options="option2" />
+				<van-dropdown-item :id="value1" v-model="value1" :options="option1" @change="change1(value1)" />
+				<van-dropdown-item :id="value2" :disabled="disabledSection" v-model="value2" :options="option2" @change="change2(value2)" />
 			</van-dropdown-menu>
 		</div>
 		<div id="containerS"></div>
 		<ul class="footer_k footer_car" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
-			<div @click="activeClassButton()"></div>
+			<div @click="activeClassButton()"><van-icon name="arrow-up" color="rgba(112, 153, 208, 1)" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
+			<li v-show="showList" style="width: 100%;text-align: center;">暂无车辆信息</li>
 			<!--$router.push({path:'/machinePositioning_carX'})-->
-			<li @click="showCarDetails(item)" v-for="item in carList.slice(0,4)"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.CARNUMBER}}</span></li>
+			<li @click="showCarDetails(item)" v-show="!showList" v-for="item in carList.slice(0,4)"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.CARNUMBER}}</span></li>
 		</ul>
 		<ul class="footer_k footer_carS" :class="{'activeClass': activeClassType}" v-show='activeClassType'>
-			<div @click="activeClassButton()"></div>
-			<li @click="showCarDetails(item)" v-for="item in carList"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.CARNUMBER}}</span></li>
+			<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" style="margin-bottom: 10px; text-align: center;display: block;"/></div>
+			<li v-show="showList" style="width: 100%;text-align: center;">暂无车辆信息</li>
+			<li @click="showCarDetails(item)" v-show="!showList" v-for="item in carList"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.CARNUMBER}}</span></li>
 		</ul>
 
 		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
@@ -49,16 +51,17 @@
 				searchVal: '',
 				isSearchShow: false,
 				activeClassType: false,
-				value1: '',
+				value1: 0,
 				Section: '',
-				value2: '',
+				value2: 0,
 				Worksite: '',
 				ajax: ajax,
+				showList: true,
 				map: null,
 				carList: [],
 				option1: [{
 						text: '全部标段',
-						value: ''
+						value: 0
 					},
 					{
 						text: 'CYCZQ-1标',
@@ -91,15 +94,22 @@
 				],
 				option2: [{
 					text: '全部工点',
-					value: ''
-				}]
+					value: 0
+				}],
+				disabledSection: "",
 			}
 		},
 		components: {
 			vantHeader
 		},
 		created() {
-			console.log(ajax)
+			this.value1 = Number(this.$route.query.ValueId);
+			if(this.value1 == 0) {
+				this.Section == '';
+			} else {
+				this.change1(this.value1);
+			}
+			this.getUserWorkPointList();
 		},
 		mounted() {
 			this.init();
@@ -107,11 +117,6 @@
 		},
 		methods: {
 			init() {
-				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
-				//				this.map = new qq.maps.Map(document.getElementById("containerS"), {
-				//					center: new qq.maps.LatLng(39.916527, 116.397128), // 地图的中心地理坐标。
-				//					zoom: 8
-				//				});
 				this.map = new BMap.Map("containerS");
 				var point = new BMap.Point(116.404, 39.915);
 				this.map.centerAndZoom(point, 15);
@@ -136,16 +141,51 @@
 
 			},
 			change1(val) {
-				this.Section = this.option1[val].text
-				console.log("当前标段：", this.option1[val].text)
+				let that = this;
+				if(val != 0) {
+					that.Section = that.option1[val].text
+				} else {
+					that.Section = '';
+				}
+				that.option2.splice(1);
+				that.getUserWorkPointList();
+				that.getAllGPS();
 			},
 			change2(val) {
-				this.Worksite = this.option2[val].text.replace("#", "%23")
-				console.log("当前工点：", this.option2[val].text)
+				let that = this;
+				if(val != 0) {
+					that.Worksite = that.option2[val].text
+				} else {
+					that.Worksite = '';
+				}
+				that.Worksite = that.option2[val].text.replace("#", "%23")
+			    that.getAllGPS();
+			},
+			getUserWorkPointList() {
+				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section=' + this.Section).then(res => {
+					if(res.data.result == false) {
+						this.disabledSection = true;
+						this.showList = true;
+						return;
+					}
+					if(res.data.result == true) {
+						for(let k in res.data.data) {
+							if(res.data.data[k].WORKAREA != null) {
+								this.option2.push({
+									text: res.data.data[k].WORKAREA,
+									value: Number(k)
+								})
+							}
+						}
+						this.disabledSection = false;
+						this.showList = false;
+						return;
+					}
+				})
 			},
 			getAllGPS() {
 				let that = this;
-				ajax.get('/API/WebAPIDataAudit/getCarInfo?section=' + this.Section + '&worksite=' + this.Worksite).then(res => {
+				ajax.get('/API/WebAPIDataAudit/getCarInfo?Section=' + this.Section + '&worksite=' + this.Worksite).then(res => {
 					if(res.status == 200 && res.data.data && res.data.data.length > 0) {
 						var data = res.data.data;
 						that.carList = data;
@@ -253,17 +293,11 @@
 		height: 90% !important;
 	}
 	
-	.footer_k div {
-		width: 19px;
-		height: 2px;
-		background: rgba(112, 153, 208, 1);
-		border-radius: 1px;
-		margin: 0 auto 10px;
-	}
-	
+
 	.footer_car li,
 	.footer_carS li {
-		width: 25% !important;
+		width: 25% ;
+		float: left;
 	}
 	
 	.footer_car li img,
@@ -274,12 +308,6 @@
 		border: 1px solid rgba(238, 238, 238, 1);
 	}
 	
-	.footer_k li {
-		width: 20%;
-		height: auto;
-		overflow: hidden;
-		float: left;
-	}
 	
 	.footer_k li img {
 		width: 45px;

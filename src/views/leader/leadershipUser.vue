@@ -16,12 +16,12 @@
 				</van-cell>
 			</div>
 			<ul class="user_ul overflow">
-				<li class="overflow" @click="sumbit()">
-					<div class="icon_user" @click="sumbit()">
+				<li class="overflow" >
+					<div class="icon_user">
 						<img src="../../assets/images/user_icon/icon_user@2x (1).png" alt="" width="18px">
 						</div>
-					<div class="user_t" @click="sumbit()">
-						<van-cell is-link @click="sumbit()">
+					<div class="user_t" >
+						<van-cell is-link>
 						    <span>提出问题</span>
 						</van-cell>
 					</div>
