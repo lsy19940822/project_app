@@ -9,16 +9,21 @@
 		</div>
 		<div id="containerS"></div>
 		<ul class="footer_k footer_car" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
-			<div @click="activeClassButton()"><van-icon name="arrow-up" color="rgba(112, 153, 208, 1)" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
+			<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
 			<li v-show="showList" style="width: 100%;text-align: center;">暂无车辆信息</li>
 			<!--$router.push({path:'/machinePositioning_carX'})-->
 			<li @click="showCarDetails(item)" v-show="!showList" v-for="item in carList.slice(0,4)"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.CARNUMBER}}</span></li>
 		</ul>
-		<ul class="footer_k footer_carS" :class="{'activeClass': activeClassType}" v-show='activeClassType'>
-			<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" style="margin-bottom: 10px; text-align: center;display: block;"/></div>
-			<li v-show="showList" style="width: 100%;text-align: center;">暂无车辆信息</li>
-			<li @click="showCarDetails(item)" v-show="!showList" v-for="item in carList"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.CARNUMBER}}</span></li>
-		</ul>
+		<transition name="van-slide-up">
+			<ul class="footer_k footer_carS" :class="{'activeClass': activeClassType}" v-show='activeClassType' style="overflow: auto;">
+				<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
+				<li v-show="showList" style="width: 100%;text-align: center;">暂无车辆信息</li>
+				
+				<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index>=5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
+			</ul>
+		  <!-- <div v-show="visible">Slide Up</div> -->
+		</transition>
+		
 
 		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
 		<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
@@ -129,7 +134,11 @@
 				this.map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 			},
 			activeClassButton() {
-				this.activeClassType = !this.activeClassType
+				if(this.Saffdata.length<5){
+					Toast("暂无更多数据")
+				}else{
+					this.activeClassType = !this.activeClassType
+				}
 			},
 			searchShowHide() {
 				this.isSearchShow = !this.isSearchShow
