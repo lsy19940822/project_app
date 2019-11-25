@@ -26,7 +26,7 @@
 			    :src="settingoprops.active ? icon[2].active : icon[2].normal"
 			  >
 		  </van-tabbar-item>
-		  <van-tabbar-item replace to="/staffUser?IDCard=111111111111111111">
+		  <van-tabbar-item replace to="/staffUser">
 			  <span>我的</span>
 			  <img
 			    slot="icon"
@@ -69,6 +69,7 @@
 						normal: require('../assets/images/index_icon/ueser@2x.png'),
 						active: require('../assets/images/index_icon/user2@2x.png')
 					}]
+				
 			}
 		}
 	}

@@ -21,20 +21,20 @@
 						</van-cell>
 					  </van-collapse-item>
 					</van-collapse>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 1" >
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+					<van-cell is-link class="link" style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 1" >
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 2" >
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+					<van-cell is-link class="link" style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 2" >
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 3">
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+					<van-cell is-link class="link" style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 3">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link style="padding: 0 14px;line-height: 40px;" v-if="item.router == 4">
-					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;margin-top: 12px;float: left;">
+					<van-cell is-link  class="link" style="padding: 0 14px;line-height: 40px;" v-if="item.router == 4">
+					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
 				</li>
@@ -158,8 +158,8 @@
 		line-height: 20px;
 		font-size: 12px;
 	}
-	.van-hairline--bottom{
-	    height: 40px;
+	p.van-hairline--bottom,p.van-cell__value,.link .van-cell__value{
+	    height: 50px;
 	    width: 100%;
 	    float: left;
 	    font-size: 14px;
@@ -168,6 +168,16 @@
 	    font-weight: 400;
 	    color: rgba(51,51,51,1);
 	    margin: 0;
+		line-height: 50px;
+	}
+	.link .van-cell__value{
+		  padding-left: 0px;
+	}
+	p.van-hairline--bottom img,p.van-cell__value img,.link .van-cell__value img {
+	    width: 14px;
+	    float: left;
+	    margin-right: 5px;
+	    margin-top: 18px;
 	}
 	/deep/
 	.van-collapse-item__title{

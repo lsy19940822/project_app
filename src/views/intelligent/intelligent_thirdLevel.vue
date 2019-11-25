@@ -189,6 +189,10 @@
 </script>
 
 <style scoped>
+	/deep/
+	.van-cell{
+		padding: 13px 16px;
+	}
 	/deep/ .van-collapse-item__title .van-cell__right-icon::before {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);

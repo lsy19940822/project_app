@@ -174,11 +174,14 @@
 								   return value.split("").join("\n");
 							    }
 							},
-							
+							axisTick: {
+							    alignWithLabel: true
+							}
 					    },
 						grid: {
 							left: '10%',
-							bottom:'30%'
+							bottom:'30%',
+							
 						},
 					    yAxis: {
 					        
@@ -189,9 +192,10 @@
 					            throttle:'50',
 					            minValueSpan:4,
 					            start: 0,
-					            end: 15
+					            end: 20
 					        }
 					    ],
+						
 					    series: [
 					        {
 					       		name:'人数',

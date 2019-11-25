@@ -5,7 +5,8 @@
 				
 			</vant-header>
 			<!--安全质量nav-->
-			<iframe src="https://www.jiandaoyun.com/sso/custom/5dbea33f85bed20006e0e5e4/iss" width="100%" height="650" frameborder="0" scrolling="auto" style="
+			
+			<iframe ref='iframe1' :src="href" width="100%" height="650" frameborder="0" scrolling="auto" style="
 			position:absolute;top: 46px;left: 0px;right: 0;">
 			</iframe>
 			
@@ -15,16 +16,29 @@
 
 <script>
 	import vantHeader from '@/components/header.vue'
+	import * as ajax from '@/utils/api'
 	export default {
 		data(){
 			return{
-				questionText:"应用管理"
+				questionText:"应用管理",
+				href:"",
+				userData:{}
 			}
 		},
 		components:{
 			vantHeader
 		},
 		created() {
+			
+			let userData=sessionStorage.getItem("chang_yi_UserData")
+			Object.assign(this.userData, JSON.parse(userData));
+			ajax.postParamsW('/api/jdyApi/addJDYUser',{
+				userid:this.userData.USERID
+			}).then(res => {
+				console.log(res)
+				
+			});
+				this.href="https://www.jiandaoyun.com/sso/custom/5dbea33f85bed20006e0e5e4/iss?userid="+this.userData.USERID
 		},
 		mounted(){
 			
