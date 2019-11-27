@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style>
+	.Treedata{
+		background: #fff;
+	}
 	.van-uploader__wrapper .van-uploader__preview:last-child,.van-uploader__wrapper .van-uploader__upload{
 		margin-right: 0 !important;
 	}
@@ -19,6 +22,11 @@ export default {
 		height: 100%;
 	}
 	/*  */
+	.intelligent .routerlink{
+		
+		width: 33.3% !important;
+		
+	} 
 	.routerlink{
 		width:50%;
 		height: 44px;
@@ -30,6 +38,21 @@ export default {
 		border-bottom: 1px solid #eee;
 		background: #fff;
 	}
+	.intelligent div.router-link-active:nth-of-type(1){
+		border-bottom:3px solid #9499AA !important;
+	}
+	.intelligent div.router-link-active:nth-of-type(2){
+		border-bottom:3px solid #999 !important;
+	}
+	.intelligent div.router-link-active:nth-of-type(3){
+		border-bottom:3px solid rgb(195, 99, 99) !important;
+	}
+/* 	.intelligent .router-link-active{
+		border-bottom:3px solid #999 !important;
+		width: 33.3% !important;
+		color: #333;
+	} */
+	/* */
 	.router-link-active{
 		border-bottom:3px solid #9499AA;
 		width: 50% !important;

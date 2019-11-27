@@ -97,8 +97,8 @@
 				// that.IDCard=that.$route.query.IDCard;
 				ajax.get('/API/WebAPIDataAudit/StaffInfo?IDCard='+this.$route.query.IDCard).then(res => {
 					if(res.data.result) {
-						this.StaffInfoData=res.data.data[0]
-						this.StaffInfoData.PHOTOURL=ajax.http+that.StaffInfoData.PHOTOURL.slice(2)
+						this.StaffInfoData=res.data.data[0];
+						this.StaffInfoData.PHOTOURL=ajax.http+that.StaffInfoData.PHOTOURL.slice(2);
 						this.StaffInfoData.ENTRYDATE=this.StaffInfoData.ENTRYDATE.replace("T", " ");
 						this.StaffInfoData.QUITDATE=this.StaffInfoData.QUITDATE.replace("T", " ");
 					}

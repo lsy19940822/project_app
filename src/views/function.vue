@@ -118,7 +118,7 @@
 							    imgsrcOne:require('../assets/engineering/engineering@2x(5).png'),
 							},
 							{
-								text:'CYCZQ-5标6',
+								text:'CYCZQ-6标',
 							    imgsrcOne:require('../assets/engineering/engineering@2x(6).png'),
 							},
 						]
@@ -153,7 +153,7 @@
 							    imgsrcOne:require('../assets/engineering/engineering@2x(11).png'),
 							},
 							{
-								text:'CYCZQ-5标6',
+								text:'CYCZQ-6标',
 							    imgsrcOne:require('../assets/engineering/engineering@2x(12).png'),
 							},
 						]
@@ -228,7 +228,7 @@
 							    imgsrcOne:require('../assets/engineering/gongcheng@2x (2).png'),
 							},
 							{
-								text:'CYCZQ-5标6',
+								text:'CYCZQ-6标',
 							    imgsrcOne:require('../assets/engineering/gongcheng@2x (3).png'),
 							},
 						]

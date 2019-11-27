@@ -76,19 +76,19 @@
 			<ul class="container_list container_lists" style="margin-top:0;">
 				<li>
 					<span>工程产值（元）</span>
-					<span><input type="tel" name="" id="" placeholder="请输入"></span>
+					<span><input type="tel" name="" placeholder="请输入"></span>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<span>总里程（公里）</span>
-					<span><input type="tel" name="" id="" placeholder="请输入"></span>
+					<span><input type="tel" name="" placeholder="请输入"></span>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<span>桩径（米）</span>
-					<span><input type="tel" name="" id="" placeholder="请输入"></span>
+					<span><input type="tel" name=""  placeholder="请输入"></span>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<span>桩长（米）</span>
-					<span><input type="tel" name="" id="" placeholder="请输入"></span>
+					<span><input type="tel" name="" placeholder="请输入"></span>
 				</li>
 			</ul>
 

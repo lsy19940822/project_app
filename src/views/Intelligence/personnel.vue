@@ -125,8 +125,6 @@
 				}
 				ajax.get('/API/WebAPIDataAudit/getCompany?Section='+this.Section).then(res => {
 					if(res.data.result == false){
-						
-						this.option2.push({text: '暂无单位',value: 0})
 						this.disabledSection=true;
 						if(this.disabledSection==true){
 							this.disabledUnit=true;
@@ -139,7 +137,7 @@
 							if(res.data.data[k].COMPANY != null){
 								this.option2.push({
 									text:res.data.data[k].COMPANY,
-									value:Number(k)
+									value:Number(k)+Number(1)
 								})
 							}
 						}

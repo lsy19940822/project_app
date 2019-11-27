@@ -11,15 +11,23 @@
 		<ul class="footer_k" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
 			<div @click="activeClassButton()"><van-icon name="arrow-up" color="rgba(112, 153, 208, 1)"  size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
 			<li v-show="showList" style="width: 100%;text-align: center;">暂无人员信息</li>
-			<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index<5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
+			<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index<5">
+				<img :src="item.PHOTOURL" alt="">
+				<span style="display: block;">{{item.EXAMNAME}}</span>
+			</li>
 
 		</ul>
 		<transition name="van-slide-up">
 			<ul class="footer_k footer_kS" :class="{'activeClass': activeClassType}" v-show='activeClassType' style="overflow: auto;">
 				<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
-				<li v-show="showList" style="width: 100%;text-align: center;">暂无人员信息</li>
-				
-				<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index>=5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
+				<li class="position" v-for="(item,index) in  10" v-if="index>=5"  @click="showUserDetails(item)" style="width: 100%;">
+					<img :src="item.PHOTOURL" alt="" style="width: 45px;height: 45x; margin-right: 10px;">
+				<!--  v-if="item.STATUS == 1" v-if="item.STATUS == 0"-->
+					<span style="float: left;margin: 0;line-height: 45px;">{{item.EXAMNAME}}</span>
+					<span class="status" style="margin-left: 14px;margin-top: 10px;display: block;float: left;height: 26px;line-height: 16px;">在线</span>
+					<span class="status" style="background: #B9B9B9;margin-left: 14px;margin-top: 10px;display: block;float: left;height: 26px;line-height: 16px;" v-if="item.STATUS == 0">离线</span>
+					<span style="float: right;margin: 0;line-height: 45px;">{{item.WORKTYPE}}</span>
+				</li>
 			</ul>
 		  <!-- <div v-show="visible">Slide Up</div> -->
 		</transition>
@@ -139,6 +147,7 @@
 				this.map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 			},
 			activeClassButton() {
+				
 				if(this.Saffdata.length<5){
 					Toast("暂无更多数据")
 				}else{
@@ -256,6 +265,31 @@
 </script>
 
 <style scoped>
+	.status {
+		padding: 5px 10px;
+		background: #7AB182;
+		border-radius: 2px;
+		color: #fff;
+		font-size: 12px;
+		margin-left: 14px;
+	}
+	.position img {
+	    float: left;
+	}
+	.position {
+		border-bottom: 1px solid #eee;
+		padding: 16px;
+		line-height: 32px;
+		font-size: 17px;
+	}
+	.position:last-child{
+		border-bottom: none;
+	}
+	.position span:last-child {
+		float: right;
+		color: #ddd;
+		font-size: 14px;
+	}
 	#container {
 		min-width: 100%;
 		min-height: 100%;
@@ -285,14 +319,7 @@
 		font-size: 14px;
 	}
 	
-	.position img {
-		width: 32px;
-		height: 32px;
-		display: block;
-		float: left;
-		margin-right: 10px;
-		background: #9499AA;
-	}
+	
 	
 	.footer_k {
 		width: 100%;
@@ -352,7 +379,6 @@
 	
 	.footer_k li span {
 		margin-top: 10px;
-		display: block;
 		text-align: center;
 	}
 	/*  */
@@ -430,11 +456,6 @@
 		margin: 0;
 	}
 	
-	img {
-		display: block;
-		width: 100%;
-		height: auto
-	}
 	
 	/deep/ .van-tabs__line {
 		background-color: #9499AA;

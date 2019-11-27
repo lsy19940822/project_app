@@ -7,7 +7,7 @@
 		<div id="containerS"></div>
 		<div class="list-content">
 			<ul class="footer_k" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
-				<div @click="activeClassButton()" class="shu"></div>
+				<div class="shu"></div>
 				<div class="overflow">
 					<li @click="$router.push({path:'/car/informationCar'})"><img src="../../../assets/images/exam/car_1.png" alt=""><span>车辆信息</span></li>
 					<li>

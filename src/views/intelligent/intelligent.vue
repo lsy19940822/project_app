@@ -9,7 +9,7 @@
 				<div class="inte_gent">
 					<ul class="innerLabel" >
 						<li ref='style'
-						@click="studyActives($event,index)" 
+						@click="studyActives($event,index,item.title)" 
 						:class="{activeLabel:num==index}" v-for="(item,index) in cycaqData"
 						:id="index">{{item.title}}</li>
 					</ul>
@@ -83,7 +83,7 @@
 				</li>
 			</ul>
 			<ul>
-				<li class='Buttond'  @click="$router.push({path:'/intelligent_firstLevel?ValueId='+id})">
+				<li class='Buttond'  @click="$router.push({path:'/intelligent/engineering_a'})">
 					<van-button color="#7099D0" size="normal" style='width: 100%;' >查看进度详情</van-button>
 				</li>
 			</ul>
@@ -135,11 +135,12 @@
 					percentage4:0,
 					percentage5:0,
 				},
-				id:0
+			
 			}
 		},
 		created() {
 			this.GetMenuTreeList();
+			
 			this.num=Number(this.$route.query.ValueId);
 			if(this.num == 1){
 				this.percentage.percentage1=Number(32)
@@ -166,9 +167,11 @@
 			inte(){
 				
 			},
-			studyActives(event, index) {
-				console.log("当前标段id：",event.target.id)
-				this.id=event.target.id;
+			studyActives(event, index,name) {
+				console.log("当前标段名：",name)
+				sessionStorage.setItem("intelligent_CycName",name)
+				this.CycName=sessionStorage.getItem("intelligent_CycName")
+				// this.CycName=name;
 				this.num=index;
 				if(this.num<3){
 					this.$refs.style[0].style.marginLeft='0px'

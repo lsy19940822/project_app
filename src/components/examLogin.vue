@@ -15,10 +15,11 @@
 						<van-field v-model="IDCard" placeholder="请输入您的身份证号码" />
 					</van-cell-group>
 					<van-button type="primary" @click="login()" style="width: 100%;margin-bottom: 25px;"><span style="color:#fff">登录系统</span></van-button>
-					<van-button  color="rgba(217,217,217,1)" @click="goNextS()" style="width: 100%;"><span style="color:#888">进入培训系统</span></van-button>
+				</div>
+				<div style="width:85%;position:fixed;bottom: 15px;left:50%;margin-left:-42.5%">
+					<van-button  color="rgba(112,153,208,1)" @click="goNextS()" style="width:100%;" ><span style="color:#fff">进入培训系统</span></van-button>
 				</div>
 	  		</div>
-	  		
 	  	</div>
 	  	<van-popup v-model="showTips" class="login-tips">
 	  		<div>
@@ -121,19 +122,9 @@
 				}
 			},
 			goNextS() {
-				if(this.IDCard == ''){
-					Toast("请输入身份证号码");
-				}else if(this.IDCard.length!=18){
-					Toast("请输入有效身份证号码");
-				}else{
-					localStorage.setItem('IDCard',this.IDCard)
-					this.$router.push({
-						path: '/study',
-						query: {
-							IDCard: this.IDCard
-						}
-					})
-				}
+				this.$router.push({
+					path: '/study'
+				})
 			}
 		}
 	}
@@ -141,9 +132,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-	/*.container{
+	.container{
 		padding-top: 46px;
-	}*/
+	}
 	.container .login-bg{
 		width: 100%;
 		height:auto;

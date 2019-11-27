@@ -9,17 +9,24 @@
 		</div>
 		<div id="containerS"></div>
 		<ul class="footer_k footer_car" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
-			<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
+			<div @click="activeClassButton()"><van-icon name="arrow-up" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
 			<li v-show="showList" style="width: 100%;text-align: center;">暂无车辆信息</li>
 			<!--$router.push({path:'/machinePositioning_carX'})-->
-			<li @click="showCarDetails(item)" v-show="!showList" v-for="item in carList.slice(0,4)"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.CARNUMBER}}</span></li>
+			<li @click="showCarDetails(item)" v-show="!showList" v-for="item in carList.slice(0,4)" style="width: 25%;"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span style="display: block;">{{item.CARNUMBER}}</span></li>
 		</ul>
 		<transition name="van-slide-up">
 			<ul class="footer_k footer_carS" :class="{'activeClass': activeClassType}" v-show='activeClassType' style="overflow: auto;">
 				<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
-				<li v-show="showList" style="width: 100%;text-align: center;">暂无车辆信息</li>
+				<li class="position" v-for="(item,index) in  carList" v-if="index>=5"  @click="showCarDetails(item)" style="width: 100%;">
+					<img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt="" style="width: 54px;height: 32px;">
 				
-				<li @click="showUserDetails(item)" v-show="!showList" v-for="(item,index) in  Saffdata" v-if="index>=5"><img :src="item.PHOTOURL" alt=""><span>{{item.EXAMNAME}}</span></li>
+					<span style="float: left;margin: 0;">{{item.CARNUMBER}}</span>
+					<span class="status" v-if="item.STATUS == 1" style="margin-left: 14px">运行中</span>
+					<span class="status" style="background: #A52A2A;margin-left: 14px" v-if="item.STATUS == 2">静止时间 00:00:00</span>
+					<span class="status" style="background: #B9B9B9;margin-left: 14px" v-if="item.STATUS == 0">离线状态</span>
+					<span style="float: right;margin: 0;">{{item.CARTYPE}}</span>
+				</li>
+				<!-- <li @click="showCarDetails(item)" v-show="!showList" ><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.EXAMNAME}}</span></li> -->
 			</ul>
 		  <!-- <div v-show="visible">Slide Up</div> -->
 		</transition>
@@ -134,7 +141,7 @@
 				this.map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 			},
 			activeClassButton() {
-				if(this.Saffdata.length<5){
+				if(this.carList.length<5){
 					Toast("暂无更多数据")
 				}else{
 					this.activeClassType = !this.activeClassType
@@ -243,6 +250,14 @@
 </script>
 
 <style scoped>
+	.status {
+		padding: 5px 10px;
+		background: #7AB182;
+		border-radius: 2px;
+		color: #fff;
+		font-size: 12px;
+		margin-left: 14px;
+	}
 	#containerS {
 		min-width: 100%;
 		min-height: 100%;
@@ -258,28 +273,28 @@
 		top: 90px;
 		z-index: 999;
 	}
-	
+	.position img {
+	    display: block;
+	    float: left;
+	    margin-right: 10px;
+	    background: #9499AA;
+	}
 	.position {
-		border-top: 1px solid #eee;
+		border-bottom: 1px solid #eee;
 		padding: 16px;
 		line-height: 32px;
 		font-size: 17px;
 	}
-	
+	.position:last-child{
+		border-bottom: none;
+	}
 	.position span:last-child {
 		float: right;
 		color: #ddd;
 		font-size: 14px;
 	}
 	
-	.position img {
-		width: 32px;
-		height: 32px;
-		display: block;
-		float: left;
-		margin-right: 10px;
-		background: #9499AA;
-	}
+	
 	
 	.footer_k {
 		width: 100%;
@@ -305,26 +320,25 @@
 
 	.footer_car li,
 	.footer_carS li {
-		width: 25% ;
 		float: left;
 	}
 	
 	.footer_car li img,
 	.footer_carS li img {
-		width: 90% !important;
+		width: 90%;
 		height: 46px;
 		border-radius: 2px;
 		border: 1px solid rgba(238, 238, 238, 1);
 	}
 	
 	
-	.footer_k li img {
+	/* .footer_k li img {
 		width: 45px;
 		height: 45px;
 		background: #DDDDDD;
 		display: block;
 		margin: 0 auto;
-	}
+	} */
 	
 	.footer_kS li span,
 	.footer_carS li span {
@@ -333,7 +347,7 @@
 	
 	.footer_k li span {
 		margin-top: 10px;
-		display: block;
+		/* display: block; */
 		text-align: center;
 	}
 	/*  */
