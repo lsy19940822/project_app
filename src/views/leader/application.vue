@@ -20,7 +20,7 @@
 	export default {
 		data(){
 			return{
-				questionText:"应用管理",
+				questionText:"安全质量",
 				href:"",
 				userData:{}
 			}
@@ -32,13 +32,17 @@
 			
 			let userData=sessionStorage.getItem("chang_yi_UserData")
 			Object.assign(this.userData, JSON.parse(userData));
-			ajax.postParamsW('/api/jdyApi/addJDYUser',{
-				userid:this.userData.USERID
+			ajax.postParamsW('/sys/jdy/getUsername',{
+				username:localStorage.getItem("user")
 			}).then(res => {
-				console.log(res)
+				if(res.data.success == true){
+					console.log(localStorage.getItem("user"))
+					this.href="https://www.jiandaoyun.com/sso/custom/5dbea33f85bed20006e0e5e4/iss"
+				}
+				console.log(res.data.success)
 				
 			});
-				this.href="https://www.jiandaoyun.com/sso/custom/5dbea33f85bed20006e0e5e4/iss?userid="+this.userData.USERID
+			
 		},
 		mounted(){
 			

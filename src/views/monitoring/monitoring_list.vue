@@ -16,7 +16,7 @@
 						<!-- controls -->
 
 						<van-icon name="cross" class="video-close" v-show="curPlayerId == 'myPlayer' + (index + 1)" @click="videoButton('myPlayer' + (index + 1), 'pause')" />
-						<video webkit-playsinline playsinline :ref="'myPlayer' + (index + 1)" :id="'myPlayer' + (index + 1)" width="100%" height="100%" poster="../../assets/images/exam/video_cover2.png" x-webkit-airplay="true" x5-video-player-fullscreen="true" preload="auto" x5-video-player-typ="h5">
+						<video webkit-playsinline playsinline :ref="'myPlayer' + (index + 1)" :id="'myPlayer' + (index + 1)" width="100%" height="100%" :poster="ajax.http + item.VIDEOIMAGE.slice(2)" x-webkit-airplay="true" x5-video-player-fullscreen="true" preload="auto" x5-video-player-typ="h5">
 
 							<source :src="item.VIDEOURL" type="application/x-mpegURL" />
 						</video>
@@ -59,6 +59,7 @@
 		},
 		data() {
 			return {
+				ajax:ajax,
 				questionText: "视频监控",
 				value1: 0,
 				value2: 0,
@@ -127,16 +128,16 @@
 				if(val == 0){
 					this.Worksite = '';
 				}else{
-					this.Worksite = this.option2[val].text.replace("#", "%23")
+					this.Worksite= this.option2[val].text.replace("#", "%23")
 				}
 				
-				console.log("当前工点：", this.option2[val].text);
+				console.log("当前工点：", this.Worksite);
 				this.getUserWorkPointList();
 			},
 			getUserWorkPointList() {
 				let that = this;
 				//视频
-				ajax.get('/API/WebAPIDataAudit/GetVideo?Section=' + this.Section + '&Worksite=' + this.Worksite).then(res => {
+				ajax.get('/API/WebAPIDataAudit/GetVideo?Section=' + this.Section + '&Worksite='+this.Worksite).then(res => {
 					if(res.data.result == false) {
 						that.GetVideoDatashow = false;
 						return;

@@ -1,88 +1,27 @@
 <template>
-	<!-- <div class="study"> -->
+
 		<div class="overflow Treedata">
-			<div class="header_inte">
+			<div class="header_inte" style="text-align: center;color:#999;">
 				<div class="inte_gent">
-					
-			<!-- 		
-					<ul class="slide-box">
-					
-					    <li class="slide-item"></li>
-					
-					    <li class="slide-item"></li>
-					
-					    <li class="slide-item"></li>
-					
-					    <li class="slide-item"></li>
-					
-					    <li class="slide-item"></li>
-					
-					</ul> -->
-					
-					<ul class="innerLabel" >
-						<li class="van-tabs van-tabs--line" v-for="(item,index) in cycaqData">
-							<div class="van-tabs__wrap van-hairline--top-bottom" >
-								<div role="tablist" class="van-tabs__nav van-tabs__nav--line">
-									<div role="tab" aria-selected="true" class="van-tab van-tab--active">
-										<span class="van-ellipsis cycaqData_r van-ellipsis">{{item.title}}</span>
-										<span class="van_icon"><van-icon :name="item.arrow" :index="index" ref="index_arrow"/></span>
-									</div>
-								</div>
-							</div>
-						</li>
-						<!-- <van-tabs>
-						<van-tab  :title="item.title">
-						 <span class="van_icon"><van-icon :name="item.arrow" :index="index" ref="index_arrow"/></span>
-						</van-tab>
-						</van-tabs>	 -->
-					<!-- 		<li  class="divData overflow">
-							<van-tabs>
-							  <van-tab v-for="(item,index) in cycaqData" :title="" >
-								   
-							  </van-tab>
-							</van-tabs>
-							
-								<span class="cycaqData_r van-ellipsis" @click="">{{item.title}}</span>
-							
-						</li> -->
-						<!-- <div class="overflow" > -->
-							
-							<!-- <li v-for="(item,index) in (cycaqData.length-1)"><van-icon name="arrow" /></li> -->
-						<!-- </div> -->
-					</ul>	
+			      暂无数据
 				</div>
 			</div>
-			<div class="flase" v-show="!show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无数据</div>
-			<ul class="overflow" v-show="show">
-				<li v-for="(item,index) in Treedata" :key="index">
-					<van-collapse v-model="activeNames" @change="change(activeNames,item.ID,index,item.NAME)" :id="item.ID">
-						<van-collapse-item :name="index">
-							<div slot="title">{{item.NAME}}
-								<span style="color: #aaa;float: right;">已完成</span>
-								<span style="color: #69966F;float: right;">78% </span>
-							</div>
-							<div class="flase" v-show="!showList" style="background-color:rgba(249,249,249,1);text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无数据</div>
-							<div v-show="showList">
-								<van-cell is-link v-for="(list,index) in Treedata_r" :key="index" :id="list.ID" @click="TreedataR($event,list.ID,index)">
-									<img src="../../assets/images/user_icon/icon_g@2x (4).png" alt="" width='12' :id="list.ID" v-if="list.NAME=='桥涵专业'" @click="TreedataR($event,list.ID,index)">
-									<img src="../../assets/images/user_icon/icon_g@2x (2).png" alt="" width='12' :id="list.ID" v-if="list.NAME=='轨道专业'" @click="TreedataR($event,list.ID,index)">
-									<img src="../../assets/images/user_icon/icon_g@2x (1).png" alt="" width='12' :id="list.ID" v-if="list.NAME=='路基专业'" @click="TreedataR($event,list.ID,index)">
-									&nbsp;&nbsp;{{list.NAME}}
-									<span style="color: #aaa;float: right;":id="list.ID" @click="TreedataR($event,list.ID,index)">已完成</span>
-									<span style="color: #69966F;float: right;":id="list.ID" @click="TreedataR($event,list.ID,index)">22% </span>
-								</van-cell>
-							
-							</div>
-
-						</van-collapse-item>
-					</van-collapse>
-				</li>
-
-			</ul>
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
-		</div>
-		<!-- <study-footer></study-footer> -->
-	<!-- </div> -->
+			
+			<div id="SlideBar" class="box">
+			        <div class="item" ref="slide" :style="slideStyle" @touchstart="start($event)" @touchmove="move($event)" @touchend="end($event)">
+			          <img src="http://img2.imgtn.bdimg.com/it/u=2555191195,2735808065&fm=26&gp=0.jpg" alt="">
+			          <div class="right">
+			            <div class="title">你好!</div>
+			            <p class="text">哈哈哈</p>
+			            <p class="price">好不</p>
+			          </div>
+			        </div>
+			        <div class="btn" ref="btn">
+			            <button>编辑</button>
+			            <button style="background:#387ef5;color:#fff">收藏</button>
+			        </div>
+			    </div>
+		</div>	
 
 </template>
 
@@ -115,121 +54,155 @@ Vue.use(Tab).use(Tabs);
 		},
 		data() {
 			return {
-				questionText: "进度详情",
-				cycaqData:[],
-				isLoading: true,
-				activeNames: ['-1'],
-				show: false,
-				showList: false,
-				Treedata: [],
-				Treedata_r: [],
-				disabledSection:false,
-				state:1,
-				GetMenuTree:''
+				flag: false,
+				startX: 0,
+				endX: 0,
+				slideStyle: {
+					left: 0,
+					transition: 'none'
+				}
 			}
 		},
 		created() {
-			this.cycaqData.push({
-				title:sessionStorage.getItem("intelligent_CycName"),
-				arrow:'',//
-			})
-			// this.cycaqData=sessionStorage.getItem("intelligent_CycName")
-			this.GetMenuTreeList();
-			this.value1 = Number(this.$route.query.ValueId)
-			// this.change1(this.value1) 
-			// localStorage.setItem("intellgent_option1_value",this.$route.query.ValueId)
-			// localStorage.setItem("labor_value_name", this.option1[this.value1].text)
+			
 			
 		},
 		mounted() {
+			var _this = this;
+			// 使用js的现代事件监听transition过渡结束
+			this.$refs.slide.addEventListener('transitionend',function(){
+				_this.endX = this.offsetLeft;
+			})
 		},
 		methods: {
-			// change1(val) {
-			// 	this.option2.splice(1);
-			// 	localStorage.setItem("labor_value_id", val);
-			// 	localStorage.setItem("labor_value_name", this.option1[val].text)
-			// 	this.GetMenuTreeList();
-			// },
-			// change2(val) {
-			// 	console.log("当前工程：", this.option2[val].text)
-			// },
-			GetMenuTreeList() {
-				//智能进度
-				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=' + "&name=" + sessionStorage.getItem("intelligent_CycName")+"&state="+this.state).then(res => {
-					if (res.data.result) {
-						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+res.data.data[0].ID+ "&name="+"&state="+this.state).then(res => {
-							if(res.data.result == false){
-								this.disabledSection=true;
-								this.show = false;
-								return;
-							}
-							if(res.data.result == true){
-								this.Treedata = res.data.data;
-								// for(let k in res.data.data) {
-								// 		this.option2.push({
-								// 			text:res.data.data[k].NAME,
-								// 			value:Number(k)+ Number(1)
-								// 		})
-								// }
-								this.disabledSection=false;
-								this.show = true;	
-								return;
-							}
-						})
-					}
-				})
+			start (e){  //记录开始滑动屏幕的X轴的位置
+				this.flag = true;
+				this.startX = e.touches[0].clientX;
+				this.endX = this.$refs.slide.offsetLeft;
+				this.slideStyle.transition = 'none';
 			},
-			change(activeNames,id,index,name) {
-				console.log("activeNames",activeNames,name)
-				this.GetMenuTree= name;
-				localStorage.setItem("intellgent_option1_value", index);
-				localStorage.setItem("intellgent_option1_GetMenuTree_id", id);
-				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=' + id + "&name="+"&state="+this.state).then(res => {
-					if (res.data.result == true) {
-						this.Treedata_r = res.data.data;
-						this.showList = res.data.result;
-					} else {
-						this.showList = res.data.result
+			move (e){
+				if(this.flag){
+					// 处理鼠标移动的逻辑
+					var moveX = this.endX + (e.touches[0].clientX - this.startX);  //计算滑动的距离
+					if(Math.abs(moveX) >= this.$refs.btn.offsetWidth && moveX < 0){  //判断滑动的距离是否大于class:btn的宽度
+						moveX = (Math.abs(moveX) - this.$refs.btn.offsetWidth) * 0.1; // 0.3阻力系数
+						this.slideStyle.left = - this.$refs.btn.offsetWidth - moveX + 'px';
+					}else if(moveX >= 0){  //滑动距离是否大于等于0
+						this.slideStyle.left = 0 + 'px';  //大于等于0让class:item等于0
+					}else{
+						this.slideStyle.left = moveX + 'px';  //小于0让class:item等于滑动的距离
 					}
-				})
+				}
 			},
-			TreedataR(event,id,index){
-				let that=this;
-				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=' + id + "&name="+"&state="+this.state).then(res => {
-					if (res.data.result == true) {
-						that.cycaqData.push({
-							title:this.GetMenuTree,
-							arrow:'',//
-						})
-						for(let i in that.cycaqData){
-							that.cycaqData[(that.cycaqData.length-1)-1].arrow="arrow"
+			end (e){
+				if(this.flag){
+					this.flag = false;
+					// endX = slide.offsetLeft;
+					var moveX = e.changedTouches[0].clientX - this.startX;  //计算滑动的距离
+					this.slideStyle.transition = 'left .3s';
+					var btnWidth = this.$refs.btn.offsetWidth;  //class:btn的宽度
+					if(moveX < 0){
+						if(Math.abs(moveX) >= btnWidth / 2 || Math.abs(this.$refs.slide.offsetLeft) >= this.$refs.btn.offsetWidth){ //是否大于class:btn宽度的一半
+							this.slideStyle.left = - btnWidth + 'px';  //左滑超过class:btn宽度的一半就滑回去
+						}else if(Math.abs(moveX) < btnWidth / 2){  //小于class:btn宽度的一半
+							this.slideStyle.left = 0 + 'px';  //左滑没有超过class:btn宽度的一半回原位
 						}
-						
-						sessionStorage.setItem("GetMenuTree_list_id",id);
-						this.GetMenuTreelistid()
-					} else {
-						Toast("暂无数据")
+					}else if(moveX > 0 && this.endX != 0){
+						if(Math.abs(moveX) >= btnWidth / 2){
+							this.slideStyle.left = 0 + 'px';  //右滑超过class:btn宽度的一半就滑回去
+						}else if(Math.abs(moveX) < btnWidth / 2){
+							this.slideStyle.left = - btnWidth + 'px';  //右滑没有超过class:btn宽度的一半回原位
+						}
 					}
-				})
-			},
-			GetMenuTreelistid(){
-				this.Treedata=[];
-				this.Treedata_r=[];
-				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+sessionStorage.getItem("GetMenuTree_list_id")+"&name="+"&state="+this.state).then(res => {
-					if(res.data.result == true){
-						this.Treedata=res.data.data;	
-						return;
-					}
-					for(let i in that.cycaqData){
-						that.cycaqData[(that.cycaqData.length-1)-1].arrow="arrow"
-					}
-				})
+				}
 			}
 		}
 	}
 </script>
 
 <style scoped>
+	
+	
+	/*  */
+	.box{
+	    position:relative;
+	    border-bottom:0.026667rem solid #666666;
+	}
+	.btn{
+	  height:100%;
+	  position:absolute;
+	  right:0;
+	  top:0;
+	  background:red;
+	  display:flex;
+	}
+	button{
+	  width:1.6rem;
+	  height:100%;
+	  background:#f8f8f8;
+	  border:none;
+	}
+	.item{
+	  padding:0.266667rem;
+	  display:flex;
+	  position:relative;
+	  background:#fff;
+	  z-index: 2;
+	  box-shadow: 0.026667rem 0 0.053333rem #ddd;
+	}
+	.item img{
+	  width:2.133333rem;
+	  height:2.133333rem;
+	  margin-right:0.4rem;
+	  border-radius: 0.133333rem;
+	}
+	
+	.item .title{
+	  font-size:0.48rem;
+	  float: left;
+	}
+	.item .text{
+	  font-size:0.426667rem;
+	  color:#888;
+	  float: left;
+	  margin: 0 1.33rem;
+	}
+	.item .price{
+	  color:#888;
+	  float: left;
+	  margin: 0 1.33rem;
+	}
+	/*  */
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/deep/
 	.van-tabs__line{
 		display: none;

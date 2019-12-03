@@ -1,6 +1,6 @@
 <template>
 	<div id="examrecord">
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
+		<vant-header :leftArrow="true" :titleType="1" :title="GetMenuTree_Data.NAME" :rightType="2">
 
 		</vant-header>
 		<div class="container">
@@ -8,65 +8,104 @@
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/user_icon/icon_b@2x.png" alt="">工程详情</p>
 				<li>
 					<span>所在标段</span>
-					<span>CYCZQ-5标-1</span>
+					<span>{{GetMenuTree_Data.BIDSECTION}}</span>
 				</li>
 
 				<li>
 					<span>所在部门</span>
-					<span>一分部</span>
+					<span>{{GetMenuTree_Data.WORKAREA}}</span>
 				</li>
 				<li>
 					<span>工程类型</span>
-					<span>桥梁</span>
+					<span>{{GetMenuTree_Data.WORKPOINT}}</span>
 				</li>
 				<li>
 					<span>桥梁名称</span>
-					<span>阮江特大桥</span>
+					<span>{{GetMenuTree_Data.PNAME}}</span>
 				</li>
 				<li>
 					<span>重要性</span>
-					<span>普通工程</span>
+					<!-- (1-未开工、2-正在进行、3-已完成、4-延期已完成、5-延期未完成) -->
+					<span style="float: right;" v-if="GetMenuTree_Data.STATUS == 1 || GetMenuTree_Data.STATUS == 3|| GetMenuTree_Data.STATUS == 2">普通工程</span>
+					<span style="float: right;" v-if="GetMenuTree_Data.STATUS == 4 || GetMenuTree_Data.STATUS == 5">超期工程</span>
 				</li>
 				<li>
 					<span>工程部分</span>
-					<span>梁</span>
+					<span>{{GetMenuTree_Data.POSITION}}</span>
 				</li>
 				<li>
 					<span>构件名称</span>
-					<span>527# 梁</span>
+					<span>{{GetMenuTree_Data.NAME}}</span>
 				</li>
 			</ul>
 			<h5>完成情况</h5>
-			<ul class="container_list container_lists">
-				<!-- <p class="van-hairline--bottom exam-title"><img src="../../assets/images/user_icon/icon_time@2x.png" alt="">完成情况</p> -->
-				<li>
-					<span>计划开始</span>
-					<span>2019-09-04</span>
-				</li>
-				<li style='border-bottom: 1px solid #EEEEEE;'>
-					<span>计划结束</span>
-					<span>2019-09-20</span>
-				</li>
-			</ul>
-
+			<!-- 计划开始 -->
+			<van-popup v-model="Planshow" position="bottom">
+				<van-datetime-picker v-model="currentDatePlanshow" type="date" :min-date="minDatePlanshow" @confirm="confirmFnPlanshow()" @cancel="cancelFn()" />
+			</van-popup>
+			
+			<!-- 计划结束 -->
+			<van-popup v-model="PlanshowS" position="bottom">
+				<van-datetime-picker v-model="currentDatePlanshowS" type="date" :min-date="minDatePlanshowS" @confirm="confirmFnPlanshowS()" @cancel="cancelFn()" />
+			</van-popup>
 			<!-- 实际开始 -->
 			<van-popup v-model="show" position="bottom">
 				<van-datetime-picker v-model="currentDate" type="date" :min-date="minDate" @confirm="confirmFn()" @cancel="cancelFn()" />
 			</van-popup>
-
+			
 			<!-- 实际结束 -->
 			<van-popup v-model="showS" position="bottom">
 				<van-datetime-picker v-model="currentDateS" type="date" :min-date="minDateS" @confirm="confirmFnS()" @cancel="cancelFn()" />
 			</van-popup>
-
-			<ul>
-				<li style='border-bottom: 1px solid #EEEEEE;' @click="showTimePop()">
+			
+			<ul style="margin-top: 10px;">
+				<li style='border-bottom: 1px solid #EEEEEE;' @click="showTimeplan()"v-show='!start'>
 					<van-cell is-link>
-						<span style="color: #969799;">实际开始</span>
-						<span style="float: right;">{{timeValue?timeValue:'请选择'}}</span>
+						<span style="color: #969799;">计划开始</span>
+						<span style="float: right;">{{PlanshowtimeValue?PlanshowtimeValue:'请选择'}}</span>
 					</van-cell>
 				</li>
-				<li style='border-bottom: 1px solid #EEEEEE;' @click="showTimePopS()">
+				<li style='border-bottom: 1px solid #EEEEEE;' @click="showTimeplanS()"v-show='!end'>
+					<van-cell is-link>
+						<span style="color: #969799;">计划结束</span>
+						<span style="float: right;">{{PlanshowtimeValueS?PlanshowtimeValueS:'请选择'}}</span>
+					</van-cell>
+				</li>
+				<!-- 置灰项 -->
+				<li style='border-bottom: 1px solid #EEEEEE;' v-show='start'>
+					<van-cell is-link>
+						<span style="color: #969799;">计划开始</span>
+						<span style="float: right;">{{PlanshowtimeValue?PlanshowtimeValue:'请选择'}}</span>
+					</van-cell>
+				</li>
+				<li style='border-bottom: 1px solid #EEEEEE;' v-show='end'>
+					<van-cell is-link>
+						<span style="color: #969799;">计划结束</span>
+						<span style="float: right;">{{PlanshowtimeValueS?PlanshowtimeValueS:'请选择'}}</span>
+					</van-cell>
+				</li>
+			</ul>
+			<ul>
+				<li style='border-bottom: 1px solid #EEEEEE;' @click="showTimePop()" v-show='!start'>
+					<van-cell is-link>
+						<span style="color: #969799;">实际开始</span>
+						<span style="float: right;" >{{timeValue?timeValue:'请选择'}}</span>
+					</van-cell>
+				</li>
+				<li style='border-bottom: 1px solid #EEEEEE;' @click="showTimePopS()"v-show='!end'>
+					<van-cell is-link>
+						<span style="color: #969799;">实际结束</span>
+						<span style="float: right;">{{timeValueS?timeValueS:'请选择'}}</span>
+					</van-cell>
+				</li>
+				<!-- 置灰项 -->
+				<li style='border-bottom: 1px solid #EEEEEE;' v-show='start'>
+					<van-cell is-link>
+						<span style="color: #969799;">实际开始</span>
+						<span style="float: right;" >{{timeValue?timeValue:'请选择'}}</span>
+					</van-cell>
+				</li>
+				<li style='border-bottom: 1px solid #EEEEEE;' v-show='end'>
 					<van-cell is-link>
 						<span style="color: #969799;">实际结束</span>
 						<span style="float: right;">{{timeValueS?timeValueS:'请选择'}}</span>
@@ -76,38 +115,41 @@
 			<ul class="container_list container_lists" style="margin-top:0;">
 				<li>
 					<span>工程产值（元）</span>
-					<span><input type="tel" name="" placeholder="请输入"></span>
+					<span>{{GetMenuTree_Data.OUTVALUE?GetMenuTree_Data.OUTVALUE:'0'}}</span>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<span>总里程（公里）</span>
-					<span><input type="tel" name="" placeholder="请输入"></span>
+					<span>{{GetMenuTree_Data.MILEAGE?GetMenuTree_Data.MILEAGE:'0'}}</span>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<span>桩径（米）</span>
-					<span><input type="tel" name=""  placeholder="请输入"></span>
+					<span>{{GetMenuTree_Data.PILEDIAMETER?GetMenuTree_Data.PILEDIAMETER:'0'}}</span>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<span>桩长（米）</span>
-					<span><input type="tel" name="" placeholder="请输入"></span>
+					<span>{{GetMenuTree_Data.PILELONG?GetMenuTree_Data.PILELONG:'0'}}</span>
 				</li>
 			</ul>
-
-			<h5>延期原因。</h5>
-			<div class="container_list">
-				<van-cell-group>
-					<van-field v-model="message" rows="2" autosize type="textarea" maxlength="300" placeholder="请填写延期出现原因。"
-					 show-word-limit />
-				</van-cell-group>
+            <div v-if="fillWirte">
+				 <h5>延期原因。</h5>
+				 <div class="container_list">
+				 	<van-cell-group>
+				 		<van-field v-model="message" rows="2" autosize type="textarea" maxlength="300" placeholder="请填写延期出现原因。"
+				 		 show-word-limit />
+				 	</van-cell-group>
+				 </div>
 			</div>
+			
 
-
-			<h5>解决方案</h5>
-			<div class="container_list">
-				<van-cell-group>
-					<van-field v-model="messagey" rows="2" autosize type="textarea" maxlength="300" placeholder="请填写延期解决方案。"
-					 show-word-limit />
-				</van-cell-group>
-			</div>
+            <div v-if="fillWirte">
+				<h5>解决方案</h5>
+				<div class="container_list">
+					<van-cell-group>
+						<van-field v-model="messagey" rows="2" autosize type="textarea" maxlength="300" placeholder="请填写延期解决方案。"
+						 show-word-limit />
+					</van-cell-group>
+				</div>
+			</div>			
 			<ul>
 				<li class='Buttond' @click='sumtrienButton()'>
 					<van-button color="#7099D0" size="normal" style='width: 100%;'>提交</van-button>
@@ -133,7 +175,7 @@
 	import {
 		Field
 	} from 'vant';
-
+import { Dialog } from 'vant';
 	Vue.use(Field);
 	Vue.use(Button);
 	import {
@@ -142,10 +184,11 @@
 		CellGroup,
 		Popup,
 		IndexBar,
-		IndexAnchor
+		IndexAnchor,
+		Toast
 	} from 'vant';
 	Vue.use(IndexBar).use(DatetimePicker).use(IndexAnchor).use(Icon).use(CellGroup).use(Popup);
-	Vue.use(Cell)
+	Vue.use(Cell).use(Toast)
 	export default {
 		components: {
 			vantHeader,
@@ -153,13 +196,24 @@
 		},
 		data() {
 			return {
-				questionText: "527# 梁",
+				// questionText: this.,
 				examRecord: [],
 				examRecordTime: [],
 				StaffInfoData: [],
 				IDCard: '',
 				message: '',
 				messagey:'',
+				
+				//计划开始时间
+				minDatePlanshow: new Date(),
+				currentDatePlanshow: new Date(),
+				PlanshowtimeValue: '',
+				Planshow: false,
+				//计划结束时间
+				minDatePlanshowS: new Date(),
+				currentDatePlanshowS: new Date(),
+				PlanshowtimeValueS: '',
+				PlanshowS: false,
 				//实际开始时间
 				minDate: new Date(),
 				currentDate: new Date(),
@@ -170,25 +224,110 @@
 				currentDateS: new Date(),
 				timeValueS: '',
 				showS: false,
+				GetMenuTree_Data:{},
+				// 小于10 大于10 时间
+				getHour_s: "",
+				getMinutes_s: "",
+				day_s: "",
+				month_s: "",
+				fillWirte:false,
+				start:false,
+				end:false
 			}
 		},
 		mounted() {
-			this.examrecord()
+		},
+		filters: {
+			// (1-未开工、2-正在进行、3-已完成、4-延期已完成、5-延期未完成)
+			getStatus(id) {
+				var str = "";
+				
+				switch(id) {
+					case 1:
+						str = "未开工";
+						break;
+					case 2:
+						str = "正在进行";
+						break;
+					case 3:
+						str = "已完成";
+						
+						break;
+					case 4:
+						str = "延期已完成";
+						break;
+					case 5:
+						str = "延期未完成";
+						break;
+				}
+				return str;
+			}
 		},
 		created() {
-			this.StaffInfoF();
+			// sessionStorage.setItem("GetMenuTree_Data",JSON.stringify(item));
+			Object.assign(this.GetMenuTree_Data, JSON.parse(sessionStorage.getItem("GetMenuTree_Data")));
+			if(this.GetMenuTree_Data.PLANBEGINDATE !=null){
+				this.PlanshowtimeValue = this.GetMenuTree_Data.PLANBEGINDATE.replace("T", " ")
+			}
+			if(this.GetMenuTree_Data.PLANENDDATE!=null){
+				this.PlanshowtimeValueS = this.GetMenuTree_Data.PLANENDDATE.replace("T", " ")
+			}
+			if(this.GetMenuTree_Data.REALBEGINDATE!=null){
+				this.timeValue = this.GetMenuTree_Data.REALBEGINDATE.replace("T", " ")
+			}
+			if(this.GetMenuTree_Data.REALENDDATE!=null){
+				this.timeValueS = this.GetMenuTree_Data.REALENDDATE.replace("T", " ")
+			}
 			this.timeFormat(new Date());
 		},
 		methods: {
-			sumtrienButton() {
-				this.$router.push({path:'/fillX'})
-				// this.titShow = false;
+			showTimeplan() {
+				this.Planshow = true;
+				this.currentDatePlanshow = new Date(this.PlanshowtimeValue.replace(/-/g, "/"));
+			},
+			// 计划开始事件
+			confirmFnPlanshow() { // 确定按钮
+				this.PlanshowtimeValue = this.timeFormat(this.currentDatePlanshow);
+				console.log('计划开始事件', this.PlanshowtimeValue)
+				this.Planshow = false;
+			},
+			// 计划結束事件
+			confirmFnPlanshowS() { // 确定按钮
+				this.PlanshowtimeValueS = this.timeFormat(this.currentDatePlanshowS);
+				console.log('计划結束事件', this.PlanshowtimeValueS)
+				this.PlanshowS = false;
+			},
+			showTimeplanS() {
+				this.PlanshowS = true;
+				this.currentDatePlanshowS = new Date(this.PlanshowtimeValueS.replace(/-/g, "/"));
 			},
 			// 实际开始事件
 			confirmFn() { // 确定按钮
 				this.timeValue = this.timeFormat(this.currentDate);
-				console.log('timeValue', this.timeValue)
+				console.log('实际开始事件', this.timeValue)
+				let usedTime = this.currentDate - this.currentDatePlanshow; // 相差的毫秒数
+				
+				let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
+				
+				console.log("计算相差的天数：",usedTime,days)
+				
 				this.show = false;
+				if(days>30){
+					Dialog.confirm({
+					  message: '实际开始时间已超出计划开始时间30天，是否确认30天后开始实施'
+					}).then(() => {
+						this.start=true;
+					  // on confirm
+					}).catch(() => {
+						this.start=false;
+					  // on cancel
+					});
+				}
+				// if(this.PlanshowtimeValue<this.timeValue){
+				// 	this.fillWirte= true;
+				// }else{
+				// 	this.fillWirte= false;
+				// }
 			},
 			showTimePop() {
 				this.show = true;
@@ -197,6 +336,9 @@
 
 			cancelFn() {
 				this.show = false;
+				this.Planshow = false;
+				
+				this.PlanshowS = false;
 				this.showS = false;
 			},
 			// 实际结束事件
@@ -204,6 +346,26 @@
 				this.timeValueS = this.timeFormat(this.currentDateS);
 				console.log('timeValueS', this.timeValueS)
 				this.showS = false;
+				let usedTime = this.currentDate - this.currentDatePlanshow; // 相差的毫秒数
+				
+				let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
+				if(days>30){
+					Dialog.confirm({
+					  message: '实际结束时间已超出计划结束时间30天，是否确认30天后结束该工程'
+					}).then(() => {
+						this.end=true;
+					  // on confirm
+					}).catch(() => {
+						this.end=false;
+					  // on cancel
+					});
+					return
+				}
+				if(this.PlanshowtimeValueS<this.timeValueS){
+					this.fillWirte= true;
+				}else{
+					this.fillWirte= false;
+				}
 			},
 
 			showTimePopS() {
@@ -214,55 +376,128 @@
 				let year = time.getFullYear();
 				let month = time.getMonth() + 1;
 				let day = time.getDate();
+				let getHour = time.getHours();
+			
 				// 月
-				if (month < 10) {
+				if(month < 10) {
 					this.month_s = "0" + month
 				}
-				if (month > 10) {
+				if(month > 10) {
 					this.month_s = month
 				}
-				if (month === 10) {
+				if(month === 10) {
 					this.month_s = month
 				}
 				// 日
-				if (day < 10) {
+				if(day < 10) {
 					this.day_s = "0" + day
 				}
-				if (day > 10) {
+				if(day > 10) {
 					this.day_s = day
 				}
-				if (day === 10) {
+				if(day === 10) {
 					this.day_s = day
 				}
-
+			
 				return year + '-' + this.month_s + '-' + this.day_s;
 				// this.currentDateX=year + '-' + this.month_s + '-' + this.day_s + " " + this.getHour_s + ":" + this.getMinutes_s
-
+			
 			},
-			StaffInfoF() {
-				// let that=this;
-				// that.IDCard=that.$route.query.IDCard;
-				// ajax.get('StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
-				// 	if(res.data.result) {
-				// 		console.log(res.data)
-				// 		that.StaffInfoData=res.data.data
-				// 		that.StaffInfoData[0].PHOTOURL=ajax.http+that.StaffInfoData[0].PHOTOURL.slice(2)
-				// 	}
-				// })
+			ProgressAllowedData(){
+				ajax.postParams('/API/WebAPIDataAudit/ProgressAllowed',{
+					PLANBEGINDATE:(this.PlanshowtimeValue.replace(/-/g, "/") || this.GetMenuTree_Data.PLANBEGINDATE.replace("T", " ")),
+					PLANENDDATE:(this.PlanshowtimeValueS.replace(/-/g, "/")|| this.GetMenuTree_Data.PLANENDDATE.replace("T", " ")),
+					REALBEGINDATE:(this.timeValue.replace(/-/g, "/") || this.GetMenuTree_Data.REALBEGINDATE.replace("T", " ")),
+					REALENDDATE:(this.timeValueS.replace(/-/g, "/")|| this.GetMenuTree_Data.REALENDDATE.replace("T", " ")),
+					ID:this.GetMenuTree_Data.ID
+				}).then(res => {
+					if(res.data.result == true) {
+						this.GetMenuTree_Data.PLANBEGINDATE = this.PlanshowtimeValue
+						this.GetMenuTree_Data.PLANENDDATE = this.PlanshowtimeValueS 
+						this.GetMenuTree_Data.REALBEGINDATE = this.timeValue
+						this.GetMenuTree_Data.REALENDDATE = this.timeValueS
+						console.log('=====',this.GetMenuTree_Data.PLANBEGINDATE)
+						// if(this.GetMenuTree_Data.PLANBEGINDATE !=null){
+						// 	this.PlanshowtimeValue = this.GetMenuTree_Data.PLANBEGINDATE.replace("T", " ")
+						// }
+						// if(this.GetMenuTree_Data.PLANENDDATE!=null){
+						// 	this.PlanshowtimeValueS = this.GetMenuTree_Data.PLANENDDATE.replace("T", " ")
+						// }
+						// if(this.GetMenuTree_Data.REALBEGINDATE!=null){
+						// 	this.timeValue = this.GetMenuTree_Data.REALBEGINDATE.replace("T", " ")
+						// }
+						// if(this.GetMenuTree_Data.REALENDDATE!=null){
+						// 	this.timeValueS = this.GetMenuTree_Data.REALENDDATE.replace("T", " ")
+						// }
+						this.$router.push({
+							path:'/fillX',
+							query:{
+								PLANBEGINDATE:this.PlanshowtimeValue,
+								PLANENDDATE:this.PlanshowtimeValueS,
+								REALBEGINDATE:this.timeValue,
+								REALENDDATE:this.timeValueS
+							}
+						})
+					}
+				})
 			},
-			examrecord() {
-				let that = this;
-				// console.log(that.$route.query.IDCard)
-				// ajax.get('TestRecords?IDCard='+that.$route.query.IDCard).then(res => {
-				// 	console.log(res);
-				// 	if(res.data.result) {
-				// 		console.log("kaoshilihi",res.data.data)
-				// 		that.examRecord=res.data.data;
-				// 		for(let k in that.examRecord) {
-				// 		    that.examRecord[k].EXAMINATIONDATE=that.examRecord[k].EXAMINATIONDATE.replace("T", " ");
-				// 		}		
-				// 	}
-				// })
+			
+			sumtrienButton() {
+				if(this.fillWirte == false){
+					if(this.PlanshowtimeValue == ''){
+						Toast("请选择计划开始日期")
+						return
+					}
+					if(this.PlanshowtimeValueS == ''){
+						Toast("请选择计划结束日期")
+						return
+					}
+					if(this.timeValue == ''){
+						Toast("请选择实际开始日期")
+					}
+					if(this.timeValueS == ''){
+						Toast("请选择实际结束日期")
+						return
+					}
+					
+					// if(this.GetMenuTree_Data.PLANBEGINDATE !=null){
+					// 	this.PlanshowtimeValue = this.GetMenuTree_Data.PLANBEGINDATE.replace("T", " ")
+					// }
+					// if(this.GetMenuTree_Data.PLANENDDATE!=null){
+					// 	this.PlanshowtimeValueS = this.GetMenuTree_Data.PLANENDDATE.replace("T", " ")
+					// }
+					// if(this.GetMenuTree_Data.REALBEGINDATE!=null){
+					// 	this.timeValue = this.GetMenuTree_Data.REALBEGINDATE.replace("T", " ")
+					// }
+					// if(this.GetMenuTree_Data.REALENDDATE!=null){
+					// 	this.timeValueS = this.GetMenuTree_Data.REALENDDATE.replace("T", " ")
+					// }
+					if(this.PlanshowtimeValue != '' && this.PlanshowtimeValueS != '' && this.timeValue != '' && this.timeValueS != ''){
+						
+						this.ProgressAllowedData()
+						
+						return
+					}
+					return
+					
+				}else{
+					if(this.PlanshowtimeValue == ''){
+						Toast("请选择计划开始日期")
+					}else if(this.PlanshowtimeValueS == ''){
+						Toast("请选择计划结束日期")
+					}else if(this.timeValue == ''){
+						Toast("请选择实际开始日期")
+					}else if(this.timeValueS == ''){
+						Toast("请选择实际结束日期")
+					}else if(this.message == ''){
+						Toast("请填写延期出现原因")
+					}else if(this.messagey == ''){
+						Toast("请填写延期解决方案")
+					}
+				}
+				
+				// 
+				// this.titShow = false;
 			},
 
 		}

@@ -219,20 +219,20 @@
 					<!-- @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+type})" -->
 					 <li class="container_nav_aq"  >
 						   <p style="position: relative;">待解决<img src="../assets/images/index_icon/icon_zy@2x.png" alt="" width="16px" style="position: absolute;top:4px;right: 12px;"></p> 
-						   <p style="color: #C86565;">32个</p>
+						   <p style="color: #C86565;">{{getInFo.d}}个</p>
 					 </li>
 					 <!-- @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})" -->
 					 <li class="container_nav_shu"></li>
 					 <li class="container_nav_aq" >
 						 <p>安全问题</p> 
-						 <p>32个</p>
+						 <p>{{getInFo.a}}个</p>
 					 </li>
 					 
 					 <li class="container_nav_shu"></li>
 					 <!-- @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})" -->
 					 <li class="container_nav_aq" >
 						 <p>质量问题</p> 
-						 <p>32个</p>
+						 <p>{{getInFo.z}}个</p>
 					 </li>
 				</ul>
 				
@@ -248,12 +248,12 @@
 							 <span><img src="../assets/images/index_icon/icon_zcq@2x.png" alt="" width="11px"></span>
 							 <span style="color:rgba(102,102,102,1);">总出勤职工</span>
 							 <span style="float: right;">
-								 <span>32,234人</span>
-								 <span style="color:rgba(64,69,94,1);">/38,762人</span>
+								 <span>{{user.UserNumber}}人</span>
+								 <span style="color:rgba(64,69,94,1);">/{{user.AllUserNumber}}人</span>
 							 </span>
 						</p>
 						 <p  style="margin-bottom: 0;">
-							 <van-progress color="#6A94B9" :percentage="56" stroke-width="6" />
+							 <van-progress color="#6A94B9" :percentage="percentage.percentage1" stroke-width="6" />
 						 </p>
 					 </div>
 				</div>
@@ -394,7 +394,21 @@
 					GrossOutput:"",
 					CompletedOutputValue:"",
 					PercentCompleted:0
-				}
+				},
+				getInFo:{
+					a:'',
+					b:'',
+					c:''
+					
+				},
+				user:{
+					UserNumber:'',
+					AllUserNumber:'',
+					
+				},
+				percentage:{
+					percentage1:0
+				},
 			}
 		},
 		created() {
@@ -409,6 +423,19 @@
 				window.location.href='https://www.jiandaoyun.com/sso/custom/5dbea33f85bed20006e0e5e4/iss';
 			},
 			bannerImg(){
+				ajax.get('/API/WebAPIDataAudit/getWorkUserNumber?section='+'&worksite=').then(res => {
+					console.log(res.data.data)
+					if(res.data.data.UserNumber !=0 || res.data.data.UserNumber !=0 ||res.data.data.UserNumber >0 || res.data.data.UserNumber >0){
+						this.user.UserNumber=res.data.data.UserNumber
+						this.user.AllUserNumber=res.data.data.AllUserNumber
+						this.percentage.percentage1=Number((this.user.UserNumber/this.user.AllUserNumber)*100)
+					}else{
+						this.user.UserNumber=0
+						this.user.AllUserNumber=0
+						this.percentage.percentage1=0
+					}
+					
+				})
 				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {
 					if(res.data.result) {
 						console.log(res)
@@ -420,6 +447,15 @@
 						if(res.data.code == 200) {
 							this.type=res.data.data.info.TYPES
 							console.log("selectUserById：",res.data);
+						}
+					}
+				})
+				ajax.postW('/api/jdyApi/selectDatas').then(res => {
+					if(res.status == 200) {
+						if(res.data.code == 200) {
+							this.getInFo.a=res.data.data.a;
+							this.getInFo.d=res.data.data.d;
+							this.getInFo.z=res.data.data.z
 						}
 					}
 				})

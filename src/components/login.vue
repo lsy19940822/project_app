@@ -141,6 +141,7 @@
 						'PASSWORD': this.passWord
 					}).then(res => {
 						if(res.data.result) {
+							localStorage.setItem("user", (/^\w+$/.test(this.user) ? this.user : null || /^\d+$/.test(this.user) ? this.user : null))
 							sessionStorage.setItem("chang_yi_User_token", true)
 							
 							toast.clear();

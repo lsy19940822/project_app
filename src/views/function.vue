@@ -51,7 +51,7 @@
 					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link class="link" style="padding: 0 14px;" v-if="item.router == 6">
+					<van-cell is-link class="link" style="padding: 0 14px;" v-if="item.router == 6" @click="tost()">
 					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
@@ -70,9 +70,9 @@
 	import vantHeader from '@/components/header.vue'
     import indexFooter from '@/components/indexFooter.vue'
 	import Vue from 'vue';
-	import { Collapse, CollapseItem } from 'vant';
+	import { Collapse, CollapseItem,Toast } from 'vant';
 	
-	Vue.use(Collapse).use(CollapseItem);
+	Vue.use(Collapse).use(CollapseItem).use(Toast);
 	import { DropdownMenu, DropdownItem, Cell,Loading ,Icon} from 'vant';
 	
 	Vue.use(DropdownMenu).use(DropdownItem).use(Cell).use(Loading).use(Icon);
@@ -256,6 +256,9 @@
 		},
 		
 		methods: {
+			tost(){
+				Toast('敬请期待！');
+			}
 		}
 	}
 </script>

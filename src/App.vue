@@ -39,7 +39,7 @@ export default {
 		background: #fff;
 	}
 	.intelligent div.router-link-active:nth-of-type(1){
-		border-bottom:3px solid #9499AA !important;
+		border-bottom:3px solid rgb(112, 153, 208) !important;
 	}
 	.intelligent div.router-link-active:nth-of-type(2){
 		border-bottom:3px solid #999 !important;

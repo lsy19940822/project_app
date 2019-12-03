@@ -9,17 +9,22 @@
 		</div>
 		<div id="containerS"></div>
 		<ul class="footer_k footer_car" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
-			<div @click="activeClassButton()"><van-icon name="arrow-up" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
+			<div @click="activeClassButton()">
+				<van-icon name="arrow-up" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;" />
+			</div>
 			<li v-show="showList" style="width: 100%;text-align: center;">暂无车辆信息</li>
 			<!--$router.push({path:'/machinePositioning_carX'})-->
-			<li @click="showCarDetails(item)" v-show="!showList" v-for="item in carList.slice(0,4)" style="width: 25%;"><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span style="display: block;">{{item.CARNUMBER}}</span></li>
+			<li @click="showCarDetails(item)" v-show="!showList" v-for="item in carList.slice(0,4)" style="width: 25%;"><img
+				 :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span style="display: block;">{{item.CARNUMBER}}</span></li>
 		</ul>
 		<transition name="van-slide-up">
 			<ul class="footer_k footer_carS" :class="{'activeClass': activeClassType}" v-show='activeClassType' style="overflow: auto;">
-				<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
-				<li class="position" v-for="(item,index) in  carList" v-if="index>=5"  @click="showCarDetails(item)" style="width: 100%;">
+				<div @click="activeClassButton()">
+					<van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;" />
+				</div>
+				<li class="position" v-for="(item,index) in  carList" v-if="index>=5" @click="showCarDetails(item)" style="width: 100%;">
 					<img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt="" style="width: 54px;height: 32px;">
-				
+
 					<span style="float: left;margin: 0;">{{item.CARNUMBER}}</span>
 					<span class="status" v-if="item.STATUS == 1" style="margin-left: 14px">运行中</span>
 					<span class="status" style="background: #A52A2A;margin-left: 14px" v-if="item.STATUS == 2">静止时间 00:00:00</span>
@@ -28,9 +33,8 @@
 				</li>
 				<!-- <li @click="showCarDetails(item)" v-show="!showList" ><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.EXAMNAME}}</span></li> -->
 			</ul>
-		  <!-- <div v-show="visible">Slide Up</div> -->
 		</transition>
-		
+
 
 		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
 		<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
@@ -53,7 +57,8 @@
 		DropdownItem,
 		Toast
 	} from 'vant';
-	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem).use(Toast);
+	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search).use(DropdownMenu).use(DropdownItem).use(
+		Toast);
 	export default {
 		data() {
 			return {
@@ -116,7 +121,7 @@
 		},
 		created() {
 			this.value1 = Number(this.$route.query.ValueId);
-			if(this.value1 == 0) {
+			if (this.value1 == 0) {
 				this.Section == '';
 			} else {
 				this.change1(this.value1);
@@ -141,9 +146,9 @@
 				this.map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 			},
 			activeClassButton() {
-				if(this.carList.length<5){
+				if (this.carList.length < 5) {
 					Toast("暂无更多数据")
-				}else{
+				} else {
 					this.activeClassType = !this.activeClassType
 				}
 			},
@@ -158,7 +163,7 @@
 			},
 			change1(val) {
 				let that = this;
-				if(val != 0) {
+				if (val != 0) {
 					that.Section = that.option1[val].text
 				} else {
 					that.Section = '';
@@ -169,24 +174,24 @@
 			},
 			change2(val) {
 				let that = this;
-				if(val != 0) {
+				if (val != 0) {
 					that.Worksite = that.option2[val].text
 				} else {
 					that.Worksite = '';
 				}
 				that.Worksite = that.option2[val].text.replace("#", "%23")
-			    that.getAllGPS();
+				that.getAllGPS();
 			},
 			getUserWorkPointList() {
 				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section=' + this.Section).then(res => {
-					if(res.data.result == false) {
+					if (res.data.result == false) {
 						this.disabledSection = true;
-						this.showList = true;
+
 						return;
 					}
-					if(res.data.result == true) {
-						for(let k in res.data.data) {
-							if(res.data.data[k].WORKAREA != null) {
+					if (res.data.result == true) {
+						for (let k in res.data.data) {
+							if (res.data.data[k].WORKAREA != null) {
 								this.option2.push({
 									text: res.data.data[k].WORKAREA,
 									value: Number(k)
@@ -194,7 +199,7 @@
 							}
 						}
 						this.disabledSection = false;
-						this.showList = false;
+
 						return;
 					}
 				})
@@ -202,50 +207,57 @@
 			getAllGPS() {
 				let that = this;
 				ajax.get('/API/WebAPIDataAudit/getCarInfo?Section=' + this.Section + '&worksite=' + this.Worksite).then(res => {
-					if(res.status == 200 && res.data.data && res.data.data.length > 0) {
-						var data = res.data.data;
-						that.carList = data;
-						var dr = [],
-							points = [];
-						for(var i = 0; i < data.length; i++) {
-							if(data[i].LONGITUDE && data[i].LATITUDE)
-								points.push(new BMap.Point(data[i].LONGITUDE, data[i].LATITUDE));
+						if (res.data.result == 0) {
+							this.showList = true;
+							// 坐标转化
+							this.init()
+							return;
 						}
-						// 坐标转化
-						var convertor = new BMap.Convertor();
-						convertor.translate(points, 1, 5, function(data) {
-							if(data.status === 0) {
-								for(var j = 0; j < data.points.length; j++) {
-									console.log(data.points)
-									var icon = new BMap.Icon(require('../../assets/images/exam/car.jpg'), new BMap.Size(40, 19), {
-										anchor: new BMap.Size(40, 19),
-										offset: new BMap.Size(40, 19),
-										imageSize: new BMap.Size(40, 19),
-									});
-									var mkr = new BMap.Marker(data.points[j], {
-										icon: icon,
-										rotation: Math.random() * 360,
-										title: 'awdawa'
-									});
-									that.map.addOverlay(mkr);
-									//									that.map.addOverlay(new BMap.Marker(data.points[j]));
-									that.map.setCenter(data.points[j]);
-								}
+						if (res.data.result == 1) {
+							this.showList = false;
+							var data = res.data.data;
+							that.carList = data;
+							var dr = [],
+								points = [];
+							for (var i = 0; i < data.length; i++) {
+								if (data[i].LONGITUDE && data[i].LATITUDE)
+									points.push(new BMap.Point(data[i].LONGITUDE, data[i].LATITUDE));
 							}
-						})
+							// 坐标转化
+							var convertor = new BMap.Convertor();
+							convertor.translate(points, 1, 5, function(data) {
+								if (data.status === 0) {
+									for (var j = 0; j < data.points.length; j++) {
+										var icon = new BMap.Icon(require('../../assets/images/exam/car.jpg'), new BMap.Size(40, 19), {
+											anchor: new BMap.Size(40, 19),
+											offset: new BMap.Size(40, 19),
+											imageSize: new BMap.Size(40, 19),
+										});
+										var mkr = new BMap.Marker(data.points[j], {
+											icon: icon,
+											rotation: Math.random() * 360,
+											title: 'awdawa'
+										});
+										that.map.addOverlay(mkr);
+										//									that.map.addOverlay(new BMap.Marker(data.points[j]));
+										that.map.setCenter(data.points[j]);
+									}
+								}
+							})
+						// }
 					}
 				})
-			},
-			showCarDetails(infor) {
-				console.log(infor)
-				if(!infor.LATITUDE || !infor.LONGITUDE) {
-					Toast.fail('暂无车辆位置信息');
-					return;
-				}
-				sessionStorage.setItem("curCarInfor", JSON.stringify(infor));
-				this.$router.push("/machinePositioning_carX");
+		},
+		showCarDetails(infor) {
+			console.log(infor)
+			if (!infor.LATITUDE || !infor.LONGITUDE) {
+				Toast.fail('暂无车辆位置信息');
+				return;
 			}
+			sessionStorage.setItem("curCarInfor", JSON.stringify(infor));
+			this.$router.push("/machinePositioning_carX");
 		}
+	}
 	}
 </script>
 
@@ -258,12 +270,13 @@
 		font-size: 12px;
 		margin-left: 14px;
 	}
+
 	#containerS {
 		min-width: 100%;
 		min-height: 100%;
 		top: 70px;
 	}
-	
+
 	.l-dropdown {
 		padding: 10px 0;
 		background: #fff;
@@ -273,29 +286,33 @@
 		top: 90px;
 		z-index: 999;
 	}
+
 	.position img {
-	    display: block;
-	    float: left;
-	    margin-right: 10px;
-	    background: #9499AA;
+		display: block;
+		float: left;
+		margin-right: 10px;
+		background: #9499AA;
 	}
+
 	.position {
 		border-bottom: 1px solid #eee;
 		padding: 16px;
 		line-height: 32px;
 		font-size: 17px;
 	}
-	.position:last-child{
+
+	.position:last-child {
 		border-bottom: none;
 	}
+
 	.position span:last-child {
 		float: right;
 		color: #ddd;
 		font-size: 14px;
 	}
-	
-	
-	
+
+
+
 	.footer_k {
 		width: 100%;
 		height: auto;
@@ -312,17 +329,17 @@
 		-webkit-overflow-scrolling: touch;
 		z-index: 999;
 	}
-	
+
 	.activeClass {
 		height: 90% !important;
 	}
-	
+
 
 	.footer_car li,
 	.footer_carS li {
 		float: left;
 	}
-	
+
 	.footer_car li img,
 	.footer_carS li img {
 		width: 90%;
@@ -330,8 +347,8 @@
 		border-radius: 2px;
 		border: 1px solid rgba(238, 238, 238, 1);
 	}
-	
-	
+
+
 	/* .footer_k li img {
 		width: 45px;
 		height: 45px;
@@ -339,41 +356,43 @@
 		display: block;
 		margin: 0 auto;
 	} */
-	
+
 	.footer_kS li span,
 	.footer_carS li span {
 		margin: 10px 0;
 	}
-	
+
 	.footer_k li span {
+		width: 100px;
 		margin-top: 10px;
 		/* display: block; */
 		text-align: center;
 	}
+
 	/*  */
-	
+
 	/deep/ .van-dropdown-menu .van-dropdown-menu__item:first-child {
 		border-right: 1px solid #ccc;
 		margin-right: 10px;
 	}
-	
+
 	/deep/.van-dropdown-menu .van-dropdown-menu__item {
 		border: 1px solid #CCC;
 		border-radius: 2px;
 		background: #F9F9F9;
 	}
-	
+
 	.van-dropdown-menu {
 		width: 90%;
 		margin: 0 auto;
 	}
-	
+
 	.innerLabel li.activeLabel {
 		background: #595F73;
 		border: 1px solid #595F73;
 		color: #fff;
 	}
-	
+
 	.innerLabel li {
 		padding: 0 12px;
 		width: auto;
@@ -390,7 +409,7 @@
 		border-radius: 2px;
 		line-height: 24px;
 	}
-	
+
 	.inte_gent,
 	.innerLabel {
 		width: 100%;
@@ -404,7 +423,7 @@
 		align-items: middle;
 		overflow: auto;
 	}
-	
+
 	.header_inte {
 		width: auto;
 		height: auto;
@@ -413,117 +432,122 @@
 		background: #fff;
 		border-bottom: 1px solid rgba(238, 238, 238, 1);
 	}
+
 	/*  */
-	
+
 	.clearfix::after {
 		content: '';
 		display: block;
 		clear: both;
 	}
-	
+
 	* {
 		margin: 0;
 	}
-	
+
 	img {
 		display: block;
 		width: 100%;
 		height: auto
 	}
-	
+
 	/deep/ .van-tabs__line {
 		background-color: #9499AA;
 		width: 50% !important;
 	}
-	
+
 	.color666 {
 		color: #666;
 	}
-	
+
 	.omit {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-	
+
 	.omit2 {
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 		overflow: hidden;
 	}
-	
+
 	.marginT12 {
 		margin-top: 12px;
 	}
-	
+
 	.container {
 		padding-top: 46px;
 	}
-	
+
 	.van-nav-bar .van-icon {
 		font-size: 18px;
 		color: #fff;
 	}
+
 	/*.notice-box{width:20px;height:20px;}*/
 	/*ontent list*/
-	
+
 	.list-container {
 		width: 100%;
 		height: 100%;
 		background: #fff;
 	}
-	
+
 	.l-list {
 		padding: 0 14px;
 	}
-	
+
 	.l-list li {
 		border-bottom: 1px solid #eee;
 	}
-	
+
 	.title {
 		font-size: 18px;
 		color: #333;
 		line-height: 24px;
 	}
-	
+
 	.explain {
 		font-size: 12px;
 	}
-	
+
 	.intro {
 		font-size: 16px;
 		color: #666;
 	}
-	
+
 	.item {
 		padding: 14px 0;
 	}
+
 	/*待复核*/
 	/*loading*/
-	
+
 	.spinner {
 		text-align: center;
 		font-size: 14px;
 		padding: 15px 0;
 		color: #969799;
 	}
+
 	/**/
-	
+
 	.small-headPhoto {
 		width: 20px;
 		height: 20px;
 		float: left;
 		margin-right: 5px;
 	}
+
 	/*检索关键字*/
-	
+
 	.retrieval-box {
 		border-bottom: 1px solid #DDD;
 		padding: 14px;
 	}
-	
+
 	.retrieval-list li {
 		padding: 6px 15px;
 		border: 1px solid #ccc;
@@ -532,37 +556,38 @@
 		float: left;
 		margin-right: 5px;
 	}
-	
+
 	.retrieval-list li.current {
 		color: #fff;
 		background: #595F73;
 	}
+
 	/*search*/
-	
+
 	.searh-clear {
 		padding: 14px;
 		color: #666;
 		font-size: 16px;
 	}
-	
+
 	.clear-btn {
 		text-align: right;
 	}
-	
+
 	.clear-btn .van-icon {
 		top: 2px;
 		right: 4px;
 	}
-	
+
 	.s-history {
 		padding: 0 14px;
 		background: #fff;
 	}
-	
+
 	.s-historyList li {
 		float: left;
 	}
-	
+
 	.h-tag {
 		margin-bottom: 10px;
 		color: #333;
@@ -572,7 +597,7 @@
 		font-size: 14px;
 		margin-right: 10px;
 	}
-	
+
 	.search-wrap {
 		position: fixed;
 		top: 0;

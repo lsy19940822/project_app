@@ -63,7 +63,6 @@
 				active: 0,
 				searchVal: '',
 				map: null,
-				isSearchShow: false,
 				activeClassType: false,
 				value1: 0,
 				value2: 0,
@@ -126,11 +125,11 @@
 				this.change1(this.value1);
 			}
 			this.getUserWorkPointList();
-
+            this.getUserMessageData();
 		},
 		mounted() {
 			this.init()
-			this.getUserMessageData();
+			
 		},
 		methods: {
 			init() {
@@ -155,15 +154,6 @@
 				}
 				
 			},
-			searchShowHide() {
-				this.isSearchShow = !this.isSearchShow
-			},
-			searchCancel() {
-				this.searchShowHide();
-			},
-			onSearch() {
-
-			},
 			change1(val) {
 
 				let that = this;
@@ -175,23 +165,23 @@
 				that.option2.splice(1);
 				that.getUserWorkPointList();
 				that.getUserMessageData();
+				that.value2 = Number(0);
 			},
 			change2(val) {
 				let that = this;
 				if(val != 0) {
-					that.Worksite = that.option1[val].text
+					that.worksite = that.option2[val].text.replace("#","%23")
 				} else {
-					that.Worksite = '';
+					that.worksite = '';
 				}
-				that.Worksite = that.option2[val].text.replace("#", "%23")
 				that.getUserMessageData();
 
 			},
 			getUserWorkPointList() {
+				// 根据标段查工点
 				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section=' + this.Section).then(res => {
 					if(res.data.result == false) {
 						this.disabledSection = true;
-						this.showList = true;
 						return;
 					}
 					if(res.data.result == true) {
@@ -204,50 +194,60 @@
 							}
 						}
 						this.disabledSection = false;
-						this.showList = false;
 						return;
 					}
 				})
 			},
+			
 			getUserMessageData() {
 				let that = this;
 				ajax.get('/API/WebAPIDataAudit/getUserMessage?Section=' + this.Section + '&worksite=' + this.worksite).then(res => {
-
-					if(res.status == 200 && res.data.data && res.data.data.length > 0) {
-
-						that.Saffdata = res.data.data;
-						var points = [], pointsIndex = [];
-						for(var k = 0; k < res.data.data.length; k++) {
-							if(res.data.data[k].PHOTOURL != null) {
-								res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
-							}
-
-							if(res.data.data[k].LONGITUDE && res.data.data[k].LATITUDE){
-								points.push(new BMap.Point(res.data.data[k].LONGITUDE, res.data.data[k].LATITUDE));
-								pointsIndex.push(k);
-							}
+ // && res.data.data && res.data.data.length > 0
+					if(res.status == 200) {
+						console.log('res.data.result:',res.data.result)
+						if(res.data.result == 0){
+							this.showList = true;
+							// 坐标转化
+							this.init()
+							return;  
 						}
-						// 坐标转化
-						var convertor = new BMap.Convertor();
-						convertor.translate(points, 1, 5, function(data) {
-							if(data.status === 0) {
-								for(var j = 0; j < data.points.length; j++) {
-									var icon = new BMap.Icon(res.data.data[pointsIndex[j]].PHOTOURL || require('../../assets/images/exam/eimg.png'), new BMap.Size(24, 25), {
-										anchor: new BMap.Size(24, 25),
-										offset: new BMap.Size(24, 25),
-										imageSize: new BMap.Size(24, 25),
-									});
-									var mkr = new BMap.Marker(data.points[j], {
-										icon: icon,
-										rotation: 0,
-										title: 'awdawa'
-									});
-									that.map.addOverlay(mkr);
-									//									that.map.addOverlay(new BMap.Marker(data.points[j]));
-									that.map.setCenter(data.points[j]);
+						if(res.data.result == 1){
+							this.showList = false;
+							that.Saffdata = res.data.data;
+							var points = [], pointsIndex = [];
+							for(var k = 0; k < res.data.data.length; k++) {
+								if(res.data.data[k].PHOTOURL != null) {
+									res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
+								}
+								if(res.data.data[k].LONGITUDE && res.data.data[k].LATITUDE){
+									points.push(new BMap.Point(res.data.data[k].LONGITUDE, res.data.data[k].LATITUDE));
+									pointsIndex.push(k);
 								}
 							}
-						})
+							// 坐标转化
+							var convertor = new BMap.Convertor();
+							convertor.translate(points, 1, 5, function(data) {
+								if(data.status === 0) {
+									for(var j = 0; j < data.points.length; j++) {
+										var icon = new BMap.Icon(res.data.data[pointsIndex[j]].PHOTOURL || require('../../assets/images/exam/eimg.png'), new BMap.Size(24, 25), {
+											anchor: new BMap.Size(24, 25),
+											offset: new BMap.Size(24, 25),
+											imageSize: new BMap.Size(24, 25),
+										});
+										var mkr = new BMap.Marker(data.points[j], {
+											icon: icon,
+											rotation: 0,
+											title: 'awdawa'
+										});
+										that.map.addOverlay(mkr);
+										
+										that.map.setCenter(data.points[j]);
+									}
+								}
+							})
+							return
+						}
+						
 
 					}
 				})

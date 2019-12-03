@@ -83,7 +83,7 @@
 				</li>
 			</ul>
 			<ul>
-				<li class='Buttond'  @click="$router.push({path:'/intelligent/engineering_a'})">
+				<li class='Buttond'  @click="link()">
 					<van-button color="#7099D0" size="normal" style='width: 100%;' >查看进度详情</van-button>
 				</li>
 			</ul>
@@ -164,8 +164,8 @@
 			
 		},
 		methods: {
-			inte(){
-				
+			link(){
+				this.$router.push({path:'/intelligent/engineering_a'})
 			},
 			studyActives(event, index,name) {
 				console.log("当前标段名：",name)

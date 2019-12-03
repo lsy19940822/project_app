@@ -116,25 +116,21 @@
 			change1(val){
 				this.Section = this.option1[val].text
 				console.log("当前标段：",this.option1[val].text)
+				if(this.Unit != ''){
+					this.Unit = '';
+					this.value2 = Number(0);
+				}
 				this.option2.splice(1);
 				this.StaffRetrieveList();
 				this.capacityEachart();
 				this.capacityEachartS();
 				this.getWorkUserNumberS()
-				if(val == 1){
-					this.eachatft = true;
-				}else{
-					this.eachatft = false;
-				}
 				localStorage.setItem("labor_value_id",val)
 			},
 			change2(val){
-				// this.Unit = this.option2[val].text
 				this.Unit = this.option2[val].text.replace("#", "%23")
-				// this.option2.splice(1);
 				console.log("当前工点：",this.option2[val].text)
 			    this.getWorkUserNumberS()
-				// this.StaffRetrieveList();
 				this.capacityEachart();
 				this.capacityEachartS();
 				this.getWorkUserNumberS()
@@ -223,11 +219,11 @@
 					    this.eachatDataY=res.data.data;
 						var eachatData_xAxis=[]
 						for(var i = 0;i<this.eachatDataY.length;i++){
-						    eachatData_xAxis.push(this.eachatDataY[i].MONTH)
+						    eachatData_xAxis.push(this.eachatDataY[i].Month)
 						}
 						var eachatData_yAxis=[]
 						for(var i = 0;i<this.eachatDataY.length;i++){
-						    eachatData_yAxis.push(this.eachatDataY[i].PEOPLENUMBER)
+						    eachatData_yAxis.push(this.eachatDataY[i].PeopleNumber)
 						}
 						let myChart = this.$echarts.init(document.getElementById('chart_examples'));
 						let option = {
@@ -282,7 +278,7 @@
 				
 			},
 			getWorkUserNumberS(){
-				ajax.get('/API/WebAPIDataAudit/getWorkUserNumber?BD='+this.Section+'&GD='+this.Unit).then(res => {
+				ajax.get('/API/WebAPIDataAudit/getWorkUserNumber?section='+this.Section+'&worksite='+this.Unit).then(res => {
 					console.log(res.data.data)
 					if(res.data.data.UserNumber !=0 || res.data.data.UserNumber !=0 ||res.data.data.UserNumber >0 || res.data.data.UserNumber >0){
 						this.user.UserNumber=res.data.data.UserNumber

@@ -1,37 +1,35 @@
 <template>
 	<div class="overflow Treedata">
-		 <!-- 筛选路径 -->
 		<div class="header_inte" v-show="EngineeringPath">
-			<div class="inte_gent">
-				<ul class="innerLabel" >
-					<li class="van-tabs van-tabs--line" v-for="(item,index) in cycaqData">
-						<div class="van-tabs__wrap van-hairline--top-bottom" >
-							<div role="tablist" class="van-tabs__nav van-tabs__nav--line">
-								<!-- -->
-								<div role="tab" aria-selected="true" class="van-tab van-tab--active">
-									<i class="van-icon van-icon-clear van-uploader__preview-delete"  @click="activedelete()" v-show="activedeleteArror"></i>
-									<span class="van-ellipsis cycaqData_r van-ellipsis" :id="item.id"  @click="cycaqDataButton(index,item.id)" :index="index">{{item.title}}</span>
-									<span class="van_icon"><van-icon :name="item.arrow" :index="index" ref="index_arrow"/></span>
-								</div>
+			<ul class="innerLabel"  ref="innerLabel" >
+				<li class="van-tabs van-tabs--line" v-for="(item,index) in cycaqData"  :style="slideStyle" ref='style' @touchstart="start($event)"  @touchmove="move($event)" @touchend="end($event)">
+					<div class="van-tabs__wrap van-hairline--top-bottom" >
+						<div role="tablist" class="van-tabs__nav van-tabs__nav--line">
+							<div role="tab" aria-selected="true" class="van-tab">
+								<i class="van-icon van-icon-clear van-uploader__preview-delete"  @click="activedelete()" v-show="activedeleteArror"></i>
+								<span class="van-ellipsis cycaqData_r van-ellipsis" :id="item.id"  @click="cycaqDataButton(index,item.id)" :index="index">{{item.title}}</span>
+								<span class="van_icon"><van-icon :name="item.arrow" :index="index" ref="index_arrow"/></span>
 							</div>
 						</div>
-					</li>
-				</ul>	
-			</div>
+					</div>
+				</li>
+			</ul>	
 		</div>
 		<ul class="overflow function" v-show="EngineeringPathY">
-			<li  v-for="(item,index) in dataList" :key="index" class="cyc_List" @click="studyActives($event,index,item.title)" >
+			<li  v-for="(item,index) in dataList" :key="index" class="cyc_List" @click="studyActives($event,index,item.title,item.FILLINSTATE)" >
 				<van-cell is-link class="link"><span>{{item.title}}</span></van-cell>
 			</li>
 		</ul>
 		<div class="flase" v-show="showArror" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无数据</div>
 		<ul class="overflow" v-show="showSuccess">
-			<li v-for="(item,index) in Treedata" :key="index"  class="cyc_Lists" :id="item.ID" @click="ActivesList(index,item.ID,item.NAME,item)">
+			<li v-for="(item,index) in Treedata" :key="index"  class="cyc_Lists" :id="item.ID" @click="ActivesList(index,item.ID,item.NAME,item,item.FILLINSTATE)">
 				<van-cell is-link class="link">
 					<div slot="title" >
-						<span style="float: left;width:75%" class="van-ellipsis">{{item.NAME}}</span>		
-						<span style="color: #aaa;float: right;">已完成</span>
-						<span style="color: #69966F;float: right;">78% </span>
+						<span style="float: left;width:75%" class="van-ellipsis">{{item.NAME}}</span>
+						<span style="float: right;color: #aaa;" v-if="item.STATUS == 1 || item.STATUS == 3|| item.STATUS == 5">{{item.STATUS | getStatus}}</span>
+						<span style="float: right;color: #7AB182;" v-if="item.STATUS == 2">{{item.STATUS | getStatus}}</span>
+						<span style="float: right;color: #E19B52;" v-if="item.STATUS == 4">{{item.STATUS | getStatus}}</span>
+						<!-- <span style="color: #69966F;float: right;">78% </span> -->
 					</div>
 				</van-cell>
 				
@@ -95,16 +93,95 @@
 					{ title:'CYCZQ-6标' },
 				],
 				EngineeringPath:false,//筛选框删除显示
-				EngineeringPathY:true//标段列表删除显示
+				EngineeringPathY:true,//标段列表删除显示
+				colorS:"",
+				// 筛选框左右滑动
+				flag: false,
+				startX: 0,
+				endX: 0,
+				slideStyle: {
+					left: 0,
+					transition: 'none'
+				}
 			}
 		},
 		created() {
 			this.show=true;
 		},
 		mounted() {
-		
+			var _this = this;
+			// 使用js的现代事件监听transition过渡结束
+			this.$refs.innerLabel.addEventListener('transitionend',function(){
+				_this.endX = this.offsetLeft;
+			})
+		},
+		filters: {
+			// (1-未开工、2-正在进行、3-已完成、4-延期已完成、5-延期未完成)
+			getStatus(id) {
+				var str = "";
+				switch(id) {
+					case 1:
+						str = "未开工";
+						break;
+					case 2:
+						str = "正在进行";
+						break;
+					case 3:
+						str = "已完成";
+						
+						break;
+					case 4:
+						str = "延期已完成";
+						break;
+					case 5:
+						str = "延期未完成";
+						break;
+				}
+				return str;
+			}
 		},
 		methods: {
+			start (e){
+				this.flag = true;
+				this.startX = e.touches[0].clientX;
+				this.endX = this.$refs.style[0].offsetLeft;
+				this.slideStyle.transition = 'none';
+			},
+			move (e){
+				if(this.flag){
+					// 处理鼠标移动的逻辑
+					var moveX = this.endX + (e.touches[0].clientX - this.startX);
+					if(Math.abs(moveX) >= this.$refs.style[0].offsetWidth && moveX < 0){
+						moveX = (Math.abs(moveX) - this.$refs.style[0].offsetWidth) * 0.1;
+						this.slideStyle.left = - this.$refs.style[0].offsetWidth - moveX + 'px';
+					}else if(moveX >= 0){
+						this.slideStyle.left = 0 + 'px'; 
+					}else{
+						this.slideStyle.left = moveX + 'px';  
+					}
+				}
+			},
+			end (e){
+				if(this.flag){
+					this.flag = false;
+					var moveX = e.changedTouches[0].clientX - this.startX;
+					this.slideStyle.transition = 'left .3s';
+					var btnWidth = this.$refs.style[0].offsetWidth;
+					if(moveX < 0){
+						if(Math.abs(moveX) >= btnWidth / 2 || Math.abs(this.$refs.slide.offsetLeft) >= this.$refs.style[0].offsetWidth){ 
+							this.slideStyle.left = - btnWidth + 'px';  
+						}else if(Math.abs(moveX) < btnWidth / 2){ 
+							this.slideStyle.left = 0 + 'px'; 
+						}
+					}else if(moveX > 0 && this.endX != 0){
+						if(Math.abs(moveX) >= btnWidth / 2){
+							this.slideStyle.left = 0 + 'px';  
+						}else if(Math.abs(moveX) < btnWidth / 2){
+							this.slideStyle.left = - btnWidth + 'px'; 
+						}
+					}
+				}
+			},
 			GetMenuTreeList() {
 				//智能进度
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=' + "&name=" + sessionStorage.getItem("intelligent_CycName")+"&state="+this.state).then(res => {
@@ -132,7 +209,6 @@
 						})
 						return;
 					}
-					
 				})
 			},
 			activedelete(){//标段取消删除
@@ -142,14 +218,12 @@
 				this.showArror = false;
 				this.showSuccess = false;	
 			},
-			studyActives(event, index,name) {//标段列表
+			studyActives(event, index,name,fill) {//标段列表
 				sessionStorage.setItem("intelligent_CycName",name)
 				this.CycName=sessionStorage.getItem("intelligent_CycName")
 				console.log("当前标段名：",name)
-				
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=' + "&name=" + sessionStorage.getItem("intelligent_CycName")+"&state="+this.state).then(res => {
 					if (res.data.result == false) {
-						
 						Toast("暂无数据")
 						return;
 					}
@@ -158,9 +232,10 @@
 							title:sessionStorage.getItem("intelligent_CycName"),
 							arrow:'',
 							id:res.data.data[0].ID,
-							index:index
+							index:index,
+							fill:fill
 						})
-						
+						sessionStorage.setItem("cycaqData",JSON.stringify(this.cycaqData));
 						this.GetMenuTreeList();
 						return
 					}
@@ -168,36 +243,51 @@
 				})
 				
 			},
-			ActivesList(index,id,name,item){
-				console.log(index,id,name)
+			ActivesList(index,id,name,item,fill){
+				console.log('ref:',	this.$refs.style)
 				let that=this;
 				sessionStorage.setItem("GetMenuTree",name)
+				if(this.cycaqData.length<1){
+					this.slideStyle.left = 0 + 'px'; 
+					// this.$refs.style[0].style.marginLeft='0px'
+				}else if(this.cycaqData.length>1){
+					this.slideStyle.left = ((-158*(this.cycaqData.length-1))+100) + 'px'; 
+					// this.$refs.style[0].style.marginLeft=((-158*(this.cycaqData.length-1))+100)+'px'
+				}
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=' + id + "&name="+"&state="+this.state).then(res => {
+					console.log(index,id,name,fill)
 					console.log('that.cycaqData:',that.cycaqData)
-					if (res.data.result == false){
+					if(fill == 0 && res.data.result == false){
 						Toast("暂无数据")
 						return
 					}
-					// if (res.data.result == false && this.cycaqData.length>1){
-					// 	this.$router.push({path:'/fill'})
-					// 	// Toast("暂无数据")
-					// 	return
-					// }
+					if (fill == 1 && res.data.result == false){
+						this.$router.push({path:'/fill'})
+						sessionStorage.setItem("GetMenuTree_Data",JSON.stringify(item));
+						let GetMenuTree_Data = {};
+						Object.assign(GetMenuTree_Data, JSON.parse(sessionStorage.getItem("GetMenuTree_Data")));
+						return
+					}
 					if (res.data.result == true) {
 						this.activedeleteArror = false;
 						that.cycaqData.push({
 							title:sessionStorage.getItem("GetMenuTree"),
 							arrow:'',
 							id:id,
-							index:index
+							index:index,
+							fill:fill
 						});
-						// console.log('that.cycaqData:',that.cycaqData)
 						for(let i in that.cycaqData){
 							this.cycaqData[(this.cycaqData.length-1)-1].arrow="arrow"
 						}
-						// this.Treedata.splice(0)//一级列表
+						
 						sessionStorage.setItem("GetMenuTree_list_id",id);
+						sessionStorage.setItem("cycaqData",JSON.stringify(this.cycaqData));
+						
 						sessionStorage.setItem("GetMenuTree_Data",JSON.stringify(item));
+						let GetMenuTree_Data = {};
+						Object.assign(GetMenuTree_Data, JSON.parse(sessionStorage.getItem("GetMenuTree_Data")));
+						
 						this.GetMenuTreelistid()
 						return
 					}
@@ -217,10 +307,16 @@
 				})
 			},
 			cycaqDataButton(index,id){
-				
 				this.cycaqData.splice(index+1,this.cycaqData.length-(index+1))
 				this.cycaqData[index].arrow=""
-				
+				sessionStorage.setItem("cycaqData",JSON.stringify(this.cycaqData));
+				if(this.cycaqData.length<1 || this.cycaqData.length==2){
+					this.slideStyle.left = 0 + 'px'; 
+					// this.$refs.style[0].style.marginLeft='0px'
+				}else if(this.cycaqData.length>1){
+					this.slideStyle.left=((-158*(this.cycaqData.length-1))+240)+'px'
+					// this.$refs.style[0].style.marginLeft=((-158*(this.cycaqData.length-1))+240)+'px'
+				}
 				if(this.cycaqData.length == 1){
 					this.activedeleteArror = true;
 				}else{
@@ -246,6 +342,13 @@
 </script>
 
 <style scoped>
+/deep/
+	.innerLabel{
+		position: relative;
+	}
+	.cyc_Lists:first-child{
+		border-top: 1px solid rgba(238, 238, 238, 1);
+	}
 	.van-uploader__preview-delete {
     position: absolute;
     top: -8px;
@@ -305,7 +408,11 @@
 		display: -webkit-box;
 		overflow-x: auto;
 		/*适应苹果*/
+		overflow-scrolling:touch;
 		-webkit-overflow-scrolling:touch;
+	}
+	.innerLabel li{
+		width: ;
 	}
 	.innerLabel::-webkit-scrollbar {
 		display: none;
@@ -340,9 +447,10 @@
 		width: auto;
 		height: auto;
 		overflow: hidden;
-		padding: 14px 16px;
+		padding: 14px 14px 16px 0;
+		margin-left: 14px;
 		background: #fff;
-		border-bottom: 1px solid rgba(238, 238, 238, 1);
+
 	}
 	/*  */
 	/deep/

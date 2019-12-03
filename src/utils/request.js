@@ -22,7 +22,7 @@ Axios.interceptors.request.use(function(config) {
 });
 // 添加响应拦截器
 Axios.interceptors.response.use(function(response) {
-	console.log(response)
+	// console.log(response)
 	if(response.status === 200) {
 		return Promise.resolve(response);
 	} else {

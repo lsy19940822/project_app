@@ -21,19 +21,19 @@
 						</van-cell>
 					  </van-collapse-item>
 					</van-collapse>
-					<van-cell is-link class="link" style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 1" >
+					<van-cell is-link @click="tost()" class="link" style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 1" >
 					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link class="link" style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 2" >
+					<van-cell is-link @click="tost()" class="link" style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 2" >
 					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link class="link" style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 3">
+					<van-cell is-link class="link" @click="tost()" style="padding: 0 14px;line-height: 40px;border-bottom: 1px solid #eee;" v-if="item.router == 3">
 					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
-					<van-cell is-link  class="link" style="padding: 0 14px;line-height: 40px;" v-if="item.router == 4">
+					<van-cell is-link  class="link" @click="tost()" style="padding: 0 14px;line-height: 40px;" v-if="item.router == 4">
 					    <img :src="item.img" alt="" width="14" style="margin-right: 5px;float: left;">
 						<span>{{item.title}}</span>
 					</van-cell>
@@ -52,9 +52,9 @@
 	import vantHeader from '@/components/header.vue'
     import indexFooter from '@/components/indexFooter.vue'
 	import Vue from 'vue';
-	import { Collapse, CollapseItem } from 'vant';
+	import { Collapse, CollapseItem,Toast } from 'vant';
 	
-	Vue.use(Collapse).use(CollapseItem);
+	Vue.use(Collapse).use(CollapseItem).use(Toast);
 	import { DropdownMenu, DropdownItem, Cell,Loading ,Icon} from 'vant';
 	
 	Vue.use(DropdownMenu).use(DropdownItem).use(Cell).use(Loading).use(Icon);
@@ -71,7 +71,7 @@
 				activeNames: ['-1'],
 				dataList:[
 					{
-						title:"智能监控",
+						title:"视频监控",
 						router:'0',
 						img:require('../../assets/engineering/icon_jk@2x (3).png'),
 						data:[
@@ -142,6 +142,9 @@
 		},
 		
 		methods: {
+			tost(){
+				Toast('敬请期待！');
+			}
 		}
 	}
 </script>
