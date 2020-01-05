@@ -32,15 +32,13 @@
 			
 			let userData=sessionStorage.getItem("chang_yi_UserData")
 			Object.assign(this.userData, JSON.parse(userData));
-			ajax.postParamsW('/sys/jdy/getUsername',{
-				username:localStorage.getItem("user")
-			}).then(res => {
+			// console.log(this.userData.USERID)
+			ajax.postW('/sys/jdy/appGetUserIdLg?userid='+this.userData.USERID).then(res => {
 				if(res.data.success == true){
-					console.log(localStorage.getItem("user"))
+					console.log(this.userData.USERID)
 					this.href="https://www.jiandaoyun.com/sso/custom/5dbea33f85bed20006e0e5e4/iss"
 				}
 				console.log(res.data.success)
-				
 			});
 			
 		},

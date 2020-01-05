@@ -122,10 +122,10 @@
 				}
 			},
 			goNextS() {
-				Toast('敬请期待！');
-				// this.$router.push({
-				// 	path: '/study'
-				// })
+				// Toast('敬请期待！');
+				this.$router.push({
+					path: '/study'
+				})
 			}
 		}
 	}

@@ -9,11 +9,21 @@
 			
 			<ul class="footer_k" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
 				<div @click="activeClassButton()" class="shu"></div>
+				
+				
+				<div class="position">
+					<img :src="userInfor.PHOTOURL" alt="">
+					<span>{{userInfor.EXAMNAME}} 
+					<van-icon name="manager" color='#00A0E9' style='vertical-align: middle;font-size: 14px;' v-if="userInfor.SEX == '男'"/>
+					<van-icon name="manager" color='red' style='vertical-align: middle;font-size: 14px;' v-if="userInfor.SEX == '女'"/>
+					</span>
+					<span>{{userInfor.WORKTYPE}}</span>
+				</div>
 				<div class="overflow vanDialog">
 					<li @click="$router.push({path:'/information?IDCard='+userInfor.CERTNUMBR})"><img src="../../../assets/images/exam/yuangong.png" alt=""><span>员工信息</span></li>
 					<li>
-						<a class="overflow" href="tel:" style="width: 48%;float:right;display: block;color: #666666;"></a>
-						<img src="../../../assets/images/exam/car_2.png" alt=""><span>拨打电话</span>
+						<a class="overflow" :href="'tel:' + userInfor.TELEPHONE"style="width: 100%;float:right;display: block;color: #666666;">
+						<img src="../../../assets/images/exam/car_2.png" alt=""><span>拨打电话</span></a>
 					</li>
 					
 					<li @click="showPicker= true"><img src="../../../assets/images/exam/yuyin.png" alt=""><span>发送语音</span></li>
@@ -38,12 +48,6 @@
 					  </div>
 					    <p style="padding: 12px 0;margin: 0 auto !important;color:#333;display: block;text-align: center;" class="hader_top">是否向此员工发送报警提示？</p>
 					</van-dialog> -->
-				</div>
-				
-				<div class="position">
-					<img :src="userInfor.PHOTOURL" alt="">
-					<span>{{userInfor.EXAMNAME}} <van-icon name="manager" color='#00A0E9' style='vertical-align: middle;font-size: 14px;'/></span>
-					<span>{{userInfor.WORKTYPE}}</span>
 				</div>
 			</ul>
 			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
@@ -94,7 +98,7 @@
 					{ text: 'CYCZQ-6标', value: 7},
 				],
 				option2: [
-					{ text: '全部工点', value: 0 },
+					{ text: '全部工区', value: 0 },
 				],
 				show:false,
 				columns: ['防空报警', '请带好安全帽',
@@ -140,22 +144,6 @@
 				console.log("---quesType--",this.quesType)
 			},
 			init() {
-				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
-//				 this.map = new qq.maps.Map(document.getElementById("containerS"), {
-//					// center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
-//					center:new qq.maps.LatLng(this.userInfor.LATITUDE,this.userInfor.LONGITUDE),
-//					zoom:8,
-//				});
-//				var anchor = new qq.maps.Point(6, 6),
-//					size = new qq.maps.Size(40, 19),
-//					origin = new qq.maps.Point(0, 0),
-//					icon = new qq.maps.MarkerImage(require('../../../assets/images/exam/eimg.png'), size, origin, anchor, size);
-//				var marker = new qq.maps.Marker({
-//					icon: icon,
-//					map: this.map,
-//					rotation: Math.random() * 360,
-//					position: new qq.maps.LatLng(this.userInfor.LATITUDE, this.userInfor.LONGITUDE)
-//				});
 				
 				this.map = new BMap.Map("containerS");
 				var point = new BMap.Point(116.404, 39.915);
@@ -175,7 +163,7 @@
 					if(data.status === 0) {
 						for(var j = 0; j < data.points.length; j++) {
 							console.log(data.points)
-							var icon = new BMap.Icon(require('../../../assets/images/exam/timg.jpg'), new BMap.Size(24, 25), {
+							var icon = new BMap.Icon(require('../../../assets/images/exam/eimg.png'), new BMap.Size(24, 25), {
 								anchor: new BMap.Size(24, 25),
 								offset: new BMap.Size(24, 25),
 								imageSize: new BMap.Size(24, 25),
@@ -186,7 +174,7 @@
 								title: ''
 							});
 							that.map.addOverlay(mkr);
-							//									that.map.addOverlay(new BMap.Marker(data.points[j]));
+							
 							that.map.setCenter(data.points[j]);
 						}
 					}
@@ -266,8 +254,9 @@
 	  	    min-height:100%;
 	}
 	.position{
-		border-top: 1px solid #eee;
-		padding: 16px;
+		border-bottom: 1px solid #eee;
+		padding:0 16px 16px;
+		margin-bottom: 16px;
 		line-height: 32px;
 		font-size:17px;
 	}

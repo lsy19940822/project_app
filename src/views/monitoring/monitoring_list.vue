@@ -95,7 +95,7 @@
 					},
 				],
 				option2: [{
-					text: '全部工点',
+					text: '全部工区',
 					value: 0
 				}],
 				isLoading: true,
@@ -131,7 +131,7 @@
 					this.Worksite= this.option2[val].text.replace("#", "%23")
 				}
 				
-				console.log("当前工点：", this.Worksite);
+				console.log("当前工区：", this.Worksite);
 				this.getUserWorkPointList();
 			},
 			getUserWorkPointList() {
@@ -150,7 +150,7 @@
 				})
 
 			},
-			// 工点
+			// 工区
 			StaffRetrieveList() {
 				let that = this;
 				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section=' + this.Section).then(res => {

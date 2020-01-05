@@ -1,18 +1,27 @@
 <template>
 	<div>
 		<div class="containers overflow">
-			<div class="container_header overflow">
-				<van-dropdown-menu class='Intelligence-dropdown'>
+			<div class="container_header overflow" style="display: flex;">
+				<van-dropdown-menu class='Intelligence-dropdown' style="width:103px;float: left;">
 					<van-dropdown-item v-model="value1" :options="option1" class='' @change="change1(value1)" />
+				</van-dropdown-menu>
+				<div class="van_icon"  style="width:20px;float: left;text-align: center;line-height: 50px;"><van-icon name="arrow"/></div>
+				
+				<van-dropdown-menu class='Intelligence-dropdown' style="width:103px;float: left;">
+					<van-dropdown-item v-model="value4" :options="option4" class='' :disabled="disabledSection" @change="change4(value4)"/>
+				</van-dropdown-menu>
+				<div class="van_icon"  style="width:20px;float: left;text-align: center;line-height: 50px;"><van-icon name="arrow"/></div>
+				<van-dropdown-menu class='Intelligence-dropdown' style="width:103px;float: left;">
 					<van-dropdown-item v-model="value2" :options="option2" class='' :disabled="disabledSection"  @change="change2(value2)" />
+				</van-dropdown-menu>
+				<div class="van_icon"  style="width:20px;float: left;text-align: center;line-height: 50px;"><van-icon name="arrow"/></div>
+				<van-dropdown-menu class='Intelligence-dropdown' style="width:103px;float: left;">
 					<van-dropdown-item v-model="value3" :options="option3" class='' :disabled="disabledUnit"@change="change3(value3)" />
 				</van-dropdown-menu>
 			</div>
 		</div>
         <div class="flase" v-show="!show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无人员</div>	
 		<div class="containers-bar overflow" style="position: relative;" v-show="show">
-			
-			<!--<van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()' />-->
 			<van-index-bar :sticky='true' :sticky-offset-top='46' :index-list="indexlist">
 				<div v-for="(item,index) in NameArrS">
 					<ul class="peploneList">
@@ -48,6 +57,7 @@
 				value1: 0,
 				value2: 0,
 				value3: 0,
+				value4: 0,
 				option1: [
 					{ text: '全部标段', value:0},
 					{ text: 'CYCZQ-1标', value: 1},
@@ -60,7 +70,7 @@
 				],
 				option2: [{ text: '全部单位', value:0},],
 				option3: [{ text: '全部工种', value:0},],
-
+                option4: [{ text: '全部工区', value:0},],
 				TypeWork: '',
 				Unit: '',
 				Section: '',
@@ -69,18 +79,17 @@
 				BD: "",
 				GD: "",
 				show:true,
-				
+				GetWork:""
 				
 			}
 		},
 		created() {
            this.getCompanyList()
 		   this.StaffRetrieveList();
-		   this.GetWorkTypeList()
+		   this.GetWorkTypeList();
+		   this.GetWorkareaList()
 		},
 		mounted() {
-			
-
 		},
 		computed: {
 			indexlist() {
@@ -98,12 +107,29 @@
 					this.Unit = '';
 					this.value2 = Number(0);
 					this.value3 = Number(0);
+					this.value4 = Number(0);
 				}
 				this.option2.splice(1);
 				this.option3.splice(1);
-				this.getCompanyList();
+				this.option3.splice(1);
 				this.StaffRetrieveList();
-				this.GetWorkTypeList()
+				this.getCompanyList()
+				this.GetWorkTypeList();
+			},
+			change4(val) {
+				this.GetWork = this.option4[val].text.replace("#", "%23")
+				console.log("当前工区：", val,this.GetWork)
+				if(this.TypeWork != ''){
+					this.TypeWork = '';
+					this.value3 = Number(0);
+					return
+				}
+				if(this.GetWork== '全部工区'){
+					this.GetWork='';
+				}
+				this.option3.splice(1);
+				this.StaffRetrieveList();
+				this.GetWorkTypeList();
 			},
 			change2(val) {
 				this.Unit = this.option2[val].text
@@ -118,6 +144,7 @@
 				}
 				this.option3.splice(1);
 				this.StaffRetrieveList();
+				this.getCompanyList()
 				this.GetWorkTypeList();
 				
 			},
@@ -125,9 +152,10 @@
 				this.TypeWork = this.option3[val].text
 				console.log("当前工种：",val, this.TypeWork)
 				console.log(this.Unit)
-				if(this.Section != '' || this.Unit!= ''){
+				if(this.Section != '' || this.Unit!= '' || this.GetWork!= ''){
 					this.Section=this.Section;
 					this.Unit=this.Unit;
+					this.GetWork=this.GetWork;
 				}
 				if(this.TypeWork== '全部工种'){
 					this.TypeWork='';
@@ -135,17 +163,15 @@
 				this.StaffRetrieveList();
 			},
 			StaffRetrieveList() {//列表与查询
-				if(this.Section== '全部标段' && this.Unit == '全部单位' && this.TypeWork == '全部工种'){
+				if(this.Section== '全部标段' && this.Unit == '全部单位' && this.TypeWork == '全部工种'&& this.GetWork == '全部工区'){
 					this.Section='';
 					this.Unit='';
 					this.TypeWork='';
+					this.GetWork='';
 					return;
 				}
-			
-				
-				
 				console.log('StaffRetrieveList:',this.Unit)
-				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section + '&Unit=' + this.Unit + '&TypeWork=' + this.TypeWork).then(res => {
+				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section + '&Unit=' + this.Unit + '&TypeWork=' + this.TypeWork+'&Workarea=' + this.GetWork).then(res => {
 			        if(res.data.result == false){
 			        	this.show=false;
 			        	return;
@@ -226,7 +252,7 @@
 					}
 				})
 			},
-			GetWorkTypeList(){// 1.1.1.根据单位查工点
+			GetWorkTypeList(){// 1.1.1.根据单位查工中
 			    if(this.Unit == ""){
 				    ajax.get('/API/WebAPIDataAudit/GetWorkType?Unit='+this.Unit).then(res => {
 						if(res.data.result == false){
@@ -237,7 +263,7 @@
 								if(res.data.data[k].WORKTYPE != null){
 									this.option3.push({
 										text:res.data.data[k].WORKTYPE,
-										value:Number(k)
+										value:Number(k)+Number(1)
 									})
 								}
 							}
@@ -267,8 +293,49 @@
 				    })
 					return;
 				}
+			},
+			GetWorkareaList(){// 1.1.1.根据单位查工区
+			    if(this.Unit == ""){
+				    ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section='+this.Section).then(res => {
+						if(res.data.result == false){
+							this.disabledUnit=true;
+						}
+						if(res.data.result == true){
+							for(let k in res.data.data) {
+								if(res.data.data[k].WORKAREA != null){
+									this.option4.push({
+										text:res.data.data[k].WORKAREA,
+										value:Number(k)
+									})
+								}
+							}
+							console.log(this.option4)
+							return;
+						}
+				    })
+					return;
+			    }
+				if(this.Unit != ""){
+				    ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section='+this.Section).then(res => {
+						if(res.data.result == false){
+							this.disabledUnit=true;
+						}
+						if(res.data.result == true){
+							for(let k in res.data.data) {
+								if(res.data.data[k].WORKAREA != null){
+									this.option4.push({
+										text:res.data.data[k].WORKAREA,
+										value:Number(k)
+									})
+								}
+							}
+							console.log(this.option4)
+							return;
+						}
+				    })
+					return;
+				}
 			}
-			
 		}
 	}
 </script>
@@ -278,7 +345,10 @@
 	    width: 90%;
 	    margin: 0 auto;
 	} */
-	
+	/deep/
+	.van-ellipsis{
+		width:60px !important;
+	}
 	.container_nav {
 		height: auto;
 		overflow: hidden;

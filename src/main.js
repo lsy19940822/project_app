@@ -6,6 +6,7 @@ import router from './router'
 import 'vant/lib/index.css'
 import echarts from 'echarts'
 import pinyin from 'js-pinyin'
+import $ from 'jquery'
 // 萤石云视频直播所需依赖
 import './assets/video/ezuikit.js'
 import moment from 'moment'//导入文件 

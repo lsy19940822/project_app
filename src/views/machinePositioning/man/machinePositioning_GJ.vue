@@ -70,7 +70,7 @@
 					{ text: 'CYCZQ-6标', value: 7},
 				],
 				option2: [
-					{ text: '全部工点', value: 0 },
+					{ text: '全部工区', value: 0 },
 				],
 			}
 		},
@@ -108,7 +108,7 @@
 			},
 			change2(val){
 				this.Worksite = this.option2[val].text
-				console.log("当前工点：",this.option2[val].text)
+				console.log("当前工区：",this.option2[val].text)
 			},
 			getUserWorkPointList(){
 				let that = this;
@@ -146,15 +146,15 @@
 					
 					});
 				})
-				// 工点
+				// 工区
 				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
 					if(res.data.result) {
-						console.log("1.1.2.获取全部工点名称",res)
+						console.log("1.1.2.获取全部工区名称",res)
 						for(let k in res.data.data) {
 						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
 						   // NameArr.push(res.data.data[k])
 						}	
-						console.log("工点：",this.option2)
+						console.log("工区：",this.option2)
 					}
 				})
 			}

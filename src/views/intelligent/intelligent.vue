@@ -9,7 +9,7 @@
 				<div class="inte_gent">
 					<ul class="innerLabel" >
 						<li ref='style'
-						@click="studyActives($event,index,item.title)" 
+						@click="studyActives(index,item.name)" 
 						:class="{activeLabel:num==index}" v-for="(item,index) in cycaqData"
 						:id="index">{{item.title}}</li>
 					</ul>
@@ -23,12 +23,12 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (5).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段实际进度</span>
 							<span style="float: right;">
-								<span>{{percentage.percentage1}}<span v-if="percentage.percentage1!=0">%</span></span>
+								<span>{{getSchedule.PercentCompleted}}<span v-if="getSchedule.PercentCompleted !=0">%</span></span>
 								<span style="color:rgba(64,69,94,1);">/100%</span>
 							</span>
 						</p>
 						<p>
-							<van-progress color="#7AB182" :percentage="percentage.percentage1" stroke-width="6" />
+							<van-progress color="#7AB182" :percentage="getSchedule.PercentCompleted" stroke-width="6" />
 						</p>
 					</div>
 					<div class="navLists" prop="percentage">
@@ -36,12 +36,11 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (4).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段计划进度</span>
 							<span style="float: right;">
-								<span>{{percentage.percentage2}}<span v-if="percentage.percentage2!=0">%</span></span>
-								<span style="color:rgba(64,69,94,1);">/100%</span>
+								<span>{{getSchedule.targetAdvancePercentage}}%</span><span style="color:rgba(64,69,94,1);">/100%</span>
 							</span>
 						</p>
 						<p style="margin-bottom: 0;">
-							<van-progress color="#AAAAAA" :percentage="percentage.percentage2" stroke-width="6" />
+							<van-progress color="#AAAAAA" :percentage="getSchedule.targetAdvancePercentage" stroke-width="6" />
 						</p>
 					</div>
 				</div>
@@ -51,12 +50,12 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (3).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段产值</span>
 							<span style="float: right;">
-								<span>{{percentage.percentage3}}<span v-if="percentage.percentage3!=0">万</span></span>
-								<span style="color:rgba(64,69,94,1);">/30989.99万</span>
+								<span >{{getSchedule.CompletedOutputValue}}万元</span>
+								<span style="color:rgba(64,69,94,1);">/{{getSchedule.GrossOutput}}万元</span>
 							</span>
 						</p>
 						<p>
-							<van-progress color="#DCAA4F" :percentage="percentage.percentage5" stroke-width="6" />
+							<van-progress color="#DCAA4F" :percentage="getSchedule.PercentCompleted" stroke-width="6" />
 						</p>
 					</div>
 					<div class="navLists"prop="percentage">
@@ -64,27 +63,29 @@
 							<span><img src="../../assets/images/user_icon/icon_M@2x (2).png" alt="" width="11px"></span>
 							<span style="color:rgba(102,102,102,1);">标段工期</span>
 							<span style="float: right;">
-								<span>{{percentage.percentage4}}<span v-if="percentage.percentage4!=0">天</span></span>
-								<span style="color:rgba(64,69,94,1);">/330天</span>
+								<span>{{getSchedule.Day}}天</span><span style="color:rgba(64,69,94,1);">/{{getSchedule.SumDay}}天</span>
 							</span>
 						</p>
 						<p style="margin-bottom: 0;">
-							<van-progress color="#6A94B9" :percentage="percentage.percentage4" stroke-width="6" />
+							<van-progress color="#6A94B9" :percentage="getSchedule.TimeS" stroke-width="6" />
 						</p>
 					</div>
 				</div>
 			</div>
-			<ul class="container_list overflow">
-				<li class="overflow" @click="$router.push({path:'/BeyondThe'})">
+			<ul class="container_list overflow" style="margin-top: 10px;">
+				<li class="overflow" @click="link_get()">
 					<van-cell is-link>
-						<span>超期工程</span>
-						<span class='tag' style="float: right;"><span style='color: #C86565;'>0</span><span class='color:#AAAAAA'>/20325</span></span>
+						<span style='color: #C86565;'>超期工程</span>
+						<span class='tag' style="float: right;">
+							<span style='color: #C86565;'>{{getSchedule.AreProject}}</span>
+							<span class='color:#AAAAAA'>/{{getSchedule.ProjectAll}}</span>
+						</span>
 					</van-cell>
 				</li>
 			</ul>
 			<ul>
 				<li class='Buttond'  @click="link()">
-					<van-button color="#7099D0" size="normal" style='width: 100%;' >查看进度详情</van-button>
+					<van-button color="#7099D0" size="normal" style='width: 100%;' >进度填报</van-button>
 				</li>
 			</ul>
 		</div>
@@ -119,13 +120,13 @@
 			return {
 				questionText: "智能进度",
 				cycaqData:[
-					{"title":"CYCZQ-1标"},
-					{"title":"CYCZQ-2标"},
-					{"title":"CYCZQ-3标"},
-					{"title":"CYCZQ-4标"},
-					{"title":"CYCZQ-5标1"},
-					{"title":"CYCZQ-5标2"},
-					{"title":"CYCZQ-6标"},
+					{"title":"CYCZQ-1标","name":"1标"},
+					{"title":"CYCZQ-2标","name":"2标"},
+					{"title":"CYCZQ-3标","name":"3标"},
+					{"title":"CYCZQ-4标","name":"4标"},
+					{"title":"CYCZQ-5标1","name":"5标1"},
+					{"title":"CYCZQ-5标2","name":"5标2"},
+					{"title":"CYCZQ-6标","name":"6标"},
 				],
 				num:0,
 				percentage:{
@@ -135,39 +136,63 @@
 					percentage4:0,
 					percentage5:0,
 				},
-			
+				getSchedule:{
+					Day:'',
+					SumDay:'',
+					TimeS:0,
+					// 产值
+					GrossOutput:"",
+					CompletedOutputValue:"",
+					PercentCompleted:0,
+					// 进度
+					targetAdvance:'',
+					targetAdvanceOk:'',
+					targetAdvancePercentage:0,
+					ProjectAll:'',
+					AreProject:'',
+					
+				},
+			    index:0
 			}
 		},
 		created() {
 			this.GetMenuTreeList();
-			
 			this.num=Number(this.$route.query.ValueId);
-			if(this.num == 1){
-				this.percentage.percentage1=Number(32)
-				this.percentage.percentage2=Number(61)
-				this.percentage.percentage3=Number(32)
-				this.percentage.percentage4=Number(61)
-				this.percentage.percentage5=Number(32)
-				// this.percentage.percentage3=Number(12365)
-				// this.percentage.percentage4=Number(65)
-			}else{
-				this.percentage.percentage1=0
-				this.percentage.percentage2=0
-				this.percentage.percentage3=0
-				this.percentage.percentage4=0
-				this.percentage.percentage5=0
-			} 
+			sessionStorage.setItem("GetMenuTree_list_name",null);
+			sessionStorage.setItem("GetMenuTree_list_index",null);
+			
+			
+			ajax.get('/API/WebAPIDataAudit/GetProgress?section='+this.cycaqData[this.num].name).then(res => {
+				if(res.data.result) {
+					
+					this.getSchedule.Day = res.data.data.Day
+					this.getSchedule.SumDay = res.data.data.SumDay
+					this.getSchedule.TimeS = Number(Math.floor((this.getSchedule.Day / this.getSchedule.SumDay)*100))
+					this.getSchedule.GrossOutput = res.data.data.GrossOutput
+					this.getSchedule.ProjectAll = res.data.data.ProjectAll
+					this.getSchedule.AreProject = res.data.data.AreProject
+					this.getSchedule.CompletedOutputValue = res.data.data.CompletedOutputValue
+					this.getSchedule.PercentCompleted = Number((res.data.data.PercentCompleted))
+					this.getSchedule.targetAdvancePercentage = Number((res.data.data.targetAdvancePercentage))
+				}
+			});
 		},
 		mounted() {
-           
-		  
-			
+			if(this.num>3){$(".innerLabel li:eq(0)").css("margin-left",Number(-(91/2+(this.num)*6)*4.5)+'px')}
 		},
 		methods: {
-			link(){
-				this.$router.push({path:'/intelligent/engineering_a'})
+			link_get(){
+				if(this.getSchedule.AreProject == 0){
+					Toast("暂无超期工程")
+				}else{
+					this.$router.push({path:'/BeyondThe?index='+this.index})
+				}
 			},
-			studyActives(event, index,name) {
+			link(){
+				this.$router.push({path:'/intelligent_firstLevel?index='+this.index})
+			},
+			studyActives(index,name) {
+				this.index=index;
 				console.log("当前标段名：",name)
 				sessionStorage.setItem("intelligent_CycName",name)
 				this.CycName=sessionStorage.getItem("intelligent_CycName")
@@ -180,23 +205,19 @@
 				}else if(this.num>3){
 					this.$refs.style[0].style.marginLeft=Number(-(91/2+(index)*6)*4.5)+'px'
 				}
-				if(this.num == 1){
-					this.percentage.percentage1=Number(32)
-					this.percentage.percentage2=Number(61)
-					this.percentage.percentage3=Number(32)
-					this.percentage.percentage4=Number(61)
-					this.percentage.percentage5=Number(32)
-					// this.percentage.percentage3=Number(12365)
-					// this.percentage.percentage4=Number(65)
-				}else{
-					this.percentage.percentage1=0
-					this.percentage.percentage2=0
-					this.percentage.percentage3=0
-					this.percentage.percentage4=0
-					this.percentage.percentage5=0
-				}
-				// console.log("左右滑动",index,91/2+(index)*6,this.$refs.style[0],this.$refs.style[0].style.marginLeft=+Number(-(91/2+(index)*6))+'px')
-			
+				ajax.get('/API/WebAPIDataAudit/GetProgress?section='+name).then(res => {
+					if(res.data.result) {
+						this.getSchedule.Day = res.data.data.Day
+						this.getSchedule.SumDay = res.data.data.SumDay
+						this.getSchedule.TimeS = Number(Math.floor((this.getSchedule.Day / this.getSchedule.SumDay)*100))
+						this.getSchedule.GrossOutput = res.data.data.GrossOutput
+						this.getSchedule.ProjectAll = res.data.data.ProjectAll
+						this.getSchedule.AreProject = res.data.data.AreProject
+						this.getSchedule.CompletedOutputValue = res.data.data.CompletedOutputValue
+						this.getSchedule.PercentCompleted = Number((res.data.data.PercentCompleted))
+						this.getSchedule.targetAdvancePercentage = Number((res.data.data.targetAdvancePercentage))
+					}
+				});
 			},
              GetMenuTreeList(){
 				

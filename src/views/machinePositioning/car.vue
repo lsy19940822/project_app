@@ -22,7 +22,7 @@
 				<div @click="activeClassButton()">
 					<van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;" />
 				</div>
-				<li class="position" v-for="(item,index) in  carList" v-if="index>=5" @click="showCarDetails(item)" style="width: 100%;">
+				<li class="position" v-for="(item,index) in  carList" v-if="index>=4" @click="showCarDetails(item)" style="width: 100%;">
 					<img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt="" style="width: 54px;height: 32px;">
 
 					<span style="float: left;margin: 0;">{{item.CARNUMBER}}</span>
@@ -110,7 +110,7 @@
 					},
 				],
 				option2: [{
-					text: '全部工点',
+					text: '全部工区',
 					value: 0
 				}],
 				disabledSection: "",
@@ -162,8 +162,9 @@
 
 			},
 			change1(val) {
+			
 				let that = this;
-				if (val != 0) {
+				if(val != 0) {
 					that.Section = that.option1[val].text
 				} else {
 					that.Section = '';
@@ -171,17 +172,19 @@
 				that.option2.splice(1);
 				that.getUserWorkPointList();
 				that.getAllGPS();
+				that.value2 = Number(0);
 			},
 			change2(val) {
 				let that = this;
-				if (val != 0) {
-					that.Worksite = that.option2[val].text
+				if(val != 0) {
+					that.Worksite = that.option2[val].text.replace("#","%23")
 				} else {
 					that.Worksite = '';
 				}
-				that.Worksite = that.option2[val].text.replace("#", "%23")
-				that.getAllGPS();
+				this.getAllGPS();
+			
 			},
+			
 			getUserWorkPointList() {
 				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section=' + this.Section).then(res => {
 					if (res.data.result == false) {
@@ -207,6 +210,7 @@
 			getAllGPS() {
 				let that = this;
 				ajax.get('/API/WebAPIDataAudit/getCarInfo?Section=' + this.Section + '&worksite=' + this.Worksite).then(res => {
+					if(res.status == 200) {
 						if (res.data.result == 0) {
 							this.showList = true;
 							// 坐标转化
@@ -215,38 +219,103 @@
 						}
 						if (res.data.result == 1) {
 							this.showList = false;
-							var data = res.data.data;
-							that.carList = data;
-							var dr = [],
-								points = [];
-							for (var i = 0; i < data.length; i++) {
-								if (data[i].LONGITUDE && data[i].LATITUDE)
-									points.push(new BMap.Point(data[i].LONGITUDE, data[i].LATITUDE));
+							that.carList = res.data.data;
+							
+							var points = [];
+						    var dr=[];
+							for (var i = 0; i < that.carList.length; i++) {
+								if (that.carList[i].DIRECTION==null){
+									that.carList[i].DIRECTION = '0'
+								}
+								if (that.carList[i].LONGITUDE && that.carList[i].LATITUDE){
+									that.carList[i].DIRECTION=that.carList[i].DIRECTION.replace(/[^0-9]/ig,"")
+									points.push(new BMap.Point(that.carList[i].LONGITUDE, that.carList[i].LATITUDE));
+									dr.push({
+										
+										direction :that.carList[i].DIRECTION,
+										STATUS:that.carList[i].STATUS,
+										IMEIS:that.carList[i].IMEIS,
+										CARNUMBER:that.carList[i].CARNUMBER,
+										DRIVERNAME:that.carList[i].DRIVERNAME,
+										DRIVERPHONE:that.carList[i].DRIVERPHONE,
+										CARTYPE:that.carList[i].CARTYPE,
+										CARPHOTOURL:that.carList[i].CARPHOTOURL,
+									});
+								}
+								
 							}
 							// 坐标转化
 							var convertor = new BMap.Convertor();
 							convertor.translate(points, 1, 5, function(data) {
+								data.status = 0;data.points = points
+								console.log("convertor:",data,dr)
 								if (data.status === 0) {
+									
 									for (var j = 0; j < data.points.length; j++) {
-										var icon = new BMap.Icon(require('../../assets/images/exam/car.jpg'), new BMap.Size(40, 19), {
-											anchor: new BMap.Size(40, 19),
-											offset: new BMap.Size(40, 19),
-											imageSize: new BMap.Size(40, 19),
-										});
-										var mkr = new BMap.Marker(data.points[j], {
-											icon: icon,
-											rotation: Math.random() * 360,
-											title: 'awdawa'
-										});
-										that.map.addOverlay(mkr);
-										//									that.map.addOverlay(new BMap.Marker(data.points[j]));
-										that.map.setCenter(data.points[j]);
+										for(var j = 0; j <dr.length; j++){
+											var icon = new BMap.Icon(require('../../assets/images/exam/car.jpg'), new BMap.Size(40, 19), {
+												anchor: new BMap.Size(40, 19),
+												offset: new BMap.Size(40, 19),
+												imageSize: new BMap.Size(40, 19),
+											});
+											var mkr = new BMap.Marker(data.points[j], {
+												icon: icon,
+												rotation:dr[j].direction,
+												title: 'awdawa'
+											});
+											// for (var j = 0; j < dr.length; j++) {
+												
+											// }
+											let STATUS = ''
+											if(dr[j].STATUS == 1){
+												STATUS= '运行中'
+											}else if(dr[j].STATUS == 0){
+												STATUS= '离线状态'
+											}
+											var sContent =
+											"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>车辆信息</h4>" + 
+											
+											"<ul style='margin:4px'>" + 
+												"<li style='margin-top:5px'>设备编号："+dr[j].IMEIS+"</li>" + 
+												"<li style='margin-top:5px'>车牌号码："+dr[j].CARNUMBER+"</li>" +
+												"<li style='margin-top:5px'>驾驶司机："+dr[j].DRIVERNAME+"</li>" +
+												"<li style='margin-top:5px'>手机号码："+dr[j].DRIVERPHONE+"</li>" + 
+												"<li style='margin-top:5px'>车辆类型："+dr[j].CARTYPE+"</li>" + 
+												"<li style='margin-top:5px'>行驶状态："+STATUS+"</li>" + 
+											"</ul>" +
+											 "<img style='margin:4px' id='imgDemo' src='"+that.ajax.http + dr[j].CARPHOTOURL.slice(2)+"' width='162' height='96'/>" + 
+											"</div>"
+											that.addClickHandler(sContent,mkr);
+											that.map.addOverlay(mkr);
+											
+											that.map.setCenter(data.points[j]);
+										}
 									}
 								}
 							})
 						// }
+					    }
 					}
 				})
+		},
+		addClickHandler(content,marker){
+			let that=this;
+			marker.addEventListener("click",function(e){
+				that.openInfo(content,e)}
+			);
+		},
+		openInfo(content,e){
+			let that=this;
+			var opts = {
+				width : 250,     // 信息窗口宽度
+				height: 280,     // 信息窗口高度
+				title : "" , // 信息窗口标题
+				enableMessage:true//设置允许信息窗发送短息
+			};
+			var p = e.target;
+			var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+			var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
+			that.map.openInfoWindow(infoWindow,point); //开启信息窗口
 		},
 		showCarDetails(infor) {
 			console.log(infor)

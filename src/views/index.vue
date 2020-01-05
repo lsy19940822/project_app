@@ -33,12 +33,12 @@
 							 <span><img src="../assets/images/index_icon/icon_zjd@2x.png" alt="" width="11px"></span>
 							 <span style="color:rgba(102,102,102,1);">项目实际进度</span>
 							 <span style="float: right;">
-								 <span>72%</span>
+								 <span>{{getSchedule.PercentCompleted}}%</span>
 								 <span style="color:rgba(64,69,94,1);">/100%</span>
 							 </span>
 						</p>
 						 <p>
-							 <van-progress color="#7AB182" :percentage="72" stroke-width="6" />
+							 <van-progress color="#7AB182" :percentage="getSchedule.PercentCompleted" stroke-width="6" />
 						 </p>
 					 </div>
 					 <div class="navLists">
@@ -46,12 +46,12 @@
 							 <span><img src="../assets/images/index_icon/icon_zjd(1).png" alt="" width="11px"></span>
 							 <span style="color:rgba(102,102,102,1);">项目计划进度</span>
 							 <span style="float: right;">
-								 <span>66%</span>
+								 <span>{{getSchedule.targetAdvancePercentage}}%</span>
 								 <span style="color:rgba(64,69,94,1);">/100%</span>
 							 </span>
 						</p>
 						 <p  style="margin-bottom: 0;">
-							 <van-progress color="#AAAAAA" :percentage="66" stroke-width="6" />
+							 <van-progress color="#AAAAAA" :percentage="getSchedule.targetAdvancePercentage" stroke-width="6" />
 						 </p>
 					 </div>
 				</div>
@@ -61,8 +61,8 @@
 							 <span><img src="../assets/images/index_icon/icon_zcz@2x.png" alt="" width="11px"></span>
 							 <span style="color:rgba(102,102,102,1);">总产值</span>
 							 <span style="float: right;">
-								 <span>{{getSchedule.CompletedOutputValue}}万</span>
-								 <span style="color:rgba(64,69,94,1);">/{{getSchedule.GrossOutput}}万</span>
+								 <span>{{getSchedule.CompletedOutputValue}}万元</span>
+								 <span style="color:rgba(64,69,94,1);">/{{getSchedule.GrossOutput}}万元</span>
 								
 							 </span>
 						</p>
@@ -75,141 +75,33 @@
 							 <span><img src="../assets/images/index_icon/icon_gq@2x.png" alt="" width="11px"></span>
 							 <span style="color:rgba(102,102,102,1);">工期</span>
 							 <span style="float: right;">
-								 <span>87天</span>
-								 <span style="color:rgba(64,69,94,1);">/330天</span>
+								 <span>{{getSchedule.Day}}天</span>
+								 <span style="color:rgba(64,69,94,1);">/{{getSchedule.SumDay}}天</span>
 							 </span>
 						</p>
 						 <p  style="margin-bottom: 0;">
-							 <van-progress color="#6A94B9" :percentage="56" stroke-width="6" />
+							 <van-progress color="#6A94B9" :percentage="getSchedule.TimeS" stroke-width="6" />
 						 </p>
 					 </div>
 				</div>
 				<div class="container_nav" style="padding: 16px 8px;">
-					<div class="nav_br">
-						<div class="nav_t" @click="$router.push({path:'/intelligent?ValueId=0'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-1标</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>产值:</span><span style="color:#333">2,156万</span><span>/3,1156万</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
-							</div>
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">32%</span><span style="color:#AAAAAA;font-size:18px;">/36%</span>
-							    <span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
+					<div class="nav_t" @click="$router.push({path:'/intelligent?ValueId='+index})" v-for="(item,index) in OutPut">
+						<div class="tir_List">
+							<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
+							<span>{{item.section}}</span>
 						</div>
-						<div class="nav_t nav_r" @click="$router.push({path:'/intelligent?ValueId=1'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-2标</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>产值:</span><span style="color:#333">2,156万</span><span>/3,1156万</span>
-							</div>
-							<div class="tir_List tir_Lists" >
-								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
-							</div>
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">32%</span><span  style="color:#AAAAAA;font-size:18px;">/36%</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
+						<div class="tir_List tir_Lists">
+							<span>产值:</span><br/><span style="color:#333">{{item.CompletedOutputValue==''?0:item.CompletedOutputValue}}万元</span><span>/{{item.GrossOutput==''?0:item.GrossOutput}}万元</span>
 						</div>
-						
-					</div>	
-					<div class="nav_br">
-						<div class="nav_t" @click="$router.push({path:'/intelligent?ValueId=2'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-3标</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>产值:</span><span style="color:#333">2,156万</span><span>/3,1156万</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
-							</div>
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#E19B52;font-size: 26px;">32%</span><span  style="color:#AAAAAA;font-size:18px;">/36%</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
+						<div class="tir_List tir_Lists">
+							<span>超期:</span><span style="color:#C86565">{{item.AreProject}}</span><span>/{{item.ProjectAll}}</span>
 						</div>
-						<div class="nav_t nav_r" @click="$router.push({path:'/intelligent?ValueId=3'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-4标</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>产值:</span><span style="color:#333">2,156万</span><span>/3,1156万</span>
-							</div>
-							<div class="tir_List tir_Lists" >
-								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
-							</div>
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#C86565;font-size: 26px;">32%</span><span  style="color:#AAAAAA;font-size:18px;">/36%</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
+						<div class="tir_List tir_Lists" style="margin-bottom: 0;">
+							<span style="color:#69966F;font-size: 26px;">{{item.PercentCompleted==''?0:item.PercentCompleted}}%</span><span style="color:#AAAAAA;font-size:18px;">/100%</span>
+						    <span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 						</div>
-						
 					</div>
-					<div class="nav_br" @click="$router.push({path:'/intelligent?ValueId=4'})">
-						<div class="nav_t">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-5标1</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>产值:</span><span style="color:#333">2,156万</span><span>/3,1156万</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
-							</div>
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">32%</span><span style="color:#AAAAAA;font-size:18px;">/36%</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
-						</div>
-						<div class="nav_t nav_r" @click="$router.push({path:'/intelligent?ValueId=5'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-5标2</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>产值:</span><span style="color:#333">2,156万</span><span>/3,1156万</span>
-							</div>
-							<div class="tir_List tir_Lists" >
-								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
-							</div>
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">32%</span><span  style="color:#AAAAAA;font-size:18px;">/36%</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
-						</div>
-						
-					</div>
-					<div class="nav_br" >
-						<div class="nav_t"@click="$router.push({path:'/intelligent?ValueId=6'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-6标</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>产值:</span><span style="color:#333">2,156万</span><span>/3,1156万</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>超期:</span><span style="color:#C86565">249</span><span>/3,11256</span>
-							</div>
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">32%</span><span style="color:#AAAAAA;font-size:18px;">/36%</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
-						</div>
-						
-						
-					</div>
+					
 				</div>
 			</div>
 			
@@ -258,113 +150,21 @@
 					 </div>
 				</div>
 				<div class="container_nav" style="padding: 16px 8px;">
-					<div class="nav_br">
-						<div class="nav_t" @click="$router.push({path:'/Intelligence/labor?ValueId=0'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-1标</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
-							</div>
-							
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
-							    <span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
+					<div class="nav_t" @click="$router.push({path:'/Intelligence/labor?ValueId='+index})" v-for="(item,index) in PeopleNumber">
+						<div class="tir_List">
+							<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
+							<span>{{item.section}}</span>
 						</div>
-						<div class="nav_t nav_r" @click="$router.push({path:'/Intelligence/labor?ValueId=1'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-2标</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
-							</div>
-							
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
-						</div>
-					</div>	
-					<div class="nav_br">
-						<div class="nav_t" @click="$router.push({path:'/Intelligence/labor?ValueId=2'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-3标</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
-							</div>
-							
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
-						</div>
-						<div class="nav_t nav_r" @click="$router.push({path:'/Intelligence/labor?ValueId=3'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-4标</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
-							</div>
-							
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#E19B52;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
-						</div>
-					</div>
-					<div class="nav_br">
-						<div class="nav_t" @click="$router.push({path:'/Intelligence/labor?ValueId=4'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-5标1</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
-							</div>
-							
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
-						</div>
-						<div class="nav_t nav_r" @click="$router.push({path:'/Intelligence/labor?ValueId=5'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-5标2</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
-							</div>
-							
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#C86565;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
+						<div class="tir_List tir_Lists">
+							<span>出勤:</span><span style="color:#333">{{item.Headcount}}人</span><span>/{{item.HeadcountOnJob}}人</span>
 						</div>
 						
-					</div>
-					<div class="nav_br">
-						<div class="nav_t"@click="$router.push({path:'/Intelligence/labor?ValueId=6'})">
-							<div class="tir_List">
-								<span><img src="../assets/images/index_icon/icon_bd@2x.png" alt="" width="11px"></span>
-								<span>CYCZQ-6标</span>
-							</div>
-							<div class="tir_List tir_Lists">
-								<span>出勤:</span><span style="color:#333">3,234人</span><span>/3,762人</span>
-							</div>
-							
-							<div class="tir_List tir_Lists" style="margin-bottom: 0;">
-								<span style="color:#69966F;font-size: 26px;">92%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
-								<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
-							</div>
+						<div class="tir_List tir_Lists" style="margin-bottom: 0;">
+							<span style="color:#69966F;font-size: 26px;">{{item.PassRate==null?0:item.PassRate}}%</span><span style="color:#AAAAAA;font-size:12px;">  考试合格率</span>
+							<span><img src="../assets/images/index_icon/icon_more@2x(1).png" alt="" width="14px" style="float: right;margin-top: 16px;"></span>
 						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -390,10 +190,21 @@
 				questionText:"常益长铁路工程信息化管理平台",
 				images: [],
 				type:'',
+				
+				OutPut:[],
+				PeopleNumber:[],
 				getSchedule:{
+					Day:'',
+					SumDay:'',
+					TimeS:0,
+					// 产值
 					GrossOutput:"",
 					CompletedOutputValue:"",
-					PercentCompleted:0
+					PercentCompleted:0,
+					// 进度
+					targetAdvance:'',
+					targetAdvanceOk:'',
+					targetAdvancePercentage:0,
 				},
 				getInFo:{
 					a:'',
@@ -423,8 +234,7 @@
 				window.location.href='https://www.jiandaoyun.com/sso/custom/5dbea33f85bed20006e0e5e4/iss';
 			},
 			bannerImg(){
-				ajax.get('/API/WebAPIDataAudit/getWorkUserNumber?section='+'&worksite=').then(res => {
-					console.log(res.data.data)
+				ajax.get('/API/WebAPIDataAudit/getWorkUserNumber?section='+'&worksite=').then(res => {//劳务统计
 					if(res.data.data.UserNumber !=0 || res.data.data.UserNumber !=0 ||res.data.data.UserNumber >0 || res.data.data.UserNumber >0){
 						this.user.UserNumber=res.data.data.UserNumber
 						this.user.AllUserNumber=res.data.data.AllUserNumber
@@ -436,9 +246,8 @@
 					}
 					
 				})
-				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {
+				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {//banner
 					if(res.data.result) {
-						console.log(res)
 						this.images=res.data.data;
 					}
 				})
@@ -446,11 +255,10 @@
 					if(res.status == 200) {
 						if(res.data.code == 200) {
 							this.type=res.data.data.info.TYPES
-							console.log("selectUserById：",res.data);
 						}
 					}
 				})
-				ajax.postW('/api/jdyApi/selectDatas').then(res => {
+				ajax.postW('/api/jdyApi/selectDatas').then(res => {//问题
 					if(res.status == 200) {
 						if(res.data.code == 200) {
 							this.getInFo.a=res.data.data.a;
@@ -459,14 +267,26 @@
 						}
 					}
 				})
-				ajax.get('/API/WebAPIDataAudit/getSchedule').then(res => {
+				ajax.postW('/api/jdyApi/selectDatasAddDataBase').then(res => {
+					if(res.data.success == true){}
+				});
+				ajax.get('/API/WebAPIDataAudit/HomePage').then(res => {
 					if(res.data.result) {
+						this.OutPut = res.data.data.OutPut;
+						this.PeopleNumber = res.data.data.PeopleNumber;
+						this.getSchedule.Day = res.data.data.Day
+						this.getSchedule.SumDay = res.data.data.SumDay
+						this.getSchedule.TimeS = Number(Math.floor((this.getSchedule.Day / this.getSchedule.SumDay)*100))
+						// console.log(Math.floor(9541615079.06),9541615079.06)
 						this.getSchedule.GrossOutput = res.data.data.GrossOutput
 						this.getSchedule.CompletedOutputValue = res.data.data.CompletedOutputValue
-						this.getSchedule.PercentCompleted = Number((res.data.data.PercentCompleted)*100)
+						this.getSchedule.PercentCompleted = Number((res.data.data.PercentCompleted))
+						// this.getSchedule.targetAdvance =  res.data.data.targetAdvance,
+						// this.getSchedule.targetAdvanceOk =  res.data.data.targetAdvanceOk,
+						this.getSchedule.targetAdvancePercentage = Number((res.data.data.targetAdvancePercentage))
 						
 					}
-				})
+				});
 			},
 			tost(){
 				Toast('敬请期待！');
@@ -522,10 +342,12 @@
 		box-shadow:0px 0px 2px 0px rgba(17,24,36,0.24);
 		border-radius:4px;
 		float: left;
+		margin-bottom: 10px;
 	}
-	.nav_r{
+	.nav_t:nth-last-of-type(2n){
 		float: right;
 	}
+	
 	.header-right {
 		line-height: 5px;
 		color:#fff;

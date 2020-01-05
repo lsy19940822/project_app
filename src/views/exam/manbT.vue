@@ -70,15 +70,18 @@
 				var formData = new FormData();
 				formData.append("imageFile",file.file);
 				formData.append("groupName", 'CYCZQ-2标');
-				
+				console.log("formData",formData)
 				setTimeout(function() {
 					ajax.postW('/api/faceRecognition/recognizeFace', formData).then(res => {
 						console.log(res)
 						_this.scanImg = false;
 						if(res.status == 200 && res.data.code == 200) {
-							if(res.data.data.Data.length > 0)
-								_this.$router.push("/information?IDCard="+res.data.data.Data[0].image);
-							else Toast('未匹配到相关人员');
+							console.log("res.data.data",res.data.data.info.photourl)
+							let certnumbr=res.data.data.info.certnumbr
+							if(res.data.data){
+							console.log("成功了")
+								_this.$router.push("/information?IDCard="+certnumbr);
+							}else{ Toast('未匹配到相关人员')};
 						} else {
 							Toast(res.data.msg || '未匹配到相关人员');
 						}

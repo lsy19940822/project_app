@@ -26,7 +26,7 @@
 					<span>{{StaffInfoData.COMPANY}}</span>
 				</li>
 				<li>
-					<span>所在工点</span>
+					<span>所在工区</span>
 					<span>{{StaffInfoData.WORKPOINT}}</span>
 				</li>
 				<li>

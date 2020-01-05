@@ -45,13 +45,13 @@
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<van-cell>
 						<span style="color: #969799;">计划开始</span>
-						<span style="float: right;">{{$route.query.PLANBEGINDATE}}</span>
+						<span style="float: right;">{{GetMenuTree_Data.PLANBEGINDATE?GetMenuTree_Data.PLANBEGINDATE:$route.query.PLANBEGINDATE}}</span>
 					</van-cell>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<van-cell>
 						<span style="color: #969799;">计划结束</span>
-						<span style="float: right;">{{$route.query.PLANENDDATE}}</span>
+						<span style="float: right;">{{GetMenuTree_Data.PLANENDDATE?GetMenuTree_Data.PLANENDDATE:$route.query.PLANENDDATE}}</span>
 					</van-cell>
 				</li>
 			</ul>
@@ -59,13 +59,13 @@
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<van-cell>
 						<span style="color: #969799;">实际开始</span>
-						<span style="float: right;" >{{$route.query.REALBEGINDATE}}</span>
+						<span style="float: right;" >{{GetMenuTree_Data.REALBEGINDATE?GetMenuTree_Data.REALBEGINDATE:$route.query.REALBEGINDATE}}</span>
 					</van-cell>
 				</li>
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<van-cell>
 						<span style="color: #969799;">实际结束</span>
-						<span style="float: right;">{{$route.query.REALENDDATE}}</span>
+						<span style="float: right;">{{GetMenuTree_Data.REALENDDATE?GetMenuTree_Data.REALENDDATE:$route.query.REALENDDATE}}</span>
 					</van-cell>
 				</li>
 			</ul>
@@ -87,7 +87,7 @@
 					<span>{{GetMenuTree_Data.PILELONG?GetMenuTree_Data.PILELONG:'0'}}</span>
 				</li>
 			</ul>
-            <div v-if="fillWirte">
+            <div v-show="fillWirte">
 				 <h5>延期原因。</h5>
 				 <div class="container_list">
 				 	<van-cell-group>
@@ -98,7 +98,7 @@
 			</div>
 			
 
-            <div v-if="fillWirte">
+            <div v-show="fillWirte">
 				<h5>解决方案</h5>
 				<div class="container_list">
 					<van-cell-group>
@@ -118,16 +118,10 @@
 	import vantHeader from '@/components/header.vue'
 	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
-	import {
-		Cell
-	} from 'vant';
-	import {
-		Button
-	} from 'vant';
-	import {
-		Field
-	} from 'vant';
-import { Dialog } from 'vant';
+	import {Cell} from 'vant';
+	import {Button} from 'vant';
+	import {Field} from 'vant';
+    import { Dialog } from 'vant';
 	Vue.use(Field);
 	Vue.use(Button);
 	import {
@@ -199,18 +193,21 @@ import { Dialog } from 'vant';
 		created() {
 			// sessionStorage.setItem("GetMenuTree_Data",JSON.stringify(item));
 			Object.assign(this.GetMenuTree_Data, JSON.parse(sessionStorage.getItem("GetMenuTree_Data")));
-			// if(this.GetMenuTree_Data.PLANBEGINDATE !=null){
-			// 	this.PlanshowtimeValue = this.GetMenuTree_Data.PLANBEGINDATE.replace("T", " ")
-			// }
-			// if(this.GetMenuTree_Data.PLANENDDATE!=null){
-			// 	this.PlanshowtimeValueS = this.GetMenuTree_Data.PLANENDDATE.replace("T", " ")
-			// }
-			// if(this.GetMenuTree_Data.REALBEGINDATE!=null){
-			// 	this.timeValue = this.GetMenuTree_Data.REALBEGINDATE.replace("T", " ")
-			// }
-			// if(this.GetMenuTree_Data.REALENDDATE!=null){
-			// 	this.timeValueS = this.GetMenuTree_Data.REALENDDATE.replace("T", " ")
-			// }
+			if(this.GetMenuTree_Data.STATUS == 4 || this.GetMenuTree_Data.STATUS == 5){
+				this.fillWirte=true;
+			}
+			if(this.GetMenuTree_Data.PLANBEGINDATE !=null){
+				this.GetMenuTree_Data.PLANBEGINDATE = this.GetMenuTree_Data.PLANBEGINDATE.replace("T00:00:00", " ")
+			}
+			if(this.GetMenuTree_Data.PLANENDDATE!=null){
+				this.GetMenuTree_Data.PLANENDDATE = this.GetMenuTree_Data.PLANENDDATE.replace("T00:00:00", " ")
+			}
+			if(this.GetMenuTree_Data.REALBEGINDATE!=null){
+				this.GetMenuTree_Data.REALBEGINDATE = this.GetMenuTree_Data.REALBEGINDATE.replace("T00:00:00", " ")
+			}
+			if(this.GetMenuTree_Data.REALENDDATE!=null){
+				this.GetMenuTree_Data.REALENDDATE = this.GetMenuTree_Data.REALENDDATE.replace("T00:00:00", " ")
+			}
 		
 		},
 		methods: {

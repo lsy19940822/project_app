@@ -8,29 +8,26 @@
 		<div class="list-content">
 			<ul class="footer_k" :class="{'activeClass': activeClassType}" v-show='!activeClassType'>
 				<div class="shu"></div>
-				<div class="overflow">
-					<li @click="$router.push({path:'/car/informationCar'})"><img src="../../../assets/images/exam/car_1.png" alt=""><span>车辆信息</span></li>
-					<li>
-						<a class="overflow" :href="'tel:' + carInfor.DRIVERPHONE" style="display: block;color: #666666;">
-							<img src="../../../assets/images/exam/car_2.png" alt=""><span>联系司机</span>
-						</a>
-					</li>
-					<!--<li @click="$router.push({path:'/car/machinePositioning_AQ'})"><img src="" alt=""><span>安全范围</span></li>-->
-					<!--<li @click="$router.push({path:'/car/machinePositioning_GJ'})"><img src="" alt=""><span>活动轨迹</span></li>-->
-				</div>
-
 				<div class="position">
 					<img :src="ajax.http + carInfor.CARPHOTOURL.slice(2)" alt="">
-
+				
 					<span>{{carInfor.CARNUMBER}}</span>
 					<span class="status" v-if="carInfor.STATUS == 1">运行中</span>
 					<span class="status" style="background: #A52A2A" v-if="carInfor.STATUS == 2">静止时间 00:00:00</span>
 					<span class="status" style="background: #B9B9B9" v-if="carInfor.STATUS == 0">离线状态</span>
 					<span>{{carInfor.CARTYPE}}</span>
 				</div>
+				<div class="overflow">
+					<li @click="$router.push({path:'/car/informationCar'})"><img src="../../../assets/images/exam/car@2x.png" alt=""></li>
+					<li>
+						<a class="overflow" :href="'tel:' + carInfor.DRIVERPHONE" style="display: block;color: #666666;">
+							<img src="../../../assets/images/exam/phone@2x (1).png" alt="">
+						</a>
+					</li>
+				</div>
+
+				
 			</ul>
-			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 		</div>
 
 	</div>
@@ -95,31 +92,61 @@
 					]
 				}));
 				this.map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
-				var points = [new BMap.Point(this.carInfor.LONGITUDE, this.carInfor.LATITUDE)];
+				let points = [new BMap.Point(this.carInfor.LONGITUDE, this.carInfor.LATITUDE)];
+				let direction = this.carInfor.DIRECTION.replace(/[^0-9]/ig,"")
 				// 坐标转化
-				var that = this;
+				let that = this;
 				var convertor = new BMap.Convertor();
 				convertor.translate(points, 1, 5, function(data) {
+					
+					console.log(data)
 					if(data.status === 0) {
 						for(var j = 0; j < data.points.length; j++) {
-							console.log(data.points)
 							var icon = new BMap.Icon(require('../../../assets/images/exam/car.jpg'), new BMap.Size(40, 19), {
 								anchor: new BMap.Size(40, 19),
 								offset: new BMap.Size(40, 19),
 								imageSize: new BMap.Size(40, 19),
 							});
-							var mkr = new BMap.Marker(data.points[j], {
-								icon: icon,
-								rotation: Math.random() * 360,
-								title: 'awdawa'
+							var marker = new BMap.Marker(data.points[j], {
+							        position: that.map.setCenter(data.points[j]),
+							        map: that.map,
+									icon: icon,
+									rotation:direction,
+									content:'文本标注'
+							    });
+								let STATUS = ''
+								if(that.carInfor.STATUS == 1){
+									STATUS= '运行中'
+								}else if(that.carInfor.STATUS == 0){
+									STATUS= '离线状态'
+								}
+							var sContent =
+								"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>车辆信息</h4>" + 
+								
+								"<ul style='margin:4px'>" + 
+							 	    "<li style='margin-top:5px'>设备编号："+that.carInfor.IMEIS+"</li>" + 
+							 		"<li style='margin-top:5px'>车牌号码："+that.carInfor.CARNUMBER+"</li>" +
+									"<li style='margin-top:5px'>驾驶司机："+that.carInfor.DRIVERNAME+"</li>" +
+									"<li style='margin-top:5px'>手机号码："+that.carInfor.DRIVERPHONE+"</li>" + 
+									"<li style='margin-top:5px'>车辆类型："+that.carInfor.CARTYPE+"</li>" + 
+							 		"<li style='margin-top:5px'>行驶状态："+STATUS+"</li>" + 
+								"</ul>" +
+								 "<img style='margin:4px' id='imgDemo' src='"+that.ajax.http + that.carInfor.CARPHOTOURL.slice(2)+"' width='162' height='96'/>" + 
+								"</div>"
+							var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+							that.map.addOverlay(marker);
+							marker.addEventListener("click", function(){          
+							   this.openInfoWindow(infoWindow);
+							   //图片加载完毕重绘infowindow
+							   document.getElementById('imgDemo').onload = function (){
+								   infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+							   }
 							});
-							that.map.addOverlay(mkr);
-							//									that.map.addOverlay(new BMap.Marker(data.points[j]));
-							that.map.setCenter(data.points[j]);
 						}
 					}
 				})
 			},
+		
 			activeClassButton() {
 				this.activeClassType = !this.activeClassType
 			},
@@ -137,6 +164,7 @@
 </script>
 
 <style scoped>
+	
 	.status {
 		padding: 5px 10px;
 		background: #7AB182;
@@ -150,13 +178,14 @@
 		min-width: 100%;
 		min-height: 100%;
 	}
-	
-	.position {
-		border-top: 1px solid #eee;
-		padding: 16px;
+	.position{
+		border-bottom: 1px solid #eee;
+		padding:0 16px 16px;
+		margin-bottom: 16px;
 		line-height: 32px;
-		font-size: 17px;
+		font-size:17px;
 	}
+	
 	
 	.position span:last-child {
 		float: right;
@@ -213,15 +242,6 @@
 		padding: 0 10px 15px;
 	}
 	
-	.footer_k li img {
-		width: 32px;
-		height: 32px;
-		background: rgba(133, 142, 167, 1);
-		border-radius: 2px;
-		background: #DDDDDD;
-		display: block;
-		margin: 0 auto;
-	}
 	
 	.footer_kS li span {
 		margin: 10px 0;

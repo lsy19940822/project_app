@@ -33,9 +33,22 @@
 		</div>
 		<div class="container_list container_lists" :style="{'height': !eachatft ? '100px' : 'auto'}">
 			<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_bor@2x.png" alt="">人员变化</p>
-			<div class="flase" v-show="!eachatft"style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无人员变化</div>		
+			<div style="background:rgba(246,246,246,1);width: 100%;padding:10px 0">
+				<div class="setItem"  style="width:124px;margin: 0 auto;overflow: hidden;">
+					<van-icon name="arrow-left" color="#98D2FF" style="margin-top: 4px;float: left;" @click="pev()"/>
+					<span style="color:#98D2FF;float: left;margin:0 10px" @click="yearShow()"><span style="color:#98D2FF;float: left;">{{getFullYear}}年</span><van-icon name="edit" color="#98D2FF" style="margin-top: 4px;float: left;"/></span>
+					<van-icon name="arrow" color="#98D2FF" style="margin-top: 4px;float: left;" @click="next()"/>
+				</div>
+				
+			</div>
+			<ul  v-show="year">
+				<li ref='style'
+				@click="studyActives(index,item)" 
+				:class="{active:num==index}" v-for="(item,index) in cycaqData"
+				:id="index">{{item}}年</li>
+			</ul>
+			<div class="flase" v-show="!eachatft" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无人员变化</div>		
 			<div id="chart_examples" :class="{isShowEt: !eachatft}">
-				 
 			</div>
 		</div>
 	</div>
@@ -45,17 +58,20 @@
 	import * as ajax from '@/utils/api'
 	import Vue from 'vue';
 	import {Icon, IndexBar, IndexAnchor } from 'vant';
+	 import { Stepper } from 'vant';
 	 
+	 Vue.use(Stepper);
 	Vue.use(IndexBar).use(IndexAnchor).use(Icon);
-	import {Row,Col,Progress, DropdownMenu, DropdownItem, Cell,Loading,Tab, Tabs   } from 'vant';
+	import {Row,Col,Progress, DropdownMenu, DropdownItem, Cell,Loading,Tab, Tabs,Toast   } from 'vant';
 	
-	Vue.use(Progress).use(Row).use(Col).use(DropdownMenu).use(DropdownItem).use(Cell).use(Loading).use(Tabs).use(Tab);
+	Vue.use(Progress).use(Row).use(Col).use(DropdownMenu).use(DropdownItem).use(Cell).use(Toast).use(Loading).use(Tabs).use(Tab);
 	
 	export default {
 		data() {
 			return {
 				value1:0,
 			    value2:0,
+				// stepperValue:0,
 				option1: [
 					{ text: 'CYCZQ-1标', value: 0},
 					{ text: 'CYCZQ-2标', value: 1},
@@ -67,8 +83,9 @@
 				],
 			    
 				option2: [
-					{ text: '全部工点',value:0}
+					{ text: '全部工区',value:0}
 				],
+				cycaqData:[],
 				TypeWork:'',//工种
 				Unit:'',//单位
 				Section:'',//所在标段
@@ -89,22 +106,27 @@
 				percentage:{
 					percentage1:0
 				},
+				getFullYear:"",
+				num:0,
+				year:false
 			}
 		},
 		created() {
 			this.value1=Number(this.$route.query.ValueId)
-		this.change1(this.value1)
-			// if(this.value1 == 0||this.value1 == 2||this.value1 == 3||this.value1 == 4||this.value1 == 5||this.value1 == 6){
-			// 	this.eachatft = false;
-			// }else if(this.value1 == 1){
-			// 	this.eachatft = true;
-			// }
+		    this.change1(this.value1)
+			let date=new Date()
+			this.getFullYear=date.getFullYear();
+			for(let item=this.getFullYear;item>this.getFullYear-5;item--){
+				console.log(item)
+				this.cycaqData.push(item)
+			}
 			localStorage.setItem("labor_value_id",this.value1)
 			this.StaffRetrieveList();
 			this.getWorkUserNumberS()
 			this.capacityEachart();
 			this.capacityEachartS();
 			
+			// console.log(this.cycaqData)
 		},
 		mounted() {
 			
@@ -113,6 +135,68 @@
 			
 		},
 		methods: {
+			yearShow(){
+				this.year= true;
+			},
+			studyActives(index,name) {
+				console.log("当前年：",name)
+				this.num=index;
+				this.getFullYear = name;
+				this.year= false;
+				this.capacityEachartS();
+			},
+			pev(){
+				if(this.getFullYear == new Date().getFullYear()-4){
+					Toast("已是最小年份")
+				}else{
+					this.getFullYear--
+					if(this.getFullYear == new Date().getFullYear()){
+						this.studyActives(0,this.getFullYear) 
+					}
+					if(this.getFullYear == new Date().getFullYear()-1){
+						this.studyActives(1,this.getFullYear) 
+					}
+					if(this.getFullYear == new Date().getFullYear()-2){
+						this.studyActives(2,this.getFullYear) 
+					}
+					if(this.getFullYear == new Date().getFullYear()-3){
+						this.studyActives(3,this.getFullYear) 
+					}
+					if(this.getFullYear == new Date().getFullYear()-4){
+						this.studyActives(4,this.getFullYear) 
+					}
+					
+					this.getFullYear= this.getFullYear
+					this.capacityEachartS();
+				}
+				
+			},
+			next(){
+				if(this.getFullYear == new Date().getFullYear()){
+					Toast("已是最大年份")
+				}else{
+					this.getFullYear++
+					if(this.getFullYear == new Date().getFullYear()){
+						this.studyActives(0,this.getFullYear) 
+					}
+					if(this.getFullYear == new Date().getFullYear()-1){
+						this.studyActives(1,this.getFullYear) 
+					}
+					if(this.getFullYear == new Date().getFullYear()-2){
+						this.studyActives(2,this.getFullYear) 
+					}
+					if(this.getFullYear == new Date().getFullYear()-3){
+						this.studyActives(3,this.getFullYear) 
+					}
+					if(this.getFullYear == new Date().getFullYear()-4){
+						this.studyActives(4,this.getFullYear) 
+					}
+					this.getFullYear= this.getFullYear
+					this.capacityEachartS();
+				}
+				
+				
+			},
 			change1(val){
 				this.Section = this.option1[val].text
 				console.log("当前标段：",this.option1[val].text)
@@ -129,7 +213,7 @@
 			},
 			change2(val){
 				this.Unit = this.option2[val].text.replace("#", "%23")
-				console.log("当前工点：",this.option2[val].text)
+				console.log("当前工区：",this.option2[val].text)
 			    this.getWorkUserNumberS()
 				this.capacityEachart();
 				this.capacityEachartS();
@@ -138,10 +222,10 @@
 			// 工种统计
 			capacityEachart(){
 			  let this_ = this;
-			 if(this.Unit == "全部工点"){
+			 if(this.Unit == "全部工区"){
 				 this.Unit='';
 			 }
-			  ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?BD='+this.Section+'&GD='+this.Unit).then(res => {
+			  ajax.get('/API/WebAPIDataAudit/getUserTypeNumber?section='+this.Section+'&worksite='+this.Unit).then(res => {
 			  	
 			  	if(res.data.result) {
 					if(res.data.data==""){
@@ -153,17 +237,18 @@
 			  	    this.eachatDataX=res.data.data;
 					var eachatData_xAxis=[]
 					for(var i = 0;i<this.eachatDataX.length;i++){
-					    eachatData_xAxis.push(this.eachatDataX[i].WORKTYPE)
+					    eachatData_xAxis.push(this.eachatDataX[i].WORKTYPE)
 					}
 					var eachatData_yAxis=[]
 					for(var i = 0;i<this.eachatDataX.length;i++){
-					    eachatData_yAxis.push(this.eachatDataX[i].COUNT)
+					    eachatData_yAxis.push(this.eachatDataX[i].COUNT)
 					}
 					var dataShadow = [];
-					
+					var myColor=["#7AB182","#7099D0","#998BCF","#DCC050","#80BAD6","#D98A5E","#767FDA"]
 					let option = {
 					    xAxis: {
 					        data: eachatData_xAxis,
+							type: 'category',
 							axisLabel: {
 							    interval:0,
 							    formatter:function(value){
@@ -179,6 +264,20 @@
 							bottom:'30%',
 							
 						},
+						tooltip: {
+							show: true,
+							trigger: 'axis',
+							formatter: "{b}<br />{c}人",
+							backgroundColor: "#fff",
+							borderColor: "#161A25",
+							borderWidth: 1,
+							borderRadius: 4,
+							padding: [1, 8],
+							textStyle: {
+								fontSize: 12,
+								color:'#333'
+							}
+						},
 					    yAxis: {
 					        
 					    },
@@ -186,7 +285,7 @@
 					        {
 					            type: 'inside',
 					            throttle:'50',
-					            minValueSpan:4,
+					            minValueSpan:12,
 					            start: 0,
 					            end: 20
 					        }
@@ -194,10 +293,16 @@
 						
 					    series: [
 					        {
-					       		name:'人数',
-					       		type:'bar',
+					       		name: '人数',
+					       		type: 'bar',
 					       		barWidth :20,//柱图宽度
-					       		data:eachatData_yAxis
+					       		data:eachatData_yAxis,
+								itemStyle: {
+									color: function(params) {
+										var num = myColor.length;
+										return myColor[params.dataIndex % num]
+									}
+								},
 					       	}
 					    ]
 					};
@@ -210,20 +315,19 @@
 			},
 			capacityEachartS(){
 				let date=new Date()
-				let year=date.getFullYear();
-				console.log("year",year)
-				ajax.get('/API/WebAPIDataAudit/getPeopleNumber?year='+year).then(res => {
+				console.log("this.getFullYear:",this.getFullYear)
+				ajax.get('/API/WebAPIDataAudit/getPeopleNumber?year='+this.getFullYear).then(res => {
 					
 					if(res.data.result) {
 						console.log("getUserTypeNumber",res)
 					    this.eachatDataY=res.data.data;
 						var eachatData_xAxis=[]
 						for(var i = 0;i<this.eachatDataY.length;i++){
-						    eachatData_xAxis.push(this.eachatDataY[i].Month)
+						    eachatData_xAxis.push(this.eachatDataY[i].Month)
 						}
 						var eachatData_yAxis=[]
 						for(var i = 0;i<this.eachatDataY.length;i++){
-						    eachatData_yAxis.push(this.eachatDataY[i].PeopleNumber)
+						    eachatData_yAxis.push(this.eachatDataY[i].PeopleNumber)
 						}
 						let myChart = this.$echarts.init(document.getElementById('chart_examples'));
 						let option = {
@@ -240,9 +344,53 @@
 						    yAxis: {
 						        type: 'value'
 						    },
+							tooltip: {
+								show: true,
+								trigger: 'axis',
+								formatter: ""+this.getFullYear+"/{b}<br />{c}人",
+								backgroundColor: "#fff",
+								borderColor: "#161A25",
+								borderWidth: 1,
+								borderRadius: 4,
+								padding: [1, 8],
+								textStyle: {
+									fontSize: 12,
+									color:'#333'
+								}
+							},
 						    series: [{
 						        data: eachatData_yAxis,
-						        type: 'line'
+						        type: 'line',
+								itemStyle: {
+									color: '#99D0FF'
+								},
+								label: {
+									normal: {
+										show: true,
+										position: 'top',
+										textStyle: {
+											textCenter:"center",
+											color: '#333'
+										}
+									}
+								},
+								areaStyle: {
+									color: {
+										type: 'linear',
+										x: 0,
+										y: 0,
+										x2: 0,
+										y2: 1,
+										colorStops: [{
+											offset: 0,
+											color: 'rgba(112,153,208,.4)' // 0% 处的颜色
+										}, {
+											offset: 1,
+											color: 'rgba(112,153,208,0)' // 100% 处的颜色
+										}],
+										global: false // 缺省为 false
+									}
+								}
 						    }]
 						};
 						
@@ -297,6 +445,36 @@
 </script>
 
 <style scoped>
+	ul{
+		width: 100%;
+		height: auto;
+		overflow: hidden;
+		background: #fff;
+		position: absolute;
+		top: 80px;
+		z-index: 9999;
+		padding: 20px;
+		-webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+		box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+	}
+	ul li{
+		width: 18.4%;
+		heihgt:28px;
+		line-height: 28px;
+		color: #333;
+		text-align: center;
+		background:rgb(246, 246, 246);
+		float: left;
+		margin-right: 2%;
+		
+	}
+	ul li.active{
+		background: #99D0FF;
+		color: #fff;
+	}
+	ul li:last-child{
+		margin-right: 0 !important;
+	}
 	.container_list{
 	    height: auto;
 	    overflow: hidden;
@@ -304,6 +482,7 @@
 	    -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
 	    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
 	    margin-top: 10px;
+		position: relative;
 	}
 	#chart_example{
 	    width: 90%;
