@@ -1,18 +1,11 @@
 <template>
-
-		<div class="overflow">
-			<div class="header_inte" style="text-align: center;color:#999;">
-				<div class="inte_gent">
-			      暂无数据
-				</div>
+	<div class="overflow">
+		<div class="header_inte" style="text-align: center;color:#999;">
+			<div class="inte_gent">
+			  暂无数据
 			</div>
-			<!-- <div class="header_inte">
-				<div class="inte_gent">
-			暂无数据
-				</div>
-			</div> -->
-		</div>	
-
+		</div>
+	</div>	
 </template>
 
 <script>

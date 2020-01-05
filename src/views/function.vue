@@ -159,7 +159,7 @@
 						]
 					},
 					{
-						title:"应用管理",
+						title:"安全质量",
 						router:'2',
 						img:require('../assets/images/index_icon/icon_aq@2x.png'),
 						data:[]

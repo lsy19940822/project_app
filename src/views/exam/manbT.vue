@@ -50,7 +50,8 @@
 			return {
 				questionText: "人脸识别",
 				uploaderImg: "",
-				scanImg: false
+				scanImg: false,
+				formData:""
 			}
 		},
 		created() {
@@ -59,12 +60,47 @@
 		mounted() {
 			// dom渲染完后将UI上传组件的input添加属性，使之只可以拍照上传
 			this.$refs.uploadBtn.$el.getElementsByTagName("input")[0].setAttribute("capture", "camera");
+			this.judegEquipment()
 		},
 		methods: {
+			
+			judegEquipment(){
+				var browser = {
+					versions: function () {
+				       	var u = navigator.userAgent, app = navigator.appVersion;
+				       	return {         										//移动终端浏览器版本信息
+				           	trident: u.indexOf('Trident') > -1, 				//IE内核
+				           	presto: u.indexOf('Presto') > -1, 					//opera内核
+				           	webKit: u.indexOf('AppleWebKit') > -1, 				//苹果、谷歌内核
+				           	gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+				           	mobile: !!u.match(/AppleWebKit.*Mobile.*/), 		//是否为移动终端
+				           	ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), 	//ios终端
+				           	android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+				           	iPhone: u.indexOf('iPhone') > -1, 					//是否为iPhone或者QQHD浏览器
+				           	iPad: u.indexOf('iPad') > -1, 						//是否iPad
+				           	webApp: u.indexOf('Safari') == -1, 					//是否web应该程序，没有头部与底部
+				           	wx: Boolean( u.match(/MicroMessenger/i) ),			//微信
+				           	weibo:Boolean( u.match(/WeiBo/i) ),					//微博
+				           	qq: Boolean(u.match(/QQ/i)),						//qq浏览器（qq和安卓的微信都是qq浏览器）
+				           	qqWebview: Boolean(u.match(/QQ/i) && !u.match(/MicroMessenger/i) )	//qq的webview浏览器
+				       	};
+				   	}(),
+				   	language: (navigator.browserLanguage || navigator.language).toLowerCase()
+				};
+				var ua = navigator.userAgent.toLowerCase();
+				if (ua.match(/MicroMessenger/i) == "micromessenger") {
+					return "weixin";
+				}else if (browser.versions.ios) {
+					return "ios";
+				}else if (browser.versions.android){
+					return "android";
+				}else{
+					return "000"
+				}
+			},
 			afterRead(file) {
 				var _this = this;
 				this.scanImg = true;
-				console.log(file)
 				this.uploaderImg = file.content;
 				console.log(file.file)
 				// 实现压缩
@@ -88,15 +124,19 @@
 				var formData = new FormData();
 				formData.append("imageFile", fileObj);
 				formData.append("groupName", 'CYCZQ-2标');
-
 				setTimeout(function() {
-					ajax.postW('/api/faceRecognition/recognizeFace', formData).then(res => {
+					ajax.postW('/api/faceRecognition/recognizeFace',(formData)).then(res => {
 						console.log(res)
 						_this.scanImg = false;
 						if(res.status == 200 && res.data.code == 200) {
-							if(res.data.data.Data.length > 0)
-								_this.$router.push("/information?IDCard=" + res.data.data.Data[0].image);
-							else Toast('未匹配到相关人员');
+							// if(res.data.data.Data.length > 0)
+							// 	_this.$router.push("/information?IDCard=" + res.data.data.Data[0].image);
+							// else Toast('未匹配到相关人员');
+							let certnumbr=res.data.data.info.certnumbr
+							if(res.data.data){
+							console.log("成功了")
+								_this.$router.push("/information?IDCard="+certnumbr);
+							}else{ Toast('未匹配到相关人员')};
 						} else {
 							Toast(res.data.msg || '未匹配到相关人员');
 						}

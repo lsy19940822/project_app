@@ -20,12 +20,12 @@
 		<transition name="van-slide-up">
 			<ul class="footer_k footer_kS" :class="{'activeClass': activeClassType}" v-show='activeClassType' style="overflow: auto;">
 				<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
-				<li class="position" v-for="(item,index) in  10" v-if="index>=5"  @click="showUserDetails(item)" style="width: 100%;">
+				<li class="position" v-for="(item,index) in  Saffdata" v-if="index>=5"  @click="showUserDetails(item)" style="width: 100%;">
 					<img :src="item.PHOTOURL" alt="" style="width: 45px;height: 45x; margin-right: 10px;">
 				<!--  v-if="item.STATUS == 1" v-if="item.STATUS == 0"-->
-					<span style="float: left;margin: 0;line-height: 45px;">{{item.EXAMNAME}}</span>
-					<span class="status" style="margin-left: 14px;margin-top: 10px;display: block;float: left;height: 26px;line-height: 16px;">在线</span>
-					<span class="status" style="background: #B9B9B9;margin-left: 14px;margin-top: 10px;display: block;float: left;height: 26px;line-height: 16px;" v-if="item.STATUS == 0">离线</span>
+					<span style="float: left;margin: 0;line-height: 45px;width: 120px;">{{item.EXAMNAME}}</span>
+					<span class="status" style="margin-left: 14px;margin-top: 10px;display: block;float: left;height: 26px;line-height: 16px;"  v-if="item.STATE == 1">在职</span>
+					<span class="status" style="background: #B9B9B9;margin-left: 14px;margin-top: 10px;display: block;float: left;height: 26px;line-height: 16px;" v-if="item.STATE == 0">离职</span>
 					<span style="float: right;margin: 0;line-height: 45px;">{{item.WORKTYPE}}</span>
 				</li>
 			</ul>
@@ -101,7 +101,7 @@
 					},
 				],
 				option2: [{
-					text: '全部工点',
+					text: '全部工区',
 					value: 0
 				}, ],
 				Section: "",
@@ -125,11 +125,11 @@
 				this.change1(this.value1);
 			}
 			this.getUserWorkPointList();
-            this.getUserMessageData();
+           
 		},
 		mounted() {
 			this.init()
-			
+			this.getUserMessageData();
 		},
 		methods: {
 			init() {
@@ -178,7 +178,7 @@
 
 			},
 			getUserWorkPointList() {
-				// 根据标段查工点
+				// 根据标段查工区
 				ajax.get('/API/WebAPIDataAudit/GetWorkarea?Section=' + this.Section).then(res => {
 					if(res.data.result == false) {
 						this.disabledSection = true;
@@ -204,7 +204,7 @@
 				ajax.get('/API/WebAPIDataAudit/getUserMessage?Section=' + this.Section + '&worksite=' + this.worksite).then(res => {
  // && res.data.data && res.data.data.length > 0
 					if(res.status == 200) {
-						console.log('res.data.result:',res.data.result)
+						
 						if(res.data.result == 0){
 							this.showList = true;
 							// 坐标转化
@@ -213,23 +213,30 @@
 						}
 						if(res.data.result == 1){
 							this.showList = false;
-							that.Saffdata = res.data.data;
-							var points = [], pointsIndex = [];
-							for(var k = 0; k < res.data.data.length; k++) {
-								if(res.data.data[k].PHOTOURL != null) {
-									res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
+							var data = res.data.data;
+							that.Saffdata = data;
+							var points = [];
+							for(var k = 0; k < data.length; k++) {
+								if(data[k].PHOTOURL != null) {
+									data[k].PHOTOURL = ajax.http + data[k].PHOTOURL.slice(2)
 								}
-								if(res.data.data[k].LONGITUDE && res.data.data[k].LATITUDE){
-									points.push(new BMap.Point(res.data.data[k].LONGITUDE, res.data.data[k].LATITUDE));
-									pointsIndex.push(k);
+								if(data[k].LONGITUDE && data[k].LATITUDE){
+									points.push(new BMap.Point(data[k].LONGITUDE, data[k].LATITUDE));
+									
 								}
 							}
+							console.log("points：",points)
 							// 坐标转化
 							var convertor = new BMap.Convertor();
+							console.log("convertor",convertor)
 							convertor.translate(points, 1, 5, function(data) {
+								
+								data.status = 0;
+								console.log(data,data.points = points)
 								if(data.status === 0) {
 									for(var j = 0; j < data.points.length; j++) {
-										var icon = new BMap.Icon(res.data.data[pointsIndex[j]].PHOTOURL || require('../../assets/images/exam/eimg.png'), new BMap.Size(24, 25), {
+										// res.data.data[pointsIndex[j]].PHOTOURL || 
+										var icon = new BMap.Icon(require('../../assets/images/exam/eimg.png'), new BMap.Size(24, 25), {
 											anchor: new BMap.Size(24, 25),
 											offset: new BMap.Size(24, 25),
 											imageSize: new BMap.Size(24, 25),

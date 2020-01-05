@@ -17,7 +17,7 @@
 					<span>{{carInfor.BIDSECTION}}</span>
 				</li>
 				<li>
-					<span>所在工点</span>
+					<span>所在工区</span>
 					<span>{{carInfor.WORKPOINT}}</span>
 				</li>
 				<li>

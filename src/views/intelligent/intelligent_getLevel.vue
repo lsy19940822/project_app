@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<vant-header :leftArrow="true" :titleType="1" title="进度详情" :rightType="2"></vant-header>
+		<vant-header :leftArrow="true" :titleType="1" title="超期工程" :rightType="2"></vant-header>
 		<div class="containers overflow">
 			<div class="container_header overflow">
 				<van-dropdown-menu class='Intelligence-dropdown' style="width:30%;float: left;">
@@ -59,8 +59,8 @@
 							<span style="color: #E19B52;font-size:14px;" v-if="item.STATUS == 4">{{item.STATUS | getStatus}}</span>
 							<span style="color:#AAAAAA;font-size:14px;">{{item.REALENDDATE}}</span>
 						</span>
-						<span style="color:#5986C2;font-size:14px;float: right;" v-if="item.STATUS == 1 || item.STATUS == 2">填报</span>
-						<span style="font-size:14px;float: right;" v-if="item.STATUS == 3 || item.STATUS == 4 || item.STATUS == 5" :style="{'color':(item.TimeDays>30?'#AAAAAA':'#DA9F63')}">{{item.TimeDays>30?'查看':'修改'}}</span>
+						<span style="color:#5986C2;font-size:14px;float: right;" v-if="item.STATUS == 1 || item.STATUS == 2 || item.STATUS == 5">填报</span>
+						<span style="font-size:14px;float: right;" v-if="item.STATUS == 3 || item.STATUS == 4" :style="{'color':(item.TimeDays>30?'#AAAAAA':'#DA9F63')}">{{item.TimeDays>30?'查看':'修改'}}</span>
 					</van-cell>
 				</li>
 				
@@ -101,8 +101,8 @@
 					{ text: 'CYCZQ-5标2', value: 5},
 					{ text: 'CYCZQ-6标', value: 6},
 				],
-				option2: [],
-				option3: [],
+				option2: [{ text: '工区', value:0},],
+				option3: [{ text: '工点', value:0},],
 				disabledSection:false,
 				disabledUnit:false,
 				searchValue:'',
@@ -118,17 +118,16 @@
 				list:true,
 				PierName:'',
 				PierSearch:[],
+				GetMenuTreeID:'',
 			}
 		},
 		created() {
-			this.value1= Number(this.$route.query.index);
-			// 
-			this.Ablock = this.option1[this.value1].text
+			this.value1=Number(this.$route.query.index);
+			this.Ablock=this.option1[this.value1].text
 			this.GetMenuTreeList()
 		},
 		mounted() {
 			
-
 		},
 		filters: {
 			// (1-未开工、2-正在进行、3-已完成、4-延期已完成、5-延期未完成)
@@ -146,10 +145,10 @@
 						
 						break;
 					case 4:
-						str = "超期已完成";
+						str = "延期已完成";
 						break;
 					case 5:
-						str = "超期未完成";
+						str = "延期未完成";
 						break;
 				}
 				return str;
@@ -164,18 +163,14 @@
 				this.Ablock=this.option1[val].text
 				this.value2=Number(0);
 				this.value3=Number(0);
-				this.num=-1;
 				sessionStorage.setItem("GetMenuTree_list_name",null);
 				sessionStorage.setItem("GetMenuTree_list_index",null);
-				sessionStorage.setItem("GetMenuTree_list_id",null);
-				
 				this.GetMenuTreeList();
 			},
 			change2(val) {
 				sessionStorage.setItem("GetMenuTree_list_id",this.option2[val].id);
 				this.value3=Number(0);
 				this.option3.splice(1);
-				this.num=-1;
 				this.WorkArea=this.option2[val].text.replace("#", "%23")
 				this.GetMenuTreelistidchange2();
 				this.GetMenuTreelistidchange3();
@@ -183,34 +178,23 @@
 			change3(val) {
 				sessionStorage.setItem("GetMenuTree_list_id",this.option3[val].id);
 				this.WorkArea=this.option3[val].text.replace(/#/, "%23")
-				this.num=-1;
+				
 				this.GetMenuTreelistidchange3();
 				
 			},
 			linkButton(item,TimeDays){
-				console.log("linkButton",item,TimeDays)
 				sessionStorage.setItem("GetMenuTree_Data",JSON.stringify(item));
-				if(item.TimeDays>30){
-					this.$router.push({
-						path:'/fillX',
-						query:{
-							TimeDays:TimeDays
-						}
-					})
-				}else{
-					this.$router.push({
-						path:'/fill',
-						query:{
-							TimeDays:TimeDays
-						}
-					})
-				}
+				this.$router.push({
+					path:'/fill',
+					query:{
+						TimeDays:TimeDays
+					}
+				})
 			},
 			// 列表点击
 			Buttonlist(name){
-				
-				ajax.post('/API/WebAPIDataAudit/FillInProgress?worksite='+sessionStorage.getItem("GetMenuTree_list_id")+
-				'&ButtonValue='+sessionStorage.getItem("GetMenuTree_list_name")+'&TextboxValue='+name.replace("号墩",'')).then(res => {
+				ajax.post('/API/WebAPIDataAudit/getAreProject?id='+this.GetMenuTreeID+
+				'&state='+'').then(res => {
 					if(res.data.result == true){
 						this.showList=true;
 						this.list=false;
@@ -219,14 +203,9 @@
 						sessionStorage.setItem("GetMenuTree_type",false);
 						for(let item in this.PierSearch){
 							let time=new Date();
-							let usedTime
-							if(new Date(this.PierSearch[item].REALENDDATE)<time){
-								usedTime = time - new Date(this.PierSearch[item].REALENDDATE); // 相差的毫秒数
-							}else{
-								usedTime =new Date(this.PierSearch[item].REALENDDATE) - time; // 相差的毫秒数
-							}
+							let usedTime = time - new Date(this.PierSearch[item].REALENDDATE); // 相差的毫秒数
 							let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
-							console.log("填报时间：",days)
+							
 							if(this.PierSearch[item].REALENDDATE != null){
 								this.PierSearch[item].REALENDDATE=this.PierSearch[item].REALENDDATE.replace("T00:00:00","")
 								this.PierSearch[item].TimeDays=days;
@@ -249,8 +228,8 @@
 				if(this.searchValue == ''){
 					Toast("请输入墩号/梁号")
 				}else{
-					ajax.post('/API/WebAPIDataAudit/FillInProgress?worksite='+sessionStorage.getItem("GetMenuTree_list_id")+
-					'&ButtonValue='+sessionStorage.getItem("GetMenuTree_list_name")+'&TextboxValue='+this.searchValue).then(res => {
+					ajax.get('/API/WebAPIDataAudit/getAreProject?id='+this.GetMenuTreeID+
+				'&state='+'').then(res => {
 						if(res.data.result == true){
 							sessionStorage.setItem("GetMenuTree_type",false);
 							this.showList=true;
@@ -284,12 +263,9 @@
 				//智能进度
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=' + "&name=" +this.Ablock +"&state="+this.state).then(res => {
 					if (res.data.result) {
-						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+(res.data.data[0].ID || e1 || f1)+ "&name="+ this.Ablock).then(res => {
+						this.GetMenuTreeID=res.data.data[0].ID
+						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+res.data.data[0].ID+ "&name="+ this.Ablock).then(res => {
 							if(res.data.result == false){
-								this.option2.splice(0)
-								this.option2.push({ text: '全部工区', value:0})
-								this.option3.splice(0)
-								this.option3.push({ text: '全部工点', value:0})
 								this.disabledSection=true;
 								this.show = true;
 								this.showTop=false;
@@ -297,20 +273,18 @@
 								return;
 							}
 							if(res.data.result == true){
-								this.option2.splice(0)
 								for(let k in res.data.data) {
 									this.option2.push({
 										text:res.data.data[k].NAME,
-										value:Number(k),
+										value:Number(k)+ Number(1),
 										id:res.data.data[k].ID
 									})
 								}
-								sessionStorage.setItem("GetMenuTree_list_id",(null || this.option2[0].id));
+								console.log(this.option2)
 								this.disabledSection=false;
-								this.show = false;	
+								this.show = true;	
 								this.showTop=false;
 								this.disabledUnit = true
-								this.GetMenuTreelistidchange2();
 								return;
 							}
 						})
@@ -318,35 +292,27 @@
 				})
 			},
 			GetMenuTreelistidchange2(){
-				
-				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+sessionStorage.getItem("GetMenuTree_list_id")+"&name="+(this.WorkArea || this.option2[0].text.replace("#", "%23"))+"&state="+this.state).then(res => {
-					this.option3.splice(0)
+				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+sessionStorage.getItem("GetMenuTree_list_id")+"&name="+ this.WorkArea+"&state="+this.state).then(res => {
+					
 					if(res.data.result == true){
-						this.show=false,
 						this.disabledUnit = false
 						for(let k in res.data.data) {
 							this.option3.push({
 								text:res.data.data[k].NAME,
-								value:Number(k),
+								value:Number(k)+ Number(1),
 								id:res.data.data[k].ID
 							})
 						}
-						if(this.disabledUnit == false){
-							sessionStorage.setItem("GetMenuTree_list_id",this.option3[0].id)
-						}
-						// this.GetMenuTreelistidchange3()
 						return;
 					}
 					if(res.data.result == false){
-						this.option3.push({ text: '全部工点', value:0})
-						this.show=true,
 						this.disabledUnit = true
 						return;
 					}
 				})
 			},
 			GetMenuTreelistidchange3(){
-				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+sessionStorage.getItem("GetMenuTree_list_id")+"&name="+ (this.WorkArea || this.option2[0].text.replace("#", "%23"))+"&state="+this.state).then(res => {
+				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+sessionStorage.getItem("GetMenuTree_list_id")+"&name="+ this.WorkArea+"&state="+this.state).then(res => {
 					
 					if(res.data.result == true){
 						
@@ -356,7 +322,7 @@
 					}
 					if(res.data.result == false){
 						this.showTop=false;
-						this.show = true;	
+						this.show = false;	
 						return;
 					}
 				})
@@ -384,6 +350,7 @@
 					return;
 				}
 				if(sessionStorage.getItem("GetMenuTree_list_name")!=null && sessionStorage.getItem("GetMenuTree_list_index")!=null){
+					
 					let index=sessionStorage.getItem("GetMenuTree_list_index");
 					let name=sessionStorage.getItem("GetMenuTree_list_name");
 					that.studyActives(index,name)
@@ -392,13 +359,15 @@
 			},
 			// 选项 墩 梁。。。。。。
 			studyActives(index,name) {
+				console.log("111")
 				sessionStorage.setItem("GetMenuTree_list_name",name);
 				sessionStorage.setItem("GetMenuTree_list_index",index);
 			
 				this.num=index;
-				ajax.post('/API/WebAPIDataAudit/FillInProgress?worksite='+sessionStorage.getItem("GetMenuTree_list_id")+
-				'&ButtonValue='+name+'&TextboxValue='+this.searchValue).then(res => {
+				ajax.get('/API/WebAPIDataAudit/getAreProject?id='+this.GetMenuTreeID+
+				'&state='+'').then(res => {
 					if(res.data.result == true){
+						
 						this.showList=true;
 						this.PierNo.splice(0);
 						this.PierNo=res.data.data;

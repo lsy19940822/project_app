@@ -132,7 +132,7 @@
 #shu3-5{width: 2px;height: 69px;top: 109px;left: 11px;background: #DDDDDD;position: absolute;}
 #shu3-6{width: 2px;height: 69px;top: 243px;left: 11px;background: #DDDDDD;position: absolute;}
 #shu3-7{width: 2px;height: 358px;top: 64px;left: 0px;background: #DDDDDD;position: absolute;}
-#shu3-8{width: 2px;height: 360px;top: 63px;right: 18%;background: #DDDDDD;position: absolute;}
+#shu3-8{width: 2px;height: 360px;top: 63px;left: 272px;background: #DDDDDD;position: absolute;}
 #shu3-2{width: 32px;height: 2px;top: 18px;left: -34px;position: absolute;}
 .flowChart span.shu3{width:102px;height:2px;top: -28px;left: -5px;}
 .flowChart span.shu3:after{right: -1px;bottom: -3px;z-index: 10;transform: rotate(0deg);  border-left: 4px solid #DDDDDD;}

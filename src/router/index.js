@@ -58,21 +58,11 @@ const router = new Router({
 			path: '/intelligent_firstLevel',
 			name: 'intelligent_firstLevel',
 			component: resolve => require(['../views/intelligent/intelligent_firstLevel.vue'], resolve),
-			redirect: '/intelligent/engineering_a', //默认选中
-			children: [{
-					path: "/intelligent/engineering_a",
-					component: resolve => require(["../views/intelligent/engineering_a.vue"], resolve),
-			
-				},
-				{
-					path: "/intelligent/engineering_b",
-					component: resolve => require(["../views/intelligent/engineering_b.vue"], resolve)
-				},
-				{
-					path: "/intelligent/engineering_c",
-					component: resolve => require(["../views/intelligent/engineering_c.vue"], resolve)
-				}
-			]
+		},
+		{ //一级列表
+			path: '/intelligent_getLevel',
+			name: 'intelligent_getLevel',
+			component: resolve => require(['../views/intelligent/intelligent_getLevel.vue'], resolve),
 		},
 		{ //二级列表
 			path: '/intelligent_secondLevel',

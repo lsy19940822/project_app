@@ -1,6 +1,6 @@
 <template>
 	<div class="study">
-		<vant-header :leftArrow="false" :titleType="1" :title="questionText" :rightType="2">
+		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
 		</vant-header>
 		<div class="container overflow">
 			<div class="container_header overflow l-dropdown">
@@ -39,7 +39,7 @@
 			</ul>
 			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
 		</div>
-		<study-footer></study-footer>
+		<!-- <study-footer></study-footer> -->
 	</div>
 	
 </template>

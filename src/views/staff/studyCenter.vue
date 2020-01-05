@@ -32,7 +32,7 @@
 			    传输给视频服务器或硬盘录像机，由视频服务器或硬盘录像机对视频信号进行压缩与编码。
 			</li>
 		</ul>
-		<div class="studyButton" @click="$router.push({path:'/studyrecord'})">完成学习</div>
+		<div class="studyButton" @click="$router.push({path:'/study'})">完成学习</div>
 	</div>
 </template>
 

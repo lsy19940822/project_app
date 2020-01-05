@@ -12,7 +12,7 @@
 				</li>
 				
 				<li>
-					<span>所在工点</span>
+					<span>所在工区</span>
 					<span>{{StaffInfoData[0].WORKSITE}}</span>
 				</li>
 				<li>
