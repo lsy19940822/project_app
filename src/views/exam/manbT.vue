@@ -17,6 +17,7 @@
 			<span class="line"></span>
 			<van-image :src="uploaderImg" class="uploader-img" />
 		</div>
+		
 		<van-uploader :after-read="afterRead" class="upload-btn" ref="uploadBtn">
 			<van-button type="primary" :square="true" size="large" style="font-size: 16px;">开始验证</van-button>
 		</van-uploader>

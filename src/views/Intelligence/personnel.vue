@@ -219,6 +219,7 @@
 				 	
 				};
 				this.NameArrS = segs;
+				console.log("NameArrS:",this.NameArrS)
 				return this.NameArrS;
 			},
 			getCompanyList(){
