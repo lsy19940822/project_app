@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b197fb93-d28c-417b-9096-c35d70daa1ae" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/assets/images/safeQuality/icon_quality (2).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/HeadNav.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/HeadNav/HeadNav.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/HeadNav/LeaderProblemHome.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/HeadNav/leader_resolved.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/HeadNav/leader_safeIssue.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/HeadNav/leader_safeIssue1.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/HeadNav/leader_safeIssueZ.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/leader/HeadNav.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/leader/LeaderProblemJ.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/leader/LeaderProblemQ.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/leader/LeaderProblemS.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/leader/LeaderProblemW.1.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/leader/LeaderProblemY.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/staff/problemXG.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.en.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/69cb492ffaca44a79f2e5a8a5888ae33.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/css/app.88f1b33e5b5c0070378cbaa4e989c14e.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/css/app.88f1b33e5b5c0070378cbaa4e989c14e.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/img/bj.d80f023.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/img/eimg.4a6cd73.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/img/icon_img@2x(1).3bae705.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/img/img_study@2x.f71761d.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/img/img_studys@2x.2ec4fdf.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/img/login_txt.a9676ad.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/img/video_cover2.52b22bb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/infobox.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/infobox_min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/0.8a69671cec6d2758ca1e.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/0.8a69671cec6d2758ca1e.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/1.60a36da7f14fbf16096e.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/1.60a36da7f14fbf16096e.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/10.4fcbda107c58f2b1afb8.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/10.4fcbda107c58f2b1afb8.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/11.dabd6bc5ee7b675aca7f.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/11.dabd6bc5ee7b675aca7f.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/12.ab8afbd97dc7b9b6a891.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/12.ab8afbd97dc7b9b6a891.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/13.dc6c2fc3a0a50cc509cb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/13.dc6c2fc3a0a50cc509cb.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/14.13118298ad6382b26d85.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/14.13118298ad6382b26d85.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/15.180cb0f1a34e91146fc2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/15.180cb0f1a34e91146fc2.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/16.58d0d1baa8a1037353ce.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/16.58d0d1baa8a1037353ce.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/17.ee390c437cc8bd0fb4fa.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/17.ee390c437cc8bd0fb4fa.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/18.ef4c7751f4181eb4be11.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/18.ef4c7751f4181eb4be11.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/19.ee8e9d6ffa5821b71ba7.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/19.ee8e9d6ffa5821b71ba7.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/2.1d266e6d13a9617dd84b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/2.1d266e6d13a9617dd84b.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/20.0bfd651d8586aef28dee.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/20.0bfd651d8586aef28dee.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/21.6b021ef4fb48b3910956.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/21.6b021ef4fb48b3910956.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/22.527307e60cc747ce38ff.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/22.527307e60cc747ce38ff.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/23.f285180c9b5cb14b3d32.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/23.f285180c9b5cb14b3d32.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/24.ccd43ac7ebb255735f96.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/24.ccd43ac7ebb255735f96.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/25.f77773279b53caae7063.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/25.f77773279b53caae7063.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/26.c1f95d5e029d13f0cb9d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/26.c1f95d5e029d13f0cb9d.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/27.2197370d7bfa02ae2928.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/27.2197370d7bfa02ae2928.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/28.1e6b919123edcabeb9d2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/28.1e6b919123edcabeb9d2.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/29.c7019de5568817939709.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/29.c7019de5568817939709.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/3.5540fa33c204ae4b9e94.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/3.5540fa33c204ae4b9e94.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/30.9cb0b03ca7f1f7be0128.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/30.9cb0b03ca7f1f7be0128.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/31.2946f5bfa7d3b6efd4a5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/31.2946f5bfa7d3b6efd4a5.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/32.0ea832b8b1ae3fbbe237.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/32.0ea832b8b1ae3fbbe237.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/33.646b80813ad0eaafc1dc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/33.646b80813ad0eaafc1dc.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/34.0f0781c34ab4693d8003.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/34.0f0781c34ab4693d8003.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/35.7c8f0c502f095cabf8e9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/35.7c8f0c502f095cabf8e9.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/36.d698089c9c8213950022.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/36.d698089c9c8213950022.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/37.3c1da842ee6b285affa1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/37.3c1da842ee6b285affa1.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/38.78071b830358ac3087fa.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/38.78071b830358ac3087fa.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/39.288127bfbbc08e71c825.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/39.288127bfbbc08e71c825.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/4.e6827972b7baa2b4567e.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/4.e6827972b7baa2b4567e.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/40.e821b56c76bec9ba1ada.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/40.e821b56c76bec9ba1ada.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/41.5b6a5aecd90ad64721fb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/41.5b6a5aecd90ad64721fb.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/42.a8babaa7ef49252ab58f.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/42.a8babaa7ef49252ab58f.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/43.3b9d0f6674d8ac1cf572.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/43.3b9d0f6674d8ac1cf572.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/44.b800ce731dd5b3ef025d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/44.b800ce731dd5b3ef025d.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/45.16d7c3eebaf13fa3ec2a.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/45.16d7c3eebaf13fa3ec2a.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/46.5067123a98f4560e31a9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/46.5067123a98f4560e31a9.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/47.8460bc7220f6c4a40650.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/47.8460bc7220f6c4a40650.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/48.948fdb60092dc734299b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/48.948fdb60092dc734299b.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/49.c754571df5dbf80b669e.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/49.c754571df5dbf80b669e.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/5.7549707af963f68f227e.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/5.7549707af963f68f227e.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/50.3a951caf4325a4ff9881.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/50.3a951caf4325a4ff9881.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/51.c84f6eb80b60f6f34780.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/51.c84f6eb80b60f6f34780.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/52.5d3f187809318c418014.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/52.5d3f187809318c418014.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/53.4cb2d07bf1f9f6570ffe.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/53.4cb2d07bf1f9f6570ffe.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/54.a0ead625165e46909927.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/54.a0ead625165e46909927.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/55.8d1709146b9d8f10755b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/55.8d1709146b9d8f10755b.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/56.12cbc2c820bcba97f911.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/56.12cbc2c820bcba97f911.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/57.192d9f448199ae0e41c5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/57.192d9f448199ae0e41c5.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/58.32a29bff0c6922031d9e.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/58.32a29bff0c6922031d9e.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/59.77ba0c0acc88998e1f03.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/59.77ba0c0acc88998e1f03.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/6.f9f91998ce96db6cc7b1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/6.f9f91998ce96db6cc7b1.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/60.55d54912ed217e404076.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/60.55d54912ed217e404076.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/61.8018c15ae4d31f6c3975.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/61.8018c15ae4d31f6c3975.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/62.09e06cc99ece5a1439a8.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/62.09e06cc99ece5a1439a8.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/63.a8dd2cbeaaeb3666558d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/63.a8dd2cbeaaeb3666558d.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/64.e3bae47d4f8b999b0a7c.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/64.e3bae47d4f8b999b0a7c.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/65.f16b91b26555ccab9f2e.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/65.f16b91b26555ccab9f2e.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/66.6fc4b43c675c515275b2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/66.6fc4b43c675c515275b2.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/67.4faec2fb44decdccf0cb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/67.4faec2fb44decdccf0cb.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/7.e37441179b8c54404a63.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/7.e37441179b8c54404a63.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/8.9659ce89e75a0b0c1fb9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/8.9659ce89e75a0b0c1fb9.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/9.9ae5efd7dae7c147f9da.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/9.9ae5efd7dae7c147f9da.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/app.34166840bfa30cb5fc11.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/app.34166840bfa30cb5fc11.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/manifest.aaa5c5e3d53dff47420c.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/manifest.aaa5c5e3d53dff47420c.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/vendor.3964c3381f76c34a076b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/static/js/vendor.3964c3381f76c34a076b.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/images/safeQuality/icon_quality.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/images/safeQuality/icon_quality.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/images/safeQuality/icon_safe.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/images/safeQuality/icon_safe.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/examLogin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/examLogin.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/onlineExamFooter.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/onlineExamFooter.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Intelligence/information.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Intelligence/information.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Intelligence/labor.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Intelligence/labor.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Intelligence/personnel.1.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Intelligence/personnel.1.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Intelligence/personnel.2.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Intelligence/personnel.2.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Intelligence/personnel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Intelligence/personnel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Intelligence/voice.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Intelligence/voice.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/ProblemWhere.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ProblemWhere.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/exam/examItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/exam/examItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/exam/examList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/exam/examList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/exam/examrecord.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/exam/examrecord.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/exam/gradeIssue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/exam/gradeIssue.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/exam/gradeIssueDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/exam/gradeIssueDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/exam/manbT.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/exam/manbT.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/exam/questionDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/exam/questionDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/function.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/function.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/BeyondThe.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/BeyondThe.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/engineering_a.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/engineering_a.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/fill.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/fill.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/fillA.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/fillA.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/fillB.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/fillB.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/fillC.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/fillC.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/fillD.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/fillD.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/fillX.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/fillX.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/intelligent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/intelligent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/intelligent_firstLevel.2.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/intelligent_firstLevel.2.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/intelligent_firstLevel.3.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/intelligent_firstLevel.3.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/intelligent_firstLevel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/intelligent_firstLevel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/intelligent_fourthLevel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/intelligent_fourthLevel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/intelligent_getLevel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/intelligent_getLevel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/intelligent_secondLevel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/intelligent_secondLevel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/intelligent/intelligent_thirdLevel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/intelligent/intelligent_thirdLevel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/IntelligenceHead.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/IntelligenceHead.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/LeaderProblemG.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/LeaderProblemG.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/LeaderProblemW.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/LeaderProblemW.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/SubmitQuestions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/SubmitQuestions.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/application.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/application.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/dynamic.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/dynamic.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/leaderNew.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/leaderNew.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/leader_information.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/leader_information.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/leader_resolved.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/leader_resolved.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/leader_safeIssue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/leader_safeIssue.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/leader_safeIssueZ.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/leader_safeIssueZ.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leader/leader_safeQualityList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leader/leader_safeQualityList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/machinePositioning/car.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/machinePositioning/car.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/machinePositioning/car/informationCar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/machinePositioning/car/informationCar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/machinePositioning/car/machinePositioning_AQ.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/machinePositioning/car/machinePositioning_AQ.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/machinePositioning/car/machinePositioning_GJ.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/machinePositioning/car/machinePositioning_GJ.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/machinePositioning/car/machinePositioning_carX.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/machinePositioning/car/machinePositioning_carX.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/machinePositioning/machinePositioning.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/machinePositioning/machinePositioning.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/machinePositioning/man/machinePositioning_AQ.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/machinePositioning/man/machinePositioning_AQ.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/machinePositioning/man/machinePositioning_GJ.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/machinePositioning/man/machinePositioning_GJ.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/machinePositioning/man/machinePositioning_X.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/machinePositioning/man/machinePositioning_X.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/machinePositioning/manchine.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/machinePositioning/manchine.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/monitoring/monitoring.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/monitoring/monitoring.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/monitoring/monitoring_list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/monitoring/monitoring_list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/monitoring/monitoring_list_N.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/monitoring/monitoring_list_N.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/monitoring/monitoring_list_W.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/monitoring/monitoring_list_W.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/staff/problemW.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/staff/problemW.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/staff/problemX.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/staff/problemX.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/staff/staffUser.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/staff/staffUser.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/staff/staff_safeQualityList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/staff/staff_safeQualityList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/staff/studyCenter.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/staff/studyCenter.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/staff/studyrecord.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/staff/studyrecord.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/study.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/study.vue" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/node_modules/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/utils/api.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="58" selection-start-line="2" selection-start-column="58" selection-end-line="2" selection-end-column="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/HeadNav/leader_resolved.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4500">
+              <caret line="313" column="17" selection-start-line="313" selection-start-column="17" selection-end-line="313" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/HeadNav/LeaderProblemHome.vue">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/views/HeadNav/leader_safeIssue.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="184" column="22" lean-forward="true" selection-start-line="184" selection-start-column="22" selection-end-line="184" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>WebAPIDataAudit</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main.js" />
+        <option value="$PROJECT_DIR$/src/utils/api.js" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/project_app.iml" />
+        <option value="$PROJECT_DIR$/.idea/misc.xml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1912" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="project_app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project_app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project_app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project_app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project_app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project_app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project_app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project_app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project_app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project_app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="HeadNav" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project_app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project_app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="leader" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="editor.config.ad.shown" value="true" />
+    <property name="last_opened_file_path" value="E:/idea/idea_jzkj" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b197fb93-d28c-417b-9096-c35d70daa1ae" name="Default Changelist" comment="" />
+      <created>1586095626726</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586095626726</updated>
+      <workItem from="1586095629825" duration="1819000" />
+      <workItem from="1586169412350" duration="698000" />
+      <workItem from="1586534415223" duration="1781000" />
+      <workItem from="1586609484816" duration="1976000" />
+      <workItem from="1586686100384" duration="1004000" />
+      <workItem from="1586784236216" duration="1489000" />
+      <workItem from="1586787115803" duration="76000" />
+      <workItem from="1586787696581" duration="2326000" />
+      <workItem from="1586866093138" duration="616000" />
+      <workItem from="1587042875166" duration="12000" />
+      <workItem from="1587750292397" duration="934000" />
+      <workItem from="1587821878435" duration="350000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="13081000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15618336" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info id="Web" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32962137" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.29175946" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32962137" />
+      <window_info anchor="bottom" id="Spring" order="7" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49946696" visible="true" weight="0.5033408" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50053304" side_tool="true" weight="0.32962137" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32924107" />
+      <window_info anchor="bottom" id="Java Enterprise" order="12" weight="0.32962137" />
+      <window_info anchor="bottom" id="Database Changes" order="13" />
+      <window_info anchor="bottom" id="Version Control" order="14" sideWeight="0.49946696" weight="0.32962137" />
+      <window_info anchor="bottom" id="Tail" order="15" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" weight="0.32995737" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Bean Validation" order="9" />
+      <window_info anchor="right" id="Word Book" order="10" side_tool="true" />
+      <window_info anchor="right" id="RestServices" order="11" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/router/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/leader/LeaderProblemG.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1185">
+          <caret line="79" column="14" selection-start-line="79" selection-start-column="14" selection-end-line="79" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="58" selection-start-line="2" selection-start-column="58" selection-end-line="2" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/HeadNav/leader_resolved.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4500">
+          <caret line="313" column="17" selection-start-line="313" selection-start-column="17" selection-end-line="313" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/HeadNav/LeaderProblemHome.vue">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/HeadNav/leader_safeIssue.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="184" column="22" lean-forward="true" selection-start-line="184" selection-start-column="22" selection-end-line="184" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
