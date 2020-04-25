@@ -101,7 +101,6 @@
 		methods: {
 			change1(val) {
 				this.Section = this.option1[val].text
-				console.log("当前标段：", this.Section);
 				if(this.TypeWork != '' || this.Unit != ''){
 					this.TypeWork = '';
 					this.Unit = '';
@@ -118,7 +117,7 @@
 			},
 			change4(val) {
 				this.GetWork = this.option4[val].text.replace("#", "%23")
-				console.log("当前工区：", val,this.GetWork)
+				
 				if(this.TypeWork != ''){
 					this.TypeWork = '';
 					this.value3 = Number(0);
@@ -133,7 +132,7 @@
 			},
 			change2(val) {
 				this.Unit = this.option2[val].text
-				console.log("当前单位：", val,this.Unit)
+				
 				if(this.TypeWork != ''){
 					this.TypeWork = '';
 					this.value3 = Number(0);
@@ -150,8 +149,8 @@
 			},
 			change3(val) {
 				this.TypeWork = this.option3[val].text
-				console.log("当前工种：",val, this.TypeWork)
-				console.log(this.Unit)
+				
+				
 				if(this.Section != '' || this.Unit!= '' || this.GetWork!= ''){
 					this.Section=this.Section;
 					this.Unit=this.Unit;
@@ -170,7 +169,7 @@
 					this.GetWork='';
 					return;
 				}
-				console.log('StaffRetrieveList:',this.Unit)
+				
 				ajax.get('/API/WebAPIDataAudit/StaffRetrieve?Section=' + this.Section + '&Unit=' + this.Unit + '&TypeWork=' + this.TypeWork+'&Workarea=' + this.GetWork).then(res => {
 			        if(res.data.result == false){
 			        	this.show=false;
@@ -183,11 +182,8 @@
 			        		if(res.data.data[k].PHOTOURL != null) {
 			        			res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
 			        		}
-							//遍历数组,拿到名称
+							
 							let Name = res.data.data[k].EXAMNAME;
-							//取全部名称的首字母
-							// getFullChars()：获取字符串全部拼音，并且首字母大写；
-							// getCamelChars() ： 获取字符串拼音首字母，并大写；
 							let fristName = pyjs.getCamelChars(Name).substring(0, 1);//这里截取首字母的第一位
 							res.data.data[k].first = fristName;
 			        		NameArr.push(res.data.data[k])
@@ -197,7 +193,7 @@
 			        }
 				})
 			},
-			pySegSort(arr) {//人员字母排序
+			pySegSort(arr) {
 				let _this = this;
 				let FristPin=["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "W", "X", "Y", "Z"]
 				let segs = [];
@@ -219,11 +215,11 @@
 				 	
 				};
 				this.NameArrS = segs;
-				console.log("NameArrS:",this.NameArrS)
+				
 				return this.NameArrS;
 			},
 			getCompanyList(){
-				// 1.1.1.根据标段查单位
+				
 				if(this.Section== '全部标段'){this.Section= ''}
 				ajax.get('/API/WebAPIDataAudit/getCompany?Section='+this.Section).then(res => {
 					if(res.data.result == false){
@@ -268,7 +264,7 @@
 									})
 								}
 							}
-							console.log(this.option3)
+							
 							return;
 						}
 				    })
@@ -288,7 +284,7 @@
 									})
 								}
 							}
-							console.log(this.option3)
+							
 							return;
 						}
 				    })
@@ -310,7 +306,7 @@
 									})
 								}
 							}
-							console.log(this.option4)
+							
 							return;
 						}
 				    })
@@ -330,7 +326,7 @@
 									})
 								}
 							}
-							console.log(this.option4)
+							
 							return;
 						}
 				    })
@@ -342,10 +338,6 @@
 </script>
 
 <style scoped>
-	/* .van-dropdown-menu{
-	    width: 90%;
-	    margin: 0 auto;
-	} */
 	/deep/
 	.van-ellipsis{
 		width:60px !important;

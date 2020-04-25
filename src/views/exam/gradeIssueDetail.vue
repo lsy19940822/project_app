@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container" :class="{ headeractive: isActive }">
 		<vant-header :leftArrow="true" :titleType="1" :title="`试卷详情`" :rightType="2" />
 
 		<div class="grade-cont">
@@ -62,11 +62,17 @@
 				total: 0,
 				questionList: [],
 				allAnswers: [],
-				classArr: []
+				classArr: [],
+				isActive:false
 			}
 		},
 		created() {
 			this.localStoreVal();
+			sessionStorage.getItem("chang_yi_headerHide");
+			if(sessionStorage.getItem("chang_yi_headerHide") == 'false'){
+				
+				this.isActive = true
+			}
 		},
 		methods: {
 			everyQuesitionDetail(index) {
@@ -79,8 +85,7 @@
 				this.total = localStore.get('total');
 				this.questionList = localStore.get('questionList');
 				this.allAnswers = localStore.get('allAnswers');
-				for(var item in this.questionList){//判断对题，错题，未作答题
-					console.log(this.questionList[item])
+				for(var item in this.questionList){
 					if(this.questionList[item].ZQDA === this.allAnswers[item] ){
 						this.classArr[item] = 'bgRight' 
 					}else if(this.allAnswers[item] != null && this.allAnswers[item] != undefined){

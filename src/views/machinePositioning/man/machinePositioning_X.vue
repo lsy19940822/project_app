@@ -1,6 +1,5 @@
 <template>
 	<div class="container">
-		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2'>
 			
 		</vant-header>
@@ -35,23 +34,9 @@
 					    @cancel="showPicker = false"
 					    @confirm="onConfirm"/>
 					</van-popup>
-					<!-- <van-dialog
-					  v-model="show"
-					  title="报警提示" 
-					  @confirm="confirmButton"
-					  @cancel="cancelButton"
-					  show-cancel-button>
-					  <div class="overflow hader_top">
-						 <img src="" alt="">
-						  <h3>心碎小猴<van-icon name="manager" /></h3>
-						  <p>项目经理/常务副经理</p>
-					  </div>
-					    <p style="padding: 12px 0;margin: 0 auto !important;color:#333;display: block;text-align: center;" class="hader_top">是否向此员工发送报警提示？</p>
-					</van-dialog> -->
 				</div>
 			</ul>
-			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
+			
 		</div>
 
 	</div>
@@ -128,20 +113,20 @@
 				return;
 			}
 			Object.assign(this.userInfor, JSON.parse(infor));
-			// console.log("=====",JSON.parse(infor))
+			
 		},
 		methods: {
 			confirmButton(){
-				console.log("确认提交")
+				
 			},
 			cancelButton(){
-				console.log("取消提交")
+				
 			},
 			onConfirm(value,index) {
 			    this.value = value;
 			    this.showPicker = false;
 				this.quesType=index+Number(1);
-				console.log("---quesType--",this.quesType)
+				
 			},
 			init() {
 				
@@ -162,7 +147,7 @@
 				convertor.translate(points, 1, 5, function(data) {
 					if(data.status === 0) {
 						for(var j = 0; j < data.points.length; j++) {
-							console.log(data.points)
+							
 							var icon = new BMap.Icon(require('../../../assets/images/exam/eimg.png'), new BMap.Size(24, 25), {
 								anchor: new BMap.Size(24, 25),
 								offset: new BMap.Size(24, 25),
@@ -200,9 +185,9 @@
 
 <style scoped>
 	.vanDialog h3 .van-icon{
-	    /* margin-top: 5px; */
+	    
 	    color: #00A0E9;
-	    /* visibility: initial; */
+	    
 	    font-size: 14px;
 	}
 	/deep/

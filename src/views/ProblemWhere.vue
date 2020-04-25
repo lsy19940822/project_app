@@ -1,6 +1,5 @@
 <template>
 	<div class="container">
-		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2'>
 			
 		</vant-header>
@@ -11,12 +10,12 @@
 				<p class="van-hairline--bottom exam-title"><img src="../assets/images/safeQuality/icon_t@2x (1).png" alt="">问题地点</p>
 				<li class='more'>
 					<van-cell style='color: #304F83;'>
-						北京市昌平区霍营乡回龙观东大街龙腾苑东1区
+						{{StaffInfoData.location?StaffInfoData.location:'暂无地址信息'}}
 					</van-cell>
 				</li>
 				<li class='more'>
 					<van-cell style='font-size: 12px;color:rgba(152,160,174,1);border-bottom:none;'>
-						经度：40.14567 纬度：116.24567
+						经度：{{StaffInfoData.longitude?StaffInfoData.longitude:'暂无'}} 纬度：{{StaffInfoData.latitude?StaffInfoData.latitude:'暂无'}}
 					</van-cell>
 				</li>
 				<li class='Buttond'>
@@ -51,7 +50,7 @@
 			return {
 				questionText: '问题地点',
 				isLoading: true,
-				
+				StaffInfoData:[]
 			}
 		},
 		components: {
@@ -59,10 +58,21 @@
 		},
 		mounted() {
 			this.init()
+			
 		},
 		methods: {
 			init() {
 				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
+				let that=this;
+				ajax.getW('/api/safety/selectSafetyInfoById?id='+that.$route.query.id).then(res => {
+					if(res.status == 200) {
+						if(res.data.code == 200) {
+							
+							
+							this.StaffInfoData=res.data.data;
+						}
+					}
+				})
 				 var map = new qq.maps.Map(document.getElementById("containerS"), {
 					center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
 					zoom:8,

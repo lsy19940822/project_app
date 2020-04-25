@@ -10,17 +10,28 @@
 					<span>问题提出人</span>
 					<span :id="StaffInfoData.putNameId">{{StaffInfoData.putName}}</span>
 				</li>
-				
+
 				<li>
 					<span>所属部门</span>
 					<span>{{StaffInfoData.department}}</span>
 				</li>
 				<li>
-					<!-- //1.安全 2 质量 3 进度 -->
-					<span>问题类型</span>
-					<span v-if="StaffInfoData.quesType==1">安全问题</span>
-					<span v-if="StaffInfoData.quesType==2">质量问题</span>
-					<span v-if="StaffInfoData.quesType==3">进度问题</span>
+				    <div @click="showPicker = true"> <span>问题类型</span>
+					    <span>{{value}}</span></div>
+					    <van-popup v-model="showPicker" position="bottom">
+					     <van-picker
+					       show-toolbar
+					       :columns="columns"
+					       @cancel="showPicker = false"
+					       @confirm="onConfirm"/>
+					    </van-popup>
+					<van-popup v-model="showPicker" position="bottom">
+					   <van-picker
+					    show-toolbar
+					    :columns="columns"
+					    @cancel="showPicker = false"
+					    @confirm="onConfirm"/>
+					</van-popup>
 				</li>
 				<li>
 					<span>紧急类型</span>
@@ -44,7 +55,7 @@
 					<!-- <span :style="{'color':(questionList[this.current].ZQDA == allAnswers[this.current]?'#7AB182':'#C36363')}" style="float: right;" v-if="questionList[this.current].ZQDA == allAnswers[this.current]?allAnswers[this.current]:questionList[this.current].ZQDA">{{questionList[this.current].ZQDA == allAnswers[this.current]?"回答正确":"回答错误"}}</span> -->
 					<span>分配意见</span>
 					 <!-- style="color: #7AA0D3;" -->
-					<span :style="{'color':(StaffInfoData.opinion== 1?'#7AA0D3':'#C86565')}">{{StaffInfoData.opinion==1?"同意，请相关人员及时整改":'问题描述不明确、请修改'}}</span>
+					<span :style="{'color':(StaffInfoData.opinion== 1?'#7AA0D3':'#C86565')}">{{StaffInfoData.opinion==1?"同意，请相关人员及时整改":'问题详情不明确、请修改'}}</span>
 				</li>
 				<!-- <li>
 					<span>分配意见</span>
@@ -54,10 +65,11 @@
 			<ul class="container_list">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (1).png" alt="">问题地点</p>
 				<li class='more'>
-					<van-cell style='color: #304F83;'>
-						{{StaffInfoData.location?StaffInfoData.location:'暂无地址信息'}}
+					<van-cell>
+						<span style="color: #304F83">{{StaffInfoData.location?StaffInfoData.location:'暂无地址信息'}}</span>
 					</van-cell>
 				</li>
+				
 				<li class='more'>
 					<van-cell style='font-size: 12px;color:rgba(152,160,174,1);border-bottom:none;'>
 						经度：{{StaffInfoData.longitude?StaffInfoData.longitude:'暂无'}} 纬度：{{StaffInfoData.latitude?StaffInfoData.latitude:'暂无'}}
@@ -75,33 +87,36 @@
 				</li>
 			</ul>
 			<ul class="container_list container_lists">
-				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">问题描述</p>
+				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">问题详情</p>
 				<li>
 					{{StaffInfoData.quesDetail}}
 				</li>
 			</ul>
 			
-			<ul class="container_list container_lists">
+			<ul class="container_list container_lists ul">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">现场照片</p>
 				<li class="overflow">
-					<div><img :src="StaffInfoData.quesPic" alt=""></div>
-					<!-- <div v-for='(item,index) in StaffInfoData.quesPic'><img :src="item" alt=""></div> -->
+					<div v-for="(image,index) in quesPic" :key="index" :id="index"><img :src="image" alt=""></div>
 				</li>
 			</ul>
 			<!-- 驳回修改按钮显示 -->
 			<div>
 				<h5>处理情况</h5>
 				<ul class="container_list">
-					<li class='Buttond Buttond' style='color:#666666;display: none;'>
-						<van-button color="#EEEEEE" size="normal" style='width: 100%;border-radius:2px;
-				           border:1px solid rgba(238,238,238,1);'>确认问题已解决</van-button>
+					<li class='Buttond' style='color:#333;border-bottom: none;' >
+						<button  class="van-button--default van-button--normal" @click="studyActives(1)" :class="{activeLabel:num==1}">
+							<span class="">确认问题已解决</span>
+						</button>
 					</li>
-					<li class='Buttond'>
-						<van-button color="#7099D0" size="normal" style='width: 100%;'>问题依然存在，修改后继续整改</van-button>
+					<li class='Buttond' style="border-bottom: none;">
+						<button class="van-button--default van-button--normal"  @click="studyActives(2)" :class="{activeLabel:num==2}">
+							<span class="">问题依然存在，修改后继续整改</span>
+						</button>
 					</li>
 				</ul>
+				
 			</div>
-				<!-- 驳回修改按钮end -->
+			<!-- 	驳回修改按钮end
 			<ul class="container_list container_lists">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">抄送给解决人</p>
 				<li class="overflow">
@@ -110,7 +125,7 @@
 					<div style="margin: 0;width: 25%;"><img src="" alt="" style="width: 45px;height: 45px;display: block;margin: 0 auto;"><p style="text-align: center;">孙悟空</p></div>
 					<div style="margin: 0;width: 25%;"><img src="" alt="" style="width: 45px;height: 45px;display: block;margin: 0 auto;"><p style="text-align: center;">孙悟空</p></div>
 				</li>
-			</ul>
+			</ul> -->
 			<!-- 驳回提交按钮 -->
 			<ul>
 				<li class='Buttond'  @click='sumtrienButton()'>
@@ -137,6 +152,14 @@
 	Vue.use(IndexBar).use(IndexAnchor).use(Icon).use(CellGroup);
 	import { Cell} from 'vant';
 	Vue.use(Cell)
+	import { Uploader } from 'vant';
+	import { Picker } from 'vant';
+	import { Dialog } from 'vant';
+	Vue.use(Picker);
+	Vue.use(Uploader);
+	Vue.use(Dialog);
+	import {Popup,Toast,DatetimePicker  } from 'vant';
+	Vue.use(Toast).use(Popup).use(DatetimePicker);
 	export default {
 		components: {
 			vantHeader,
@@ -148,32 +171,89 @@
 				examRecordTime:[],
 				StaffInfoData:[],
 				IDCard:'',
-				message:''
+				message:'',
+				quesPic:[],
+				showPicker: false,
+				// 问题类型
+				columns: ['安全问题', '质量问题','进度问题'],
+				value: '',
+				quesType:'',
+				num:-1
 			}
 		},
 		mounted() {
 			this.StaffInfoF()
 		},
 		created() {
-			
+			if(sessionStorage.getItem("num")==1){
+				this.show = true
+				this.num=1;
+				
+			}
+			if(sessionStorage.getItem("num") == 2){
+				this.show = false;
+				
+				this.num=2;
+			} 
 		},
 		methods: {
+			studyActives(index) {
+				this.num=index;
+				if(this.num == 1){
+					this.show = true
+					sessionStorage.setItem("num",1)
+				}
+			    if(this.num == 2){
+			    	this.show = false
+					sessionStorage.setItem("num",2)
+			    } 
+			},
+			onConfirm(value,index) {
+			    this.value = value;
+			    this.showPicker = false;
+				this.quesType=index+Number(1);
+				console.log("---quesType--",this.quesType)
+				sessionStorage.setItem("value",this.value)
+				sessionStorage.setItem("quesType",this.quesType)
+			},
 			sumtrienButton() {
 				this.$router.push({
 					path:'/problemX?id='+this.$route.query.id,
 				})
 			},
-			StaffInfoF(){//'b4194213-fa6f-48c7-a9bc-0115be23df1b
+			StaffInfoF(){
 				let that=this;
+				if(this.num == -1){
+					Toast("请先选择处理情况")
+				}else{
 				ajax.getW('/api/safety/selectSafetyInfoById?id='+that.$route.query.id).then(res => {
 					if(res.status == 200) {
 						if(res.data.code == 200) {
 							console.log("selectSafetyInfoById",res.data);
-							res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
+							var str=res.data.data.quesPic;
+							//字符串截取为数组
+							var strArr=str.split(",");
+							for(let j = 0,len=strArr.length; j < len; j++) {
+								if(strArr[j] !=""){
+									that.quesPic.push(strArr[j])
+								}
+							};
 							this.StaffInfoData=res.data.data;
+							console.log("this.StaffInfoData",this.quesPic)
+							if(res.data.data.quesType==1){
+								this.value="安全问题"
+							}
+							if(res.data.data.quesType==2){
+								this.value="质量问题"
+							}
+							if(res.data.data.quesType==3){
+								this.value="进度问题"
+							}
+							
 						}
 					}
 				})
+			}
 			}
 			
 		}
@@ -181,7 +261,25 @@
 </script>
 
 <style scoped>
-	
+	.van-button--normal{
+		width: 100%; 
+		background:rgba(246,246,246,1);
+		border-radius:2px;
+		border:1px solid rgba(238,238,238,1);
+		color: #666;
+	}
+	.activeLabel{
+		border-radius:2px;
+		width: 100%; color: rgb(255, 255, 255); background: rgb(112, 153, 208); border-color: rgb(112, 153, 208); 
+	}
+	/deep/
+	.van-popup--bottom{
+		width: 100% !important;
+	}
+	/deep/
+	.van-picker{
+		width: 100%;
+	}
 	.Buttond{
 		    margin: 10px 16px;
 		height:44px;
@@ -190,12 +288,20 @@
 		text-align: center;
 		line-height: 44px;
 	}
-	.container_lists li div{
-		width:23.5%;
+	.ul li div{
+		width:25%;
 		height: auto;
 		overflow: hidden;
 		float: left;
-		margin-right: 2%;
+	}
+	.ul li div img{
+		width:70px;
+		height:70px;
+		/* height: auto; */
+		overflow: hidden;
+		display: block;
+		/* background: #ddd; */
+		margin:  0 auto;
 	}
 	h5{
 		padding: 10px 16px 0;
@@ -209,14 +315,7 @@
 	.container_lists li div:last-child{
 		margin-right: 0 !important;
 	}
-	.container_lists li div img{
-		width:70px;
-		height:70px;
-		/* height: auto; */
-		overflow: hidden;
-		display: block;
-		background: #ddd;
-	}
+	
 	.container_lists li{
 		padding: 10px 16px;
 		color:  #969799;
@@ -304,7 +403,7 @@
 		width: 100%;
 	}
 	.container{
-		padding-top: 46px;
+		/* padding-top: 46px; */
 	}
 	.container_list{
 		margin-top: 10px;

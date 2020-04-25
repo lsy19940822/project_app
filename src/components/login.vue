@@ -26,19 +26,9 @@
 					</div>
 
 				</div>
-				<!--<van-button type="primary" @click="$router.push('/faceId')" style="width: 100%;margin-bottom: 25px;">人脸认证</van-button>-->
-
+				
 			</div>
 		</div>
-
-		<!-- <h3>登录系统</h3/> -->
-		<!-- <img src="../assets/login-bg.png" alt=""> -->
-		<!-- <div class="form overflow">
-			<div class="formInput"><img src="../assets/icon_user@2x.png" alt=""><input type="text" placeholder="请输入手机号/用户名" v-model="user"></div>
-			<div class="formInput"><img src="../assets/icon_password@2x.png" alt=""><input type="passWord" placeholder="请输入密码" v-model="passWord"></div>
-			
-			
-		</div> -->
 	</div>
 </template>
 <script>
@@ -72,18 +62,13 @@
 			}
 		},
 		created() {
-			
-			
-			// console.log(localStorage.getItem("checked"))
-			// 
-//			this.bannerImg()
 		},
 		mounted() {
 			this.localStorageUser();
 		},
 		methods: {
 			toggle(val) {
-				console.log(val)
+				
 				if(val == false || val == null) {
 					localStorage.setItem("user", (/^\w+$/.test(this.user) ? this.user : null || /^\d+$/.test(this.user) ? this.user : null))
 					localStorage.setItem("passWord", this.passWord)
@@ -100,14 +85,13 @@
 			bannerImg(){
 				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {
 					if(res.data.result) {
-						console.log(res)
+						
 						this.images = res.data.data;
 					}
 				})
 			},
            
 			phoneLogin() {
-				// $("#EarningsTypes").val() == undefined ? '' : $("#EarningsTypes").val().trim();
 				if(!this.user || this.user.trim() == "") {
 					Toast('请输入用户名/手机号！');
 					return;
@@ -151,11 +135,10 @@
 									userId: res.data.data[0].USERID
 								}
 							})
-							console.log(res.data.data[0])
+							
 							res.data.data[0].PHOTOURL=ajax.http+res.data.data[0].PHOTOURL.slice(2)
 							sessionStorage.setItem("chang_yi_UserData", JSON.stringify(res.data.data[0]))
-							// 手机号13272812666密码1
-							console.log("用户名/手机号：", this.user, "密码：", this.passWord);
+							
 
 						} else {
 							Toast(res.data.resultMsg);
@@ -196,17 +179,10 @@
 	.container .login-bg img.back_img {
 		width: 100%;
 		float: left;
-		/* position: relative; */
 	}
 	
 	.container .login-form {
 		width: 94%;
-		/* height: 200px; */
-		/* margin: 0 auto; */
-		/*position: fixed;
-		left: 50%;
-		margin-left: -45%;
-		top: 36%;*/
 		background: #fff;
 		padding: 15px;
 		box-sizing: border-box;
@@ -355,13 +331,8 @@
 	
 	.formInput input {
 		width: 80%;
-		/* background: #fff; */
 		margin-top: -2px;
 	}
-	/* 	.form {
-		padding-top: 15px;
-	} */
-	
 	/deep/ .van-tabs__line {
 		border-bottom: 3px solid #9499AA;
 		width: 50% !important;

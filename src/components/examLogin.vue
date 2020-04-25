@@ -1,7 +1,7 @@
 <template>
-  <div  id="login">
-	  <index-header :leftArrow="true" class="header" :titleType="1" title="常益长铁路工程管理平台"></index-header>
-	  <div class="container">
+  <div id="login">
+	  <index-header :leftArrow="true" class="header" :titleType="1" title="常益长铁路工程管理平台" ></index-header>
+	  <div class="container" :class="{ headeractive: isActive }">
 	  		<div class="login-bg">
 	  			<van-swipe :autoplay="3000">
 	  			  <van-swipe-item v-for="(image, index) in images" :key="index">
@@ -50,6 +50,7 @@
 		components: {
 			indexHeader
 		},
+		
 		data() {
 			return {
 				IDCard: '',
@@ -59,11 +60,17 @@
 				primary:"default",//primary
 				disabled:true,
 				color:"#ddd",
-				images: []
+				images: [],
+				isActive:false
 			}
 		},
 		created() {
 			this.bannerImg()
+			sessionStorage.getItem("chang_yi_headerHide");
+			if(sessionStorage.getItem("chang_yi_headerHide") == 'false'){
+				
+				this.isActive = true
+			}
 		},
 		mounted() {
 			
@@ -72,7 +79,7 @@
 			bannerImg(){
 				ajax.get('/API/WebAPIDataAudit/Banner').then(res => {
 					if(res.data.result) {
-						console.log(res)
+						
 						this.images=res.data.data;
 					}
 				})
@@ -84,7 +91,7 @@
 					Toast("请输入有效身份证号码");
 				}else{
 					ajax.get('/API/WebAPIDataAudit/Login?IDCard=' + this.IDCard).then(res => {
-							console.log(res.data)
+							
 							if(res.data.result) {
 								localStorage.setItem('IDCard',this.IDCard)
 								this.showTips = true
@@ -107,9 +114,6 @@
 							}
 						})
 				}
-					
-				// let code=/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
-				
 			},
 			goNext() {
 				if(this.end) {
@@ -131,7 +135,6 @@
 	}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 	.container{
 		padding-top: 46px;
@@ -207,7 +210,6 @@
 	}
 	.login-tips {
 		width:94%;
-		/* width: 340px; */
 		padding: 20px;
 		font-size: 14px;
 		color: #999;

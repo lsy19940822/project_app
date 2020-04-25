@@ -1,6 +1,5 @@
 <template>
 	<div class="container">
-		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2'>
 			
 		</vant-header>
@@ -23,8 +22,7 @@
 				  </van-step>
 				</van-steps>
 			</ul>
-			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
+			
 		</div>
 
 	</div>
@@ -104,26 +102,24 @@
 			},
 			change1(val){
 				this.Section = this.option1[val].text
-				console.log("当前标段：",this.option1[val].text)
+				
 			},
 			change2(val){
 				this.Worksite = this.option2[val].text
-				console.log("当前工区：",this.option2[val].text)
+				
 			},
 			getUserWorkPointList(){
 				let that = this;
-				// this.$route.query.id=this.value1;
-				// console.log(this.value1,this.$route.query.value);
 				
 				// 工区
 				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
 					if(res.data.result) {
-						console.log("1.1.2.获取全部工区名称",res)
+						
 						for(let k in res.data.data) {
 						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
-						   // NameArr.push(res.data.data[k])
+						   
 						}	
-						console.log("工区：",this.option2)
+						
 					}
 				})
 			}

@@ -2,7 +2,7 @@
 	<div class="study">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
 		</vant-header>
-		<div class="container overflow">
+		<div class="container overflow" :class="{ headeractive: isActive }">
 			<div class="container_header overflow l-dropdown">
 				<van-dropdown-menu class='van-dropdown'>
 				  <van-dropdown-item v-model="value1" :options="option1" />
@@ -37,9 +37,8 @@
 					</ul>
 				</li>
 			</ul>
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+			
 		</div>
-		<!-- <study-footer></study-footer> -->
 	</div>
 	
 </template>
@@ -73,10 +72,15 @@
 					{ text: '建筑规范2', value: 'c' },
 			    ],
 				isLoading:true,
+				isActive:false
 			}
 		},
 		created() {
-			
+			sessionStorage.getItem("chang_yi_headerHide");
+			if(sessionStorage.getItem("chang_yi_headerHide") == 'false'){
+				
+				this.isActive = true
+			}
 		},
 		mounted() {
 			

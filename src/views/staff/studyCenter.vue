@@ -1,8 +1,8 @@
 <template>
-	<div class="studyCenter">
+	<div class="studyCenter" :class="{ headeractive: isActive }">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
 		</vant-header>
-		<div class="studyCenter_header overflow">
+		<div class="studyCenter_header overflow" >
 			<h3>火灾自动报警系统设计规范</h3>
 			<span>建筑规范</span>
 			<span>2019-10-17 22:22:22</span>
@@ -52,11 +52,15 @@
 		data() {
 			return {
 				questionText:"课程内容",
-				
+				isActive:false
 			}
 		},
 		created() {
-			
+			sessionStorage.getItem("chang_yi_headerHide");
+			if(sessionStorage.getItem("chang_yi_headerHide") == 'false'){
+				
+				this.isActive = true
+			}
 		},
 		mounted() {
 			

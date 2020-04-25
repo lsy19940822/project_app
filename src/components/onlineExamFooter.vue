@@ -49,7 +49,7 @@
 				
 				var allAnswers=this.allAnswers;
 				var alreadyCheck = this.alreadyCheck;
-				console.log(allAnswers)
+				
 				allAnswers.filter(function(item,index,arr){
 					if(allAnswers[index] != null && allAnswers[index] != undefined && allAnswers[index] != ''){
 						alreadyCheck[index] = 'yesChecked'

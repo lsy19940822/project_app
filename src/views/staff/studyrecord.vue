@@ -38,7 +38,7 @@
 				</li>
 				
 			</ul>
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+
 		</div>
 		<study-footer class='studyrecordFooter' v-model="active"></study-footer>
 	</div>

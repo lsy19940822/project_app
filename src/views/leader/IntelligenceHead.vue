@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
+		<vant-header :titleType="1" :title="questionText" :rightType="2" style="display: block;">
 			<div slot='right_slot'>
 				<p class="header-right">
 					<van-button color="rgba(89,95,115,1) " size="normal" style='position: absolute;
@@ -8,22 +8,20 @@
 						right: 0px;
 						width: 60px;
 						height: 26px;
-						line-height: 26px;' @click="$router.push({path:'/SubmitQuestions?userId='+$route.query.userId})">确认</van-button>
+						line-height: 26px;' @click="confirm()">确认</van-button>
 				</p>
 	        </div>
 	</vant-header>
     <van-search placeholder="请输入负责人" v-model="value" />
 	<div class="containers-bar overflow" style="position: relative;">
-		<!-- <van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()' /> -->
+
 		<van-index-bar :sticky='true' :sticky-offset-top='46' :index-list="indexlist">
 			<div v-for="(item,index) in NameArrS">
 				<van-index-anchor :index="item.letter" />
 				<van-cell v-for="(items,index) in item.data" class='vanCell' :key="index">
-					 <van-radio-group v-model="radio" style='float: left;margin: 10px 10px 0 0 '>
+					 <van-radio-group v-model="radio" style='float: left;margin: 0px 10px 0 0 '>
 					   <van-radio :name="items" :id="items.userid" @click="radioButton(items)">{{items.username}}</van-radio>
 					 </van-radio-group>
-					<!-- <img :src="items.PHOTOURL" alt="" :CERTNUMBR="items.CERTNUMBR"> -->
-					<!-- <span :username="items.username"></span> -->
 					<span ></span>
 				</van-cell>
 			</div>
@@ -41,7 +39,7 @@
 	import Vue from 'vue';
 	import { RadioGroup, Radio } from 'vant';
 	import { Search } from 'vant';
-	
+
 	Vue.use(Search);
 	Vue.use(RadioGroup);
 	Vue.use(Radio);
@@ -79,12 +77,12 @@
 				isLoading: true,
 				NameArrS: [],
 				BID:''
-				
+
 			}
 		},
 		created() {
-			
-           
+
+
 		},
 		mounted() {
 			this.StaffRetrieveList();
@@ -99,13 +97,35 @@
 			}
 		},
 		methods: {
+			confirm(){
+				if(this.$route.query.leader ==1){
+					this.$router.push({path:'/LeaderProblemQ?userId='+this.$route.query.userId+'&id='+this.$route.query.id+'&type='+this.$route.query.type})
+					sessionStorage.setItem("principal",'');
+					sessionStorage.setItem("principalID",'');
+				}else{
+					this.$router.push({path:'/SubmitQuestions?userId='+this.$route.query.userId+'&choose=1'+'&type='+this.$route.query.type})
+					if(sessionStorage.getItem("messageQuesc")== ''||sessionStorage.getItem("messageQuesc")== null){
+						sessionStorage.setItem("messageQuesc",'')
+					}
+					if(sessionStorage.getItem("message")== '' || sessionStorage.getItem("message")== null){
+						sessionStorage.setItem("message",'')
+					}
+					if(sessionStorage.getItem("position")== '' || sessionStorage.getItem("position")== null){
+						sessionStorage.setItem("position",'')
+					}
+
+				}
+
+			},
 			radioButton(item){
-				console.log(item)
-				sessionStorage.setItem("principal", JSON.stringify(item));
+				sessionStorage.setItem("solvePeopl", JSON.stringify(item));
+
+				sessionStorage.setItem("principal", item.username);
+				sessionStorage.setItem("principalID", item.userid);
 			},
 			drawLineMothes() {},
 			searchButton() {
-				
+
 			},
 			StaffRetrieveList() {
 				let that=this;
@@ -114,20 +134,35 @@
 					if(res.status == 200) {
 						if(res.data.code == 200) {
 							this.BID=res.data.data.info.BID
-							// 查询系统用户列表 用于指定负责人及工人
-							ajax.getW('/api/safety/selectUserList?type=2'+'&bid='+that.BID).then(res => {
-							    if(res.status == 200) {
-									if(res.data.code == 200) {
-									
-										console.log("3.查询系统用户列表 用于指定负责人及工人",res)
-										let NameArr = []
-										for (let k in res.data.data.userList) {
-											NameArr.push(res.data.data.userList[k])
+							if(this.$route.query.type==1){
+								ajax.getW('/api/safety/selectUserList?type=2'+'&bid='+that.BID).then(res => {
+								    if(res.status == 200) {
+										if(res.data.code == 200) {
+
+
+											let NameArr = []
+											for (let k in res.data.data.userList) {
+												NameArr.push(res.data.data.userList[k])
+											}
+											this.pySegSort(NameArr)
 										}
-										this.pySegSort(NameArr)
 									}
-								}
-							})
+								})
+							}else{
+								ajax.getW('/api/safety/selectUserList?type=3'+'&bid='+that.BID).then(res => {
+								    if(res.status == 200) {
+										if(res.data.code == 200) {
+
+
+											let NameArr = []
+											for (let k in res.data.data.userList) {
+												NameArr.push(res.data.data.userList[k])
+											}
+											this.pySegSort(NameArr)
+										}
+									}
+								})
+							}
 						}
 					}
 				});

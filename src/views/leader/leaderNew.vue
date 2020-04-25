@@ -6,7 +6,7 @@
 			<div class="colok">20:23</div>
 			<li class="overflow">
 				<div class="overflow"><h3>发现新的安全问题待解决</h3> <span>new</span></div>
-				<!-- @click="$router.push({path:'/staff_safeQualityList'})" -->
+
 				<p class="coloks">2019-02-25 19:22:22</p>
 				<p class='title'>1标主站桥梁存在严重的质量问题，电线直接放在地上</p>
 				<img src="../../assets/icon_ck@2x.png" alt="" width="65px" >

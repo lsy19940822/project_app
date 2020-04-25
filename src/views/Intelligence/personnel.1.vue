@@ -12,7 +12,7 @@
         <div class="flase" v-show="!show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无人员</div>	
 		<div class="containers-bar overflow" style="position: relative;" v-show="show">
 			
-			<!--<van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()' />-->
+
 			<van-index-bar :sticky='true' :sticky-offset-top='46' :index-list="indexlist">
 				<div v-for="(item,index) in NameArrS">
 					<van-index-anchor :index="item.letter" />
@@ -89,13 +89,12 @@
 
 			change1(val) {
 				this.Section = this.option1[val].text
-				console.log("当前标段：", this.Section);
+				
 				this.option2.splice(1);
 				this.option3.splice(1);
 				
-					// this.option2[0].text='全部单位'
+					
 				
-				// this.Section= '';
 				this.getCompanyList();
 				this.searchButton(); 
 				this.StaffRetrieveList();
@@ -103,7 +102,7 @@
 			},
 			change2(val) {
 				this.Unit = this.option2[val].text
-				console.log("当前单位：", val,this.Unit)
+				
 				this.option3.splice(1);
 				this.getCompanyList();
 				this.searchButton(); 
@@ -113,15 +112,13 @@
 			},
 			change3(val) {
 				this.TypeWork = this.option3[val].text
-				console.log("当前工种：",val, this.TypeWork)
 				if(this.TypeWork == "全部工种"){
 				}
 				this.searchButton();
 				this.StaffRetrieveList();
-				// this.GetWorkTypeList();
+				
 			},
 			getCompanyList(){
-				// 1.1.1.根据标段查单位
 				if(this.Section== '全部标段'){
 					this.Section= '';
 					
@@ -153,10 +150,6 @@
 						return;
 					}
 				})
-				// 1.1.2.根据单位查工种
-				// if(this.disabledSection == true){
-					
-				// }
 				
 			},
 			GetWorkTypeList(){
@@ -180,7 +173,6 @@
 				})
 			},
 			searchButton() {
-				console.log("当前标段：", this.Section, "当前单位：", this.Unit, "当前工种：", this.TypeWork)
 				if(this.Section== '全部标段' || this.Unit == '全部单位' || this.TypeWork == '全部工种'){
 					this.Section="";
 					this.Unit='';
@@ -193,7 +185,6 @@
 
 						let NameArr = []
 
-						console.log('StaffRetrieve:', res.data.data)
 						for(let k in res.data.data) {
 							if(res.data.data[k].PHOTOURL != null) {
 								res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
@@ -203,10 +194,8 @@
 						this.pySegSort(NameArr)
 						return;
 					}
-					// Toast(res.data.resultMsg || '查询失败，请重试！');
 				})
 			},
-			// 全部员工
 			StaffRetrieveList() {
                 if(this.Section== '全部标段' || this.Unit == '全部单位' || this.TypeWork == '全部工种'){
 					this.Section="";
@@ -225,9 +214,8 @@
                     		if(res.data.data[k].PHOTOURL != null) {
                     			res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
                     		}
-							//遍历数组,拿到名称
+							
 							let Name = res.data.data[k].EXAMNAME;
-							//取全部名称的首字母
 							let fristName = pyjs.getCamelChars(Name).substring(0, 1);    //这里截取首字母的第一位
 							res.data.data[k].first = fristName;
                     		NameArr.push(res.data.data[k])
@@ -238,21 +226,11 @@
 				})
 			},
 			pySegSort(arr) {
-				// console.log("=：",arr)
+				
 				let _this = this;
 				let FristPin=["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "W", "X", "Y", "Z"]
 				let segs = [];
 				let curr;
-				// console.log( this.FristPin)
-				 // for (let i in _this.FristPin) {
-					
-					// this.NameArrJson[_this.FristPin[i]] = arr.filter(function (value) {
-					// 	return value.first === _this.FristPin[i];
-					// })
-					
-				 // }
-				 
-				 // console.log("678",this.NameArrJson)
 				 FristPin.forEach(function(item, i) {
 				 	curr = {
 				 		letter: item,
@@ -260,150 +238,20 @@
 				 	};
 				 	
 				 	arr.forEach(function(item2) {
-						// console.log(item,item2.first)
+						
 						if(item == item2.first){
 							curr.data.push(item2);
 						}
-				 		// if((!zh[i - 1] || zh[i - 1].localeCompare(item2.EXAMNAME) <= 0) && item2.EXAMNAME.localeCompare(zh[i]) == -1) {
-				 		// 	curr.data.push(item2);
-				 		// }
 				 	});
-				 	// if(curr.data.length) {
-				 	// 	segs.push(curr);
-				 	// 	curr.data.sort(function(a, b) {
-				 	// 		return a.EXAMNAME.localeCompare(b);
-				 	// 	});
-				 	// 	console.log("curr====",curr)
-				 	// }
 				 	
 				 });
-				 console.log(curr)
-				 // this.NameArrS = segs;
 				 
-				 // return this.NameArrS;
-				 
-				 
-				 
-				
-				 
-				 
-				// let cityJson = {};
-				// //根据首字母键值对给原数据按首字母分类
-				//     //这里的FirstPin是一个写入了所有字母的数组,见data中
-				 
-				// 		cityJson[this.FristPin[i]] = arr.forEach(function (value) {
-				// 			return value.first === this.FristPin[i];
-				// 		})
-				//   }
-				//    = cityJson;
-				//   console.log("===:", this.NameArrJson)
-				// let city = [
-				//      {
-				//        name: '北京'
-				//      },
-				//      {
-				//        name: '上海'
-				//      },
-				//      {
-				//        name: '广州'
-				//      },
-				//      {
-				//        name: '武汉'
-				//      },
-				//      {
-				//        name: '浙江'
-				//      },
-				//      {
-				//        name: '海口'
-				//      },
-				//   {
-				// 	name: '战三'
-				//   },
-				//   {
-				// 	name: '阿萨'
-				//   },
-				//   {
-				// 	name: '大锅饭'
-				//   },
-				//   {
-				// 	name: '阿斯蒂芬'
-				//   },
-				//   {
-				// 	name: '让对方'
-				//   },
-				//   {
-				// 	name: '对方答复屈'
-				//   },
-				//   {
-				// 	name: '的地方'
-				//   },
-				//   {
-				// 	name: '任务'
-				//   },
-				//   {
-				// 	name: '分工'
-				//   },
-				//   {
-				// 	name: '发布'
-				//   }
-				//    ] // 城市列表
-				//    let blocks = [] // 新列表
-				//    let p, c
-				//    let d = {}
-				//    console.log(pyjs.getFullChars('管理员'));    //GuanLiYuan getFullChars()：获取字符串全部拼音，并且首字母大写；
-
-				//    console.log(pyjs.getCamelChars('管理员'));    //GLY getCamelChars() ： 获取字符串拼音首字母，并大写；
-				//    city.forEach(item => {
-				//      p = pyjs.getFullChars(item.name).toLocaleLowerCase().slice(0, 1)
-				//      c = p.charCodeAt(0) // charCodeAt() 方法可返回指定位置的字符的 Unicode 编码。这个返回值是 0 - 65535 之间的整数。
-				//      if (c > 97 && c < 123) { // 小写的 a-z if (!d[p]) { d[p] = [] } d[p].push(item.name) } }) for(let [k, v] of Object.entries(d)) { blocks.push({ title: k.toUpperCase(), city: v }) } blocks.sort((a, b) => a.title.charCodeAt(0) - b.title.charCodeAt(0))
-				// 		   console.log("========",blocks) // 得出结果
-						   
-				// 		 }
-				//  })
-				// if(!String.prototype.localeCompare)
-				// 	return null;
-
-				// var letters = "*abcdefghjklmnopqrstwxyz".split('');
-				// // "妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀
-				// var zh = "阿八嚓哒额发高哈及咔垃马拏噢妑七呥扨它穵夕丫帀".split('');
-				// var segs = [];
-				// var curr;
-				// letters.forEach(function(item, i) {
-				// 	curr = {
-				// 		letter: item.toUpperCase(),
-				// 		data: []
-				// 	};
-					
-				// 	arr.forEach(function(item2) {
-				// 		if((!zh[i - 1] || zh[i - 1].localeCompare(item2.EXAMNAME) <= 0) && item2.EXAMNAME.localeCompare(zh[i]) == -1) {
-				// 			curr.data.push(item2);
-				// 		}
-				// 	});
-				// 	if(curr.data.length) {
-				// 		segs.push(curr);
-				// 		curr.data.sort(function(a, b) {
-				// 			return a.EXAMNAME.localeCompare(b);
-				// 		});
-				// 		console.log("curr====",curr)
-				// 	}
-					
-				// });
-				// this.NameArrS = segs;
-
-				// return this.NameArrS;
-
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	/* .van-dropdown-menu{
-	    width: 90%;
-	    margin: 0 auto;
-	} */
-	
 	.container_nav {
 		height: auto;
 		overflow: hidden;
@@ -435,7 +283,6 @@
 	}
 	
 	.vanCell span:last-child {
-		/* width: ; */
 		display: block;
 		float: right;
 		line-height: 38px;

@@ -29,14 +29,14 @@
 						<span style="float: right;color: #aaa;" v-if="item.STATUS == 1 || item.STATUS == 3|| item.STATUS == 5">{{item.STATUS | getStatus}}</span>
 						<span style="float: right;color: #7AB182;" v-if="item.STATUS == 2">{{item.STATUS | getStatus}}</span>
 						<span style="float: right;color: #E19B52;" v-if="item.STATUS == 4">{{item.STATUS | getStatus}}</span>
-						<!-- <span style="color: #69966F;float: right;">78% </span> -->
+						
 					</div>
 				</van-cell>
 				
 			</li>
 
 		</ul>
-		<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+		
 	</div>
 
 </template>
@@ -110,13 +110,11 @@
 		},
 		mounted() {
 			var _this = this;
-			// 使用js的现代事件监听transition过渡结束
 			this.$refs.innerLabel.addEventListener('transitionend',function(){
 				_this.endX = this.offsetLeft;
 			})
 		},
 		filters: {
-			// (1-未开工、2-正在进行、3-已完成、4-延期已完成、5-延期未完成)
 			getStatus(id) {
 				var str = "";
 				switch(id) {
@@ -149,7 +147,6 @@
 			},
 			move (e){
 				if(this.flag){
-					// 处理鼠标移动的逻辑
 					var moveX = this.endX + (e.touches[0].clientX - this.startX);
 					if(Math.abs(moveX) >= this.$refs.style[0].offsetWidth && moveX < 0){
 						moveX = (Math.abs(moveX) - this.$refs.style[0].offsetWidth) * 0.1;
@@ -200,7 +197,7 @@
 							}
 							if(res.data.result == true){
 								this.Treedata = res.data.data;
-								console.log(this.cycaqData)
+								
 								this.showSuccess=!this.showSuccess
 							    this.EngineeringPathY= !this.EngineeringPathY;
 								this.EngineeringPath = !this.EngineeringPath;
@@ -221,7 +218,7 @@
 			studyActives(event, index,name,fill) {//标段列表
 				sessionStorage.setItem("intelligent_CycName",name)
 				this.CycName=sessionStorage.getItem("intelligent_CycName")
-				console.log("当前标段名：",name)
+				
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=' + "&name=" + sessionStorage.getItem("intelligent_CycName")+"&state="+this.state).then(res => {
 					if (res.data.result == false) {
 						Toast("暂无数据")
@@ -244,19 +241,19 @@
 				
 			},
 			ActivesList(index,id,name,item,fill){
-				console.log('ref:',	this.$refs.style)
+				
 				let that=this;
 				sessionStorage.setItem("GetMenuTree",name)
 				if(this.cycaqData.length<1){
 					this.slideStyle.left = 0 + 'px'; 
-					// this.$refs.style[0].style.marginLeft='0px'
+					
 				}else if(this.cycaqData.length>1){
 					this.slideStyle.left = ((-158*(this.cycaqData.length-1))+100) + 'px'; 
-					// this.$refs.style[0].style.marginLeft=((-158*(this.cycaqData.length-1))+100)+'px'
+					
 				}
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=' + id + "&name="+"&state="+this.state).then(res => {
-					console.log(index,id,name,fill)
-					console.log('that.cycaqData:',that.cycaqData)
+					
+					
 					if(fill == 0 && res.data.result == false){
 						Toast("暂无数据")
 						return
@@ -301,7 +298,7 @@
 						return;
 					}
 					if(res.data.result == false){
-						console.log("fasle")
+						
 						return;
 					}
 				})
@@ -312,10 +309,10 @@
 				sessionStorage.setItem("cycaqData",JSON.stringify(this.cycaqData));
 				if(this.cycaqData.length<1 || this.cycaqData.length==2){
 					this.slideStyle.left = 0 + 'px'; 
-					// this.$refs.style[0].style.marginLeft='0px'
+					
 				}else if(this.cycaqData.length>1){
 					this.slideStyle.left=((-158*(this.cycaqData.length-1))+240)+'px'
-					// this.$refs.style[0].style.marginLeft=((-158*(this.cycaqData.length-1))+240)+'px'
+					
 				}
 				if(this.cycaqData.length == 1){
 					this.activedeleteArror = true;

@@ -107,7 +107,7 @@
 				let that=this;
 				ajax.get('/API/WebAPIDataAudit/StaffInfo?IDCard='+localStorage.getItem('IDCard')).then(res => {
 					if(res.data.result) {
-						console.log(res.data)
+						
 						that.StaffInfoData=res.data.data[0]
 						that.StaffInfoData.PHOTOURL=ajax.http+that.StaffInfoData.PHOTOURL.slice(2)
 					}

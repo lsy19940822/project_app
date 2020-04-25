@@ -45,9 +45,8 @@
 				</li>
 				
 			</ul>
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+
 		</div>
-		<!-- <study-footer></study-footer> -->
 	</div>
 	
 </template>
@@ -118,7 +117,7 @@
 			},
 			change2(val){
 				
-				console.log("当前工程：",this.option2[val].text)
+				
 			},
 			GetMenuTreeList(){
 				//智能进度
@@ -127,7 +126,7 @@
 						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1'+"&name=").then(res => {
 							if(res.data.result) {
 								this.Treedata=res.data.data;
-								console.log('智能进度GetMenuTre2:',this.Treedata)
+								
 								for(let k in res.data.data) {
 								   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
 								   

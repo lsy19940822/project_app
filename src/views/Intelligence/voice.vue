@@ -87,7 +87,7 @@
 				that.IDCard=that.$route.query.IDCard;
 				ajax.get('/API/WebAPIDataAudit/StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
 					if(res.data.result) {
-						console.log(res.data)
+						
 						that.StaffInfoData=res.data.data
 						that.StaffInfoData[0].PHOTOURL=ajax.http+that.StaffInfoData[0].PHOTOURL.slice(2)
 					}
@@ -97,7 +97,7 @@
 			    this.value = value;
 			    this.showPicker = false;
 				this.quesType=index+Number(1);
-				console.log("---quesType--",this.quesType)
+				
 			},
 			sumtrienButton(){
 				if(this.value==''){

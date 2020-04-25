@@ -10,7 +10,7 @@
 				  <van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)"/>
 				</van-dropdown-menu>
 			</div>
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+
 		</div>
 		<div class="flase" v-show="show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无数据</div>
 		<ul class="overflow" v-show="!show">
@@ -18,14 +18,11 @@
 				<van-cell is-link>
 					<span v-if="item.PNAME!= null" style="width:150px;display: inline-block;">{{item.PNAME}} - {{item.NAME}}</span>
 					<span v-else style="width:150px;display: inline-block;">{{item.NAME}}</span>
-					<!-- <span style="color:#AAAAAA;font-size:14px;">{{item.REALENDDATE}}</span> -->
 					<span :style="{'color':(item.STATUS==4?'#E19B52':'#C86565')}">{{item.STATUS==4?"超期已完成":"超期未完成"}}</span>
-					<!-- <span style="color:#5986C2;font-size:14px;float: right;" v-if="item.STATUS == 1 || item.STATUS == 2">填报</span> -->
-					<!-- <span style="font-size:14px;float: right;" v-if="item.STATUS == 3 || item.STATUS == 4 || item.STATUS == 5" :style="{'color':(item.TimeDays>30?'#AAAAAA':'#DA9F63')}">{{item.TimeDays>30?'查看':'修改'}}</span> -->
+					
 				</van-cell>
 			</li>
 		</ul>
-		<!-- <study-footer></study-footer> -->
 	</div>
 	
 </template>
@@ -85,7 +82,7 @@
 				
 			},
 			change2(val) {
-				console.log(val)
+				
 				if(val == 0){
 					this.state= ''
 				}else if(val == 1){
@@ -96,7 +93,7 @@
 				this.GetMenuTreeList();
 			},
 			linkButton(item,TimeDays){
-				console.log("linkButton",item,TimeDays)
+				
 				sessionStorage.setItem("GetMenuTree_Data",JSON.stringify(item));
 				if(item.TimeDays>30){
 					this.$router.push({
@@ -131,7 +128,7 @@
 										usedTime =new Date(this.data[item].REALENDDATE) - time; // 相差的毫秒数
 									}
 									let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
-									console.log("填报时间：",days)
+									
 									if(this.data[item].REALENDDATE != null){
 										this.data[item].REALENDDATE=this.data[item].REALENDDATE.replace("T00:00:00","")
 										this.data[item].TimeDays=days;

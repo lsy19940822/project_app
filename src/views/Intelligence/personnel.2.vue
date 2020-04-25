@@ -12,7 +12,7 @@
         <div class="flase" v-show="!show" style="text-align:center;padding:20px;font-size: 14px;color: #ddd;">暂无人员</div>	
 		<div class="containers-bar overflow" style="position: relative;" v-show="show">
 			
-			<!--<van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()' />-->
+			
 			<van-index-bar :sticky='true' :sticky-offset-top='46' :index-list="indexlist">
 				<div v-for="(item,index) in NameArrS">
 					<van-index-anchor :index="item.letter" />
@@ -86,7 +86,7 @@
 
 			change1(val) {
 				this.Section = this.option1[val].text
-				console.log("当前标段：", this.Section);
+				
 				this.option2.splice(1);
 				this.option3.splice(1);
 				
@@ -100,7 +100,7 @@
 			},
 			change2(val) {
 				this.Unit = this.option2[val].text
-				console.log("当前单位：", val,this.Unit)
+				
 				this.option3.splice(1);
 				this.getCompanyList();
 				this.searchButton(); 
@@ -110,7 +110,7 @@
 			},
 			change3(val) {
 				this.TypeWork = this.option3[val].text
-				console.log("当前工种：",val, this.TypeWork)
+				
 				if(this.TypeWork == "全部工种"){
 				}
 				this.searchButton();
@@ -150,10 +150,6 @@
 						return;
 					}
 				})
-				// 1.1.2.根据单位查工种
-				// if(this.disabledSection == true){
-					
-				// }
 				
 			},
 			GetWorkTypeList(){
@@ -177,7 +173,7 @@
 				})
 			},
 			searchButton() {
-				console.log("当前标段：", this.Section, "当前单位：", this.Unit, "当前工种：", this.TypeWork)
+				
 				if(this.Section== '全部标段' || this.Unit == '全部单位' || this.TypeWork == '全部工种'){
 					this.Section="";
 					this.Unit='';
@@ -190,7 +186,6 @@
 
 						let NameArr = []
 
-						console.log('StaffRetrieve:', res.data.data)
 						for(let k in res.data.data) {
 							if(res.data.data[k].PHOTOURL != null) {
 								res.data.data[k].PHOTOURL = ajax.http + res.data.data[k].PHOTOURL.slice(2)
@@ -200,7 +195,7 @@
 						this.pySegSort(NameArr)
 						return;
 					}
-					// Toast(res.data.resultMsg || '查询失败，请重试！');
+					
 				})
 			},
 			// 全部员工
@@ -234,7 +229,7 @@
 					return null;
 
 				var letters = "*abcdefghjklmnopqrstwxyz".split('');
-				// "妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀
+				
 				var zh = "阿八嚓哒额发高哈及咔垃马拏噢妑七呥扨它穵夕丫帀".split('');
 				var segs = [];
 				var curr;
@@ -243,7 +238,6 @@
 						letter: item.toUpperCase(),
 						data: []
 					};
-					console.log("curr====",curr)
 					arr.forEach(function(item2) {
 						if((!zh[i - 1] || zh[i - 1].localeCompare(item2.EXAMNAME) <= 0) && item2.EXAMNAME.localeCompare(zh[i]) == -1) {
 							curr.data.push(item2);
@@ -254,7 +248,7 @@
 						curr.data.sort(function(a, b) {
 							return a.EXAMNAME.localeCompare(b);
 						});
-						// console.log("curr====",curr)
+						
 					}
 					
 				});
@@ -268,11 +262,6 @@
 </script>
 
 <style scoped>
-	/* .van-dropdown-menu{
-	    width: 90%;
-	    margin: 0 auto;
-	} */
-	
 	.container_nav {
 		height: auto;
 		overflow: hidden;
@@ -304,7 +293,6 @@
 	}
 	
 	.vanCell span:last-child {
-		/* width: ; */
 		display: block;
 		float: right;
 		line-height: 38px;

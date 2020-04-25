@@ -33,9 +33,8 @@
 					</van-collapse>
 				</li>
 			</ul>
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+			
 		</div>
-		<!-- <study-footer></study-footer> -->
 	</div>
 	
 </template>
@@ -73,9 +72,6 @@
 			}
 		},
 		created() {
-			// this.value1=Number(this.$route.query.ValueId)
-			
-			// localStorage.setItem("labor_value_id",this.value1)
 			this.GetMenuTreeList();
 		},
 		mounted() {
@@ -85,14 +81,14 @@
 		
 		methods: {
 			change1(val){
-				console.log(val,this.option1[val].text)
+				
 				localStorage.setItem("labor_value_id_S",this.option1[val].id)
 				ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+this.option1[val].id+"&name=").then(res => {
 					if(res.data.result==true) {
 					    this.TreedataO=res.data.data;
 						this.show=true
 						
-						console.log('智能进度GetMenuTre3:',this.TreedataO)
+						
 						
 					}else{
 						this.show=false
@@ -118,7 +114,7 @@
 								}else{
 									this.show=false
 								}
-								console.log('智能进度GetMenuTre3:',this.TreedataO)
+								
 								for(let k in res.data.data) {
 								   this.option2.push({text:res.data.data[k].NAME,value:Number(k)+Number(1)})
 								}	
@@ -128,22 +124,6 @@
 				})
 				
 			},
-			// TreeList(event,index){
-			// 	ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+$event.target.id+"&name=").then(res => {
-			// 		if(res.data.result) {
-			// 		    // this.TreedataO=res.data.data;
-			// 			if(res.data.data.length!=''){
-			// 				this.show=true
-			// 			}else{
-			// 				this.show=false
-			// 			}
-			// 			// console.log('智能进度GetMenuTre3:',this.TreedataO)
-			// 			// for(let k in res.data.data) {
-			// 			//     this.option2.push({text:res.data.data[k].NAME,value:Number(k)+Number(1)})
-			// 			// }	
-			// 		}
-			// 	})
-			// }
 		}
 	}
 </script>

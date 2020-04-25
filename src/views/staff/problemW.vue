@@ -16,7 +16,6 @@
 					<span>{{StaffInfoData.department}}</span>
 				</li>
 				<li>
-					<!-- //1.安全 2 质量 3 进度 -->
 					<span>问题类型</span>
 					<span  v-if="!StaffInfoData.quesType"></span>
 					<span v-if="StaffInfoData.quesType==1">安全问题</span>
@@ -61,13 +60,13 @@
 			</ul>
 			<ul class="container_list container_lists">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (2).png" alt="">问题简述</p>
-				<!-- v-if='examRecord!=""' -->
+
 				<li>
 					{{StaffInfoData.quesDesc}}
 				</li>
 			</ul>
 			<ul class="container_list container_lists">
-				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">问题描述</p>
+				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (3).png" alt="">问题详情</p>
 				<li>
 					{{StaffInfoData.quesDetail}}
 				</li>
@@ -77,7 +76,7 @@
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">现场照片</p>
 				<li class="overflow">
 					<div><img :src="StaffInfoData.quesPic" alt=""></div>
-					<!-- <div v-for='(item,index) in StaffInfoData.quesPic'><img :src="item" alt=""></div> -->
+				
 				</li>
 			</ul>
 			<h5>处理情况</h5>
@@ -178,14 +177,14 @@
 			},
 			afterRead(file) {
 				// 此时可以自行将文件上传至服务器
-				console.log(file);
+				
 			},
-			StaffInfoF(){//'b4194213-fa6f-48c7-a9bc-0115be23df1b
+			StaffInfoF(){
 				let that=this;
 				ajax.getW('/api/safety/selectSafetyInfoById?id='+that.$route.query.id).then(res => {
 					if(res.status == 200) {
 						if(res.data.code == 200) {
-							console.log("selectSafetyInfoById",res.data);
+							
 							res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
 							this.StaffInfoData=res.data.data;
 						}

@@ -22,19 +22,15 @@
 				<div @click="activeClassButton()"><van-icon name="arrow-down" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;"/></div>
 				<li class="position" v-for="(item,index) in  Saffdata" v-if="index>=5"  @click="showUserDetails(item)" style="width: 100%;">
 					<img :src="item.PHOTOURL" alt="" style="width: 45px;height: 45x; margin-right: 10px;">
-				<!--  v-if="item.STATUS == 1" v-if="item.STATUS == 0"-->
+
 					<span style="float: left;margin: 0;line-height: 45px;width: 120px;">{{item.EXAMNAME}}</span>
 					<span class="status" style="margin-left: 14px;margin-top: 10px;display: block;float: left;height: 26px;line-height: 16px;"  v-if="item.STATE == 1">在职</span>
 					<span class="status" style="background: #B9B9B9;margin-left: 14px;margin-top: 10px;display: block;float: left;height: 26px;line-height: 16px;" v-if="item.STATE == 0">离职</span>
 					<span style="float: right;margin: 0;line-height: 45px;">{{item.WORKTYPE}}</span>
 				</li>
 			</ul>
-		  <!-- <div v-show="visible">Slide Up</div> -->
 		</transition>
 		
-
-		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-		<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 	</div>
 </template>
 
@@ -225,17 +221,17 @@
 									
 								}
 							}
-							console.log("points：",points)
+							
 							// 坐标转化
 							var convertor = new BMap.Convertor();
-							console.log("convertor",convertor)
+							
 							convertor.translate(points, 1, 5, function(data) {
 								
 								data.status = 0;
-								console.log(data,data.points = points)
+								
 								if(data.status === 0) {
 									for(var j = 0; j < data.points.length; j++) {
-										// res.data.data[pointsIndex[j]].PHOTOURL || 
+										
 										var icon = new BMap.Icon(require('../../assets/images/exam/eimg.png'), new BMap.Size(24, 25), {
 											anchor: new BMap.Size(24, 25),
 											offset: new BMap.Size(24, 25),

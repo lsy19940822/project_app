@@ -1,14 +1,10 @@
 <template>
 	<div class="container">
-		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2'>
 			
 		</vant-header>
 		
 		<div id="containerS"></div>
-		<!--<div class="list-content">
-			<div id="containerS"></div>
-		</div>-->
 
 	</div>
 </template>
@@ -63,7 +59,6 @@
 		},
 		methods: {
 			init() {
-				//定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
 				 var map = new qq.maps.Map(document.getElementById("containerS"), {
 					center: new qq.maps.LatLng(39.916527,116.397128),      // 地图的中心地理坐标。
 					zoom:8,
@@ -84,16 +79,14 @@
 			},
 			change1(val){
 				this.Section = this.option1[val].text
-				console.log("当前标段：",this.option1[val].text)
+				
 			},
 			change2(val){
 				this.Worksite = this.option2[val].text
-				console.log("当前工区：",this.option2[val].text)
+				
 			},
 			getUserWorkPointList(){
 				let that = this;
-				// this.$route.query.id=this.value1;
-				// console.log(this.value1,this.$route.query.value);
 				//视频
 				wx.config({
 					debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
@@ -113,7 +106,7 @@
 					    type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
 					
 					    success: function (res) {
-					        console.log(res)
+					        
 					        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
 					
 					        var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
@@ -129,12 +122,12 @@
 				// 工区
 				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
 					if(res.data.result) {
-						console.log("1.1.2.获取全部工区名称",res)
+						
 						for(let k in res.data.data) {
 						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
-						   // NameArr.push(res.data.data[k])
+						   
 						}	
-						console.log("工区：",this.option2)
+						
 					}
 				})
 			}

@@ -95,19 +95,6 @@
 			this.userData.QUITDATE=this.userData.QUITDATE.replace("T", " ");
 		},
 		methods: {
-			// StaffInfoF(){
-			// 	let that=this;
-			// 	// that.IDCard=that.$route.query.IDCard;
-			// 	ajax.get('/API/WebAPIDataAudit/StaffInfo?IDCard='+this.$route.query.IDCard).then(res => {
-			// 		if(res.data.result) {
-			// 			this.StaffInfoData=res.data.data[0]
-			// 			console.log(this.StaffInfoData)
-			// 			// this.StaffInfoData.PHOTOURL=ajax.http+that.StaffInfoData.PHOTOURL.slice(2)
-			// 			this.StaffInfoData.ENTRYDATE=this.StaffInfoData.ENTRYDATE.replace("T", " ");
-			// 			this.StaffInfoData.QUITDATE=res.data.data.QUITDATE.replace("T", " ");
-			// 		}
-			// 	})
-			// }
 			
 		}
 	}

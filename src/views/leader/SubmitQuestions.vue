@@ -1,7 +1,7 @@
 <template>
 	<div id="examrecord">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2">
-			
+
 		</vant-header>
 		<div class="container">
 			<h5>问题情况</h5>
@@ -11,7 +11,7 @@
 					   <span>问题类型</span>
 					   <span>{{value?value:"请选择"}}</span>
 					</van-cell>
-					<!-- <van-picker :columns="columns" @change="onChange" /> -->
+
 					<van-popup v-model="showPicker" position="bottom">
 					  <van-picker
 					    show-toolbar
@@ -39,7 +39,7 @@
 					   	<span>{{timeValueStart?timeValueStart:"请选择"}}</span>
 					</van-cell>
 					<van-popup v-model="showStart" position="bottom">
-						<van-datetime-picker class="order-time-pop" v-model="currentDateStart" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="confirmFnStart()" @cancel="cancelFnStart()" />
+						<van-datetime-picker class="order-time-pop" v-model="currentDateStart" type="date" :min-date="minDate" :max-date="maxDate" @confirm="confirmFnStart()" @cancel="cancelFnStart()" />
 					</van-popup>
 				</li>
 				<li class="list_li">
@@ -48,7 +48,7 @@
 					   	<span>{{timeValue?timeValue:"请选择"}}</span>
 					</van-cell>
 					<van-popup v-model="show" position="bottom">
-						<van-datetime-picker class="order-time-pop" v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="confirmFn()" @cancel="cancelFn()" />
+						<van-datetime-picker class="order-time-pop" v-model="currentDate" type="date" :min-date="minDate" :max-date="maxDate" @confirm="confirmFn()" @cancel="cancelFn()" />
 					</van-popup>
 				</li>
 			</ul>
@@ -57,7 +57,8 @@
 				<li class='more' style="padding: 10px 16px;" v-show="longlat">
 					<div style="border:1px dashed #E6EDF7;">
 						<van-cell style='color: #304F83;background:#F7FAFF;'>
-							<span style="margin-top: 2px; display: block;float: left;"><van-icon name="location-o" color='#304F83'/></span>{{city}}{{addr}}
+							<span style="margin-top: 2px; display: block;float: left;"><van-icon name="location-o" color='#304F83'/></span>
+							{{city}}{{addr}}
 						</van-cell>
 						<van-cell style='font-size: 12px;background:#F7FAFF;color:rgba(152,160,174,1);border-bottom:none;'>
 							经度：{{latitude}} 纬度：{{longitude}}
@@ -72,7 +73,7 @@
 					<van-button color="rgba(89,95,115,1) " size="normal"style='float: right;width:48%'  @click="longlatButtonD()">重新定位</van-button>
 				</li>
 			</ul>
-			
+
 			<h5>问题简述</h5>
 			<div class="container_list">
 				<van-cell-group>
@@ -82,7 +83,7 @@
 					autosize
 					type="textarea"
 					maxlength="300"
-					placeholder="请检单描述您的问题,方便及时跟进并解决。"
+					placeholder="请简单描述您的问题,方便及时跟进并解决。"
 					show-word-limit
 				  />
 				</van-cell-group>
@@ -96,7 +97,7 @@
 					autosize
 					type="textarea"
 					maxlength="300"
-					placeholder="请检单描述您的问题,方便及时跟进并解决。"
+					placeholder="请简单描述您的问题详情,方便及时跟进并解决。"
 					show-word-limit
 				  />
 				</van-cell-group>
@@ -104,41 +105,31 @@
 			<ul class="container_list container_listp">
 				<p class="van-hairline--bottom exam-title"><img src="../../assets/images/safeQuality/icon_t@2x (5).png" alt="">上传照片 (最多4张)</p>
 				<li class="overflow">
-					<!-- <div>
-						<label>图片</label>
-						<input type="file" id="picture" multiple @change="fileListImgButton($event)"/>
-					</div>
-					<div id="previewImg">
-						
-					</div> -->
-					<van-uploader :after-read="afterRead"  v-model="fileList" multiple :max-count="4" :delete="deleteButton()"/>
+					<van-uploader :after-read="afterRead"  v-model="fileList" multiple :max-count="4" />
 				</li>
 			</ul>
 			<h5>现成负责人</h5>
 			<ul class="container_list">
-				<li class='more' style="padding: 10px 16px;" v-if="price">
+				<li class='more' style="padding: 10px 16px;" v-show="price">
 					<div style="border:1px dashed #E6EDF7;">
 						<van-cell style='color: #304F83;background:#F7FAFF;'>
 							<input type="text" v-model="peleList" style="display: none;">
-							<span style="margin-top: 2px; display: block;float: left;"><van-icon name="manager" color='#304F83'/></span>{{principal.username}}（CYCZQ-5标-1负责人）
+							<span style="margin-top: 2px; display: block;float: left;"><van-icon name="manager" color='#304F83'/></span>{{principal}}
 						</van-cell>
 					</div>
 				</li>
-				<li class='Buttond'> 
-					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="IntelligenceButton()" v-if="!price">点击选择人员</van-button>
-				</li>
 				<li class='Buttond'>
-					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="IntelligenceButton()" v-if="price">重新选择人员</van-button>
+					<van-button color="rgba(89,95,115,1) " icon="friends-o" size="normal" style='width: 100%;'@click="IntelligenceButton()">{{$route.query.choose==1?"重新选择人员":"点击选择人员"}}</van-button>
 				</li>
 			</ul>
 			<ul>
 				<li class='Buttond'>
-					<van-button color="#DDDDDD " size="normal" style='float: left;width:48%'><span style="color: #666;">暂存</span></van-button>
+					<van-button color="#DDDDDD " size="normal" style='float: left;width:48%'  @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+$route.query.type})"><span style="color: #666;">取消</span></van-button>
 					<van-button color="#7099D0 " size="normal"style='float: right;width:48%' @click='sumtrienButton()'>提交</van-button>
 				</li>
 			</ul>
 		</div>
-		
+
 	</div>
 </template>
 
@@ -163,7 +154,7 @@
 	export default {
 		components: {
 			vantHeader,
-			
+
 		},
 		data() {
 			return {
@@ -172,7 +163,9 @@
 				examRecordTime:[],
 				StaffInfoData:[],
 				fileList: [],
-				fileListImg:'http://192.168.0.189:8282/72ede5a4-5e0d-4d3f-90ea-a343c27eb2af',
+				fileListImg:[],
+				files:{},
+				objUrlfileList:[],
 				IDCard:'',
 				message:'',
 				// 问题类型
@@ -215,6 +208,11 @@
 				},
 				addr:'',
 				city:'',
+				province:'',
+				district:'',
+				street:'',
+				streetNumber:'',
+				position:'',
 				longlat:false,
 				peleList:'',
 				quesType:'',
@@ -222,18 +220,21 @@
 				user:{
 					userName:'',
 					BID:'',
-					userid:''
+					userid:'',
+					department:'',
+					departmentid:''
 				},
+				a:true,
 				fileSrc:"",
-				principal:{},
+				principal:'',
 				price:false,
-				positiondata:{}
+				positiondata:{},
+				principalID:sessionStorage.getItem("principalID")
 			}
 		},
 		mounted() {
-			
-		},
-		created() {
+
+			this.fileList=window.url;
 			// 用户信息
 			ajax.getW('/api/safety/selectUserById?id='+this.$route.query.userId).then(res => {
 				if(res.status == 200) {
@@ -241,97 +242,93 @@
 						this.user.userName=res.data.data.info.USERNAME
 						this.user.BID=res.data.data.info.BID
 						this.user.userid=res.data.data.info.USERID
+						this.user.department=res.data.data.info.DEPARTMENTNAME
+						this.user.departmentid=res.data.data.info.DEPARTMENTID
 					}
 				}
 			});
-			
-			
+			// 储值信息
+			this.value=sessionStorage.getItem("value");
+			this.valueS=sessionStorage.getItem("valueS");
+			this.timeValueStart=sessionStorage.getItem("timeValueStart")
+			this.timeValue=sessionStorage.getItem("timeValue")
 			var princ = sessionStorage.getItem("principal");
+
+			if(sessionStorage.getItem("messageQuesc")=="" || sessionStorage.getItem("messageQuesc")==null){
+				sessionStorage.setItem("messageQuesc","")
+			}else{
+				this.messageQuesc=sessionStorage.getItem("messageQuesc");
+			}
+
+			if(sessionStorage.getItem("message")==""|| sessionStorage.getItem("message")==null){
+				sessionStorage.setItem("message","")
+			}else{
+				this.message=sessionStorage.getItem("message");
+			}
+
+
+			if(sessionStorage.getItem("principal")== null){
+				this.price= false;
+				return;
+			}
 			if(!princ) {
 				sessionStorage.setItem("principal",null);
 				if(sessionStorage.getItem("principal")== null){
 					this.price= false;
 					return;
 				}
-				return;
 			}else{
 				this.price= true;
+				this.principal = sessionStorage.getItem("principal");
 			}
-			Object.assign(this.principal, JSON.parse(princ));
-			this.peleList=this.principal.username
-			
-			// 储值信息
-			this.value=sessionStorage.getItem("value");
-			this.valueS=sessionStorage.getItem("valueS");
-			this.timeValueStart=sessionStorage.getItem("timeValueStart")
-			this.timeValue=sessionStorage.getItem("timeValue")
+			this.peleList=this.principal
+
+			// 位置信息
 			let positionS=sessionStorage.getItem("position");
-			
+			if(sessionStorage.getItem("position")!= null){
+				Object.assign(this.positiondata, JSON.parse(positionS));
+				this.latitude = this.positiondata.latitude;
+				this.longitude = this.positiondata.longitude;
+				this.city=this.positiondata.city
+				this.addr=" "+this.positiondata.addr
+				this.longlat=true;
+				return;
+			}
 			if(!positionS) {
 				sessionStorage.setItem("position",null);
 				if(sessionStorage.getItem("position")== null){
 					this.longlat=false;
 					return;
 				}
-				return;
 			}else{
 				this.longlat=true;
 			}
-			Object.assign(this.positiondata, JSON.parse(positionS));
-			this.latitude = this.positiondata.latitude;
-			this.longitude = this.positiondata.longitude;
-			this.city=this.positiondata.city
-			this.addr=this.positiondata.addr
-			this.messageQuesc=sessionStorage.getItem("messageQuesc")
-			this.message=sessionStorage.getItem("message")
-			this.fileList=sessionStorage.getItem("fileListS")
+
+		},
+		created() {
+
 		},
 		methods: {
 			IntelligenceButton(){
-				sessionStorage.setItem("messageQuesc",this.messageQuesc)
-				sessionStorage.setItem("message",this.message)
-				// 
-				this.$router.push({path:'/IntelligenceHead?userId='+this.$route.query.userId})
-			},
-			deleteButton(){
-				
-			},
-			fileListImgButton(event){
-				let imgFiles = event.target.files
-				let filePath,fileFormat,src
-				console.log(imgFiles)
-				for (let i in imgFiles){
-					filePath = imgFiles[i].name
-					fileFormat = filePath.split('.')[1].toLowerCase()  
-					src = window.URL.createObjectURL(imgFiles[i])
-					console.log('====',src)
-					if( !fileFormat.match(/png|jpg|jpeg/) ) {  
-						alert('上传错误,文件格式必须为：png/jpg/jpeg')
-						return   
-					}
-					var preview = document.getElementById("previewImg")
-					var img = document.createElement('img')
-					img.width = 200
-					img.height = 200
-					img.src = src
-					preview.appendChild(img)
-					this.fileListImg
+				let that=this;
+				if(this.messageQuesc == ''){
+					sessionStorage.setItem("messageQuesc",'')
+				}else{
+					sessionStorage.setItem("messageQuesc",this.messageQuesc)
 				}
-
+				if(this.message == ''){
+					sessionStorage.setItem("message",'')
+				}else{
+					sessionStorage.setItem("message",this.message)
+				}
+				this.$router.push({path:'/IntelligenceHead?userId='+this.$route.query.userId+'&choose=1'+'&type='+this.$route.query.type})
 			},
-			afterRead(file) {
-			  // 此时可以自行将文件上传至服务器
-			  let that=this;
-			  var reader =new FileReader();//创建读取文件的方法
-			           // var img1=event.target.files[0];
-			           // reader.readAsDataURL(img1);//将文件已url的形式读入页面
-			  console.log("this.fileList",this.fileList)
-			  //FileReader可直接将上传文件转化为二进制流
-			  
-			   　　　　 
-			 // this.fileList.push(file.content)
-			 // sessionStorage.setItem("fileListS",JSON.stringify(this.fileListImg))
-			  //  console.log(file,this.fileSrc);
+
+			afterRead(e) {
+					window.url=this.fileList;
+				let that= this;
+				this.fileListImg.push(e);
+
 			},
 			longlatButton(){
 				Dialog.confirm({
@@ -358,36 +355,51 @@
 				});
 			},
 			clearButton(){
-				console.log(this.longlat)
 				this.longlat=false;
 				this.latitude = '';
 				this.longitude ='';
 				this.city='';
 				this.addr='';
-				
+				this.province='';
+				this.district='';
+				this.street='';
+				this.streetNumber='';
+				sessionStorage.setItem("position", JSON.stringify({
+					'latitude':'',
+					'longitude':'',
+					'city':'',
+					'addr':'',
+					'province':'',
+					'district':'',
+					'street':'',
+					'streetNumber':''
+				}));
 			},
-			
+
 			sumtrienButton() {
-				if(this.value == ''){//1 安全 2 质量 3进度
+				let that = this;
+				this.a=false;
+				if(this.value == '' || this.value == null){//1 安全 2 质量 3进度
 					Toast('请选择问题类型');
 					return;
 				}
-				if(this.valueS == ''){//1特别  2紧急 3一般
+				if(this.valueS == ''|| this.valueS == null){//1特别  2紧急 3一般
 					Toast('请选择紧急类型');
 					return;
 				}
-				if(this.timeValueStart == ''){
+				if(this.timeValueStart == '' || this.timeValueStart == null){
 					Toast('请选择开始时间');
 					return;
 				}
-				if(this.timeValue == ''){
+				if(this.timeValue == '' || this.timeValue == null){
 					Toast('请选择限定时间');
 					return;
 				}
 				if(this.city == ''){
 					Toast('请获取您当前位置');
 					return;
-				}if(this.messageQuesc == ''){
+				}
+				if(this.messageQuesc == ''){
 					Toast('请简述您的问题');
 					return;
 				}
@@ -395,7 +407,8 @@
 					Toast('请简述您的问题详情');
 					return;
 				}
-				if(this.fileList == ''){
+        console.log(this.fileList);
+				if(this.fileList == undefined){
 					Toast('请上传照片');
 					return;
 				}
@@ -404,44 +417,67 @@
 					return;
 				}
 				if(this.timeValueStart!='' && this.value!='' && this.timeValue!='' && this.peleList!=''  && this.valueS!=''  && this.fileList!=''  && this.message!=''  && this.messageQuesc!=''  && this.city!='' ){
-				    console.log('putNameId',this.user.userid,
-						'putName',this.user.userName,
-						'quesType',this.quesType,
-						'degreeid',this.degreeid,
-						'dates',this.timeValueStart, 	
-						'quesDesc',this.messageQuesc,
-						'quesDetail',this.message,
-						'quesPic',JSON.stringify(this.fileListImg),
-						'endDate',this.timeValue,	
-						'principle',this.principal.userid,	
-						'departmentid',this.user.BID,
-						'principleName',this.peleList)
-					
-						// fd, {headers: {
-						//         'Content-Type': 'multipart/form-data'
-						//       }})
-					ajax.postParamsW('/api/safety/saveSafety',{
-						'putNameId':this.user.userid,
-						'putName':this.user.userName,
-						'quesType':this.quesType,
-						'degreeid':this.degreeid,
-						'dates':this.timeValueStart, 	
-						'quesDesc':	this.messageQuesc,
-						'quesDetail':this.message,
-						'quesPic':this.fileListImg,
-						'endDate':this.timeValue,	
-						'principle':this.principal.userid,	
-						'departmentid':	this.user.BID,
-						'principleName':this.peleList,	
-					}).then(res => {
-						console.log("selectSafetyInfoById",res);
-						// if(res.status == 200) {
-						// 	if(res.data.code == 200) {
-						// 		console.log("selectSafetyInfoById",res.data);
-						// 		res.data.data.quesPic=(res.data.data.quesPic.slice(res.data.data.quesPic.length-1)==',')?res.data.data.quesPic.slice(0,-1):res.data.data.quesPic;
-						// 		// this.StaffInfoData=res.data.data;
-						// 	}
-						// }
+				     var formData = new FormData();
+          if(window.url != undefined && window.url != null){
+            if(window.url.length!=""){
+              for(var item=0;item<window.url.length;item++){
+
+                formData.append("files", window.url[item].file)//第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
+              }
+            }
+          }
+					 let position=JSON.parse(sessionStorage.getItem("position"));
+					 formData.append("putName",this.user.userName);
+					 formData.append("putNameId",this.user.userid);
+					 formData.append('quesType', sessionStorage.getItem("quesType"));
+					 formData.append('degreeid', sessionStorage.getItem("degreeid"));
+					 formData.append('dates',this.timeValueStart);
+					 formData.append('quesDesc',this.messageQuesc);
+					 formData.append('quesDetail',this.message);
+					 formData.append('endDate',this.timeValue);
+					 formData.append('principle',this.principalID);
+					 formData.append('departmentid',this.user.departmentid);
+					 formData.append('bid',this.user.BID);
+					 formData.append('principleName',this.peleList);
+					 formData.append('latitude',position.latitude);
+					 formData.append('longitude',position.longitude);
+					 formData.append('department',this.user.department);
+				     formData.append('location',position.city+" "+position.addr);
+					ajax.postW('/api/safety/saveSafety',(formData)).then(res => {
+
+						if(res.status == 200) {
+							if(res.data.code == 200) {
+								if(res.data.success == true){
+									this.a=true;
+									var t2;
+									var that=this;
+									t2=setInterval(function(){
+										Toast("操作成功")
+										clearInterval(t2);
+										that.$router.push({path:'/HeadNav/leader_safeIssue?userId='+that.$route.query.userId+'&type='+that.$route.query.type})
+										//
+									},800);
+								}
+								if(res.data.success == false){
+									this.a=true;
+									Toast("处理失败")
+								}
+
+
+								sessionStorage.removeItem("timeValue")
+								sessionStorage.removeItem("valueS")
+								sessionStorage.removeItem("timeValueStart")
+								sessionStorage.removeItem("value")
+								sessionStorage.removeItem("quesType")
+								sessionStorage.removeItem("degreeid")
+								sessionStorage.removeItem("principalID")
+								sessionStorage.removeItem("TYPES")
+								sessionStorage.removeItem("principal")
+								sessionStorage.removeItem("position")
+								sessionStorage.removeItem("message")
+								sessionStorage.removeItem("messageQuesc")
+							}
+						}
 					})
 				}
 			},
@@ -452,15 +488,25 @@
 				this.geolocation.getLocation(this.showPosition, this.showErr, this.options);
 			},
 			showPosition(position) {
+				console.log(position)
+				this.position=position;
 				this.latitude = position.lat;
 				this.longitude = position.lng;
 				this.city=position.city
 				this.addr=position.addr
+				this.province=position.province,
+				this.district=position.district,
+				this.street=position.street,
+				this.streetNumber=position.streetNumber,
 				sessionStorage.setItem("position", JSON.stringify({
 					'latitude':this.latitude,
 					'longitude':this.longitude,
 					'city':position.city,
-					'addr':position.addr
+					'addr':position.addr,
+					'province':position.province,
+					'district':position.district,
+					'street':position.street,
+					'streetNumber':position.streetNumber,
 				}));
 			},
 			showErr() {
@@ -470,7 +516,6 @@
 					return;
 				}
 				Toast("定位失败");
-				//				this.getMyLocation(this.curPositionStatus); //定位失败再请求定位，测试使用
 			},
 			// 开始时间
 			confirmFnStart() { // 确定按钮
@@ -483,32 +528,12 @@
 			},
 			showTimePopStart() {
 				this.showStart = true;
-				this.currentDateStart = new Date(this.timeValueStart.replace(/-/g, "/"));
+				// this.currentDateStart = new Date(this.timeValueStart);
 			},
 			timeFormatStart(time) { // 时间格式化 2019-09-08
 				let year = time.getFullYear();
 				let month = time.getMonth() + 1;
 				let day = time.getDate();
-				let getHour = time.getHours();
-			
-				let getMinutes = time.getMinutes();
-			
-				let Nowdate = new Date().getHours();
-			
-				// 时
-				if(getHour < 10) {
-					this.getHour_s = "0" + getHour
-				}
-				if(getHour > 10 || getHour === 10) {
-					this.getHour_s = getHour
-				}
-				// 分
-				if(getMinutes < 10) {
-					this.getMinutes_s = "0" + getMinutes
-				}
-				if(getMinutes > 10 || getMinutes === 10) {
-					this.getMinutes_s = getMinutes
-				}
 				// 月
 				if(month < 10) {
 					this.month_s = "0" + month
@@ -529,13 +554,9 @@
 				if(day === 10) {
 					this.day_s = day
 				}
-			
-				return year + '-' + this.month_s + '-' + this.day_s + " " + this.getHour_s + ":" + this.getMinutes_s;
-				// this.currentDateX=year + '-' + this.month_s + '-' + this.day_s + " " + this.getHour_s + ":" + this.getMinutes_s
-			
+
+				return year + '-' + this.month_s + '-' + this.day_s
 			},
-			
-			
 			// 结束时间
 			confirmFn() { // 确定按钮
 				this.timeValue = this.timeFormat(this.currentDate);
@@ -547,32 +568,13 @@
 			},
 			showTimePop() {
 				this.show = true;
-				this.currentDate = new Date(this.timeValue.replace(/-/g, "/"));
+
 			},
 			timeFormat(time) { // 时间格式化 2019-09-08
 				let year = time.getFullYear();
 				let month = time.getMonth() + 1;
 				let day = time.getDate();
-				let getHour = time.getHours();
-			
-				let getMinutes = time.getMinutes();
-			
-				let Nowdate = new Date().getHours();
-			
-				// 时
-				if(getHour < 10) {
-					this.getHour_s = "0" + getHour
-				}
-				if(getHour > 10 || getHour === 10) {
-					this.getHour_s = getHour
-				}
-				// 分
-				if(getMinutes < 10) {
-					this.getMinutes_s = "0" + getMinutes
-				}
-				if(getMinutes > 10 || getMinutes === 10) {
-					this.getMinutes_s = getMinutes
-				}
+
 				// 月
 				if(month < 10) {
 					this.month_s = "0" + month
@@ -593,38 +595,48 @@
 				if(day === 10) {
 					this.day_s = day
 				}
-			
-				return year + '-' + this.month_s + '-' + this.day_s + " " + this.getHour_s + ":" + this.getMinutes_s;
-				// this.currentDateX=year + '-' + this.month_s + '-' + this.day_s + " " + this.getHour_s + ":" + this.getMinutes_s
-			
+
+
+				return year + '-' + this.month_s + '-' + this.day_s ;
+
+
 			},
 			onConfirm(value,index) {
 			    this.value = value;
 			    this.showPicker = false;
 				this.quesType=index+Number(1);
-				console.log("---quesType--",this.quesType)
+
 				sessionStorage.setItem("value",this.value)
+				sessionStorage.setItem("quesType",this.quesType)
 			},
 			onConfirmS(value,index) {
 			    this.valueS = value;
 			    this.showPickerS = false;
 				this.degreeid=index+Number(1);
 				sessionStorage.setItem("valueS",this.valueS)
-				console.log("--degreeid---",this.degreeid)
+				sessionStorage.setItem("degreeid",this.degreeid)
 			},
-			
+
 			StaffInfoF(){
-				
+
 			},
-			
-			
+
+
 		}
 	}
 </script>
 
 <style scoped>
 	/deep/
-	
+	.van-uploader__preview{
+		margin-bottom: 0 !important;
+	}
+	/deep/
+	.van-uploader__upload{
+		margin-bottom: 0 !important;
+	}
+	/deep/
+
 	.Buttond{
 		    margin: 10px 16px;
 		height:44px;
@@ -651,6 +663,10 @@
 	}
 	.container_lists li div:last-child{
 		margin-right: 0 !important;
+	}
+	/deep/
+	.van-uploader__preview{
+		margin: 0 15px 8px 0;
 	}
 	.container_lists li div img{
 		width:70px;
@@ -708,12 +724,12 @@
 		color:#00A0E9;
 		/* visibility: initial; */
 		font-size: 14px;
-		
+
 	}
 	/deep/
 	.infor_header .van-button{
 		width:48%;
-	} 
+	}
 	.infor_header .van-button:last-child{
 		float: right;
 	}
@@ -748,7 +764,7 @@
 		width: 100%;
 	}
 	.container{
-		padding-top: 46px;
+		/* padding-top: 46px; */
 	}
 	.container_list{
 		margin-top: 10px;
@@ -792,7 +808,7 @@
 		width: 42px;
 		color:#69966F;font-size:20px;
 	}
-	
+
 	.container_span_seound{
 		color:#69966F;font-size:12px;
 	}

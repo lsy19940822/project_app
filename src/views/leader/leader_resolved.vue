@@ -1,168 +1,69 @@
 <template>
 	<div class="container">
-		<!--header-->
-		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2'>
-			
-		</vant-header>
-		<!--search-->
-		<div class="search-wrap" v-show="isSearchShow">
-			<van-search v-model="searchVal" placeholder="搜索已解决问题" show-action @cancel="searchCancel" @search="onSearch" />
-			<van-row type="flex" justify="space-between" class="searh-clear">
-				<van-col span="8">搜索历史</van-col>
-				<van-col span="8" class="clear-btn">
-					<van-icon name="delete" />清除记录</van-col>
-			</van-row>
-			<div class="s-history clearfix">
-				<ul class="s-historyList">
-					<li>
-						<div class="h-tag">1标主站</div>
-					</li>
-					<li>
-						<div class="h-tag">1标主站</div>
-					</li>
-					<li>
-						<div class="h-tag">1标主站</div>
-					</li>
-					<li>
-						<div class="h-tag">1标主站</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<!--content list-->
+		<!-- <HeadNav/> -->
 		<div class="list-content">
+			<div class="l-dropdown">
+				<van-dropdown-menu>
+					<van-dropdown-item v-model="bid" :options="option2" @change="onClick(bid)"/>
+				</van-dropdown-menu>
+			</div>
+			<div v-if='safeData.length==0' style="text-align: center;background: #ececec;line-height: 36px;color:#ddd;font-size: 16px;">暂无数据</div>
+			<ul class="l-list" v-else>
+				<li v-for="(item,index) in safeData" :key="index" :id="item.id" v-if="item.quesType == 1" @click="$router.push({path:'/LeaderProblemJ?userId='+$route.query.userId+'&id='+item.id})">
+					<div class="item">
+						<h6 class="title">{{item.quesDesc}}</h6>
+						<div class="explain marginT12">
+							<van-row>
+								<van-col span="16">
+									<span class="color7099D0" v-if="item.quesType == 1">安全问题</span>
+									<span class="colorAAA">{{item.createTime}}</span>
+								</van-col>
+								<van-col span="8" align="right">
+									<span class="color53904D">已解决</span>
+								</van-col>
+							</van-row>
+						</div>
+						<div class="intro marginT12 omit2">{{item.quesDetail}}</div>
+					</div>
+				</li>
+				<li v-for="(item,index) in safeData" :key="index" :id="item.id" v-if="item.quesType == 2" @click="$router.push({path:'/LeaderProblemJ?userId='+$route.query.userId+'&id='+item.id})">
+					<div class="item">
+						<h6 class="title">{{item.quesDesc}}</h6>
+						<div class="explain marginT12">
+							<van-row>
+								<van-col span="16">
+									<span class="color7099D0" v-if="item.quesType == 2">质量问题</span>
+									<span class="colorAAA">{{item.createTime}}</span>
+								</van-col>
+								<van-col span="8" align="right">
+									<span class="color53904D">已解决</span>
+								</van-col>
+							</van-row>
+						</div>
+						<div class="intro marginT12 omit2">{{item.quesDetail}}</div>
+					</div>
+				</li>
+				<li v-for="(item,index) in safeData" :key="index" :id="item.id" v-if="item.quesType == 3" @click="$router.push({path:'/LeaderProblemJ?userId='+$route.query.userId+'&id='+item.id})">
+					<div class="item">
+						<h6 class="title">{{item.quesDesc}}</h6>
+						<div class="explain marginT12">
+							<van-row>
+								<van-col span="16">
+									<span class="color7099D0" v-if="item.quesType == 3">进度问题</span>
+									<span class="colorAAA">{{item.createTime}}</span>
+								</van-col>
+								<van-col span="8" align="right">
+									<span class="color53904D">已解决</span>
+								</van-col>
+							</van-row>
+						</div>
+						<div class="intro marginT12 omit2">{{item.quesDetail}}</div>
+					</div>
+				</li>
+			</ul>
 
-			<van-tabs v-model="active">
-				<van-tab title="全部问题">
-					<!--检索关键字-->
-					<div class="header_inte">
-						<div class="inte_gent">
-							<ul class="innerLabel">
-								<li class='activeLabel'>全部</li>
-								<li>CYCZQ-1标</li>
-								<li>CYCZQ-2标</li>
-								<li>CYCZQ-3标</li>
-								<li>CYCZQ-4标</li>
-								<li>CYCZQ-5标1</li>
-								<li>CYCZQ-5标2</li>
-								<li>CYCZQ-6标</li>
-							</ul>
-						</div>
-					</div>
-					<ul class="l-list">
-						<li>
-							<div class="item">
-								<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-								<div class="explain marginT12">
-									<van-row>
-										<van-col span="16">
-											<span class="color7099D0">质量问题</span>
-											<span class="colorAAA">2019-09-26 22:22:22</span>
-										</van-col>
-										<van-col span="8" align="right">
-											<span class="color53904D">已解决</span>
-										</van-col>
-									</van-row>
-								</div>
-								<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-							</div>
-						</li>
-
-						<li>
-							<div class="item">
-								<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-								<div class="explain marginT12">
-									<van-row>
-										<van-col span="16">
-											<span class="color7099D0">安全问题</span>
-											<span class="colorAAA">2019-09-26 22:22:22</span>
-										</van-col>
-										<van-col span="8" align="right">
-											<span class="color53904D">已解决</span>
-										</van-col>
-									</van-row>
-								</div>
-								<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-							</div>
-						</li>
-					</ul>
-				</van-tab>
-				<van-tab title="安全问题">
-					<!--检索关键字-->
-					<div class="header_inte">
-						<div class="inte_gent">
-							<ul class="innerLabel">
-								<li class='activeLabel'>全部</li>
-								<li>CYCZQ-1标</li>
-								<li>CYCZQ-2标</li>
-								<li>CYCZQ-3标</li>
-								<li>CYCZQ-4标</li>
-								<li>CYCZQ-5标1</li>
-								<li>CYCZQ-5标2</li>
-								<li>CYCZQ-6标</li>
-							</ul>
-						</div>
-					</div>
-					<ul class="l-list">
-						<li>
-							<div class="item">
-								<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-								<div class="explain marginT12">
-									<van-row>
-										<van-col span="16">
-											<span class="color7099D0">安全问题</span>
-											<span class="colorAAA">2019-09-26 22:22:22</span>
-										</van-col>
-										<van-col span="8" align="right">
-											<span class="color53904D">已解决</span>
-										</van-col>
-									</van-row>
-								</div>
-								<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-							</div>
-						</li>
-					</ul>
-				</van-tab>
-				<van-tab title="质量问题">
-					<!--检索关键字-->
-					<div class="header_inte">
-						<div class="inte_gent">
-							<ul class="innerLabel">
-								<li class='activeLabel'>全部</li>
-								<li>CYCZQ-1标</li>
-								<li>CYCZQ-2标</li>
-								<li>CYCZQ-3标</li>
-								<li>CYCZQ-4标</li>
-								<li>CYCZQ-5标1</li>
-								<li>CYCZQ-5标2</li>
-								<li>CYCZQ-6标</li>
-							</ul>
-						</div>
-					</div>
-					<ul class="l-list">
-						<li>
-							<div class="item">
-								<h6 class="title">1标主站桥梁存在严重的质量问题，电线直接放在地上</h6>
-								<div class="explain marginT12">
-									<van-row>
-										<van-col span="16">
-											<span class="color7099D0">质量问题</span>
-											<span class="colorAAA">2019-09-26 22:22:22</span>
-										</van-col>
-										<van-col span="8" align="right">
-											<span class="color53904D">已解决</span>
-										</van-col>
-									</van-row>
-								</div>
-								<div class="intro marginT12 omit2">今年以来，根据各地上报数据，全市共有建设项目326个，其中：市级项目32个，六枝特区今年以来，根据各地上报数据，全市共有建</div>
-							</div>
-						</li>
-					</ul>
-				</van-tab>
-			</van-tabs>
-			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 		</div>
+
 
 	</div>
 </template>
@@ -170,41 +71,62 @@
 <script>
 	import vantHeader from '@/components/header.vue'
 	import * as ajax from '@/utils/api'
+	import HeadNav from './HeadNav.vue'
 	import Vue from 'vue';
 	import {
 		Row,
 		Col,
-		Loading,
+
 		Tab,
 		Tabs,
 		Icon,
 		Search
 	} from 'vant';
-	Vue.use(Row).use(Col).use(Loading).use(Tab).use(Tabs).use(Icon).use(Search);
+	import {DropdownMenu, DropdownItem} from 'vant';
+	Vue.use(Row).use(Col).use(DropdownMenu).use(DropdownItem);
+	Vue.use(Tab).use(Tabs).use(Icon).use(Search);
 	export default {
 		data() {
 			return {
-				questionText: '已解决问题',
+				questionText: '我的问题',
 				isLoading: true,
 				active: 0,
 				searchVal: '',
 				isSearchShow: false,
-				quesType:1,//1.安全 2 质量 3 进度
+				quesType0:0,//1.安全 2 质量 3 进度
 				userId:this.$route.query.userId,
-				succ:1,//1已解决 2待解决
+				succ:1,//1已解决
 				page:1,
 				size:10,
-				safeData:[]
+				safeData:[],
+				bid:0,
+				num:0,
+				num1:0,
+				num2:0,
+				option2: [
+          { text: '全部问题', value: 0 },
+					{ text: '安全问题', value: 1 },
+					{ text: '质量问题', value: 2 },
+					{ text: '进度问题', value: 3 },
+
+				],
 			}
 		},
 		components: {
-			vantHeader
+			vantHeader,
+			HeadNav
 		},
 		mounted(){
 			this.selectSafetyListS()
-			
 		},
 		methods: {
+			onClick(title){
+				console.log(title)
+				this.quesType0=title
+				this.selectSafetyListS()
+			},
+
+
 			searchShowHide() {
 				this.isSearchShow = !this.isSearchShow
 			},
@@ -212,56 +134,30 @@
 				this.searchShowHide();
 			},
 			onSearch() {
-			
+
 			},
 			selectSafetyListS() {
-				ajax.getW('/api/safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
+				ajax.getW('/api/safety/selectSafetyList?userId=' + this.userId+'&bid='+this.bid+'&quesType='+this.quesType0+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
 					if(res.status == 200) {
 						if(res.data.code == 200) {
-							console.log('安全质量',res.data)
 							this.safeData=res.data.data.list;
 						}
+						if(res.data.code == null) {
+							this.safeData=[];
+						}
 					}
-					
 				})
+
 			},
 		},
-		filters: {
-			getStatusTxt(id) {
-				var str = "";
-				switch(id) {
-					case 1:
-						str = "待抄送";//现场负责人
-						break;
-					case 2:
-						str = "待解决";//相关人整改
-						break;
-					case 3:
-						str = "待审核";//发起负责人审核
-						break;
-					case 4:
-						str = "";//流程结束
-						break;
-					case 5:
-						str = "退回问题";//发起人修改
-						break;
-					case 6:
-						str = "待复核";//负责人复核
-						break;	
-					case 7:
-						str = "退回问题";//整改人驳回
-						break;
-					default:
-						str = "无状态";
-						break;
-				}
-				return str;
-		    }
-		}
+
 	}
 </script>
 
 <style scoped>
+	/deep/ .van-dropdown-menu .van-dropdown-menu__item:first-child {border-right:1px solid #ccc;margin:0 10px;}
+	/deep/ .van-dropdown-menu .van-dropdown-menu__item{border:1px solid #CCC;border-radius: 2px;background:#F9F9F9;}
+
 	/*  */
 	.innerLabel li.activeLabel {
 		background: #595F73;
@@ -355,7 +251,7 @@
 	}
 
 	.container {
-		padding-top: 46px;
+		/* padding-top: 46px; */
 	}
 
 	.van-nav-bar .van-icon {

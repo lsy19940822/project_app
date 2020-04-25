@@ -12,7 +12,14 @@ import './assets/video/ezuikit.js'
 import moment from 'moment'//导入文件 
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$moment = moment;//赋值使用
- 
+// import preview from 'vue-photo-preview'
+// import 'vue-photo-preview/dist/skin.css'
+// Vue.use(preview, options)
+// 配置项感觉也可以放在具体的组件中
+var options = {
+	 fullscreenEl: false, //关闭全屏按钮
+	 tapToClose: true,
+}
 //import Store from './store'
 import * as filters from '@/utils/filters'
 // import moment from '@/utils/moment'

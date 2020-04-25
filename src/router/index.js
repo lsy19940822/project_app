@@ -3,14 +3,46 @@ import Router from 'vue-router';
 import { Toast } from 'vant';
 Vue.use(Toast);
 Vue.use(Router)
+//引入页面
+// import Home from "../views/HeadNav/Hoem/Home.vue"
+// import HomeInfo from "../views/HeadNav/Hoem/HomeInfo.vue"
 //创建路有实例并配置路由映射
 const router = new Router({
-	routes: [{
+	routes: [
+
+
+
+
+		{
 			path: "/",
-			component: resolve => require(["../components/header.vue"], resolve),
-			redirect: '/index', //默认选中--首页
+			component: resolve => require(["../views/HeadNav/HeadNav.vue"], resolve),
+			redirect: '/HeadNav/leader_safeIssueZ', //默认选中--首页
+			linkActiveClass:'router-link-active'
+			// redirect: '/index', //默认选中--首页
+
 		},
-		
+		// 智能劳务
+		{
+			path: '/HeadNav',
+			name: 'HeadNav',
+			component: resolve => require(['../views/HeadNav/HeadNav.vue'], resolve),
+			redirect: '/HeadNav/leader_safeIssueZ', //默认选中
+			children: [{
+					path: "leader_safeIssueZ",
+					component: resolve => require(["../views/HeadNav/leader_safeIssueZ.vue"], resolve),
+
+				},
+				{
+					path: "leader_safeIssue",
+					component: resolve => require(["../views/HeadNav/leader_safeIssue.vue"], resolve)
+				},
+				{
+					path: "leader_resolved",
+					component: resolve => require(["../views/HeadNav/leader_resolved.vue"], resolve)
+				}
+			]
+		},
+
 		{
 			path: '/login', //登录
 			name: 'login',
@@ -46,7 +78,7 @@ const router = new Router({
 			children: [{
 					path: "labor",
 					component: resolve => require(["../views/Intelligence/labor.vue"], resolve),
-		
+
 				},
 				{
 					path: "personnel",
@@ -84,7 +116,7 @@ const router = new Router({
 			name: 'BeyondThe',
 			component: resolve => require(['../views/intelligent/BeyondThe.vue'], resolve)
 		},
-		
+
 		{ //三级列表
 			path: '/fillC',
 			name: 'fillC',
@@ -163,6 +195,26 @@ const router = new Router({
 			name: 'voice',
 			component: resolve => require(['../views/Intelligence/voice.vue'], resolve)
 		},
+		// { //人机定位
+		// 	path: '/leader/HeadNav',
+		// 	name: 'HeadNav',
+		// 	component: resolve => require(['../views/leader/HeadNav.vue'], resolve),
+		// 	redirect: '/leader/leader_safeIssueZ', //默认选中
+		// 	children: [{
+		// 			path: "leader_safeIssueZ",
+		// 			component: resolve => require(["../views/leader/leader_safeIssueZ.vue"], resolve),
+
+		// 		},
+		// 		{
+		// 			path: "leader_safeIssue",
+		// 			component: resolve => require(["../views/leader/leader_safeIssue.vue"], resolve)
+		// 		},
+		// 		{
+		// 			path: "leader_resolved",
+		// 			component: resolve => require(["../views/leader/leader_resolved.vue"], resolve)
+		// 		}
+		// 	]
+		// },
 		{ //人机定位
 			path: '/machinePositioning',
 			name: 'machinePositioning',
@@ -345,6 +397,12 @@ const router = new Router({
 
 		},
 		{ //问题详情--未解决--修改
+			path: '/problemXG',
+			name: 'problemXG',
+			component: resolve => require(['../views/staff/problemXG.vue'], resolve)
+
+		},
+		{ //问题详情--未解决--修改
 			path: '/problemX',
 			name: 'problemX',
 			component: resolve => require(['../views/staff/problemX.vue'], resolve)
@@ -357,15 +415,29 @@ const router = new Router({
 			component: resolve => require(['../views/leader/dynamic.vue'], resolve)
 		},
 
-		{ //领导-安全质量-问题详情-复核
-			path: '/LeaderProblemW',
-			name: 'LeaderProblemW',
-			component: resolve => require(['../views/leader/LeaderProblemW.vue'], resolve)
+		{ //負責人-安全质量-问题详情-复核
+			path: '/LeaderProblemY',
+			name: 'LeaderProblemY',
+			component: resolve => require(['../views/leader/LeaderProblemY.vue'], resolve)
 		},
 		{ //負責人-安全质量-问题详情-复核
-			path: '/LeaderProblemG',
-			name: 'LeaderProblemG',
-			component: resolve => require(['../views/leader/LeaderProblemG.vue'], resolve)
+			path: '/LeaderProblemS',
+			name: 'LeaderProblemS',
+			component: resolve => require(['../views/leader/LeaderProblemS.vue'], resolve)
+		},
+		{ //負責人-安全质量-问题详情-复核
+			path: '/LeaderProblemQ',
+			name: 'LeaderProblemQ',
+			component: resolve => require(['../views/leader/LeaderProblemQ.vue'], resolve)
+		},{ //負責人-安全质量-问题详情-复核
+			path: '/LeaderProblemHome',
+			name: 'LeaderProblemHome',
+			component: resolve => require(['../views/HeadNav/LeaderProblemHome.vue'], resolve)
+		},
+		{ //負責人-安全质量-问题详情-复核
+			path: '/LeaderProblemJ',
+			name: 'LeaderProblemJ',
+			component: resolve => require(['../views/leader/LeaderProblemJ.vue'], resolve)
 		},
 		{ //领导-安全质量-问题提交
 			path: '/SubmitQuestions',
@@ -381,19 +453,46 @@ const router = new Router({
 			path: '/ProblemWhere',
 			name: 'ProblemWhere',
 			component: resolve => require(['../views/ProblemWhere.vue'], resolve)
-		}
+		},
+		// 	//flx 4-22-12:46 改
+		// {
+		// 	path:"/home",
+		// 	name:"Home",
+		// 	component:resolve => require(["../views/HeadNav/Home.vue"], resolve)
+
+		// },
+		// {
+		// 	path:"/homeInfo",
+		// 	name:"HomeInfo",
+		// 	component:resolve => require(["../views/HeadNav/HomeInfo.vue"], resolve)
+
+		// },
 
 	]
 })
 /*此方法是给全局中的每个路由页面都加判断*/
 router.beforeEach((to, from, next) => {
-	const isLogin = sessionStorage.getItem("chang_yi_User_token");
-	if((isLogin == null || isLogin == '') && to.path != '/login') {
-		// Toast.fail("请您先登录");
-		next("/login");
-		return;
+	if(from.query.isNeendLogin=='false' || to.query.isNeendLogin=='false') {
+		sessionStorage.setItem("chang_yi_User_token", true);
+		if(from.query.headerHide=='false' || to.query.headerHide=='false') {
+			sessionStorage.setItem("chang_yi_headerHide", false);
+		}
+		next();
 	}
+
+	// const isLogin = sessionStorage.getItem("chang_yi_User_token");
+	// if((isLogin == null || isLogin == '') && to.path != '/leader_safeQualityList') {
+	// 	// Toast.fail("请您先登录");
+	// 	next("/leader_safeQualityList");
+	// 	return;
+	// }
 	next();
+	// if((isLogin == null || isLogin == '') && to.path != '/login') {
+	// 	// Toast.fail("请您先登录");
+	// 	next("/login");
+	// 	return;
+	// }
+
 })
 /*after 钩子没有next 方法，不能改变导航*/
 router.afterEach((to, from) => {

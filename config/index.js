@@ -11,8 +11,8 @@ module.exports = {
 		assetsPublicPath: '/',
 		proxyTable: {
 		},
-		host:'192.168.0.110',
-		// host:'192.168.31.121',
+		// host:'192.168.0.187',
+		host:'127.0.0.1',
 		port: 8282, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
 		autoOpenBrowser: false,
 		errorOverlay: true,

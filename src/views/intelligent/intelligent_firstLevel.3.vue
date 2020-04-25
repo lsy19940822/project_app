@@ -48,7 +48,6 @@
 				</li>
 				<li class="list_one" v-show="!list"  v-for="(item,index) in PierSearch" :key="index" @click="linkButton(item,item.TimeDays)">
 					<van-cell is-link  style="padding-left:0;">
-						<!-- margin-right:10%; -->
 						<span class="list_one" style="margin-right:10%;width:110px;display: inline-block;">
 							<span style="color:#aaa;font-size:14px;">{{item.PierName}}/</span><span style="color:#333;font-size:16px;">{{item.NAME}}</span>
 						</span>
@@ -326,7 +325,7 @@
 				})
 				let that=this;
 				
-				// console.log())
+				
 				if(that.PierSearch != ''){
 					ajax.post('/API/WebAPIDataAudit/FillInProgress?worksite='+sessionStorage.getItem("GetMenuTree_list_id")+
 					'&ButtonValue='+sessionStorage.getItem("GetMenuTree_list_name")+'&TextboxValue='+that.searchValue).then(res => {
@@ -335,7 +334,7 @@
 							that.list=true;
 							that.PierSearch.splice(0);
 							that.PierNo=res.data.data;
-							console.log("that.PierNo:",that.PierNo)
+							
 							return;
 						}
 						if(res.data.result == false){

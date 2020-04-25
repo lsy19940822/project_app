@@ -1,11 +1,9 @@
 <template>
 	<div class="container">
-		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2'>
 			
 		</vant-header>
 		
-		<!--content list-->
 		<div class="list-content">
 			<van-tabs v-model="active">
 				<van-tab title="电表">
@@ -15,7 +13,7 @@
 							<van-dropdown-item v-model="value2" :options="option2" @change="change2(value2)"/>
 						</van-dropdown-menu>
 					</div>
-					<!-- <van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()'/> -->
+
 					<ul class="l-list" v-for="(item,index) in QuantityData" :key='index'>
 						<li>
 							<van-cell is-link @click="$router.push('/monitoring_list_X?id=' + item.ID +'&type=1')">
@@ -32,7 +30,7 @@
 							<van-dropdown-item v-model="value2" :options="option2" @change="change4(value2)"/>
 						</van-dropdown-menu>
 					</div>
-					<!-- <van-icon name="search" style='position: absolute;right:20px;top:2px' @click='searchButton()'/> -->
+					
 					<ul class="l-list">
 						<li v-for="(item,index) in cularsData" :key='index' @click="$router.push('/monitoring_list_X?id=' + item.ID +'&type=2')">
 							<van-cell is-link>
@@ -44,8 +42,7 @@
 				</van-tab>
 				
 			</van-tabs>
-			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
+			
 		</div>
 
 	</div>
@@ -108,7 +105,7 @@
 		methods: {
 			change1(val){
 				this.Section = this.option1[val].text
-		      	console.log("this.Section：",this.Section,"this.Worksite：",this.Worksite)
+		      	
 			},
 			change2(val){
 				if(this.option2[val].text == '全部工区'){
@@ -117,11 +114,11 @@
 					this.Worksite = this.option2[val].text.replace("#", "%23")
 				}
 				
-				console.log("this.Section：",this.Section,"this.Worksite：",this.Worksite)
+				
 				ajax.get('/API/WebAPIDataAudit/GetElectricQuantity?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
 					
 					if(res.data.result) {
-						console.log('电表list:',res.data.data)
+						
 					    this.QuantityData=res.data.data;
 					}
 				})
@@ -129,38 +126,35 @@
 				ajax.get('/API/WebAPIDataAudit/GetWaterMeter?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
 					
 					if(res.data.result) {
-						console.log('水表list:',res.data.data)
+						
 					    this.cularsData=res.data.data;
 					}
 				})
 			},
 			GetElectricQuantityList(){
 				let that = this;
-				// this.$route.query.id=this.value1;
-				// console.log(this.value1,this.$route.query.value);
 				ajax.get('/API/WebAPIDataAudit/GetElectricQuantity?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
 					
 					if(res.data.result) {
-						console.log('电表list:',res.data.data)
 					    that.QuantityData=res.data.data;
 					}
 				})
 				ajax.get('/API/WebAPIDataAudit/GetWaterMeter?Section=' +this.Section+'&Worksite='+ this.Worksite).then(res => {
 					
 					if(res.data.result) {
-						console.log('水表list:',res.data.data)
+						
 					    that.cularsData=res.data.data;
 					}
 				})
 				
 				ajax.get('/API/WebAPIDataAudit/getUserWorkPoint').then(res => {
 					if(res.data.result) {
-						console.log("1.1.2.获取全部工区名称",res)
+						
 						for(let k in res.data.data) {
 						   this.option2.push({text:res.data.data[k].WORKAREA,value:Number(k) + Number(1) })
-						   // NameArr.push(res.data.data[k])
+						   
 						}	
-						console.log("工区：",this.option2)
+						
 					}
 				})
 			}

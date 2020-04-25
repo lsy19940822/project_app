@@ -89,7 +89,6 @@
 				</li>
 			</ul>
 		</div>
-		<!-- <index-footer></index-footer> -->
 
 	</div>
 </template>
@@ -193,10 +192,10 @@
 			},
 			studyActives(index,name) {
 				this.index=index;
-				console.log("当前标段名：",name)
+				
 				sessionStorage.setItem("intelligent_CycName",name)
 				this.CycName=sessionStorage.getItem("intelligent_CycName")
-				// this.CycName=name;
+				
 				this.num=index;
 				if(this.num<3){
 					this.$refs.style[0].style.marginLeft='0px'

@@ -13,16 +13,13 @@
 			<ul class="container_list" v-show="GetVideoDatashow">
 				<li class="overflow" v-for='(item,index) in GetVideoData' :key="index">
 					<div class="video-cover" :class="{'video-play': curPlayerId == 'myPlayer' + (index + 1)}" ontouchmove="return false;">
-						<!-- controls -->
+						
 
 						<van-icon name="cross" class="video-close" v-show="curPlayerId == 'myPlayer' + (index + 1)" @click="videoButton('myPlayer' + (index + 1), 'pause')" />
 						<video webkit-playsinline playsinline :ref="'myPlayer' + (index + 1)" :id="'myPlayer' + (index + 1)" width="100%" height="100%" :poster="ajax.http + item.VIDEOIMAGE.slice(2)" x-webkit-airplay="true" x5-video-player-fullscreen="true" preload="auto" x5-video-player-typ="h5">
 
 							<source :src="item.VIDEOURL" type="application/x-mpegURL" />
 						</video>
-						<!--<video ref="myPlayer1" id="myPlayer1" width="100%" height="auto" controls playsInline webkit-playsinline>
-							<source :src="curPlayVideo.VIDEOURL" type="application/x-mpegURL" />
-						</video>-->
 						<div class="video-coverS" v-show="curPlayerId != 'myPlayer' + (index + 1)"></div>
 						<img src="../../assets/images/exam/video.png" alt="" class="video" v-show="curPlayerId != 'myPlayer' + (index + 1)" @click="videoButton('myPlayer' + (index + 1), 'play')">
 						<img src="../../assets/images/exam/video_cover2.png" alt="" width="100%" height="100%" @click="playVideo(item)">
@@ -31,12 +28,8 @@
 				</li>
 
 			</ul>
-			<!-- <van-dialog v-model="show" :title="'【' + curPlayVideo.SECTION + '】' + curPlayVideo.VIDEONAME" @close="videoClose" :showCancelButton='false' confirmButtonText='关闭'>
-				
-			</van-dialog> -->
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+			
 		</div>
-		<!-- <study-footer></study-footer> -->
 	</div>
 
 </template>
@@ -111,15 +104,14 @@
 		created() {
 			this.value1 = Number(this.$route.query.value || 0);
 			this.change1(this.value1)
-			// this.StaffRetrieveList()
-			// this.getUserWorkPointList();
+			
 		},
 		mounted() {
 		},
 		methods: {
 			change1(val) {
 				this.Section = this.option1[val].text
-				console.log("当前标段：", this.option1[val].text)
+				
 				this.StaffRetrieveList();
 				this.getUserWorkPointList();
 				this.option2.splice(1);
@@ -131,7 +123,7 @@
 					this.Worksite= this.option2[val].text.replace("#", "%23")
 				}
 				
-				console.log("当前工区：", this.Worksite);
+				
 				this.getUserWorkPointList();
 			},
 			getUserWorkPointList() {
@@ -178,7 +170,7 @@
 				Object.assign(this.curPlayVideo, item);
 			},
 			videoButton(el, type) {
-				console.log(this.$refs[el])
+				
 				if(type == 'play') {
 					this.curPlayerId = el;
 					this.$refs[el][0].play();

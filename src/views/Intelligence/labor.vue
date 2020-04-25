@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<div class="containers overflow">
-			<!-- <div v-model="value1" :id="value1">value1</div> -->
 			<div class="container_header overflow">
 				<van-dropdown-menu class='van-dropdown' >
 				   <van-dropdown-item :id="value1" v-model="value1" :options="option1" @change="change1(value1)"/>
@@ -117,7 +116,7 @@
 			let date=new Date()
 			this.getFullYear=date.getFullYear();
 			for(let item=this.getFullYear;item>this.getFullYear-5;item--){
-				console.log(item)
+				
 				this.cycaqData.push(item)
 			}
 			localStorage.setItem("labor_value_id",this.value1)
@@ -126,7 +125,7 @@
 			this.capacityEachart();
 			this.capacityEachartS();
 			
-			// console.log(this.cycaqData)
+			
 		},
 		mounted() {
 			
@@ -139,7 +138,7 @@
 				this.year= true;
 			},
 			studyActives(index,name) {
-				console.log("当前年：",name)
+				
 				this.num=index;
 				this.getFullYear = name;
 				this.year= false;
@@ -199,7 +198,7 @@
 			},
 			change1(val){
 				this.Section = this.option1[val].text
-				console.log("当前标段：",this.option1[val].text)
+				
 				if(this.Unit != ''){
 					this.Unit = '';
 					this.value2 = Number(0);
@@ -213,7 +212,7 @@
 			},
 			change2(val){
 				this.Unit = this.option2[val].text.replace("#", "%23")
-				console.log("当前工区：",this.option2[val].text)
+				
 			    this.getWorkUserNumberS()
 				this.capacityEachart();
 				this.capacityEachartS();
@@ -315,11 +314,10 @@
 			},
 			capacityEachartS(){
 				let date=new Date()
-				console.log("this.getFullYear:",this.getFullYear)
 				ajax.get('/API/WebAPIDataAudit/getPeopleNumber?year='+this.getFullYear).then(res => {
 					
 					if(res.data.result) {
-						console.log("getUserTypeNumber",res)
+						
 					    this.eachatDataY=res.data.data;
 						var eachatData_xAxis=[]
 						for(var i = 0;i<this.eachatDataY.length;i++){
@@ -427,7 +425,7 @@
 			},
 			getWorkUserNumberS(){
 				ajax.get('/API/WebAPIDataAudit/getWorkUserNumber?section='+this.Section+'&worksite='+this.Unit).then(res => {
-					console.log(res.data.data)
+					
 					if(res.data.data.UserNumber !=0 || res.data.data.UserNumber !=0 ||res.data.data.UserNumber >0 || res.data.data.UserNumber >0){
 						this.user.UserNumber=res.data.data.UserNumber
 						this.user.AllUserNumber=res.data.data.AllUserNumber

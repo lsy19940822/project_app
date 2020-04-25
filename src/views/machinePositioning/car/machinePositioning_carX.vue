@@ -1,6 +1,5 @@
 <template>
 	<div class="container">
-		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2'>
 
 		</vant-header>
@@ -74,11 +73,11 @@
 				return;
 			}
 			Object.assign(this.carInfor, JSON.parse(infor));
-			console.log("=====", JSON.parse(infor))
+			
 		},
 		mounted() {
 			this.init()
-			//			this.getUserWorkPointList()
+			
 		},
 		methods: {
 			init() {
@@ -99,7 +98,7 @@
 				var convertor = new BMap.Convertor();
 				convertor.translate(points, 1, 5, function(data) {
 					
-					console.log(data)
+					
 					if(data.status === 0) {
 						for(var j = 0; j < data.points.length; j++) {
 							var icon = new BMap.Icon(require('../../../assets/images/exam/car.jpg'), new BMap.Size(40, 19), {

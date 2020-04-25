@@ -1,5 +1,5 @@
 <template>
-	<div id="examrecord">
+	<div id="examrecord" :class="{ headeractive: isActive }">
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType="2"></vant-header>
 		<div class="container">
 			<div v-if='examRecord==""' style="padding: 10px 16px;color: #969799; font-size: 14px;line-height: 24px;text-align: center;background: none;">暂无考试记录</div>
@@ -43,14 +43,19 @@
 				questionText:"考试记录",
 				examRecord:[],
 				examRecordTime:[],
-				IDCard:""
+				IDCard:"",
+				isActive:false
 			}
 		},
 		mounted() {
 			this.examrecord()
 		},
 		created() {
-			
+			sessionStorage.getItem("chang_yi_headerHide");
+			if(sessionStorage.getItem("chang_yi_headerHide") == 'false'){
+				
+				this.isActive = true
+			}
 		},
 		methods: {
 			examrecord(){

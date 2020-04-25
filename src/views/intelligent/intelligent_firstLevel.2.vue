@@ -9,7 +9,6 @@
 			
 		</div>
 	    <router-view></router-view>
-		<!-- <study-footer></study-footer> -->
 	</div>
 
 </template>

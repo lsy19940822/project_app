@@ -25,7 +25,6 @@
 				</li>
 				<li>
 					<span>重要性</span>
-					<!-- (1-未开工、2-正在进行、3-已完成、4-延期已完成、5-延期未完成) -->
 					<span style="float: right;" v-if="GetMenuTree_Data.STATUS == 1 || GetMenuTree_Data.STATUS == 3|| GetMenuTree_Data.STATUS == 2">普通工程</span>
 					<span style="float: right;" v-if="GetMenuTree_Data.STATUS == 4 || GetMenuTree_Data.STATUS == 5">超期工程</span>
 				</li>
@@ -39,21 +38,17 @@
 				</li>
 			</ul>
 			<h5>完成情况</h5>
-			<!-- 计划开始 -->
 			<van-popup v-model="Planshow" position="bottom">
 				<van-datetime-picker v-model="currentDatePlanshow" type="date" :min-date="minDatePlanshow" @confirm="confirmFnPlanshow()" @cancel="cancelFn()" />
 			</van-popup>
 			
-			<!-- 计划结束 -->
 			<van-popup v-model="PlanshowS" position="bottom">
 				<van-datetime-picker v-model="currentDatePlanshowS" type="date" :min-date="minDatePlanshowS" @confirm="confirmFnPlanshowS()" @cancel="cancelFn()" />
 			</van-popup>
-			<!-- 实际开始 -->
 			<van-popup v-model="show" position="bottom">
 				<van-datetime-picker v-model="currentDate" type="date" :min-date="minDate" @confirm="confirmFn()" @cancel="cancelFn()" />
 			</van-popup>
 			
-			<!-- 实际结束 -->
 			<van-popup v-model="showS" position="bottom">
 				<van-datetime-picker v-model="currentDateS" type="date" :min-date="minDateS" @confirm="confirmFnS()" @cancel="cancelFn()" />
 			</van-popup>
@@ -71,7 +66,6 @@
 						<span style="float: right;">{{PlanshowtimeValueS?PlanshowtimeValueS:'请选择'}}</span>
 					</van-cell>
 				</li>
-				<!-- 置灰项 -->
 				<li style='border-bottom: 1px solid #EEEEEE;' v-show='start' @click="ToastButton()">
 					<van-cell is-link>
 						<span style="color: #969799;">计划开始</span>
@@ -98,7 +92,6 @@
 						<span style="float: right;">{{timeValueS?timeValueS:'请选择'}}</span>
 					</van-cell>
 				</li>
-				<!-- 置灰项 -->
 				<li style='border-bottom: 1px solid #EEEEEE;' v-show='start' @click="ToastButton()">
 					<van-cell is-link>
 						<span style="color: #969799;">实际开始</span>
@@ -194,7 +187,7 @@ import { Dialog } from 'vant';
 		},
 		data() {
 			return {
-				// questionText: this.,
+				
 				examRecord: [],
 				examRecordTime: [],
 				StaffInfoData: [],
@@ -202,29 +195,28 @@ import { Dialog } from 'vant';
 				message: '',
 				messagey:'',
 				
-				//计划开始时间
+				
 				minDatePlanshow: new Date(),
 				currentDatePlanshow: new Date(),
 				PlanshowtimeValue: '',
 				Planshow: false,
-				//计划结束时间
+				
 				minDatePlanshowS: new Date(),
 				currentDatePlanshowS: new Date(),
 				PlanshowtimeValueS: '',
 				PlanshowS: false,
-				//实际开始时间
+				
 				minDate: new Date(),
 				currentDate: new Date(),
 				timeValue: '',
 				show: false,
-				//实际结束时间
+				
 				minDateS: new Date(),
 				currentDateS: new Date(),
 				timeValueS: '',
 				showS: false,
 				GetMenuTree_Data:{},
 				chang_yi_UserData:{},
-				// 小于10 大于10 时间
 				getHour_s: "",
 				getMinutes_s: "",
 				day_s: "",
@@ -238,7 +230,6 @@ import { Dialog } from 'vant';
 		mounted() {
 		},
 		filters: {
-			// (1-未开工、2-正在进行、3-已完成、4-延期已完成、5-延期未完成)
 			getStatus(id) {
 				var str = "";
 				
@@ -264,11 +255,10 @@ import { Dialog } from 'vant';
 			}
 		},
 		created() {
-			// sessionStorage.setItem("GetMenuTree_Data",JSON.stringify(item));
 			
 			Object.assign(this.GetMenuTree_Data, JSON.parse(sessionStorage.getItem("GetMenuTree_Data")));
 			Object.assign(this.chang_yi_UserData, JSON.parse(sessionStorage.getItem("chang_yi_UserData")));
-			console.log("chang_yi_UserData",this.chang_yi_UserData.EXAMNAME)
+			
 			if(this.GetMenuTree_Data.PLANBEGINDATE !=null){
 				this.PlanshowtimeValue = this.GetMenuTree_Data.PLANBEGINDATE.replace("T00:00:00","")
 			}
@@ -298,49 +288,23 @@ import { Dialog } from 'vant';
 				this.Planshow = true;
 				this.currentDatePlanshow = new Date(this.PlanshowtimeValue.replace(/-/g, "/"));
 			},
-			// 计划开始事件
 			confirmFnPlanshow() { // 确定按钮
 				this.PlanshowtimeValue = this.timeFormat(this.currentDatePlanshow);
-				console.log('计划开始事件', this.PlanshowtimeValue)
+				
 				this.Planshow = false;
 			},
-			// 计划結束事件
 			confirmFnPlanshowS() { // 确定按钮
 				this.PlanshowtimeValueS = this.timeFormat(this.currentDatePlanshowS);
-				console.log('计划結束事件', this.PlanshowtimeValueS)
+				
 				this.PlanshowS = false;
 			},
 			showTimeplanS() {
 				this.PlanshowS = true;
 				this.currentDatePlanshowS = new Date(this.PlanshowtimeValueS.replace(/-/g, "/"));
 			},
-			// 实际开始事件
 			confirmFn() { // 确定按钮
 				this.timeValue = this.timeFormat(this.currentDate);
-				console.log('实际开始事件', this.timeValue)
-				// let usedTime = this.currentDate - this.currentDatePlanshow; // 相差的毫秒数
 				
-				// let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
-				
-				// console.log("计算相差的天数：",usedTime,days)
-				
-				// this.show = false;
-				// if(days>30){
-				// 	Dialog.confirm({
-				// 	  message: '实际开始时间已超出计划开始时间30天，是否确认30天后开始实施'
-				// 	}).then(() => {
-				// 		this.start=true;
-				// 	  // on confirm
-				// 	}).catch(() => {
-				// 		this.start=false;
-				// 	  // on cancel
-				// 	});
-				// }
-				// if(this.PlanshowtimeValue<this.timeValue){
-				// 	this.fillWirte= true;
-				// }else{
-				// 	this.fillWirte= false;
-				// }
 			},
 			showTimePop() {
 				this.show = true;
@@ -357,25 +321,12 @@ import { Dialog } from 'vant';
 			// 实际结束事件
 			confirmFnS() { // 确定按钮
 				this.timeValueS = this.timeFormat(this.currentDateS);
-				// this.FULLDATE = this.timeFormat(this.currentDateS);
-				console.log('timeValueS', this.timeValueS)
+				
 				this.showS = false;
 				let time=new Date();
 				let usedTime = this.time - this.currentDateS; // 相差的毫秒数
 				let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
-				// console.log('===23==',days,this.GetMenuTree_Data)
-				// if(days>30){
-				// 	Dialog.confirm({
-				// 	  message: '实际结束时间已超出计划结束时间30天，是否确认30天后结束该工程'
-				// 	}).then(() => {
-				// 		this.end=true;
-				// 	  // on confirm
-				// 	}).catch(() => {
-				// 		this.end=false;
-				// 	  // on cancel
-				// 	});
-				// 	return
-				// }
+				
 				if(days>30){
 					this.fillWirte= true;
 				}else{
@@ -415,7 +366,7 @@ import { Dialog } from 'vant';
 				}
 			
 				return year + '-' + this.month_s + '-' + this.day_s;
-				// this.currentDateX=year + '-' + this.month_s + '-' + this.day_s + " " + this.getHour_s + ":" + this.getMinutes_s
+				
 			
 			},
 			ProgressAllowedData(){
@@ -433,19 +384,7 @@ import { Dialog } from 'vant';
 						this.GetMenuTree_Data.REALBEGINDATE = this.timeValue
 						this.GetMenuTree_Data.REALENDDATE = this.timeValueS
 						this.GetMenuTree_Data.FULLDATE = this.timeValueS
-						console.log('=====',this.GetMenuTree_Data)
-						// if(this.GetMenuTree_Data.PLANBEGINDATE !=null){
-						// 	this.PlanshowtimeValue = this.GetMenuTree_Data.PLANBEGINDATE.replace("T", " ")
-						// }
-						// if(this.GetMenuTree_Data.PLANENDDATE!=null){
-						// 	this.PlanshowtimeValueS = this.GetMenuTree_Data.PLANENDDATE.replace("T", " ")
-						// }
-						// if(this.GetMenuTree_Data.REALBEGINDATE!=null){
-						// 	this.timeValue = this.GetMenuTree_Data.REALBEGINDATE.replace("T", " ")
-						// }
-						// if(this.GetMenuTree_Data.REALENDDATE!=null){
-						// 	this.timeValueS = this.GetMenuTree_Data.REALENDDATE.replace("T", " ")
-						// }
+					
 						this.$router.push({
 							path:'/fillX',
 							query:{
@@ -460,7 +399,6 @@ import { Dialog } from 'vant';
 			},
 			
 			sumtrienButton() {
-				// if(this.GetMenuTree_Data.STATUS == 1){}
 				if(this.fillWirte == false){
 					if(this.PlanshowtimeValue == ''){
 						Toast("请选择计划开始日期")
@@ -477,19 +415,6 @@ import { Dialog } from 'vant';
 						Toast("请选择实际结束日期")
 						return
 					}
-					
-					// if(this.GetMenuTree_Data.PLANBEGINDATE !=null){
-					// 	this.PlanshowtimeValue = this.GetMenuTree_Data.PLANBEGINDATE.replace("T", " ")
-					// }
-					// if(this.GetMenuTree_Data.PLANENDDATE!=null){
-					// 	this.PlanshowtimeValueS = this.GetMenuTree_Data.PLANENDDATE.replace("T", " ")
-					// }
-					// if(this.GetMenuTree_Data.REALBEGINDATE!=null){
-					// 	this.timeValue = this.GetMenuTree_Data.REALBEGINDATE.replace("T", " ")
-					// }
-					// if(this.GetMenuTree_Data.REALENDDATE!=null){
-					// 	this.timeValueS = this.GetMenuTree_Data.REALENDDATE.replace("T", " ")
-					// }
 					if(this.PlanshowtimeValue != '' && this.PlanshowtimeValueS != '' && this.timeValue != '' && this.timeValueS != ''){
 						
 						this.ProgressAllowedData()
@@ -511,9 +436,6 @@ import { Dialog } from 'vant';
 						this.ProgressAllowedData()
 					}
 				}
-				
-				// 
-				// this.titShow = false;
 			},
 
 		}
@@ -524,8 +446,6 @@ import { Dialog } from 'vant';
 	input {
 		width: 90px;
 		height: 28px;
-		/* padding-right: 5px; */
-		/* margin-right: 10px; */
 		text-align: right;
 		border: none;
 	}
@@ -564,7 +484,6 @@ import { Dialog } from 'vant';
 	.container_lists li div img {
 		width: 70px;
 		height: 70px;
-		/* height: auto; */
 		overflow: hidden;
 		float: left;
 		display: block;
@@ -621,9 +540,7 @@ import { Dialog } from 'vant';
 	}
 
 	.infor_header h3 .van-icon {
-		/* margin-top:5px; */
 		color: #00A0E9;
-		/* visibility: initial; */
 		font-size: 14px;
 
 	}
@@ -649,7 +566,6 @@ import { Dialog } from 'vant';
 		background: #fff;
 		padding: 15px;
 		box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.16);
-		/* margin-bottom: 10px; */
 	}
 
 	.header-right {
@@ -685,7 +601,6 @@ import { Dialog } from 'vant';
 	}
 
 	.container_list li {
-		/* padding: 10px 16px; */
 		height: auto;
 		overflow: hidden;
 		border-bottom: 1px solid #EEEEEE;

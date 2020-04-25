@@ -40,7 +40,7 @@
 				</li>
 				
 			</ul>
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+
 		</div>
 		<index-footer></index-footer>
 		

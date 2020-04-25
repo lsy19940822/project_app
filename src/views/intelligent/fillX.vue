@@ -25,7 +25,6 @@
 				</li>
 				<li>
 					<span>重要性</span>
-					<!-- (1-未开工、2-正在进行、3-已完成、4-延期已完成、5-延期未完成) -->
 					<span style="float: right;" v-if="GetMenuTree_Data.STATUS == 1 || GetMenuTree_Data.STATUS == 3|| GetMenuTree_Data.STATUS == 2">普通工程</span>
 					<span style="float: right;" v-if="GetMenuTree_Data.STATUS == 4 || GetMenuTree_Data.STATUS == 5">超期工程</span>
 				</li>
@@ -41,7 +40,6 @@
 			<h5>完成情况</h5>
 			
 			<ul style="margin-top: 10px;">
-				<!-- 置灰项 -->
 				<li style='border-bottom: 1px solid #EEEEEE;'>
 					<van-cell>
 						<span style="color: #969799;">计划开始</span>

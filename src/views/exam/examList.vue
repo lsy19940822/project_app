@@ -27,7 +27,7 @@
     methods:{
       getExamList() {
         ajax.get('/API/WebAPIDataAudit/GetPaper?IDcard='+this.$route.query.IDCard).then(res => {
-          console.log(res.data)
+         
         })
       }
     }

@@ -24,9 +24,8 @@
 					</van-cell>
 				</li>
 			</ul>
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+			
 		</div>
-		<!-- <study-footer></study-footer> -->
 	</div>
 	
 </template>
@@ -59,13 +58,6 @@
 		
 		methods: {
 			GetMenuTreeList(){
-				//智能进度
-				// ajax.get('/API/WebAPIDataAudit/GetMenuTree?id=b1'+"&name=").then(res => {
-					// if(res.data.result) {
-						// this.Treedata=res.data.data;
-						// for(let k in res.data.data) {
-						//    this.option1.push({text:res.data.data[k].NAME,value:Number(k),id:res.data.data[k].ID})
-						// }	
 						ajax.get('/API/WebAPIDataAudit/GetMenuTree?id='+this.$route.query.id+"&name=").then(res => {
 							if(res.data.result) {
 							    this.TreedataO=res.data.data;
@@ -74,14 +66,12 @@
 								}else{
 									this.show=false
 								}
-								console.log('智能进度GetMenuTre3:',this.TreedataO)
+								
 								for(let k in res.data.data) {
 								   this.option2.push({text:res.data.data[k].NAME,value:Number(k)+Number(1)})
 								}	
 							}
 						})
-					// }
-				// })
 			}
 		}
 	}

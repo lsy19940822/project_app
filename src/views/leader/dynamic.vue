@@ -1,11 +1,9 @@
 <template>
 	<div class="container">
-		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2' >
 		
 		</vant-header>
 
-		<!--content list-->
 		<div class="list-content" >
 			<van-tabs v-model="active">
 			  <van-tab title="问题动态">
@@ -18,7 +16,7 @@
 									<van-col span="16" class='headPhoto'>
 										<span class="small-headPhoto"><img src="../../assets/images/safeQuality/img_headPhoto.png"/></span>
 										<span class="color666">张总(中铁总经理)</span>
-										<!-- <span class="colorAAA">2019-09-26</span> -->
+										
 									</van-col>
 									<van-col span="8" align="right">
 										<span class="colorC86565">提交</span>
@@ -36,7 +34,6 @@
 									<van-col span="16"  class='headPhoto'>
 										<span class="small-headPhoto"><img src="../../assets/images/safeQuality/img_headPhoto.png"/></span>
 										<span class="color666">张总(中铁总经理)</span>
-										<!-- <span class="colorAAA">2019-09-26</span> -->
 									</van-col>
 									<van-col span="8" align="right">
 										<span class="colorC86565">提交</span>
@@ -78,10 +75,8 @@
 					</ul>
 			  </van-tab>
 			</van-tabs>
-<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
+
 		</div>
-        <!-- <study-footer></study-footer> -->
 	</div>
 </template>
 

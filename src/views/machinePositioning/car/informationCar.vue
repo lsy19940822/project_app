@@ -79,7 +79,7 @@
 					return;
 				}
 				Object.assign(this.carInfor, JSON.parse(infor));
-				console.log(JSON.parse(infor))
+				
 			}
 		}
 	}

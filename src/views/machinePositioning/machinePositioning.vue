@@ -1,13 +1,11 @@
 <template>
 	<div class="container">
-		<!--header-->
 		<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2'>
 		
 		</vant-header>
 		<router-link to="/machinePositioning/manchine?ValueId=0" replace tag="div" class="routerlink">人员定位</router-link>
 		<router-link to="/machinePositioning/car?ValueId=0" replace tag="div" class="routerlink">车辆定位</router-link>
 
-		<!--search-->
 		<div class="search-wrap" v-show="isSearchShow">
 			<van-search v-model="searchVal" placeholder="搜索人员" show-action @cancel="searchCancel" @search="onSearch" />
 
@@ -19,11 +17,9 @@
 				</div>
 			</div>
 		</div>
-		<!--content list-->
 		<div class="list-content">
 			<router-view></router-view>
-			<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-			<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
+			
 		</div>
 
 	</div>

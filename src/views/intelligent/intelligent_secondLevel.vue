@@ -37,9 +37,8 @@
 				</li>
 
 			</ul>
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+			
 		</div>
-		<!-- <study-footer></study-footer> -->
 	</div>
 
 </template>
@@ -131,7 +130,7 @@
 			},
 			change2(val) {
 
-				console.log("当前工程：", this.option2[val].text)
+				
 			},
 			GetMenuTreeList() {
 				//智能进度

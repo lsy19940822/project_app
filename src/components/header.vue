@@ -1,7 +1,7 @@
 <template>
-	<div id="header">
+	<div id="header" v-show="HeaderShow">
 		<!-- 头部 -->
-		<van-nav-bar class='header'
+		<van-nav-bar class='header' 
 		    :left-arrow="leftArrow"
 		    :left-text="leftText"
 		    :border="border"
@@ -28,6 +28,11 @@
 		components:{
 			[NavBar.name]: NavBar,
 		},
+		data(){
+			return{
+				HeaderShow:true
+			}
+		},
 		props: {
 			leftArrow: { type: Boolean, default: true }, //是否显示左侧箭头
 			rightType: { type: Number, default: 1}, //右侧样式,1文字，其他自定义
@@ -40,6 +45,13 @@
 			preventGoLink: {type: String,default: '/'},//是否阻止返回并使用自定义返回链接
 			fixed: { type: Boolean,default: true},  //是否固定在顶部
 			zIndex: { type: Number,default: 100}//元素 z-index
+		},
+		created() {
+			sessionStorage.getItem("chang_yi_headerHide");
+			if(sessionStorage.getItem("chang_yi_headerHide") == 'false'){
+				
+				this.HeaderShow = false
+			}
 		},
 		methods:{
 			onClickLeft() {

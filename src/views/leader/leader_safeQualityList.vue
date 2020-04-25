@@ -1,12 +1,11 @@
 <template>
 	<div class="container">
-			<!--header-->
 			<vant-header :leftArrow="true" :titleType="1" :title="questionText" :rightType='2' >
 				
 			</vant-header>
-			<!--安全质量nav-->
-			<div class="l-navBox">
-				<van-row>
+			<div  :class="{ headeractive: isActive }">
+				<HeadNav :type='this.$route.query.type' />
+				<!-- <van-row>
 					<van-col span="6" @click="sumbit()">
 						<div @click="sumbit()">
 							<div class="img-box" @click="sumbit()">
@@ -20,7 +19,7 @@
 							<div class="img-box" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">
 								<img src="../../assets/images/safeQuality/icon_safe.png" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})"/>
 							</div>
-							<div class="text" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">安全问题</div>
+							<div class="text" @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})">我的问题</div>
 						</div>
 					</van-col>
 					
@@ -29,7 +28,7 @@
 							<div class="img-box" @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})">
 								<img src="../../assets/images/safeQuality/icon_quality.png" @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})"/>
 							</div>
-							<div class="text" @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})">质量问题</div>
+							<div class="text" @click="$router.push({path:'/leader_safeIssueZ?userId='+$route.query.userId})">未解决</div>
 						</div>
 					</van-col>
 					
@@ -41,24 +40,26 @@
 							<div class="text" @click="$router.push({path:'/leader_resolved?userId='+$route.query.userId})">已解决</div>
 						</div>
 					</van-col>
-				</van-row>
+				</van-row> --> 
 			</div>
-			<!--content list-->
 			<div class="list-content">
 				<div class="l-dropdown">
 					<van-dropdown-menu>
-						<van-dropdown-item v-model="value1" :options="option1" />
-						<van-dropdown-item v-model="value2" :options="option2" />
+						<van-dropdown-item v-model="bid" :options="option2" @change="change2(bid)"/>
+						<van-dropdown-item v-model="state" :options="option1" @change="change1(state)"/>
 					</van-dropdown-menu>
 				</div>
-				<ul class="l-list">
-					<li v-for="(item,index) in safeData" :key="index" :id="item.id" @click="$router.push({path:'/LeaderProblemW?userId='+$route.query.userId+'&id='+item.id})">
+				<div v-if='safeData.length==0' style="text-align: center;background: #ececec;line-height: 36px;color:#ddd;font-size: 16px;">暂无数据</div>
+				<ul class="l-list" v-else>
+					<li v-for="(item,index) in safeData" :key="index" :id="item.id" @click="getStatus(item.state,item.id)">
 						<div class="item" :id="item.id">
 							<h6 class="title":id="item.id">{{item.quesDesc}}</h6>
 							<div class="explain marginT12":id="item.id">
 								<van-row :id="item.id">
 									<van-col span="16" :id="item.id">
-										<span class="color7099D0":id="item.id">安全问题</span>
+										<span class="color7099D0":id="item.id" v-if="item.quesType == 1">安全问题</span>
+										<span class="color7099D0":id="item.id" v-if="item.quesType == 2">质量问题</span>
+										<span class="color7099D0":id="item.id" v-if="item.quesType == 3">进度问题</span>
 										<span class="colorAAA" :id="item.id">{{item.createTime}}</span>
 									</van-col :id="item.id">
 									<van-col span="8" align="right" :id="item.id">
@@ -70,8 +71,6 @@
 						</div>
 					</li>
 				</ul>
-	<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-				<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 			</div>
 	
 		</div>
@@ -81,68 +80,115 @@
 	import * as ajax from '@/utils/api'
 	import vantHeader from '@/components/header.vue'
 	import Vue from 'vue';
+	import HeadNav from "./HeadNav"
 	import { Row, Col, DropdownMenu, DropdownItem, Loading,Toast } from 'vant';
 	Vue.use(Row).use(Col).use(DropdownMenu).use(DropdownItem).use(Loading).use(Toast);
 	export default {
 		data(){
 			return{
-				questionText:"安全质量",
-				value1: 0,
-			    value2: 0,
+				questionText:"我的问题",
+				bid:0,
+				state:0,
 			     option1: [
 			        { text: '全部状态', value: 0 },
-			        { text: '待解决', value: 1 },
-			        { text: '待抄送', value: 2 },
+			        { text: '待解决', value: 2 },
+			        { text: '待抄送', value: 1 },
 			        { text: '待审核', value:3 },
-			        { text: '退回问题', value: 4 },
-			        { text: '待复核', value: 5 },
+			        { text: '驳回问题', value: 5 },
+			        { text: '待复核', value: 6 },
+			        { text: '退回问题', value: 7 },
 			     ],
 			     option2: [
-			        { text: '全部标段', value: 0 },
-			        { text: 'CYCZQ-1标', value: 1},
-			        { text: 'CYCZQ-2标', value: 2},
-			        { text: 'CYCZQ-3标', value: 3},
-			        { text: 'CYCZQ-4标', value: 4},
-			        { text: 'CYCZQ-5标1', value: 5},
-			        { text: 'CYCZQ-5标2', value: 6},
-			        { text: 'CYCZQ-6标', value: 7},
+			        { text: '全部问题', value: 0 },
+					{ text: '安全问题', value: 1 },
+					{ text: '质量问题', value: 2 },
+					{ text: '进度问题', value: 3 },
+					
 			    ],
 				
 			    isLoading:true,
 				userId:this.$route.query.userId,
-				quesType:1,//1.安全 2 质量 3 进度
+				quesType:0,//1.安全 2 质量 3 进度
 				succ:2,
 				page:1,
-				state:'',
 				size:10,
-				safeData:[]
+				safeData:[],
+			    isActive:false,
+				type:''
 			}
 		},
 		components:{
-			vantHeader
+			vantHeader,
+			HeadNav
 		},
 		created() {
+			sessionStorage.setItem("chang_yi_headerHide", false);
+			sessionStorage.getItem("chang_yi_headerHide");
+			if(sessionStorage.getItem("chang_yi_headerHide") == 'false'){
+				
+				this.isActive = true
+			}
+			
 		},
 		mounted(){
-			this.selectSafetyListS()
+			// this.selectSafetyListS()
+			// ajax.getW('/api/safety/selectUserById?id='+this.$route.query.userId).then(res => {
+			// 	if(res.status == 200) {
+			// 		if(res.data.code == 200) {
+			// 			this.type=res.data.data.info.TYPES;
+			// 			console.log(res.data.data.info.TYPES)
+			// 			localStorage.setItem("TYPES",res.data.data.info.TYPES);
+						
+			// 		}
+			// 	}
+			// })
 		},
 		methods: {
+			change1(val){
+				
+				this.state=val
+				this.selectSafetyListS()
+			},
+			change2(val){
+				
+				this.bid=val
+				this.selectSafetyListS()
+			},
+			getStatus(sate,id){
+				if(sate == 1 || sate == 7){
+					this.$router.push({path:'/LeaderProblemG?userId='+this.$route.query.userId+'&id='+id+'&type='+this.$route.query.type})
+				}
+				if(sate == 2){
+					this.$router.push({path:'/problemX?userId='+this.$route.query.userId+'&id='+id+'&type='+this.$route.query.type})
+				}
+				if(sate == 3){
+					this.$router.push({path:'/LeaderProblemS?userId='+this.$route.query.userId+'&id='+id+'&type='+this.$route.query.type})
+				}
+				if(sate == 5){
+					this.$router.push({path:'/problemXG?userId='+this.$route.query.userId+'&id='+id+'&type='+this.$route.query.type})
+				}
+
+				if(sate == 6){
+					this.$router.push({path:'/LeaderProblemY?userId='+this.$route.query.userId+'&id='+id+'&type='+this.$route.query.type})
+				}
+			},
 			sumbit(){
-				let that=this;
-			    if(that.$route.query.type == 1){
-					that.$router.push({path:'/SubmitQuestions?userId='+that.$route.query.userId})
+			    if(this.type == 1){
+					this.$router.push({path:'/SubmitQuestions?userId='+this.$route.query.userId+'&type='+this.$route.query.type})
 				}else{
 					Toast("你暂无发起权限")
 				}
 			},
 			selectSafetyListS() {
-				ajax.getW('/api/safety/selectSafetyList?userId=' + this.userId+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
+				ajax.getW('/api/safety/selectSafetyList?userId=' + this.userId+'&state='+this.state+'&bid='+this.bid+'&quesType='+this.quesType+'&succ='+this.succ+'&page='+this.page+'&size='+this.size).then(res => {
 					if(res.status == 200) {
 						if(res.data.code == 200) {
 							this.safeData=res.data.data.list;
 						}
+						if(res.data.code == null) {
+							this.safeData=[];
+						}
 					}
-					
 				})
 				
 			},
@@ -161,16 +207,16 @@
 						str = "待审核";//发起负责人审核
 						break;
 					case 4:
-						str = "";//流程结束
+						str = "已解决";//流程结束
 						break;
 					case 5:
-						str = "退回问题";//发起人修改
+						str = "驳回问题";//发起人修改
 						break;
 					case 6:
 						str = "待复核";//负责人复核
 						break;	
 					case 7:
-						str = "退回问题";//整改人驳回
+						str = "退回问题";//整改人
 						break;
 					default:
 						str = "无状态";
@@ -199,17 +245,16 @@ img{display: block;width:100%;height:auto}
 overflow: hidden;
 }
 .marginT12{margin-top:12px;}
-.container{padding-top:46px;}
+/* .container{padding-top:46px;} */
 .van-dropdown-menu{width:90%;margin:0 auto;}
 /deep/ .van-dropdown-menu .van-dropdown-menu__item:first-child {border-right:1px solid #ccc;margin-right:10px;}
 /deep/ .van-dropdown-menu .van-dropdown-menu__item{border:1px solid #CCC;border-radius: 2px;background:#F9F9F9;}
-/*安全质量nav*/
+
 .notice-box{width:20px;height:20px;}
-.l-navBox{padding:20px 0;background:#fff;}
+.l-navBox{padding:20px 0 !important;background:#fff;}
 .img-box{width:26px;height:26px;margin:0 auto;}
 .img-box,.text{color:#333;text-align:center;}
 .text{margin-top:10px;}
-/*ontent list*/
 .list-content{background:#fff;}
 .l-dropdown{padding:10px 0;background:#fff;border-bottom:1px solid #ECECEC;}
 

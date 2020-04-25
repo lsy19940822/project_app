@@ -59,7 +59,6 @@
 
 		},
 		mounted() {
-			// dom渲染完后将UI上传组件的input添加属性，使之只可以拍照上传
 			this.$refs.uploadBtn.$el.getElementsByTagName("input")[0].setAttribute("capture", "camera");
 			this.judegEquipment()
 		},
@@ -103,20 +102,16 @@
 				var _this = this;
 				this.scanImg = true;
 				this.uploaderImg = file.content;
-				console.log(file.file)
-				// 实现压缩
 				var fileObj = file.file;
-				//上传图片大于1M进行压缩
 				if(fileObj.size / 1024 > 0) {
 					this.photoCompress(fileObj, {
 						quality: 0.2
 					}, function(base64Codes) {
 						fileObj = _this.convertBase64UrlToBlob(base64Codes);
-						console.log(fileObj)
+						
 						_this.upload(fileObj);
 					})
 				} else {
-					console.log(fileObj)
 					this.upload(fileObj);
 				}
 			},
@@ -127,15 +122,11 @@
 				formData.append("groupName", 'CYCZQ-2标');
 				setTimeout(function() {
 					ajax.postW('/api/faceRecognition/recognizeFace',(formData)).then(res => {
-						console.log(res)
+					
 						_this.scanImg = false;
 						if(res.status == 200 && res.data.code == 200) {
-							// if(res.data.data.Data.length > 0)
-							// 	_this.$router.push("/information?IDCard=" + res.data.data.Data[0].image);
-							// else Toast('未匹配到相关人员');
 							let certnumbr=res.data.data.info.certnumbr
 							if(res.data.data){
-							console.log("成功了")
 								_this.$router.push("/information?IDCard="+certnumbr);
 							}else{ Toast('未匹配到相关人员')};
 						} else {
@@ -144,11 +135,6 @@
 					});
 				}, 100)
 			},
-			/**
-			 * @param file: 上传的图片
-			 * @param objCompressed：压缩后的图片规格
-			 * @param objDiv：容器或回调函数
-			 */
 			photoCompress(file, objCompressed, objDiv) {
 				var ready = new FileReader();
 				ready.readAsDataURL(file);
@@ -159,27 +145,22 @@
 				}
 			},
 			canvasDataURL(path, objCompressed, callback) {
-				//				var img = new Image();
 				var img = document.createElement("img");
 				img.src = path;
 				img.onload = function() {
 					var that = this;
-					//默认压缩后图片规格
 					var quality = 0.5;
 					var w = that.width;
 					var h = that.height;
 					var scale = w / h;
-					//实际要求
 					w = objCompressed.width || w;
 					h = objCompressed.height || (w / scale);
 					if(objCompressed.quality && objCompressed.quality > 0 && objCompressed.quality <= 1) {
 						quality = objCompressed.quality;
 					}
 
-					//生成canvas
 					var canvas = document.createElement('canvas');
 					var ctx = canvas.getContext('2d');
-					// 创建属性节点
 					var anw = document.createAttribute("width");
 					anw.nodeValue = w;
 					var anh = document.createAttribute("height");
@@ -189,7 +170,6 @@
 					ctx.drawImage(that, 0, 0, w, h);
 
 					var base64 = canvas.toDataURL('image/jpeg', quality);
-					// 回调函数返回base64的值
 					callback(base64);
 				}
 			},

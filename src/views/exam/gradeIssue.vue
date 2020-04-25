@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container" :class="{ headeractive: isActive }">
 		<vant-header :leftArrow="true" :titleType="1" :title="`成绩发布`" :rightType="2" />
 		<div class="grade-box">
 			<div class="grade-circle">
@@ -71,20 +71,20 @@
 				misitakeRate:'',
 				subject:'',
 				ExamTimeStart:'',
-				ExamName:''
+				ExamName:'',
+				isActive:false
 			}
 		},
 		created(){
 			this.storeVal();
+			sessionStorage.getItem("chang_yi_headerHide");
+			if(sessionStorage.getItem("chang_yi_headerHide") == 'false'){
+				
+				this.isActive = true
+			}
 		},
 		methods:{
 			storeVal(){
-				// console.log(this.)
-				// this.score =this.$route.query.score;
-				// this.misitakeRate = localStore.get('misitakeRate');
-				// this.subject = localStore.get('subject');
-				// this.ExamTimeStart = localStore.get('ExamTimeStart');
-				// this.ExamName = localStore.get('ExamName');
 			}
 		}
 	}

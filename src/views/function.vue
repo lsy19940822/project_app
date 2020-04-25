@@ -20,18 +20,7 @@
 								<li class="overflow" v-if='item.router==1' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/Intelligence/labor?ValueId='+index})">
 								    <img :src="list.imgsrcOne" alt=""><span>{{list.text}}</span>
 								</li>
-								<!-- <li class="overflow" v-if='item.router==2 && list.router==0' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/SubmitQuestions'})">
-								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
-								</li>
-								<li class="overflow" v-if='item.router==2 && list.router==1' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/leader_resolved'})">
-								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
-								</li>
-								<li class="overflow" v-if='item.router==2 && list.router==2' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/leader_safeIssue'})">
-								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
-								</li>
-								<li class="overflow" v-if='item.router==2 && list.router==3' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/leader_safeIssueZ'})">
-								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
-								</li> -->
+								
 								<li class="overflow" v-if='item.router==4' v-for="(list,index) in item.data" :key="index" @click="$router.push({path:'/monitoring_list?value='+index})">
 								    <img :src="list.imgsrcOne" alt="" style="width: 14px;margin-top: 3px;"><span>{{list.text}}</span>
 								</li>
@@ -58,7 +47,7 @@
 				</li>
 				
 			</ul>
-			<!-- <van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading> -->
+			
 		</div>
 		<index-footer></index-footer>
 		

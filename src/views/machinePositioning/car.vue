@@ -13,7 +13,7 @@
 				<van-icon name="arrow-up" color="rgba(112, 153, 208, 1)" size="24px" style="margin-bottom: 10px;text-align: center;display: block;" />
 			</div>
 			<li v-show="showList" style="width: 100%;text-align: center;">暂无车辆信息</li>
-			<!--$router.push({path:'/machinePositioning_carX'})-->
+			
 			<li @click="showCarDetails(item)" v-show="!showList" v-for="item in carList.slice(0,4)" style="width: 25%;"><img
 				 :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span style="display: block;">{{item.CARNUMBER}}</span></li>
 		</ul>
@@ -31,13 +31,10 @@
 					<span class="status" style="background: #B9B9B9;margin-left: 14px" v-if="item.STATUS == 0">离线状态</span>
 					<span style="float: right;margin: 0;">{{item.CARTYPE}}</span>
 				</li>
-				<!-- <li @click="showCarDetails(item)" v-show="!showList" ><img :src="ajax.http + item.CARPHOTOURL.slice(2)" alt=""><span>{{item.EXAMNAME}}</span></li> -->
+				
 			</ul>
 		</transition>
 
-
-		<!-- 			<van-loading class="spinner" v-if = 'isLoading' size="24px" type="spinner">加载中...</van-loading>
-		<div v-else class="spinner"><span><van-icon name="more-o" /></span>已经到底啦~</div> -->
 	</div>
 </template>
 
@@ -248,7 +245,7 @@
 							var convertor = new BMap.Convertor();
 							convertor.translate(points, 1, 5, function(data) {
 								data.status = 0;data.points = points
-								console.log("convertor:",data,dr)
+								
 								if (data.status === 0) {
 									
 									for (var j = 0; j < data.points.length; j++) {
@@ -263,9 +260,9 @@
 												rotation:dr[j].direction,
 												title: 'awdawa'
 											});
-											// for (var j = 0; j < dr.length; j++) {
+											
 												
-											// }
+											
 											let STATUS = ''
 											if(dr[j].STATUS == 1){
 												STATUS= '运行中'
@@ -293,7 +290,7 @@
 									}
 								}
 							})
-						// }
+						
 					    }
 					}
 				})
@@ -318,7 +315,7 @@
 			that.map.openInfoWindow(infoWindow,point); //开启信息窗口
 		},
 		showCarDetails(infor) {
-			console.log(infor)
+			
 			if (!infor.LATITUDE || !infor.LONGITUDE) {
 				Toast.fail('暂无车辆位置信息');
 				return;

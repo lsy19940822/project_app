@@ -16,14 +16,14 @@
 				
 				<li @click="$router.push({path:'/intelligent?ValueId=0'})"><img src="../assets/images/index_icon/icon_jd@2x.png" alt=""><p>智能进度</p></li>
 				<li @click="$router.push({path:'/Intelligence/labor?ValueId=0'})"><img src="../assets/images/index_icon/icon_lw@2x.png" alt=""><p>智能劳务</p></li>
-				<li @click="$router.push({path:'/application'})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li>
-				<!-- <li @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+type})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li> -->
+
+				<li @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+type})"><img src="../assets/images/index_icon/icon_aq@2x.png" alt=""><p>安全质量</p></li>
 				<li @click="$router.push({path:'/examLogin'})"><img src="../assets/images/index_icon/icon_exam@2x.png" alt=""><p>考核培训</p></li>
 				<li @click="$router.push({path:'/machinePositioning?ValueId=0'})"><img src="../assets/images/index_icon/icon_dw@2x.png" alt=""><p>人机定位</p></li>
 				<li @click="$router.push({path:'/monitoring'})"><img src="../assets/images/index_icon/icon_jk@2x.png" alt=""><p>智能监控</p></li>
 				<li @click="tost()"><img src="../assets/images/index_icon/icon_hj@2x.png" alt=""><p>环境监控</p></li>
 				<li @click="$router.push({path:'/faceId'})"><img src="../assets/images/index_icon/icon_scan@2x.jpg" alt=""><p>人脸识别</p></li>
-				<!--<li @click="tost()"><img src="../assets/images/index_icon/icon_more@2x.png" alt=""><p>更多</p></li>-->
+				
 			</ul>
 			<div class="container_list">
 				<p class="van-hairline--bottom exam-title"><img src="../assets/images/index_icon/icon_jd@2x.png" alt="">智能进度</p>
@@ -108,12 +108,12 @@
 			<div class="container_list">
 				<p class="van-hairline--bottom exam-title"><img src="../assets/images/index_icon/icon_aq@2x(1).png" alt="">安全质量</p>
 			    <ul class="container_nav" style="padding: 24px 0;">
-					<!-- @click="$router.push({path:'/leader_safeQualityList?userId='+$route.query.userId+'&type='+type})" -->
+					
 					 <li class="container_nav_aq"  >
 						   <p style="position: relative;">待解决<img src="../assets/images/index_icon/icon_zy@2x.png" alt="" width="16px" style="position: absolute;top:4px;right: 12px;"></p> 
 						   <p style="color: #C86565;">{{getInFo.d}}个</p>
 					 </li>
-					 <!-- @click="$router.push({path:'/leader_safeIssue?userId='+$route.query.userId})" -->
+
 					 <li class="container_nav_shu"></li>
 					 <li class="container_nav_aq" >
 						 <p>安全问题</p> 
@@ -254,7 +254,8 @@
 				ajax.getW('/api/safety/selectUserById?id='+this.$route.query.userId).then(res => {
 					if(res.status == 200) {
 						if(res.data.code == 200) {
-							this.type=res.data.data.info.TYPES
+							this.type=res.data.data.info.TYPES;
+							sessionStorage.setItem("TYPES",this.type)
 						}
 					}
 				})
@@ -277,12 +278,11 @@
 						this.getSchedule.Day = res.data.data.Day
 						this.getSchedule.SumDay = res.data.data.SumDay
 						this.getSchedule.TimeS = Number(Math.floor((this.getSchedule.Day / this.getSchedule.SumDay)*100))
-						// console.log(Math.floor(9541615079.06),9541615079.06)
+						
 						this.getSchedule.GrossOutput = res.data.data.GrossOutput
 						this.getSchedule.CompletedOutputValue = res.data.data.CompletedOutputValue
 						this.getSchedule.PercentCompleted = Number((res.data.data.PercentCompleted))
-						// this.getSchedule.targetAdvance =  res.data.data.targetAdvance,
-						// this.getSchedule.targetAdvanceOk =  res.data.data.targetAdvanceOk,
+						
 						this.getSchedule.targetAdvancePercentage = Number((res.data.data.targetAdvancePercentage))
 						
 					}

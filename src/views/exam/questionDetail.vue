@@ -1,6 +1,6 @@
 <template>
-	<div class="container">
-		<vant-header :leftArrow="true" :preventGoBack="false" :titleType="1" :title="questionText+`测试`" :rightType="2">
+	<div class="container" :class="{ headeractive: isActive }">
+		<vant-header :leftArrow="true"  class="examHeader" :preventGoBack="false" :titleType="1" :title="questionText+`测试`" :rightType="2">
 		</vant-header>
 		<div class="question-container" v-if="questionCurrent.TMLX  == '单选'">
 			<p class="van-hairline--bottom exam-title">
@@ -46,7 +46,7 @@
 			<p class="van-hairline--bottom exam-title">问题解析</p>
 			<div class="question-container-ul" >
 				<div class="right-answer">正确答案： {{windsurf}}</div>
-				<!-- <div class="question-text">建筑工程是社会发展的重要体现,所以必须加强对建筑工程中施工技术的重视程度.在实际施工的过程中认真分析每项施工技术,并针对该技术容易出现的问题进行分析,并根据具体的施工要求采取相应的解决措施.施工人员是施工技术的主要实施者,同时也是施工技术问题的解决者。</div> -->
+
 			</div>
 		</div>
 		<div class="question-btn">
@@ -80,8 +80,8 @@
 				questionCurrent: {},
 				answerList: [],
 				questionType: '',
-				windsurf: ''
-
+				windsurf: '',
+                isActive:false
 			}
 		},
 		created() {
@@ -89,10 +89,13 @@
 			this.questionRender();
 			this.addClassHandle();
 			this.current = parseInt(this.$route.query.index);
+			sessionStorage.getItem("chang_yi_headerHide");
+			if(sessionStorage.getItem("chang_yi_headerHide") == 'false'){
+				this.isActive = true
+			}
 		},
 		watch: {
 			'$route' (to, from) {
-				console.log(to, from, to.query.index)
 				this.current
 			},
 			'current': function(newValue, oldValue) {
@@ -148,7 +151,7 @@
 					let answerRightCrrent = this.questionList[this.current].ZQDA.split('');
 				
 					answerRightCrrent.filter(function(item, index, arr) {
-						console.log(item, index)
+						
 						this.classArr[index] = 'bgRightS'
 					}, this);
 					
@@ -199,7 +202,6 @@
 					this.localStoreVal();
 					this.questionRender();
 					this.addClassHandle();
-					// console.log(1000000)
 				} else {
 						this.preNone = true
 						Toast('这是第一题！');
@@ -229,6 +231,9 @@
 </script>
 
 <style scoped>
+	.examHeader{
+		margin-bottom: 10px;
+	}
 	.question-container-ul{
 		padding: 15px;
 	}
@@ -254,7 +259,7 @@
 	}
 	
 	.question-container {
-		margin: 10px 0;
+		margin-bottom: 10px;
 		background: #fff;
 		/* padding: 15px; */
 		box-sizing: border-box;

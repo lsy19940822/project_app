@@ -9,19 +9,11 @@
 				<div ><img :src="StaffInfoData[0].PHOTOURL" alt="" @click="imgShowButton()"></div>
 				<h3>{{StaffInfoData[0].EXAMNAME}}<van-icon name="manager" /></h3>  
 				<p>{{StaffInfoData[0].WORKTYPE}}</p>
-			<!-- 	<van-image-preview
-				  v-model="imgShow"
-				  :images="StaffInfoData[0].PHOTOURL"
-				  @change="onChange"
-				>
-				  <!-- <template v-slot:index>第{{ index }}页</template> -->
-				<!-- </van-image-preview> -->
 				<ul class="overflow">
-					<!-- -->
 					<li  class="overflow" style="float: left;width:48%"  @click="showUserDetails(StaffInfoData[0])">
 						
 						<van-button type="info" icon="location-o" color="#7099D0">查看定位</van-button>
-						<!-- <img src="../../assets/images/user_icon/dingwei.png" alt=""><span>查看定位</span> -->
+						
 					</li>
 					<li  class="overflow" style="float: right;width:48%">
 						<a class="overflow" :href="'tel:'+StaffInfoData[0].TELEPHONE" style="width: 100%;float:right;display: block;color: #666666;">
@@ -29,29 +21,6 @@
 						</a>
 						
 					</li>
-					<!-- <li @click="showPicker= true"><img src="../../assets/images/user_icon/yuyin.png" alt=""><span>发送语音</span></li>
-					<li><img src="../../assets/images/user_icon/yuangongxinxi.png" alt=""><span>一键报警</span></li>
-					<van-popup v-model="showPicker" position="bottom">
-					  <van-picker
-					    show-toolbar
-					    :columns="columns"
-					    @cancel="showPicker = false"
-					    @confirm="onConfirm"/>
-					</van-popup> -->
-					<!-- <van-dialog
-					  v-model="show"
-					  title="报警提示" 
-					  @confirm="confirmButton"
-					  @cancel="cancelButton"
-					  show-cancel-button>
-					  <div class="overflow hader_top">
-						  <img :src="StaffInfoData[0].PHOTOURL" alt="">
-						  <h3>{{StaffInfoData[0].EXAMNAME}}<van-icon name="manager" /></h3>
-						  <p>{{StaffInfoData[0].WORKTYPE}}</p>
-						
-					  </div>
-					    <p style="padding: 12px 0;margin: 0 auto !important;color:#333;display: block;text-align: center;" class="hader_top">是否向此员工发送报警提示？</p>
-					</van-dialog> -->
 				</ul>
 			</div>
 			<ul class="container_list container_lists">
@@ -116,7 +85,6 @@
 				</li>
 			</ul>
 			<ul class="container_list">
-				<!-- v-if='examRecord!=""' -->
 				<li  @click="$router.push({path:'/examrecord?IDCard='+IDCard})" class='more'>
 					<van-cell is-link  @click="$router.push({path:'/examrecord?IDCard='+IDCard})">
 						更多考试记录
@@ -200,23 +168,23 @@
 				this.$router.push("/machinePositioning_X");
 			},
 			confirmButton(){
-				console.log("确认提交")
+				
 			},
 			cancelButton(){
-				console.log("取消提交")
+				
 			},
 			onConfirm(value,index) {
 			    this.value = value;
 			    this.showPicker = false;
 				this.quesType=index+Number(1);
-				console.log("---quesType--",this.quesType)
+				
 			},
 			StaffInfoF(){
 				let that=this;
 				that.IDCard=that.$route.query.IDCard;
 				ajax.get('/API/WebAPIDataAudit/StaffInfo?IDCard='+that.$route.query.IDCard).then(res => {
 					if(res.data.result) {
-						console.log(res.data)
+						
 						that.StaffInfoData=res.data.data
 						that.StaffInfoData[0].PHOTOURL=ajax.http+that.StaffInfoData[0].PHOTOURL.slice(2)
 					}
@@ -224,11 +192,11 @@
 			},
 			examrecord(){
 				let that=this;
-				console.log(that.$route.query.IDCard)
+				
 				ajax.get('/API/WebAPIDataAudit/TestRecords?IDCard='+that.$route.query.IDCard).then(res => {
-					console.log(res);
+					
 					if(res.data.result) {
-						console.log("kaoshilihi",res.data.data)
+						
 						that.examRecord=res.data.data;
 						for(let k in that.examRecord) {
 						    that.examRecord[k].EXAMINATIONDATE=that.examRecord[k].EXAMINATIONDATE.replace("T", " ");
@@ -327,9 +295,9 @@
 		margin: 10px 0 !important;
 	}
 	.infor_header h3 .van-icon{
-		/* margin-top:5px; */
+		
 		color:#00A0E9;
-		/* visibility: initial; */
+		
 		font-size: 14px;
 		
 	}

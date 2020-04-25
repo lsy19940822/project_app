@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style>
+	.headeractive{
+		padding-top: 0 !important;
+	}
 	.Treedata{
 		background: #fff;
 	}
@@ -53,6 +56,16 @@ export default {
 		color: #333;
 	} */
 	/* */
+	#HeadNav .router-link-active{
+		border-bottom:3px solid #9499AA;
+		width: 100% !important;
+		color: #333;
+	}
+	.actives{
+		border-bottom:3px solid #9499AA;
+		width: 25% !important;
+		color: #333;
+	}
 	.router-link-active{
 		border-bottom:3px solid #9499AA;
 		width: 50% !important;
